@@ -1,0 +1,50 @@
+﻿using LoginApp.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin;
+using Owin;
+
+[assembly: OwinStartupAttribute(typeof(LoginApp.Startup))]
+namespace LoginApp
+{
+    public partial class Startup
+    {
+        internal UserManager<ApplicationUser> UserManager { get; private set; }
+
+        public void Configuration(IAppBuilder app)
+        {
+           ConfigureAuth(app);
+            createRolesandUsers();
+        }
+        private void createRolesandUsers()
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            try
+            {
+                // In Startup iam creating first Admin Role and creating a default Admin User    
+                if (!roleManager.RoleExists("Admin"))
+                {
+                    // first we create Admin rool   
+                    var role = new IdentityRole();
+                    role.Name = "Admin";
+                    roleManager.Create(role);
+                }
+
+                // creating Creating Client role    
+                if (!roleManager.RoleExists("Client"))
+                {
+                    var role = new IdentityRole();
+                    role.Name = "Client";
+                    roleManager.Create(role);
+
+                }
+
+                
+
+
+            }
+            catch { }
+        }
+    }
+}

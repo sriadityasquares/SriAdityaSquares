@@ -1,0 +1,59 @@
+﻿@model LoginApp.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account.</h4>
+    <hr />
+    <div class="row">
+        
+        <div class="col-xs-12 col-sm-12 col-md-12 div">
+            <div class="login-box">
+                <div class="row">
+                    <h2 class="login-text col-xs-8 col-sm-6 col-md-6">Register</h2>
+                    <h2 class="register-text col-xs-4 col-sm-6 col-md-6">@Html.ActionLink("Log in", "Login", "Account")</h2>
+                </div>
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.Email, new { @class = "col-md-4 required" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "textbox-control col-md-8 col-xs" })
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-4 required" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "textbox-control col-md-8 col-xs" })
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-4" })
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "textbox-control col-md-8 col-xs" })
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.Role, new { @class = "col-md-4 required" })
+                    @*//@Html.DropDownListFor(m => m.Role,new List("Admin","Client"));*@
+                    <select name="Role" id="Role" class="textbox-control col-md-8 col-xs">
+                        <option value="Admin">Admin</option>
+                        <option value="Client">Client</option>
+                    </select>
+
+                </div>
+                @*<div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Register" />
+            </div>
+        </div>*@
+                <div class="row marb15">
+                    <div class="col-md-12 no-pad">
+                        <button type="submit" id="submitbtn" value="Register" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
