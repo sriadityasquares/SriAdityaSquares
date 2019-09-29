@@ -194,7 +194,7 @@ body {
 }
 
 a {
-    color: #f5821f !important;
+    color: #ea4f4c !important;
 }
 
     a:active {
@@ -573,7 +573,7 @@ label {
 }
 
 .orangebg, .orangebg:focus, .orangebg:hover, .orangebg:active {
-    background-color: #f5821f;
+    background-color: #ea4f4c;
     color: #ffffff !important;
     border: 0px;
     font-size: 11px;

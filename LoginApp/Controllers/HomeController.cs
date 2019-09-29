@@ -8,10 +8,12 @@ namespace LoginApp.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
         public ActionResult Index()
         {
             return View();
         }
+
         [Authorize(Roles = "Admin")]
         public ActionResult Admin()
         {

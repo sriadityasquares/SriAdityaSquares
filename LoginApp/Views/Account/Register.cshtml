@@ -8,15 +8,11 @@
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
-    <div class="row">
-        
+    <div class="row" style="padding-top:50px">
         <div class="col-xs-12 col-sm-12 col-md-12 div">
-            <div class="login-box">
+            <div class="login-box" >
                 <div class="row">
                     <h2 class="login-text col-xs-8 col-sm-6 col-md-6">Register</h2>
-                    <h2 class="register-text col-xs-4 col-sm-6 col-md-6">@Html.ActionLink("Log in", "Login", "Account")</h2>
                 </div>
                 @Html.ValidationSummary("", new { @class = "text-danger" })
                 <div class="row marb15">

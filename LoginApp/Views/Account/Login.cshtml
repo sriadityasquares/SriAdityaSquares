@@ -4,90 +4,101 @@
     ViewBag.Title = "Log in";
 }
 
-<section id="loginForm">
-    
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 div">
-            <div class="login-box">
-                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@if (!Request.IsAuthenticated)
+{
+    <section id="loginForm">
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 div">
+                <div class="login-box">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
-                    <div class="row">
-                        <h2 class="login-text col-xs-4 col-sm-6 col-md-6">Log in</h2>
-                        @*<h2 class="register-text col-xs-8 col-sm-6 col-md-6">@Html.ActionLink("Register Here", "Register", "Account")</h2>*@
-                    </div>
-
-                    <div class="row marb15">
-                        @Html.LabelFor(m => m.Email, new { @class = "col-sm-4 col-xs-12" })
-                        <span class="col-md-8 col-xs-12 no-pad">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "textbox-control col-xs-12" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger error-red" })
-                        </span>
-                    </div>
-                    <div class="row marb15">
-                        @Html.LabelFor(m => m.Password, new { @class = "col-sm-4 col-xs-12" })
-                        <span class="col-md-8 col-xs-12 no-pad">
-                            @Html.PasswordFor(m => m.Password, new { @class = "textbox-control  col-xs-12" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger error-red" })
-                        </span>
-                    </div>
-                    <div class="row marb15">
-                        @*<div class="col-md-offset-4 col-md-4 col-sm-6 col-xs-6 no-pad">
-                                <div class="checkbox">
-                                    <input id="checkbox1" type="checkbox" name="RememberMe" value="false">
-                                    <label for="checkbox1">remember me</label>
-                                </div>
-                            </div>*@
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 no-pad">
-                            <label class="col-md-7 col-sm-6 col-xs-6 no-pad text-right forgot-text" for="exampleInputEmail1">@Html.ActionLink("Forgot password?", "ForgotPassword", "Account")</label>
-                            <button type="submit" class="btn btn-default orangebg pull-right" value="Log in"><i class="fa fa-check"></i>log in</button>
+                        <div class="row">
+                            <h2 class="login-text col-xs-4 col-sm-6 col-md-6">Log in</h2>
+                            @*<h2 class="register-text col-xs-8 col-sm-6 col-md-6">@Html.ActionLink("Register Here", "Register", "Account")</h2>*@
                         </div>
+
+                        <div class="row marb15">
+                            @Html.LabelFor(m => m.Email, new { @class = "col-sm-4 col-xs-12" })
+                            <span class="col-md-8 col-xs-12 no-pad">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "textbox-control col-xs-12" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger error-red" })
+                            </span>
+                        </div>
+                        <div class="row marb15">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-sm-4 col-xs-12" })
+                            <span class="col-md-8 col-xs-12 no-pad">
+                                @Html.PasswordFor(m => m.Password, new { @class = "textbox-control  col-xs-12" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger error-red" })
+                            </span>
+                        </div>
+                        <div class="row marb15">
+                            @*<div class="col-md-offset-4 col-md-4 col-sm-6 col-xs-6 no-pad">
+                                    <div class="checkbox">
+                                        <input id="checkbox1" type="checkbox" name="RememberMe" value="false">
+                                        <label for="checkbox1">remember me</label>
+                                    </div>
+                                </div>*@
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 no-pad">
+                                <label class="col-md-7 col-sm-6 col-xs-6 no-pad text-right forgot-text" for="exampleInputEmail1">@Html.ActionLink("Forgot password?", "ForgotPassword", "Account")</label>
+                                <button type="submit" class="btn btn-default orangebg pull-right" value="Log in"><i class="fa fa-check"></i>log in</button>
+                            </div>
+                        </div>
+                    }
+                    <div class="row">
+                        @*@Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })*@
                     </div>
-                }
-                <div class="row">
-                    @*@Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })*@
+
+                    @*<div class="col-xs-12 col-sm-6 col-md-6 div-left">
+                            <h2 class="main-heading marb20 mob-mart30">Why Register?</h2>
+                            <p>
+                                There are lot of benefits in registering your company as a supplier with DiversityTraX. You instantly
+                                unlock the possibility of catering to a multitude of businesses at the same time. Be found through our Network Database or take surveys posted by our Corporate Members.
+                            </p>
+                            <hr />
+                            <h2 class="main-heading mart30">How it Works?</h2>
+                            <div class="row mart30">
+                                <div class="col-md-4 col-sm-4 mob-marb20">
+                                    <p class="steps-icon steps-bg1"><span class="steps-num">1</span><i class="fa fa-pencil-alt"></i></p>
+                                    <p class="mart10 text-center">Register as a Company with DiversityTrax.</p>
+                                </div>
+                                <div class="col-md-4 col-sm-4 mob-marb20">
+                                    <p class="steps-icon steps-bg2"><span class="steps-num">2</span><i class="fa fa-address-card"></i></p>
+                                    <p class="mart10 text-center">Complete your profile and manage contacts & certifications.</p>
+                                </div>
+                                <div class="col-md-4 col-sm-4 mob-marb20">
+                                    <p class="steps-icon steps-bg3"><span class="steps-num">3</span><i class="fa fa-envelope"></i></p>
+                                    <p class="mart10 text-center">Manage your suppliers, invitations etc.,</p>
+                                </div>
+                            </div>
+                        </div>*@
                 </div>
 
-                @*<div class="col-xs-12 col-sm-6 col-md-6 div-left">
-                        <h2 class="main-heading marb20 mob-mart30">Why Register?</h2>
-                        <p>
-                            There are lot of benefits in registering your company as a supplier with DiversityTraX. You instantly
-                            unlock the possibility of catering to a multitude of businesses at the same time. Be found through our Network Database or take surveys posted by our Corporate Members.
-                        </p>
-                        <hr />
-                        <h2 class="main-heading mart30">How it Works?</h2>
-                        <div class="row mart30">
-                            <div class="col-md-4 col-sm-4 mob-marb20">
-                                <p class="steps-icon steps-bg1"><span class="steps-num">1</span><i class="fa fa-pencil-alt"></i></p>
-                                <p class="mart10 text-center">Register as a Company with DiversityTrax.</p>
-                            </div>
-                            <div class="col-md-4 col-sm-4 mob-marb20">
-                                <p class="steps-icon steps-bg2"><span class="steps-num">2</span><i class="fa fa-address-card"></i></p>
-                                <p class="mart10 text-center">Complete your profile and manage contacts & certifications.</p>
-                            </div>
-                            <div class="col-md-4 col-sm-4 mob-marb20">
-                                <p class="steps-icon steps-bg3"><span class="steps-num">3</span><i class="fa fa-envelope"></i></p>
-                                <p class="mart10 text-center">Manage your suppliers, invitations etc.,</p>
-                            </div>
-                        </div>
-                    </div>*@
             </div>
-
         </div>
-    </div>
-</section>
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
+    </section>
+}
+else
+{
+    if (User.IsInRole("Admin"))
+    {
+        Html.Action("Admin", "Home");
+    }
+    else if (User.IsInRole("Client"))
+    {
+        Html.Action("Contact", "Home");
+    }
+}
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+
+    </div>
+    </div>

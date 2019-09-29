@@ -305,7 +305,7 @@ namespace LoginApp.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //
@@ -367,7 +367,7 @@ namespace LoginApp.Controllers
             if (UserManager.IsInRole(UserID, "Admin"))
                 return RedirectToAction("Admin", "Home");
             else if (UserManager.IsInRole(UserID, "Client"))
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Contact", "Home");
             else
                 return null;
         }
