@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginApp", "LoginApp\LoginApp.csproj", "{F318EBD4-C924-45B9-9E74-4B4018C217DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{2E48FCB4-6229-4EDE-925C-2539E896BFAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{319ED8D2-6E7F-40D3-AB8A-217BF03641D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{F318EBD4-C924-45B9-9E74-4B4018C217DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F318EBD4-C924-45B9-9E74-4B4018C217DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F318EBD4-C924-45B9-9E74-4B4018C217DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E48FCB4-6229-4EDE-925C-2539E896BFAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E48FCB4-6229-4EDE-925C-2539E896BFAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E48FCB4-6229-4EDE-925C-2539E896BFAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E48FCB4-6229-4EDE-925C-2539E896BFAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{319ED8D2-6E7F-40D3-AB8A-217BF03641D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{319ED8D2-6E7F-40D3-AB8A-217BF03641D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{319ED8D2-6E7F-40D3-AB8A-217BF03641D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{319ED8D2-6E7F-40D3-AB8A-217BF03641D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

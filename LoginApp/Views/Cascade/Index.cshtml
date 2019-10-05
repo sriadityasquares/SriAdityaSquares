@@ -1,0 +1,121 @@
+﻿@model LoginApp.Models.BookingInformation
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm("New", "Booking", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row" style="padding-top:50px">
+        <div class="col-xs-12 col-sm-12 col-md-12 div">
+            <div class="login-box">
+                <div class="row">
+                    <h3 align="center">New Booking</h3>
+                </div>
+                <div class="row">
+                    <h4 style="color:#ea4f4c;margin-bottom:4px">Customer Information</h4>
+                    <hr />
+                </div>
+
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-md-4 required" })
+                    @Html.TextBoxFor(m => m.Name, new { @class = "textbox-control col-md-8 col-xs" })
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.Mobile, new { @class = "col-md-4" })
+                    @Html.TextBoxFor(m => m.Mobile, new { @class = "textbox-control col-md-8 col-xs" })
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.Address, new { @class = "col-md-4" })
+                    @Html.TextAreaFor(m => m.Address, new { @class = "textarea-control col-md-8 col-xs" })
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.CountryID, new { @class = "col-md-4 required" })
+                    @Html.DropDownListFor(model => model.CountryID, ViewBag.CountryList as SelectList, "--Select Country--", new { @class = "textbox-control col-md-8 col-xs" })
+
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.stateID, new { @class = "col-md-4 required" })
+                    @Html.DropDownListFor(model => model.stateID, new SelectList(" "), "--Select State--", new { @class = "textbox-control col-md-8 col-xs" })
+
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.CityID, new { @class = "col-md-4 required" })
+                    @Html.DropDownListFor(model => model.CityID, new SelectList(" "), "--Select City--", new { @class = "textbox-control col-md-8 col-xs" })
+
+                </div>
+
+                <div class="row">
+                    <h4 style="color:#ea4f4c;margin-bottom:4px">Booking Information</h4>
+                    <hr />
+                </div>
+
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-4 required" })
+                    @Html.DropDownListFor(model => model.CountryID, ViewBag.CountryList as SelectList, "--Select Project--", new { @class = "textbox-control col-md-8 col-xs" })
+
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.TowerID, new { @class = "col-md-4 required" })
+                    @Html.DropDownListFor(model => model.stateID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-8 col-xs" })
+
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.FlatID, new { @class = "col-md-4 required" })
+                    @Html.DropDownListFor(model => model.CityID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-8 col-xs" })
+
+                </div>
+                @*<div class="row marb15">
+                        @Html.LabelFor(m => m.CountryID, new { @class = "col-md-4 required" })
+                        @Html.DropDownListFor(model => model.CountryID, ViewBag.CountryList as SelectList, "--Select Country--", new { @class = "text })
+
+                    </div>*@
+                @*<div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" class="btn btn-default" value="Register" />
+                        </div>
+                    </div>*@
+                <div class="row marb15">
+                    <div class="col-md-12 no-pad">
+                        <button type="submit" id="submitbtn" value="Register" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+    $(document).ready(function () {
+        $("#CountryID").change(function () {
+            $.get("/Cascade/GetStateList", { CountryId: $("#CountryID").val() }, function (data) {
+                $("#stateID").empty();
+                $("#stateID").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
+                $("#CityID").empty();
+                $("#CityID").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
+                $.each(data, function (index, row) {
+                    debugger;
+                    $("#stateID").append("<option value='" + row.StateID + "'>" + row.StateName + "</option>")
+                });
+            });
+        })
+    });
+
+    $("#stateID").change(function () {
+        $.get("/Cascade/GetCityList", { StateId: $("#stateID").val() }, function (data) {
+            $("#CityID").empty();
+            $("#CityID").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
+            $.each(data, function (index, row) {
+                debugger;
+                $("#CityID").append("<option value='" + row.CityID + "'>" + row.CityName + "</option>")
+            });
+        });
+    });
+
+</script>

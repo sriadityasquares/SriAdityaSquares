@@ -39,8 +39,18 @@ namespace LoginApp
                     roleManager.Create(role);
 
                 }
-
-                
+                if(!roleManager.RoleExists("Customer"))
+                {
+                    var role = new IdentityRole();
+                    role.Name = "Customer";
+                    roleManager.Create(role);
+                }
+                if (!roleManager.RoleExists("Agent"))
+                {
+                    var role = new IdentityRole();
+                    role.Name = "Agent";
+                    roleManager.Create(role);
+                }
 
 
             }
