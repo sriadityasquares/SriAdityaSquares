@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BusinessLayer;
 using DataLayer;
+using ModelLayer;
+
 namespace LoginApp.Controllers
 {
     public class CascadeController : Controller
     {
-        Common objCasc = new Common();
-
+        CommonBL objCasc = new CommonBL();
+        
         // GET: Cascade
         public ActionResult Index()
         {
-            List<tblCountry> countryList = objCasc.BindCountry();
+            List<Country> countryList = objCasc.BindCountry();
             ViewBag.CountryList = new SelectList(countryList, "CountryID", "CountryName");
             ViewBag.ProjectList = new SelectList(countryList, "CountryID", "CountryName");
             ViewBag.AgentList = new SelectList(countryList, "CountryID", "CountryName");
@@ -57,7 +60,7 @@ namespace LoginApp.Controllers
 
         public JsonResult GetStateList(int CountryId)
         {
-            List<tblState> StateList = objCasc.BindState(CountryId);
+            List<State> StateList = objCasc.BindState(CountryId);
             return Json(StateList, JsonRequestBehavior.AllowGet);
 
         }
@@ -65,14 +68,16 @@ namespace LoginApp.Controllers
 
         public JsonResult GetCityList(int StateId)
         {
-            List<tblCity> CityList = objCasc.BindCity(StateId);
+            List<City> CityList = objCasc.BindCity(StateId);
             return Json(CityList, JsonRequestBehavior.AllowGet);
 
         }
-        public List<tblState> BindStateDetails(int CountryId)
+
+        
+        public List<State> BindStateDetails(int CountryId)
         {
 
-            List<tblState> stateDetail = new List<tblState>();
+            List<State> stateDetail = new List<State>();
             try
             {
                 stateDetail = objCasc.BindState(CountryId);
@@ -86,9 +91,9 @@ namespace LoginApp.Controllers
             return stateDetail;
         }
 
-        public List<tblCity> BindCityDetails(int stateId)
+        public List<City> BindCityDetails(int stateId)
         {
-            List<tblCity> cityDetail = new List<tblCity>();
+            List<City> cityDetail = new List<City>();
             try
             {
                 cityDetail = objCasc.BindCity(stateId);

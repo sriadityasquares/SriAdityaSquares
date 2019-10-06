@@ -44,7 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common.cs" />
+    <Compile Include="BookingDL.cs" />
+    <Compile Include="CommonDL.cs" />
     <Compile Include="EntityDateModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -128,9 +129,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Models\Models.csproj">
-      <Project>{319ed8d2-6e7f-40d3-ab8a-217bf03641d6}</Project>
-      <Name>Models</Name>
+    <ProjectReference Include="..\ModelLayer\ModelLayer.csproj">
+      <Project>{cb0b3c6d-6ab3-48b6-801e-e394ba50f4b5}</Project>
+      <Name>ModelLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

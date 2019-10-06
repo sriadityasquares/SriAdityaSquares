@@ -345,13 +345,17 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj">
+      <Project>{3ba4076b-28bb-4910-bc3e-4d5aca317300}</Project>
+      <Name>BusinessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj">
       <Project>{2e48fcb4-6229-4ede-925c-2539e896bfac}</Project>
       <Name>DataLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Models\Models.csproj">
-      <Project>{319ed8d2-6e7f-40d3-ab8a-217bf03641d6}</Project>
-      <Name>Models</Name>
+    <ProjectReference Include="..\ModelLayer\ModelLayer.csproj">
+      <Project>{cb0b3c6d-6ab3-48b6-801e-e394ba50f4b5}</Project>
+      <Name>ModelLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

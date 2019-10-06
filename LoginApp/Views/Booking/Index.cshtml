@@ -73,7 +73,7 @@
         </div>
         <div class="row" style="padding-top:5px">
             @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.CountryID, ViewBag.ProjectList as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.DropDownListFor(model => model.ProjectID, ViewBag.ProjectList as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
             @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
             @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
             @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
@@ -101,7 +101,7 @@
         </div>
         <div class="row">
             @Html.LabelFor(m => m.AgentID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.CountryID, ViewBag.AgentList as SelectList, "--Select Agent--", new { @class = "textbox-control col-md-2 col-xs" })
+            @Html.DropDownListFor(model => model.AgentID, new SelectList(" "), "--Select Agent--", new { @class = "textbox-control col-md-2 col-xs" })
             @Html.LabelFor(m => m.AgentCharges, new { @class = "col-md-1" })
             @Html.TextBoxFor(m => m.AgentCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
 
@@ -142,16 +142,25 @@
 <script>
     $(document).ready(function () {
         $("#CountryID").change(function () {
-            $.get("/Cascade/GetStateList", { CountryId: $("#CountryID").val() }, function (data) {
-                $("#stateID").empty();
-                $("#stateID").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
-                $("#CityID").empty();
-                $("#CityID").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
-                $.each(data, function (index, row) {
-                    debugger;
-                    $("#stateID").append("<option value='" + row.StateID + "'>" + row.StateName + "</option>")
+            alert($("#CountryID").val());
+            if ($("#CountryID").val() != '') {
+                $.get("/Cascade/GetStateList", { CountryId: $("#CountryID").val() }, function (data) {
+                    $("#stateID").empty();
+                    $("#stateID").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
+                    $("#CityID").empty();
+                    $("#CityID").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
+                    $.each(data, function (index, row) {
+                        debugger;
+                        $("#stateID").append("<option value='" + row.StateID + "'>" + row.StateName + "</option>")
+                    });
                 });
-            });
+            }
+            else {
+                $("#stateID").empty();
+                    $("#stateID").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
+                    $("#CityID").empty();
+                    $("#CityID").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
+            }
         })
     });
 
@@ -162,6 +171,32 @@
             $.each(data, function (index, row) {
                 debugger;
                 $("#CityID").append("<option value='" + row.CityID + "'>" + row.CityName + "</option>")
+            });
+        });
+    });
+
+    $("#ProjectID").change(function () {
+        $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+            $("#TowerID").empty();
+            $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                debugger;
+                $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+            });
+        });
+    });
+    
+    $("#TowerID").change(function () {
+        $.get("/Booking/GetFlats", { TowerId: $("#TowerID").val() }, function (data) {
+            //$("#TowerID").empty();
+            //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                debugger;
+                $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
             });
         });
     });
