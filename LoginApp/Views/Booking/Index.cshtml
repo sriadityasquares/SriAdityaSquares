@@ -140,6 +140,7 @@
 }
 <script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")"></script>
 <script>
+    var ClubHouseCharges;
     $(document).ready(function () {
         $("#CountryID").change(function () {
             alert($("#CountryID").val());
@@ -181,25 +182,71 @@
             $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
             $("#FlatID").empty();
             $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            ClearTextFiels();
             $.each(data, function (index, row) {
                 debugger;
                 $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
             });
         });
+        $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
+            $("#AgentID").empty();
+            $("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
+            $.each(data, function (index, row) {
+                debugger;
+                $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+            });
+        });
     });
     
     $("#TowerID").change(function () {
-        $.get("/Booking/GetFlats", { TowerId: $("#TowerID").val() }, function (data) {
+        $.get("/Booking/GetFlats", { TowerId: $("#TowerID").val()}, function (data) {
             //$("#TowerID").empty();
             //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
             $("#FlatID").empty();
             $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            ClearTextFiels();
             $.each(data, function (index, row) {
                 debugger;
                 $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
             });
         });
     });
+
+    $("#FlatID").change(function () {
+        if ($("#FlatID").val() != 0) {
+            $.get("/Booking/GetFlatDetails", { FlatId: $("#FlatID").val(), ProjectId: $("#ProjectID").val() }, function (data) {
+                //$("#TowerID").empty();
+                //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+                //$("#FlatID").empty();
+                //$("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+                $.each(data, function (index, row) {
+                    debugger;
+                    $("#Floor").val(row.Floor);
+                    $("#BHK").val(row.Bhk);
+                    $("#HighRiseCharges").val(row.HighRiseCharges);
+                    $("#Area").val(row.Sft);
+                    $("#MaintenanceCharges").val(row.Maintenance);
+                    $("#Facing").val(row.Facing);
+                    $("#TotalRate").val(row.TotalRate);
+                    $("#ClubHouseCharges").val(row.ClubHouseCharges);
+                });
+            });
+        }
+        else {
+            ClearTextFiels();
+        }
+    });
+
+    function ClearTextFiels() {
+                $("#Floor").val('');
+                $("#BHK").val('');
+                $("#HighRiseCharges").val('');
+                $("#Area").val('');
+                $("#MaintenanceCharges").val('');
+                $("#Facing").val('');
+                $("#TotalRate").val('');
+                $("#ClubHouseCharges").val('');
+    }
 
     $(function () {
         // This will make every element with the class "date-picker" into a DatePicker element

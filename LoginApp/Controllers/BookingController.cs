@@ -37,5 +37,19 @@ namespace LoginApp.Controllers
             return Json(CityList, JsonRequestBehavior.AllowGet);
 
         }
+
+        public JsonResult GetProjectAgents(int ProjectId)
+        {
+            List<AgentProjectLevel> AgentList = booking.BindProjectAgents(ProjectId);
+            return Json(AgentList, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetFlatDetails(int FlatId,int ProjectID)
+        {
+            List<FlatDetails> FlatDetails = booking.BindFlatDetails(FlatId, ProjectID);
+            return Json(FlatDetails, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

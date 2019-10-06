@@ -10,6 +10,7 @@ namespace ModelLayer
         public string FlatName { get; set; }
         public Nullable<int> ProjectID { get; set; }
         public Nullable<int> TowerID { get; set; }
+        public Nullable<int> Floor { get; set; }
         public Nullable<int> Bhk { get; set; }
         public Nullable<int> Sft { get; set; }
         public string Facing { get; set; }
@@ -22,5 +23,7 @@ namespace ModelLayer
 
         public virtual Projects tblProject { get; set; }
         public virtual Towers tblTower { get; set; }
+        public Nullable<int> Maintenance { get; set; }
+        public Nullable<int> TotalRate { get; set; }
     }
 }

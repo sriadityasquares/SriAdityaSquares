@@ -26,5 +26,14 @@ namespace BusinessLayer
             return db.BindFlats(towerID);
         }
 
+        public List<AgentProjectLevel> BindProjectAgents(int projectID)
+        {
+            return db.BindProjectAgents(projectID);
+        }
+
+        public List<FlatDetails> BindFlatDetails(int FlatId, int ProjectID)
+        {
+            return db.BindFlatDetails(FlatId, ProjectID);
+        }
     }
 }

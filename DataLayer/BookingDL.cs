@@ -65,7 +65,7 @@ namespace DataLayer
                 //lstCountry = dbEntity.tblProjects.ToList();
                 var config = new MapperConfiguration(cfg =>
                 {
-                    cfg.CreateMap<tblFlat, Towers>();
+                    cfg.CreateMap<tblFlat, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
                 lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID).ToList()).ToList();
@@ -75,6 +75,56 @@ namespace DataLayer
                 ex.ToString();
             }
             return lstFlats;
+        }
+
+        public List<AgentProjectLevel> BindProjectAgents(int projectID)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<AgentProjectLevel> lstAgents = new List<AgentProjectLevel>();
+            try
+            {
+
+                
+
+
+
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetAgentsByProjectID_Result, AgentProjectLevel>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgents = mapper.Map<List<sp_GetAgentsByProjectID_Result>, List<AgentProjectLevel>>(dbEntity.sp_GetAgentsByProjectID(projectID).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstAgents;
+        }
+
+        public List<FlatDetails> BindFlatDetails(int flatID,int ProjectID)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<FlatDetails> lstFlatDetails = new List<FlatDetails>();
+            try
+            {
+
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetFlatDetails_Result, FlatDetails>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstFlatDetails = mapper.Map<List<sp_GetFlatDetails_Result>, List<FlatDetails>>(dbEntity.sp_GetFlatDetails(flatID, ProjectID).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstFlatDetails;
         }
     }
 }

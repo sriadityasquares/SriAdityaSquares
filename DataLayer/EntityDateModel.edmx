@@ -77,10 +77,13 @@
           <Property Name="FlatName" Type="varchar" MaxLength="255" />
           <Property Name="ProjectID" Type="int" />
           <Property Name="TowerID" Type="int" />
+          <Property Name="Floor" Type="int" />
           <Property Name="Bhk" Type="int" />
           <Property Name="Sft" Type="int" />
           <Property Name="Facing" Type="varchar" MaxLength="255" />
           <Property Name="HighRiseCharges" Type="int" />
+          <Property Name="Maintenance" Type="int" />
+          <Property Name="TotalRate" Type="int" />
           <Property Name="BookingStatus" Type="int" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
@@ -99,6 +102,7 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="ClubHouseCharges" Type="int" />
         </EntityType>
         <EntityType Name="tblStates">
           <Key>
@@ -171,6 +175,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_GetAgentsByProjectID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProjectID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetFlatDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FlatID" Type="int" Mode="In" />
+          <Parameter Name="ProjectID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="salesDBModelStoreContainer">
           <EntitySet Name="tblAgentLevels" EntityType="Self.tblAgentLevels" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAgentProjectLevels" EntityType="Self.tblAgentProjectLevels" Schema="dbo" store:Type="Tables" />
@@ -282,6 +293,9 @@
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tblProject" Relationship="Self.FK_Flats1" FromRole="tblFlats" ToRole="tblProjects" />
           <NavigationProperty Name="tblTower" Relationship="Self.FK_Flats2" FromRole="tblFlats" ToRole="tblTowers" />
+          <Property Name="Maintenance" Type="Int32" />
+          <Property Name="TotalRate" Type="Int32" />
+          <Property Name="Floor" Type="Int32" />
         </EntityType>
         <EntityType Name="tblProject">
           <Key>
@@ -297,6 +311,7 @@
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tblFlats" Relationship="Self.FK_Flats1" FromRole="tblProjects" ToRole="tblFlats" />
           <NavigationProperty Name="tblTowers" Relationship="Self.FK_Towers" FromRole="tblProjects" ToRole="tblTowers" />
+          <Property Name="ClubHouseCharges" Type="Int32" />
         </EntityType>
         <EntityType Name="tblState">
           <Key>
@@ -394,7 +409,35 @@
             <End Role="tblProjects" EntitySet="tblProjects" />
             <End Role="tblTowers" EntitySet="tblTowers" />
           </AssociationSet>
+          <FunctionImport Name="sp_GetAgentsByProjectID" ReturnType="Collection(salesDBModel.sp_GetAgentsByProjectID_Result)">
+          <Parameter Name="ProjectID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetFlatDetails" ReturnType="Collection(salesDBModel.sp_GetFlatDetails_Result)">
+            <Parameter Name="FlatID" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="sp_GetAgentsByProjectID_Result">
+          <Property Type="Int32" Name="AgentID" Nullable="false" />
+          <Property Type="Int32" Name="ProjectID" Nullable="false" />
+          <Property Type="String" Name="Level" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="Status" Nullable="true" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="sp_GetFlatDetails_Result">
+          <Property Type="Int32" Name="Floor" Nullable="true" />
+          <Property Type="Int32" Name="Bhk" Nullable="true" />
+          <Property Type="Int32" Name="HighRiseCharges" Nullable="true" />
+          <Property Type="String" Name="Facing" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="Sft" Nullable="true" />
+          <Property Type="Int32" Name="Maintenance" Nullable="true" />
+          <Property Type="Int32" Name="TotalRate" Nullable="true" />
+          <Property Type="Int32" Name="ClubHouseCharges" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -472,6 +515,9 @@
           <EntitySetMapping Name="tblFlats">
             <EntityTypeMapping TypeName="salesDBModel.tblFlat">
               <MappingFragment StoreEntitySet="tblFlats">
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="TotalRate" ColumnName="TotalRate" />
+                <ScalarProperty Name="Maintenance" ColumnName="Maintenance" />
                 <ScalarProperty Name="FlatID" ColumnName="FlatID" />
                 <ScalarProperty Name="FlatName" ColumnName="FlatName" />
                 <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
@@ -491,6 +537,7 @@
           <EntitySetMapping Name="tblProjects">
             <EntityTypeMapping TypeName="salesDBModel.tblProject">
               <MappingFragment StoreEntitySet="tblProjects">
+                <ScalarProperty Name="ClubHouseCharges" ColumnName="ClubHouseCharges" />
                 <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
                 <ScalarProperty Name="ProjectLocation" ColumnName="ProjectLocation" />
@@ -540,6 +587,35 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentsByProjectID" FunctionName="salesDBModel.Store.sp_GetAgentsByProjectID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentsByProjectID_Result">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetFlatDetails" FunctionName="salesDBModel.Store.sp_GetFlatDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetFlatDetails_Result">
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
+                <ScalarProperty Name="HighRiseCharges" ColumnName="HighRiseCharges" />
+                <ScalarProperty Name="Facing" ColumnName="Facing" />
+                <ScalarProperty Name="Sft" ColumnName="Sft" />
+                <ScalarProperty Name="Maintenance" ColumnName="Maintenance" />
+                <ScalarProperty Name="TotalRate" ColumnName="TotalRate" />
+                <ScalarProperty Name="ClubHouseCharges" ColumnName="ClubHouseCharges" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

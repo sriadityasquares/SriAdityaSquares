@@ -27,6 +27,9 @@ namespace DataLayer
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
+        public Nullable<int> Maintenance { get; set; }
+        public Nullable<int> TotalRate { get; set; }
+        public Nullable<int> Floor { get; set; }
     
         public virtual tblProject tblProject { get; set; }
         public virtual tblTower tblTower { get; set; }
