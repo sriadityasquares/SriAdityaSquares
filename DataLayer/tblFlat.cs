@@ -18,18 +18,15 @@ namespace DataLayer
         public string FlatName { get; set; }
         public Nullable<int> ProjectID { get; set; }
         public Nullable<int> TowerID { get; set; }
+        public Nullable<int> Floor { get; set; }
         public Nullable<int> Bhk { get; set; }
         public Nullable<int> Sft { get; set; }
         public string Facing { get; set; }
-        public Nullable<int> HighRiseCharges { get; set; }
         public Nullable<int> BookingStatus { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
-        public Nullable<int> Maintenance { get; set; }
-        public Nullable<int> TotalRate { get; set; }
-        public Nullable<int> Floor { get; set; }
     
         public virtual tblProject tblProject { get; set; }
         public virtual tblTower tblTower { get; set; }

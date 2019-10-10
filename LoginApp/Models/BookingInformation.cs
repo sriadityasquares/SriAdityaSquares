@@ -10,14 +10,18 @@ namespace LoginApp.Models
     public class BookingInformation
     {
         [Display(Name = "Country")]
+        [Required(ErrorMessage = "Country is Required")]
         public int CountryID { get; set; }
 
         [Display(Name = "State")]
+        [Required(ErrorMessage = "State is Required")]
         public int stateID { get; set; }
 
         [Display(Name = "City")]
+        [Required(ErrorMessage = "City is Required")]
         public int CityID { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public string Mobile { get; set; }
@@ -39,12 +43,12 @@ namespace LoginApp.Models
         public DateTime DOB { get; set; }
 
         [Display(Name = "Aadhaar")]
-        public int AadhaarNo { get; set; }
+        public Nullable<int> AadhaarNo { get; set; }
 
         [Display(Name = "PanCard")]
-        public int PanCardNo { get; set; }
+        public string PanCardNo { get; set; }
 
-        public int PinCode { get; set; }
+        public Nullable<int> PinCode { get; set; }
 
         [EmailAddress]
         [Display(Name = "Email")]
@@ -52,38 +56,44 @@ namespace LoginApp.Models
 
         public string Floor { get; set; }
         public string BHK { get; set; }
-        public int Facing { get; set; }
+        public string Facing { get; set; }
 
         public int Area { get; set; }
 
         [Display(Name = "High Rise")]
-        public int HighRiseCharges { get; set; }
+        public Nullable<int> HighRiseCharges { get; set; }
 
         [Display(Name = "Maintenance")]
-        public int MaintenanceCharges { get; set; }
+        public Nullable<int> MaintenanceCharges { get; set; }
         [Display(Name = "Club House")]
-        public int ClubHouseCharges { get; set; }
+        public Nullable<int> ClubHouseCharges { get; set; }
 
-        [Display(Name = "Sqft Rate")]
-        public int SqftRate { get; set; }
+        [Display(Name = "SFT Rate")]
+        public Nullable<int> SqftRate { get; set; }
+
+
 
         [Display(Name = "Total Rate")]
-        public int TotalRate { get; set; }
+        public Nullable<int> TotalRate { get; set; }
 
         [Display(Name = "Agent")]
         public int AgentID { get; set; }
         [Display(Name = "Agent %")]
-        public int AgentCharges { get; set; }
+        public Nullable<int> AgentCharges { get; set; }
 
 
-        public int Discount { get; set; }
+        public Nullable<int> Discount { get; set; }
 
-        [Display(Name = "Final Rate")]
-        public int FinalRate { get; set; }
+        [Display(Name = "Final")]
+        public Nullable<int> FinalRate { get; set; }
+
+        [Display(Name = "Grand Total")]
+        public Nullable<int> GrandRate { get; set; }
+
         [Display(Name = "Booking Amount")]
-        public int BookingAmount { get; set; }
+        public Nullable<int> BookingAmount { get; set; }
         [Display(Name = "Balance Amount")]
-        public int BalanceAmount { get; set; }
+        public Nullable<int> BalanceAmount { get; set; }
 
         [Display(Name = "Payment Mode")]
         public string PaymentMode { get; set; }

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer;
 using DataLayer;
+using LoginApp.Models;
 using ModelLayer;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,29 @@ namespace LoginApp.Controllers
             //ViewBag.AgentList = new SelectList(countryList, "CountryID", "CountryName");
             return View();
         }
+
+        public ActionResult New()
+        {
+            List<Country> countryList = common.BindCountry();
+            List<Projects> projectList = booking.BindProjects();
+            ViewBag.CountryList = new SelectList(countryList, "CountryID", "CountryName");
+            ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
+            return View();
+        }
+
+
+
+        [HttpPost]
+        public ActionResult New(BookingInformation b)
+        {
+            List<Country> countryList = common.BindCountry();
+            List<Projects> projectList = booking.BindProjects();
+            ViewBag.CountryList = new SelectList(countryList, "CountryID", "CountryName");
+            ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
+            //ViewBag.AgentList = new SelectList(countryList, "CountryID", "CountryName");
+            return View();
+        }
+
 
         public JsonResult GetTowers(int ProjectId)
         {

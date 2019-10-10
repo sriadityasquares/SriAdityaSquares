@@ -81,9 +81,6 @@
           <Property Name="Bhk" Type="int" />
           <Property Name="Sft" Type="int" />
           <Property Name="Facing" Type="varchar" MaxLength="255" />
-          <Property Name="HighRiseCharges" Type="int" />
-          <Property Name="Maintenance" Type="int" />
-          <Property Name="TotalRate" Type="int" />
           <Property Name="BookingStatus" Type="int" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
@@ -274,29 +271,6 @@
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="tblFlat">
-          <Key>
-            <PropertyRef Name="FlatID" />
-          </Key>
-          <Property Name="FlatID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FlatName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ProjectID" Type="Int32" />
-          <Property Name="TowerID" Type="Int32" />
-          <Property Name="Bhk" Type="Int32" />
-          <Property Name="Sft" Type="Int32" />
-          <Property Name="Facing" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="HighRiseCharges" Type="Int32" />
-          <Property Name="BookingStatus" Type="Int32" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tblProject" Relationship="Self.FK_Flats1" FromRole="tblFlats" ToRole="tblProjects" />
-          <NavigationProperty Name="tblTower" Relationship="Self.FK_Flats2" FromRole="tblFlats" ToRole="tblTowers" />
-          <Property Name="Maintenance" Type="Int32" />
-          <Property Name="TotalRate" Type="Int32" />
-          <Property Name="Floor" Type="Int32" />
-        </EntityType>
         <EntityType Name="tblProject">
           <Key>
             <PropertyRef Name="ProjectID" />
@@ -309,9 +283,9 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tblFlats" Relationship="Self.FK_Flats1" FromRole="tblProjects" ToRole="tblFlats" />
           <NavigationProperty Name="tblTowers" Relationship="Self.FK_Towers" FromRole="tblProjects" ToRole="tblTowers" />
           <Property Name="ClubHouseCharges" Type="Int32" />
+          <NavigationProperty Name="tblFlats" Relationship="salesDBModel.FK_Flats1" FromRole="tblProject" ToRole="tblFlat" />
         </EntityType>
         <EntityType Name="tblState">
           <Key>
@@ -347,33 +321,9 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tblFlats" Relationship="Self.FK_Flats2" FromRole="tblTowers" ToRole="tblFlats" />
           <NavigationProperty Name="tblProject" Relationship="Self.FK_Towers" FromRole="tblTowers" ToRole="tblProjects" />
+          <NavigationProperty Name="tblFlats" Relationship="salesDBModel.FK_Flats2" FromRole="tblTower" ToRole="tblFlat" />
         </EntityType>
-        <Association Name="FK_Flats1">
-          <End Role="tblProjects" Type="Self.tblProject" Multiplicity="0..1" />
-          <End Role="tblFlats" Type="Self.tblFlat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblProjects">
-              <PropertyRef Name="ProjectID" />
-            </Principal>
-            <Dependent Role="tblFlats">
-              <PropertyRef Name="ProjectID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Flats2">
-          <End Role="tblTowers" Type="Self.tblTower" Multiplicity="0..1" />
-          <End Role="tblFlats" Type="Self.tblFlat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblTowers">
-              <PropertyRef Name="TowerID" />
-            </Principal>
-            <Dependent Role="tblFlats">
-              <PropertyRef Name="TowerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Towers">
           <End Role="tblProjects" Type="Self.tblProject" Multiplicity="0..1" />
           <End Role="tblTowers" Type="Self.tblTower" Multiplicity="*" />
@@ -392,19 +342,10 @@
           <EntitySet Name="tblAgents" EntityType="Self.tblAgent" />
           <EntitySet Name="tblCities" EntityType="Self.tblCity" />
           <EntitySet Name="tblCountries" EntityType="Self.tblCountry" />
-          <EntitySet Name="tblFlats" EntityType="Self.tblFlat" />
           <EntitySet Name="tblProjects" EntityType="Self.tblProject" />
           <EntitySet Name="tblStates" EntityType="Self.tblState" />
           <EntitySet Name="tblStatus" EntityType="Self.tblStatu" />
           <EntitySet Name="tblTowers" EntityType="Self.tblTower" />
-          <AssociationSet Name="FK_Flats1" Association="Self.FK_Flats1">
-            <End Role="tblProjects" EntitySet="tblProjects" />
-            <End Role="tblFlats" EntitySet="tblFlats" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Flats2" Association="Self.FK_Flats2">
-            <End Role="tblTowers" EntitySet="tblTowers" />
-            <End Role="tblFlats" EntitySet="tblFlats" />
-          </AssociationSet>
           <AssociationSet Name="FK_Towers" Association="Self.FK_Towers">
             <End Role="tblProjects" EntitySet="tblProjects" />
             <End Role="tblTowers" EntitySet="tblTowers" />
@@ -412,6 +353,15 @@
           <FunctionImport Name="sp_GetAgentsByProjectID" ReturnType="Collection(salesDBModel.sp_GetAgentsByProjectID_Result)">
           <Parameter Name="ProjectID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="tblFlats" EntityType="salesDBModel.tblFlat" />
+          <AssociationSet Name="FK_Flats1" Association="salesDBModel.FK_Flats1">
+            <End Role="tblProject" EntitySet="tblProjects" />
+            <End Role="tblFlat" EntitySet="tblFlats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flats2" Association="salesDBModel.FK_Flats2">
+            <End Role="tblTower" EntitySet="tblTowers" />
+            <End Role="tblFlat" EntitySet="tblFlats" />
+          </AssociationSet>
           <FunctionImport Name="sp_GetFlatDetails" ReturnType="Collection(salesDBModel.sp_GetFlatDetails_Result)">
             <Parameter Name="FlatID" Mode="In" Type="Int32" />
             <Parameter Name="ProjectID" Mode="In" Type="Int32" />
@@ -428,14 +378,55 @@
           <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
           <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
         </ComplexType>
+        <EntityType Name="tblFlat">
+          <Key>
+            <PropertyRef Name="FlatID" />
+          </Key>
+          <Property Name="FlatID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FlatName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="TowerID" Type="Int32" />
+          <Property Name="Floor" Type="Int32" />
+          <Property Name="Bhk" Type="Int32" />
+          <Property Name="Sft" Type="Int32" />
+          <Property Name="Facing" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="BookingStatus" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblProject" Relationship="salesDBModel.FK_Flats1" FromRole="tblFlat" ToRole="tblProject" />
+          <NavigationProperty Name="tblTower" Relationship="salesDBModel.FK_Flats2" FromRole="tblFlat" ToRole="tblTower" />
+        </EntityType>
+        <Association Name="FK_Flats1">
+          <End Type="salesDBModel.tblProject" Role="tblProject" Multiplicity="0..1" />
+          <End Type="salesDBModel.tblFlat" Role="tblFlat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProject">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="tblFlat">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Flats2">
+          <End Type="salesDBModel.tblTower" Role="tblTower" Multiplicity="0..1" />
+          <End Type="salesDBModel.tblFlat" Role="tblFlat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTower">
+              <PropertyRef Name="TowerID" />
+            </Principal>
+            <Dependent Role="tblFlat">
+              <PropertyRef Name="TowerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <ComplexType Name="sp_GetFlatDetails_Result">
           <Property Type="Int32" Name="Floor" Nullable="true" />
           <Property Type="Int32" Name="Bhk" Nullable="true" />
-          <Property Type="Int32" Name="HighRiseCharges" Nullable="true" />
           <Property Type="String" Name="Facing" Nullable="true" MaxLength="255" />
           <Property Type="Int32" Name="Sft" Nullable="true" />
-          <Property Type="Int32" Name="Maintenance" Nullable="true" />
-          <Property Type="Int32" Name="TotalRate" Nullable="true" />
           <Property Type="Int32" Name="ClubHouseCharges" Nullable="true" />
         </ComplexType>
       </Schema>
@@ -512,28 +503,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblFlats">
-            <EntityTypeMapping TypeName="salesDBModel.tblFlat">
-              <MappingFragment StoreEntitySet="tblFlats">
-                <ScalarProperty Name="Floor" ColumnName="Floor" />
-                <ScalarProperty Name="TotalRate" ColumnName="TotalRate" />
-                <ScalarProperty Name="Maintenance" ColumnName="Maintenance" />
-                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
-                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="TowerID" ColumnName="TowerID" />
-                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
-                <ScalarProperty Name="Sft" ColumnName="Sft" />
-                <ScalarProperty Name="Facing" ColumnName="Facing" />
-                <ScalarProperty Name="HighRiseCharges" ColumnName="HighRiseCharges" />
-                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tblProjects">
             <EntityTypeMapping TypeName="salesDBModel.tblProject">
               <MappingFragment StoreEntitySet="tblProjects">
@@ -602,16 +571,32 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblFlats">
+            <EntityTypeMapping TypeName="salesDBModel.tblFlat">
+              <MappingFragment StoreEntitySet="tblFlats">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+                <ScalarProperty Name="Facing" ColumnName="Facing" />
+                <ScalarProperty Name="Sft" ColumnName="Sft" />
+                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="TowerID" ColumnName="TowerID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_GetFlatDetails" FunctionName="salesDBModel.Store.sp_GetFlatDetails">
             <ResultMapping>
               <ComplexTypeMapping TypeName="salesDBModel.sp_GetFlatDetails_Result">
                 <ScalarProperty Name="Floor" ColumnName="Floor" />
                 <ScalarProperty Name="Bhk" ColumnName="Bhk" />
-                <ScalarProperty Name="HighRiseCharges" ColumnName="HighRiseCharges" />
                 <ScalarProperty Name="Facing" ColumnName="Facing" />
                 <ScalarProperty Name="Sft" ColumnName="Sft" />
-                <ScalarProperty Name="Maintenance" ColumnName="Maintenance" />
-                <ScalarProperty Name="TotalRate" ColumnName="TotalRate" />
                 <ScalarProperty Name="ClubHouseCharges" ColumnName="ClubHouseCharges" />
               </ComplexTypeMapping>
             </ResultMapping>

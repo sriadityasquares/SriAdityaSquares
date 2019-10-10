@@ -10,14 +10,14 @@
         <EntityTypeShape EntityType="salesDBModel.tblAgent" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="salesDBModel.tblCity" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="salesDBModel.tblCountry" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="salesDBModel.tblFlat" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="salesDBModel.tblProject" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="salesDBModel.tblState" Width="1.5" PointX="7.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="salesDBModel.tblStatu" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="salesDBModel.tblTower" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
-        <AssociationConnector Association="salesDBModel.FK_Flats1" ManuallyRouted="false" />
-        <AssociationConnector Association="salesDBModel.FK_Flats2" ManuallyRouted="false" />
         <AssociationConnector Association="salesDBModel.FK_Towers" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="salesDBModel.tblFlat" Width="1.5" PointX="5.25" PointY="5.5" />
+        <AssociationConnector Association="salesDBModel.FK_Flats1" />
+        <AssociationConnector Association="salesDBModel.FK_Flats2" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

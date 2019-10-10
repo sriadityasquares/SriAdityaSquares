@@ -10,129 +10,136 @@
 @using (Html.BeginForm("New", "Booking", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <div class="jumbotron">
-        <div class="row">
-            <div class="col-md-1 col-xs">
-                <h3 align="center">New Booking</h3>
-            </div>
-
-        </div>
-        <div class="row">
-            <h4 style="color:#ea4f4c;margin-bottom:4px">Customer Information</h4>
-            <hr />
-        </div>
-
-        <div class="row" style="padding-top:5px">
-            @Html.LabelFor(m => m.Name, new { @class = "col-md-1 required" })
-            @Html.TextBoxFor(m => m.Name, new { @class = "textbox-control col-md-11 col-xs" })
-
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.CountryID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.CountryID, ViewBag.CountryList as SelectList, "--Select Country--", new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.stateID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.stateID, new SelectList(" "), "--Select State--", new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.CityID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.CityID, new SelectList(" "), "--Select City--", new { @class = "textbox-control col-md-3 col-xs" })
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.Nominee, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.Nominee, new { @class = "textbox-control col-md-11 col-xs" })
-
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.Relation, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.Relation, new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.Age, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.Nominee, new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.DOB, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.DOB, new { @class = "textbox-control col-md-3 col-xs datepicker" })
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.AadhaarNo, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.AadhaarNo, new { @class = "textbox-control col-md-5 col-xs" })
-            @Html.LabelFor(m => m.PanCardNo, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.PanCardNo, new { @class = "textbox-control col-md-4 col-xs" })
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.Address, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.Address, new { @class = "textbox-control col-md-5 col-xs" })
-            @Html.LabelFor(m => m.PinCode, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.PinCode, new { @class = "textbox-control col-md-4 col-xs" })
-        </div>
-        <div style="padding-top:5px" class="row">
-            @Html.LabelFor(m => m.Mobile, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.Mobile, new { @class = "textbox-control col-md-5 col-xs" })
-            @Html.LabelFor(m => m.Email, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.Email, new { @class = "textbox-control col-md-4 col-xs" })
-        </div>
-
-        <div class="row">
-            <h4 style="color:#ea4f4c;margin-bottom:4px">Booking Information</h4>
-            <hr />
-        </div>
-        <div class="row" style="padding-top:5px">
-            @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.ProjectID, ViewBag.ProjectList as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.Floor, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.Floor, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-            @Html.LabelFor(m => m.BHK, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.BHK, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-            @Html.LabelFor(m => m.Area, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.Area, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-            @Html.LabelFor(m => m.Facing, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.Facing, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.HighRiseCharges, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.HighRiseCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-            @Html.LabelFor(m => m.MaintenanceCharges, new { @class = "col-md-2 col-xs" })
-            @Html.TextBoxFor(m => m.MaintenanceCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-            @Html.LabelFor(m => m.ClubHouseCharges, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.ClubHouseCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-            @Html.LabelFor(m => m.TotalRate, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.TotalRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.AgentID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.AgentID, new SelectList(" "), "--Select Agent--", new { @class = "textbox-control col-md-2 col-xs" })
-            @Html.LabelFor(m => m.AgentCharges, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.AgentCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-
-            @Html.LabelFor(m => m.FinalRate, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.FinalRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.Discount, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.Discount, new { @class = "textbox-control col-md-1 col-xs" })
-            @Html.LabelFor(m => m.PaymentMode, new { @class = "col-md-2" })
-            @Html.DropDownListFor(m => m.PaymentMode, new List<SelectListItem>
+<div class="jumbotron">
+    @if (ViewData.ModelState[""] == null)
     {
-         new SelectListItem{ Text="--Mode--", Value = "0"  },
-        new SelectListItem{ Text="Cheque", Value = "1" },
-        new SelectListItem{ Text="NEFT", Value = "2" },
-        new SelectListItem{ Text="CC", Value = "3" },
-        new SelectListItem{ Text="Cash", Value = "4" },
-     }, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-            @Html.LabelFor(m => m.ReferenceNo, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.ReferenceNo, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-            @Html.LabelFor(m => m.BookingAmount, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.BookingAmount, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            @Html.ValidationSummary()
         </div>
-        <div class="row">
-            <br />
-            <div class="col-md-6 no-pad">
-                <button type="submit" id="submitbtn" value="Register" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>Book</button>
-            </div>
+    }   
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center">New Booking</h3>
         </div>
 
     </div>
+    <div class="row">
+        <h4 style="color:#ea4f4c;margin-bottom:4px">Customer Information</h4>
+        <hr />
+    </div>
+
+    <div class="row" style="padding-top:5px">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-1 required" })
+        @Html.TextBoxFor(m => m.Name, new { @class = "textbox-control col-md-11 col-xs" })
+
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.CountryID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.CountryID, ViewBag.CountryList as SelectList, "--Select Country--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.stateID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.stateID, new SelectList(" "), "--Select State--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.CityID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.CityID, new SelectList(" "), "--Select City--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.Nominee, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.Nominee, new { @class = "textbox-control col-md-11 col-xs" })
+
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.Relation, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.Relation, new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.Age, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.Nominee, new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.DOB, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.DOB, new { @class = "textbox-control col-md-3 col-xs datepicker" })
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.AadhaarNo, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.AadhaarNo, new { @class = "textbox-control col-md-5 col-xs" })
+        @Html.LabelFor(m => m.PanCardNo, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.PanCardNo, new { @class = "textbox-control col-md-4 col-xs" })
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.Address, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.Address, new { @class = "textbox-control col-md-5 col-xs" })
+        @Html.LabelFor(m => m.PinCode, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.PinCode, new { @class = "textbox-control col-md-4 col-xs" })
+    </div>
+    <div style="padding-top:5px" class="row">
+        @Html.LabelFor(m => m.Mobile, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.Mobile, new { @class = "textbox-control col-md-5 col-xs" })
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.Email, new { @class = "textbox-control col-md-4 col-xs" })
+    </div>
+
+    <div class="row">
+        <h4 style="color:#ea4f4c;margin-bottom:4px">Booking Information</h4>
+        <hr />
+    </div>
+    <div class="row" style="padding-top:5px">
+        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.ProjectID, ViewBag.ProjectList as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.Floor, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.Floor, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.BHK, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.BHK, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.Area, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.Area, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.Facing, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.Facing, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.HighRiseCharges, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.HighRiseCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.MaintenanceCharges, new { @class = "col-md-2 col-xs" })
+        @Html.TextBoxFor(m => m.MaintenanceCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.ClubHouseCharges, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.ClubHouseCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.TotalRate, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.TotalRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.AgentID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.AgentID, new SelectList(" "), "--Select Agent--", new { @class = "textbox-control col-md-2 col-xs" })
+        @Html.LabelFor(m => m.AgentCharges, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.AgentCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+
+        @Html.LabelFor(m => m.FinalRate, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.FinalRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.Discount, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.Discount, new { @class = "textbox-control col-md-1 col-xs" })
+        @Html.LabelFor(m => m.PaymentMode, new { @class = "col-md-2" })
+        @Html.DropDownListFor(m => m.PaymentMode, new List<SelectListItem>
+{
+     new SelectListItem{ Text="--Mode--", Value = "0"  },
+    new SelectListItem{ Text="Cheque", Value = "1" },
+    new SelectListItem{ Text="NEFT", Value = "2" },
+    new SelectListItem{ Text="CC", Value = "3" },
+    new SelectListItem{ Text="Cash", Value = "4" },
+ }, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.ReferenceNo, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.ReferenceNo, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.BookingAmount, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.BookingAmount, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+    </div>
+    <div class="row">
+        <br />
+        <div class="col-md-6 no-pad">
+            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>Book</button>
+        </div>
+    </div>
+
+</div>
 
 }
 @section Scripts {

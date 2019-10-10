@@ -325,6 +325,7 @@
     <Content Include="Views\City\Index.cshtml" />
     <Content Include="Views\Cascade\Index.cshtml" />
     <Content Include="Views\Booking\Index.cshtml" />
+    <Content Include="Views\Booking\New.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

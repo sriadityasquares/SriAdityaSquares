@@ -10,11 +10,8 @@ namespace ModelLayer
     {
         public Nullable<int> Floor { get; set; }
         public Nullable<int> Bhk { get; set; }
-        public Nullable<int> HighRiseCharges { get; set; }
         public string Facing { get; set; }
         public Nullable<int> Sft { get; set; }
-        public Nullable<int> Maintenance { get; set; }
-        public Nullable<int> TotalRate { get; set; }
         public Nullable<int> ClubHouseCharges { get; set; }
     }
 }
