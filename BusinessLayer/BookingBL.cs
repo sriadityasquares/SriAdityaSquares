@@ -35,5 +35,10 @@ namespace BusinessLayer
         {
             return db.BindFlatDetails(FlatId, ProjectID);
         }
+
+        public bool SaveNewBooking(BookingInformation b)
+        {
+            return db.SaveNewBooking(b);
+        }
     }
 }

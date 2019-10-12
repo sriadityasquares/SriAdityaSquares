@@ -1,5 +1,4 @@
-﻿@model LoginApp.Models.BookingInformation
-
+﻿@model ModelLayer.BookingInformation
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -45,13 +44,13 @@
             @*@Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })*@
         </div>
         <div class="row">
-            @Html.LabelFor(m => m.CountryID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.CountryID, ViewBag.CountryList as SelectList, "--Select Country--", new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.stateID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.stateID, new SelectList(" "), "--Select State--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.Country, new { @class = "col-md-1" })
+            @Html.DropDownListFor(model => model.Country, ViewBag.CountryList as SelectList, "--Select Country--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.State, new { @class = "col-md-1" })
+            @Html.DropDownListFor(model => model.State, new SelectList(" "), "--Select State--", new { @class = "textbox-control col-md-3 col-xs" })
             @*@Html.ValidationMessageFor(m => m.stateID, "", new { @class = "text-danger" })*@
-            @Html.LabelFor(m => m.CityID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.CityID, new SelectList(" "), "--Select City--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.City, new { @class = "col-md-1" })
+            @Html.DropDownListFor(model => model.City, new SelectList(" "), "--Select City--", new { @class = "textbox-control col-md-3 col-xs" })
             @*@Html.ValidationMessageFor(m => m.CityID, "", new { @class = "text-danger" })*@
         </div>
         <div class="row">
@@ -60,24 +59,24 @@
 
         </div>
         <div class="row">
-            @Html.LabelFor(m => m.Relation, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.Relation, new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.Relationship, new { @class = "col-md-1" })
+            @Html.TextBoxFor(m => m.Relationship, new { @class = "textbox-control col-md-3 col-xs" })
             @Html.LabelFor(m => m.Age, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.Nominee, new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.DOB, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.DOB, new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.TextBoxFor(m => m.Age, new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.Dob, new { @class = "col-md-1" })
+            @Html.TextBoxFor(m => m.Dob, new { @class = "textbox-control col-md-3 col-xs" })
         </div>
         <div class="row">
-            @Html.LabelFor(m => m.AadhaarNo, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.AadhaarNo, new { @class = "textbox-control col-md-5 col-xs" })
-            @Html.LabelFor(m => m.PanCardNo, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.PanCardNo, new { @class = "textbox-control col-md-4 col-xs" })
+            @Html.LabelFor(m => m.Aadhar, new { @class = "col-md-1" })
+            @Html.TextBoxFor(m => m.Aadhar, new { @class = "textbox-control col-md-5 col-xs" })
+            @Html.LabelFor(m => m.Pan, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.Pan, new { @class = "textbox-control col-md-4 col-xs" })
         </div>
         <div class="row">
             @Html.LabelFor(m => m.Address, new { @class = "col-md-1" })
             @Html.TextBoxFor(m => m.Address, new { @class = "textbox-control col-md-5 col-xs" })
-            @Html.LabelFor(m => m.PinCode, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.PinCode, new { @class = "textbox-control col-md-4 col-xs" })
+            @Html.LabelFor(m => m.Pincode, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.Pincode, new { @class = "textbox-control col-md-4 col-xs" })
         </div>
         <div style="padding-top:5px" class="row">
             @Html.LabelFor(m => m.Mobile, new { @class = "col-md-1" })
@@ -101,16 +100,16 @@
         <div class="row">
             @Html.LabelFor(m => m.Floor, new { @class = "col-md-1" })
             @Html.TextBoxFor(m => m.Floor, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-            @Html.LabelFor(m => m.BHK, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.BHK, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+            @Html.LabelFor(m => m.Bhk, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.Bhk, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
             @Html.LabelFor(m => m.Area, new { @class = "col-md-2" })
             @Html.TextBoxFor(m => m.Area, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
             @Html.LabelFor(m => m.Facing, new { @class = "col-md-2" })
             @Html.TextBoxFor(m => m.Facing, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
         </div>
         <div class="row">
-            @Html.LabelFor(m => m.SqftRate, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.SqftRate, new { @class = "textbox-control col-md-1 col-xs", @type = "number" })
+            @Html.LabelFor(m => m.SftRate, new { @class = "col-md-1" })
+            @Html.TextBoxFor(m => m.SftRate, new { @class = "textbox-control col-md-1 col-xs", @type = "number" })
             @Html.LabelFor(m => m.HighRiseCharges, new { @class = "col-md-2" })
             @Html.TextBoxFor(m => m.HighRiseCharges, new { @class = "textbox-control col-md-1 col-xs", @type = "number" })
 
@@ -126,7 +125,7 @@
             @Html.LabelFor(m => m.AgentID, new { @class = "col-md-1" })
             @Html.DropDownListFor(model => model.AgentID, new SelectList(" "), "--Select Agent--", new { @class = "textbox-control col-md-2 col-xs" })
             @*@Html.LabelFor(m => m.AgentCharges, new { @class = "col-md-1" })
-        @Html.TextBoxFor(m => m.AgentCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })*@
+                @Html.TextBoxFor(m => m.AgentCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })*@
 
             @Html.LabelFor(m => m.FinalRate, new { @class = "col-md-1" })
             @Html.TextBoxFor(m => m.FinalRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
@@ -167,77 +166,80 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 <script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")"></script>
-<script>
-    var ClubHouseCharges;
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+</script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"> </script>
+    <script>
+        var ClubHouseCharges;
     $(document).ready(function () {
-        $("#CountryID").change(function () {
-            alert($("#CountryID").val());
-            if ($("#CountryID").val() != '') {
-                $.get("/Cascade/GetStateList", { CountryId: $("#CountryID").val() }, function (data) {
-                    $("#stateID").empty();
-                    $("#stateID").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
-                    $("#CityID").empty();
-                    $("#CityID").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
-                    $.each(data, function (index, row) {
-                        debugger;
-                        $("#stateID").append("<option value='" + row.StateID + "'>" + row.StateName + "</option>")
+            $("#Country").change(function () {
+                alert($("#Country").val());
+                if ($("#Country").val() != '') {
+                    $.get("/Cascade/GetStateList", { CountryId: $("#Country").val() }, function (data) {
+                        $("#State").empty();
+                        $("#State").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
+                        $("#City").empty();
+                        $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
+                        $.each(data, function (index, row) {
+                            debugger;
+                            $("#State").append("<option value='" + row.StateID + "'>" + row.StateName + "</option>")
+                        });
                     });
-                });
-            }
-            else {
-                $("#stateID").empty();
-                $("#stateID").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
-                $("#CityID").empty();
-                $("#CityID").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
-            }
-        })
-    });
-
-    $("#stateID").change(function () {
-        $.get("/Cascade/GetCityList", { StateId: $("#stateID").val() }, function (data) {
-            $("#CityID").empty();
-            $("#CityID").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
-            $.each(data, function (index, row) {
-                debugger;
-                $("#CityID").append("<option value='" + row.CityID + "'>" + row.CityName + "</option>")
-            });
+                }
+                else {
+                    $("#State").empty();
+                    $("#State").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
+                    $("#City").empty();
+                    $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
+                }
+            })
         });
+
+    $("#State").change(function () {
+            $.get("/Cascade/GetCityList", { StateId: $("#State").val() }, function (data) {
+                $("#City").empty();
+                $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
+                $.each(data, function (index, row) {
+                    debugger;
+                    $("#City").append("<option value='" + row.CityID + "'>" + row.CityName + "</option>")
+                });
+            });
     });
 
     $("#ProjectID").change(function () {
-        $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
-            $("#TowerID").empty();
-            $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
-            $("#FlatID").empty();
-            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
-            ClearTextFiels();
-            $.each(data, function (index, row) {
-                debugger;
-                $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+            $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+                $("#TowerID").empty();
+                $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+                $("#FlatID").empty();
+                $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+                ClearTextFiels();
+                $.each(data, function (index, row) {
+                    debugger;
+                    $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+                });
             });
-        });
-        $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
+        $.get("/Booking/GetProjectAgents", {ProjectId: $("#ProjectID").val() }, function (data) {
             $("#AgentID").empty();
             $("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
             $.each(data, function (index, row) {
                 debugger;
                 $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
-            });
-        });
     });
+});
+});
 
     $("#TowerID").change(function () {
-        $.get("/Booking/GetFlats", { TowerId: $("#TowerID").val() }, function (data) {
-            //$("#TowerID").empty();
-            //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
-            $("#FlatID").empty();
-            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
-            ClearTextFiels();
-            $.each(data, function (index, row) {
-                debugger;
-                $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
+            $.get("/Booking/GetFlats", { TowerId: $("#TowerID").val() }, function (data) {
+                //$("#TowerID").empty();
+                //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+                $("#FlatID").empty();
+                $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+                ClearTextFiels();
+                $.each(data, function (index, row) {
+                    debugger;
+                    $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
+                });
             });
-        });
     });
 
     $("#FlatID").change(function () {
@@ -250,7 +252,7 @@
                 $.each(data, function (index, row) {
                     debugger;
                     $("#Floor").val(row.Floor);
-                    $("#BHK").val(row.Bhk);
+                    $("#Bhk").val(row.Bhk);
                     //$("#HighRiseCharges").val(row.HighRiseCharges);
                     $("#Area").val(row.Sft);
                     //$("#MaintenanceCharges").val(row.Maintenance);
@@ -260,55 +262,55 @@
 
                 });
             });
-        }
+    }
         else {
             ClearTextFiels();
-        }
-    });
+    }
+});
 
     function ClearTextFiels() {
-        $("#Floor").val('');
-        $("#BHK").val('');
-       // $("#HighRiseCharges").val('');
+            $("#Floor").val('');
+        $("#Bhk").val('');
+        // $("#HighRiseCharges").val('');
         $("#Area").val('');
         //$("#MaintenanceCharges").val('');
         $("#Facing").val('');
         //$("#TotalRate").val('');
-       //$("#ClubHouseCharges").val('');
+        //$("#ClubHouseCharges").val('');
     }
 
-    $("#SqftRate").keyup(function () {
-        SetTotalRate();
+    $("#SftRate").keyup(function () {
+            SetTotalRate();
     });
 
     $("#HighRiseCharges").keyup(function () {
-        SetTotalRate();
+            SetTotalRate();
     });
 
     $("#Discount").keyup(function () {
-        SetTotalRate();
+            SetTotalRate();
     });
 
     $("#BookingAmount").keyup(function () {
-        SetBalanceAmount();
+            SetBalanceAmount();
     });
 
     function SetTotalRate() {
-        if ($("#SqftRate").val() != '' && $("#HighRiseCharges").val() != '' && $("#Discount").val() != '') {
-            $("#TotalRate").val(parseInt($("#SqftRate").val()) + parseInt($("#HighRiseCharges").val()) - parseInt($("#Discount").val()));
-            $("#FinalRate").val(parseInt($("#TotalRate").val()) * parseInt($("#Area").val()))
+        if ($("#SftRate").val() != '' && $("#HighRiseCharges").val() != '' && $("#Discount").val() != '') {
+            $("#TotalRate").val(parseInt($("#SftRate").val()) + parseInt($("#HighRiseCharges").val()) - parseInt($("#Discount").val()));
+        $("#FinalRate").val(parseInt($("#TotalRate").val()) * parseInt($("#Area").val()))
             if ($("#ClubHouseCharges").val() != '') {
             $("#GrandRate").val(parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val()))
-            }
+        }
         }
         else {
             $("#TotalRate").val('');
-            $("#FinalRate").val('');
-            $("#GrandRate").val('');
-            $("#BookingAmount").val('');
-            $("#BalanceAmount").val('');
-        }
+        $("#FinalRate").val('');
+        $("#GrandRate").val('');
+        $("#BookingAmount").val('');
+        $("#BalanceAmount").val('');
     }
+}
 
 
     function SetBalanceAmount() {
@@ -316,15 +318,15 @@
             $("#BalanceAmount").val(parseInt($("#GrandRate").val()) - parseInt($("#BookingAmount").val()))
         }
         else {
-             $("#BalanceAmount").val('')
+            $("#BalanceAmount").val('')
         }
-    }
+        }
 
 
 
 
     $("#submitbtn").submit(function () {
-        $('#ValidationSummaryModal').modal('show');
+            $('#ValidationSummaryModal').modal('show');
 
     });
 
@@ -336,7 +338,6 @@
     $(window).load(function () {
         $('#ValidationSummaryModal').modal('hide');
     });
-
 </script>
 
 <style>

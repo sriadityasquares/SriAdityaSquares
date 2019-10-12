@@ -14,11 +14,13 @@ namespace LoginApp.Controllers
     {
         CommonBL common = new CommonBL();
         BookingBL booking = new BookingBL();
+        public static List<Country> countryList;
+        public static List<Projects> projectList;
         // GET: Booking
         public ActionResult Index()
         {
-            List<Country> countryList = common.BindCountry();
-            List<Projects> projectList = booking.BindProjects();
+            countryList = common.BindCountry();
+            projectList = booking.BindProjects();
             ViewBag.CountryList = new SelectList(countryList, "CountryID", "CountryName");
             ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
             //ViewBag.AgentList = new SelectList(countryList, "CountryID", "CountryName");
@@ -27,8 +29,8 @@ namespace LoginApp.Controllers
 
         public ActionResult New()
         {
-            List<Country> countryList = common.BindCountry();
-            List<Projects> projectList = booking.BindProjects();
+            countryList = common.BindCountry();
+            projectList = booking.BindProjects();
             ViewBag.CountryList = new SelectList(countryList, "CountryID", "CountryName");
             ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
             return View();
@@ -37,10 +39,19 @@ namespace LoginApp.Controllers
 
 
         [HttpPost]
-        public ActionResult New(BookingInformation b)
+        public ActionResult New(ModelLayer.BookingInformation b)
         {
-            List<Country> countryList = common.BindCountry();
-            List<Projects> projectList = booking.BindProjects();
+            bool result = booking.SaveNewBooking(b);
+            if(result)
+            {
+                ViewBag.result = "Booking Successfull";
+            }
+            else
+            {
+                ViewBag.result = "Booking Failed";
+            }
+            countryList = common.BindCountry();
+            projectList = booking.BindProjects();
             ViewBag.CountryList = new SelectList(countryList, "CountryID", "CountryName");
             ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
             //ViewBag.AgentList = new SelectList(countryList, "CountryID", "CountryName");

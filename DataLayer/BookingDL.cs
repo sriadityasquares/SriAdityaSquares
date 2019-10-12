@@ -126,5 +126,49 @@ namespace DataLayer
             }
             return lstFlatDetails;
         }
+
+        public bool SaveNewBooking(BookingInformation bookingInfo)
+        {
+            try
+            {
+                if(bookingInfo.TotalRate > 2600)
+                {
+                    bookingInfo.SASComm = (bookingInfo.FinalRate *4.25)/100;
+                    bookingInfo.SASTDS = (bookingInfo.SASComm *5)/ 100;
+                    bookingInfo.SASNet = bookingInfo.SASComm - bookingInfo.SASTDS;
+                }
+                else
+                {
+                    bookingInfo.SASComm = (bookingInfo.FinalRate * 8.25) / 100;
+                    bookingInfo.SASTDS = (bookingInfo.SASComm * 5) / 100;
+                    bookingInfo.SASNet = bookingInfo.SASComm - bookingInfo.SASTDS;
+                }
+                bookingInfo.AgentComm = 10000;
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<BookingInformation, tblBookingInformation>();
+                });
+                tblBookingInformation bookingDetails = new tblBookingInformation();
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<BookingInformation, tblBookingInformation>(bookingInfo, bookingDetails);
+
+                dbEntity.tblBookingInformations.Add(bookingDetails);
+
+                var config1 = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<BookingInformation, tblCustomerInfo>();
+                });
+                tblCustomerInfo customerDetails = new tblCustomerInfo();
+                IMapper mapper1 = config1.CreateMapper();
+                mapper1.Map<BookingInformation, tblCustomerInfo>(bookingInfo, customerDetails);
+                dbEntity.tblCustomerInfoes.Add(customerDetails);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }
