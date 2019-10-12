@@ -17,14 +17,14 @@ namespace DataLayer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblProject()
         {
-            this.tblTowers = new HashSet<tblTower>();
             this.tblFlats = new HashSet<tblFlat>();
+            this.tblTowers = new HashSet<tblTower>();
         }
     
         public int ProjectID { get; set; }
         public string ProjectName { get; set; }
         public string ProjectLocation { get; set; }
-        public Nullable<int> BookingStatus { get; set; }
+        public string BookingStatus { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
@@ -32,8 +32,8 @@ namespace DataLayer
         public Nullable<int> ClubHouseCharges { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblTower> tblTowers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblFlat> tblFlats { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblTower> tblTowers { get; set; }
     }
 }

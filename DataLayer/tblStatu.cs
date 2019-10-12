@@ -14,7 +14,7 @@ namespace DataLayer
     
     public partial class tblStatu
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Status { get; set; }
         public Nullable<int> StatusType { get; set; }
     }

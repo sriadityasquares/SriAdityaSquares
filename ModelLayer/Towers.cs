@@ -16,7 +16,7 @@ namespace ModelLayer
         public string TowerName { get; set; }
         public Nullable<int> ProjectID { get; set; }
         public Nullable<int> FlatCount { get; set; }
-        public Nullable<int> BookingStatus { get; set; }
+        public string BookingStatus { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }

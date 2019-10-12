@@ -16,7 +16,7 @@ namespace DataLayer
     {
         public int AgentID { get; set; }
         public string AgentName { get; set; }
-        public Nullable<int> AgentStatus { get; set; }
+        public string AgentStatus { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }

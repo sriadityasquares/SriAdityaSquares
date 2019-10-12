@@ -11,7 +11,7 @@ namespace ModelLayer
         public int AgentID { get; set; }
         public int ProjectID { get; set; }
         public string Level { get; set; }
-        public Nullable<int> Status { get; set; }
+        public string Status { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }

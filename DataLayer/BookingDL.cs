@@ -24,7 +24,7 @@ namespace DataLayer
                     cfg.CreateMap<tblProject, Projects>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstProjects = mapper.Map<List<tblProject>, List<Projects>>(dbEntity.tblProjects.Where(a => a.BookingStatus == 1).ToList()).ToList();
+                lstProjects = mapper.Map<List<tblProject>, List<Projects>>(dbEntity.tblProjects.Where(a => a.BookingStatus == "O").ToList()).ToList();
             }
             catch (Exception ex)
             {

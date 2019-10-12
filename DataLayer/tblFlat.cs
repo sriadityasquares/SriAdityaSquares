@@ -22,7 +22,7 @@ namespace DataLayer
         public Nullable<int> Bhk { get; set; }
         public Nullable<int> Sft { get; set; }
         public string Facing { get; set; }
-        public Nullable<int> BookingStatus { get; set; }
+        public string BookingStatus { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }

@@ -17,7 +17,7 @@ namespace DataLayer
         public int CityID { get; set; }
         public Nullable<int> StateID { get; set; }
         public string CityName { get; set; }
-        public Nullable<int> Status { get; set; }
+        public string Status { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }

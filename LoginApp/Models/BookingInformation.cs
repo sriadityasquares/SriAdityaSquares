@@ -95,9 +95,10 @@ namespace LoginApp.Models
         [Display(Name = "Balance Amount")]
         public Nullable<int> BalanceAmount { get; set; }
 
-        [Display(Name = "Payment Mode")]
+        [Display(Name = "Mode")]
         public string PaymentMode { get; set; }
 
+        [Display(Name = "Ref No")]
         public string ReferenceNo { get; set; }
 
 

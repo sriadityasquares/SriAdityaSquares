@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Booking = "active";
 }
 
 <br />
@@ -135,9 +136,8 @@
             @Html.TextBoxFor(m => m.GrandRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
         </div>
         <div class="row">
-            @Html.LabelFor(m => m.Discount, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.Discount, new { @class = "textbox-control col-md-1 col-xs" })
-            @Html.LabelFor(m => m.PaymentMode, new { @class = "col-md-2" })
+
+            @Html.LabelFor(m => m.PaymentMode, new { @class = "col-md-1" })
             @Html.DropDownListFor(m => m.PaymentMode, new List<SelectListItem>
     {
          new SelectListItem{ Text="--Mode--", Value = "0"  },
@@ -145,11 +145,13 @@
         new SelectListItem{ Text="NEFT", Value = "2" },
         new SelectListItem{ Text="CC", Value = "3" },
         new SelectListItem{ Text="Cash", Value = "4" },
-     }, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-            @Html.LabelFor(m => m.ReferenceNo, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.ReferenceNo, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+     }, new { @class = "textbox-control col-md-2 col-xs", @readonly = "readonly" })
+            @Html.LabelFor(m => m.ReferenceNo, new { @class = "col-md-1" })
+            @Html.TextBoxFor(m => m.ReferenceNo, new { @class = "textbox-control col-md-1 col-xs" })
             @Html.LabelFor(m => m.BookingAmount, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.BookingAmount, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+            @Html.TextBoxFor(m => m.BookingAmount, new { @class = "textbox-control col-md-1 col-xs" })
+            @Html.LabelFor(m => m.BalanceAmount, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.BalanceAmount, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
         </div>
         <div class="row">
             <br />
@@ -255,6 +257,7 @@
                     $("#Facing").val(row.Facing);
                     //$("#TotalRate").val(row.TotalRate);
                     $("#ClubHouseCharges").val(row.ClubHouseCharges);
+
                 });
             });
         }
@@ -266,12 +269,12 @@
     function ClearTextFiels() {
         $("#Floor").val('');
         $("#BHK").val('');
-        $("#HighRiseCharges").val('');
+       // $("#HighRiseCharges").val('');
         $("#Area").val('');
-        $("#MaintenanceCharges").val('');
+        //$("#MaintenanceCharges").val('');
         $("#Facing").val('');
-        $("#TotalRate").val('');
-        $("#ClubHouseCharges").val('');
+        //$("#TotalRate").val('');
+       //$("#ClubHouseCharges").val('');
     }
 
     $("#SqftRate").keyup(function () {
@@ -286,14 +289,34 @@
         SetTotalRate();
     });
 
+    $("#BookingAmount").keyup(function () {
+        SetBalanceAmount();
+    });
+
     function SetTotalRate() {
         if ($("#SqftRate").val() != '' && $("#HighRiseCharges").val() != '' && $("#Discount").val() != '') {
             $("#TotalRate").val(parseInt($("#SqftRate").val()) + parseInt($("#HighRiseCharges").val()) - parseInt($("#Discount").val()));
             $("#FinalRate").val(parseInt($("#TotalRate").val()) * parseInt($("#Area").val()))
+            if ($("#ClubHouseCharges").val() != '') {
+            $("#GrandRate").val(parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val()))
+            }
         }
         else {
             $("#TotalRate").val('');
             $("#FinalRate").val('');
+            $("#GrandRate").val('');
+            $("#BookingAmount").val('');
+            $("#BalanceAmount").val('');
+        }
+    }
+
+
+    function SetBalanceAmount() {
+        if ($("#GrandRate").val() != '' && $("#BookingAmount").val() != '') {
+            $("#BalanceAmount").val(parseInt($("#GrandRate").val()) - parseInt($("#BookingAmount").val()))
+        }
+        else {
+             $("#BalanceAmount").val('')
         }
     }
 

@@ -12,7 +12,7 @@
           <Property Name="LevelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LevelName" Type="nvarchar" MaxLength="250" />
           <Property Name="Percentage" Type="int" />
-          <Property Name="Status" Type="int" />
+          <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
@@ -26,7 +26,7 @@
           <Property Name="AgentID" Type="int" Nullable="false" />
           <Property Name="ProjectID" Type="int" Nullable="false" />
           <Property Name="Level" Type="varchar" MaxLength="255" />
-          <Property Name="Status" Type="int" />
+          <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
@@ -38,7 +38,7 @@
           </Key>
           <Property Name="AgentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AgentName" Type="varchar" MaxLength="255" />
-          <Property Name="AgentStatus" Type="int" />
+          <Property Name="AgentStatus" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
@@ -51,7 +51,7 @@
           <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StateID" Type="int" />
           <Property Name="CityName" Type="varchar" MaxLength="255" />
-          <Property Name="Status" Type="int" />
+          <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
@@ -63,7 +63,7 @@
           </Key>
           <Property Name="CountryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CountryName" Type="varchar" MaxLength="255" />
-          <Property Name="Status" Type="int" />
+          <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
@@ -81,7 +81,7 @@
           <Property Name="Bhk" Type="int" />
           <Property Name="Sft" Type="int" />
           <Property Name="Facing" Type="varchar" MaxLength="255" />
-          <Property Name="BookingStatus" Type="int" />
+          <Property Name="BookingStatus" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
@@ -94,7 +94,7 @@
           <Property Name="ProjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProjectName" Type="varchar" MaxLength="255" />
           <Property Name="ProjectLocation" Type="varchar" MaxLength="500" />
-          <Property Name="BookingStatus" Type="int" />
+          <Property Name="BookingStatus" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
@@ -108,7 +108,7 @@
           <Property Name="StateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CountryID" Type="int" />
           <Property Name="StateName" Type="varchar" MaxLength="255" />
-          <Property Name="Status" Type="int" />
+          <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
@@ -118,7 +118,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
           <Property Name="StatusType" Type="int" />
         </EntityType>
@@ -130,7 +130,7 @@
           <Property Name="TowerName" Type="varchar" MaxLength="255" />
           <Property Name="ProjectID" Type="int" />
           <Property Name="FlatCount" Type="int" />
-          <Property Name="BookingStatus" Type="int" />
+          <Property Name="BookingStatus" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
@@ -207,6 +207,55 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="salesDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="salesDBEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="sp_GetAgentsByProjectID" ReturnType="Collection(salesDBModel.sp_GetAgentsByProjectID_Result)">
+          <Parameter Name="ProjectID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetFlatDetails" ReturnType="Collection(salesDBModel.sp_GetFlatDetails_Result)">
+            <Parameter Name="FlatID" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblAgentLevels" EntityType="salesDBModel.tblAgentLevel" />
+          <EntitySet Name="tblAgentProjectLevels" EntityType="salesDBModel.tblAgentProjectLevel" />
+          <EntitySet Name="tblAgents" EntityType="salesDBModel.tblAgent" />
+          <EntitySet Name="tblCities" EntityType="salesDBModel.tblCity" />
+          <EntitySet Name="tblCountries" EntityType="salesDBModel.tblCountry" />
+          <EntitySet Name="tblFlats" EntityType="salesDBModel.tblFlat" />
+          <EntitySet Name="tblProjects" EntityType="salesDBModel.tblProject" />
+          <EntitySet Name="tblStates" EntityType="salesDBModel.tblState" />
+          <AssociationSet Name="FK_Flats1" Association="salesDBModel.FK_Flats1">
+            <End Role="tblProject" EntitySet="tblProjects" />
+            <End Role="tblFlat" EntitySet="tblFlats" />
+          </AssociationSet>
+          <EntitySet Name="tblStatus" EntityType="salesDBModel.tblStatu" />
+          <EntitySet Name="tblTowers" EntityType="salesDBModel.tblTower" />
+          <AssociationSet Name="FK_Flats2" Association="salesDBModel.FK_Flats2">
+            <End Role="tblTower" EntitySet="tblTowers" />
+            <End Role="tblFlat" EntitySet="tblFlats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Towers" Association="salesDBModel.FK_Towers">
+            <End Role="tblProject" EntitySet="tblProjects" />
+            <End Role="tblTower" EntitySet="tblTowers" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="sp_GetAgentsByProjectID_Result">
+          <Property Type="Int32" Name="AgentID" Nullable="false" />
+          <Property Type="Int32" Name="ProjectID" Nullable="false" />
+          <Property Type="String" Name="Level" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="Status" Nullable="true" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="sp_GetFlatDetails_Result">
+          <Property Type="Int32" Name="Floor" Nullable="true" />
+          <Property Type="Int32" Name="Bhk" Nullable="true" />
+          <Property Type="String" Name="Facing" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="Sft" Nullable="true" />
+          <Property Type="Int32" Name="ClubHouseCharges" Nullable="true" />
+        </ComplexType>
         <EntityType Name="tblAgentLevel">
           <Key>
             <PropertyRef Name="LevelID" />
@@ -214,7 +263,7 @@
           <Property Name="LevelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LevelName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Percentage" Type="Int32" />
-          <Property Name="Status" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
@@ -228,7 +277,7 @@
           <Property Name="AgentID" Type="Int32" Nullable="false" />
           <Property Name="ProjectID" Type="Int32" Nullable="false" />
           <Property Name="Level" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
@@ -240,7 +289,7 @@
           </Key>
           <Property Name="AgentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AgentName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="AgentStatus" Type="Int32" />
+          <Property Name="AgentStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
@@ -253,7 +302,7 @@
           <Property Name="CityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StateID" Type="Int32" />
           <Property Name="CityName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
@@ -265,119 +314,12 @@
           </Key>
           <Property Name="CountryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CountryName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="tblProject">
-          <Key>
-            <PropertyRef Name="ProjectID" />
-          </Key>
-          <Property Name="ProjectID" Type="Int32" Nullable="false" />
-          <Property Name="ProjectName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ProjectLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="BookingStatus" Type="Int32" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tblTowers" Relationship="Self.FK_Towers" FromRole="tblProjects" ToRole="tblTowers" />
-          <Property Name="ClubHouseCharges" Type="Int32" />
-          <NavigationProperty Name="tblFlats" Relationship="salesDBModel.FK_Flats1" FromRole="tblProject" ToRole="tblFlat" />
-        </EntityType>
-        <EntityType Name="tblState">
-          <Key>
-            <PropertyRef Name="StateID" />
-          </Key>
-          <Property Name="StateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CountryID" Type="Int32" />
-          <Property Name="StateName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="Int32" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="tblStatu">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusType" Type="Int32" />
-        </EntityType>
-        <EntityType Name="tblTower">
-          <Key>
-            <PropertyRef Name="TowerID" />
-          </Key>
-          <Property Name="TowerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TowerName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ProjectID" Type="Int32" />
-          <Property Name="FlatCount" Type="Int32" />
-          <Property Name="BookingStatus" Type="Int32" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tblProject" Relationship="Self.FK_Towers" FromRole="tblTowers" ToRole="tblProjects" />
-          <NavigationProperty Name="tblFlats" Relationship="salesDBModel.FK_Flats2" FromRole="tblTower" ToRole="tblFlat" />
-        </EntityType>
-        <Association Name="FK_Towers">
-          <End Role="tblProjects" Type="Self.tblProject" Multiplicity="0..1" />
-          <End Role="tblTowers" Type="Self.tblTower" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblProjects">
-              <PropertyRef Name="ProjectID" />
-            </Principal>
-            <Dependent Role="tblTowers">
-              <PropertyRef Name="ProjectID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="salesDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="tblAgentLevels" EntityType="Self.tblAgentLevel" />
-          <EntitySet Name="tblAgentProjectLevels" EntityType="Self.tblAgentProjectLevel" />
-          <EntitySet Name="tblAgents" EntityType="Self.tblAgent" />
-          <EntitySet Name="tblCities" EntityType="Self.tblCity" />
-          <EntitySet Name="tblCountries" EntityType="Self.tblCountry" />
-          <EntitySet Name="tblProjects" EntityType="Self.tblProject" />
-          <EntitySet Name="tblStates" EntityType="Self.tblState" />
-          <EntitySet Name="tblStatus" EntityType="Self.tblStatu" />
-          <EntitySet Name="tblTowers" EntityType="Self.tblTower" />
-          <AssociationSet Name="FK_Towers" Association="Self.FK_Towers">
-            <End Role="tblProjects" EntitySet="tblProjects" />
-            <End Role="tblTowers" EntitySet="tblTowers" />
-          </AssociationSet>
-          <FunctionImport Name="sp_GetAgentsByProjectID" ReturnType="Collection(salesDBModel.sp_GetAgentsByProjectID_Result)">
-          <Parameter Name="ProjectID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <EntitySet Name="tblFlats" EntityType="salesDBModel.tblFlat" />
-          <AssociationSet Name="FK_Flats1" Association="salesDBModel.FK_Flats1">
-            <End Role="tblProject" EntitySet="tblProjects" />
-            <End Role="tblFlat" EntitySet="tblFlats" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Flats2" Association="salesDBModel.FK_Flats2">
-            <End Role="tblTower" EntitySet="tblTowers" />
-            <End Role="tblFlat" EntitySet="tblFlats" />
-          </AssociationSet>
-          <FunctionImport Name="sp_GetFlatDetails" ReturnType="Collection(salesDBModel.sp_GetFlatDetails_Result)">
-            <Parameter Name="FlatID" Mode="In" Type="Int32" />
-            <Parameter Name="ProjectID" Mode="In" Type="Int32" />
-          </FunctionImport>
-        </EntityContainer>
-        <ComplexType Name="sp_GetAgentsByProjectID_Result">
-          <Property Type="Int32" Name="AgentID" Nullable="false" />
-          <Property Type="Int32" Name="ProjectID" Nullable="false" />
-          <Property Type="String" Name="Level" Nullable="true" MaxLength="255" />
-          <Property Type="Int32" Name="Status" Nullable="true" />
-          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="128" />
-          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="128" />
-          <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
-        </ComplexType>
         <EntityType Name="tblFlat">
           <Key>
             <PropertyRef Name="FlatID" />
@@ -390,13 +332,42 @@
           <Property Name="Bhk" Type="Int32" />
           <Property Name="Sft" Type="Int32" />
           <Property Name="Facing" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="BookingStatus" Type="Int32" />
+          <Property Name="BookingStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="tblProject" Relationship="salesDBModel.FK_Flats1" FromRole="tblFlat" ToRole="tblProject" />
           <NavigationProperty Name="tblTower" Relationship="salesDBModel.FK_Flats2" FromRole="tblFlat" ToRole="tblTower" />
+        </EntityType>
+        <EntityType Name="tblProject">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="BookingStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ClubHouseCharges" Type="Int32" />
+          <NavigationProperty Name="tblFlats" Relationship="salesDBModel.FK_Flats1" FromRole="tblProject" ToRole="tblFlat" />
+          <NavigationProperty Name="tblTowers" Relationship="salesDBModel.FK_Towers" FromRole="tblProject" ToRole="tblTower" />
+        </EntityType>
+        <EntityType Name="tblState">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryID" Type="Int32" />
+          <Property Name="StateName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_Flats1">
           <End Type="salesDBModel.tblProject" Role="tblProject" Multiplicity="0..1" />
@@ -410,6 +381,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tblStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusType" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblTower">
+          <Key>
+            <PropertyRef Name="TowerID" />
+          </Key>
+          <Property Name="TowerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TowerName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="FlatCount" Type="Int32" />
+          <Property Name="BookingStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblFlats" Relationship="salesDBModel.FK_Flats2" FromRole="tblTower" ToRole="tblFlat" />
+          <NavigationProperty Name="tblProject" Relationship="salesDBModel.FK_Towers" FromRole="tblTower" ToRole="tblProject" />
+        </EntityType>
         <Association Name="FK_Flats2">
           <End Type="salesDBModel.tblTower" Role="tblTower" Multiplicity="0..1" />
           <End Type="salesDBModel.tblFlat" Role="tblFlat" Multiplicity="*" />
@@ -422,140 +417,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="sp_GetFlatDetails_Result">
-          <Property Type="Int32" Name="Floor" Nullable="true" />
-          <Property Type="Int32" Name="Bhk" Nullable="true" />
-          <Property Type="String" Name="Facing" Nullable="true" MaxLength="255" />
-          <Property Type="Int32" Name="Sft" Nullable="true" />
-          <Property Type="Int32" Name="ClubHouseCharges" Nullable="true" />
-        </ComplexType>
+        <Association Name="FK_Towers">
+          <End Type="salesDBModel.tblProject" Role="tblProject" Multiplicity="0..1" />
+          <End Type="salesDBModel.tblTower" Role="tblTower" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProject">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="tblTower">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="salesDBModelStoreContainer" CdmEntityContainer="salesDBEntities">
-          <EntitySetMapping Name="tblAgentLevels">
-            <EntityTypeMapping TypeName="salesDBModel.tblAgentLevel">
-              <MappingFragment StoreEntitySet="tblAgentLevels">
-                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
-                <ScalarProperty Name="LevelName" ColumnName="LevelName" />
-                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblAgentProjectLevels">
-            <EntityTypeMapping TypeName="salesDBModel.tblAgentProjectLevel">
-              <MappingFragment StoreEntitySet="tblAgentProjectLevels">
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblAgents">
-            <EntityTypeMapping TypeName="salesDBModel.tblAgent">
-              <MappingFragment StoreEntitySet="tblAgents">
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="AgentStatus" ColumnName="AgentStatus" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblCities">
-            <EntityTypeMapping TypeName="salesDBModel.tblCity">
-              <MappingFragment StoreEntitySet="tblCity">
-                <ScalarProperty Name="CityID" ColumnName="CityID" />
-                <ScalarProperty Name="StateID" ColumnName="StateID" />
-                <ScalarProperty Name="CityName" ColumnName="CityName" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblCountries">
-            <EntityTypeMapping TypeName="salesDBModel.tblCountry">
-              <MappingFragment StoreEntitySet="tblCountries">
-                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
-                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblProjects">
-            <EntityTypeMapping TypeName="salesDBModel.tblProject">
-              <MappingFragment StoreEntitySet="tblProjects">
-                <ScalarProperty Name="ClubHouseCharges" ColumnName="ClubHouseCharges" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-                <ScalarProperty Name="ProjectLocation" ColumnName="ProjectLocation" />
-                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblStates">
-            <EntityTypeMapping TypeName="salesDBModel.tblState">
-              <MappingFragment StoreEntitySet="tblStates">
-                <ScalarProperty Name="StateID" ColumnName="StateID" />
-                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
-                <ScalarProperty Name="StateName" ColumnName="StateName" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblStatus">
-            <EntityTypeMapping TypeName="salesDBModel.tblStatu">
-              <MappingFragment StoreEntitySet="tblStatus">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="StatusType" ColumnName="StatusType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblTowers">
-            <EntityTypeMapping TypeName="salesDBModel.tblTower">
-              <MappingFragment StoreEntitySet="tblTowers">
-                <ScalarProperty Name="TowerID" ColumnName="TowerID" />
-                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="FlatCount" ColumnName="FlatCount" />
-                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_GetAgentsByProjectID" FunctionName="salesDBModel.Store.sp_GetAgentsByProjectID">
             <ResultMapping>
               <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentsByProjectID_Result">
@@ -571,6 +450,85 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetFlatDetails" FunctionName="salesDBModel.Store.sp_GetFlatDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetFlatDetails_Result">
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
+                <ScalarProperty Name="Facing" ColumnName="Facing" />
+                <ScalarProperty Name="Sft" ColumnName="Sft" />
+                <ScalarProperty Name="ClubHouseCharges" ColumnName="ClubHouseCharges" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblAgentLevels">
+            <EntityTypeMapping TypeName="salesDBModel.tblAgentLevel">
+              <MappingFragment StoreEntitySet="tblAgentLevels">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="LevelName" ColumnName="LevelName" />
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAgentProjectLevels">
+            <EntityTypeMapping TypeName="salesDBModel.tblAgentProjectLevel">
+              <MappingFragment StoreEntitySet="tblAgentProjectLevels">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAgents">
+            <EntityTypeMapping TypeName="salesDBModel.tblAgent">
+              <MappingFragment StoreEntitySet="tblAgents">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="AgentStatus" ColumnName="AgentStatus" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCities">
+            <EntityTypeMapping TypeName="salesDBModel.tblCity">
+              <MappingFragment StoreEntitySet="tblCity">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCountries">
+            <EntityTypeMapping TypeName="salesDBModel.tblCountry">
+              <MappingFragment StoreEntitySet="tblCountries">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblFlats">
             <EntityTypeMapping TypeName="salesDBModel.tblFlat">
               <MappingFragment StoreEntitySet="tblFlats">
@@ -590,17 +548,59 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetFlatDetails" FunctionName="salesDBModel.Store.sp_GetFlatDetails">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="salesDBModel.sp_GetFlatDetails_Result">
-                <ScalarProperty Name="Floor" ColumnName="Floor" />
-                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
-                <ScalarProperty Name="Facing" ColumnName="Facing" />
-                <ScalarProperty Name="Sft" ColumnName="Sft" />
+          <EntitySetMapping Name="tblProjects">
+            <EntityTypeMapping TypeName="salesDBModel.tblProject">
+              <MappingFragment StoreEntitySet="tblProjects">
                 <ScalarProperty Name="ClubHouseCharges" ColumnName="ClubHouseCharges" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+                <ScalarProperty Name="ProjectLocation" ColumnName="ProjectLocation" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStates">
+            <EntityTypeMapping TypeName="salesDBModel.tblState">
+              <MappingFragment StoreEntitySet="tblStates">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStatus">
+            <EntityTypeMapping TypeName="salesDBModel.tblStatu">
+              <MappingFragment StoreEntitySet="tblStatus">
+                <ScalarProperty Name="StatusType" ColumnName="StatusType" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTowers">
+            <EntityTypeMapping TypeName="salesDBModel.tblTower">
+              <MappingFragment StoreEntitySet="tblTowers">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+                <ScalarProperty Name="FlatCount" ColumnName="FlatCount" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+                <ScalarProperty Name="TowerID" ColumnName="TowerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
