@@ -48,7 +48,7 @@
           <Key>
             <PropertyRef Name="BookingID" />
           </Key>
-          <Property Name="BookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ProjectID" Type="int" />
           <Property Name="TowerID" Type="int" />
           <Property Name="FlatID" Type="int" />
@@ -137,6 +137,18 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblPaymentInfo">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingID" Type="uniqueidentifier" />
+          <Property Name="BookingAmount" Type="int" />
+          <Property Name="BalanceAmount" Type="int" />
+          <Property Name="PaymentMode" Type="int" />
+          <Property Name="ReferenceNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Aadhar" Type="int" />
         </EntityType>
         <EntityType Name="tblProjects">
           <Key>
@@ -239,6 +251,7 @@
           <EntitySet Name="tblCountries" EntityType="Self.tblCountries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCustomerInfo" EntityType="Self.tblCustomerInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlats" EntityType="Self.tblFlats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPaymentInfo" EntityType="Self.tblPaymentInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProjects" EntityType="Self.tblProjects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblStates" EntityType="Self.tblStates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblStatus" EntityType="Self.tblStatus" Schema="dbo" store:Type="Tables" />
@@ -292,6 +305,7 @@
             <Parameter Name="ProjectID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="tblBookingInformations" EntityType="salesDBModel.tblBookingInformation" />
+          <EntitySet Name="tblPaymentInfoes" EntityType="salesDBModel.tblPaymentInfo" />
         </EntityContainer>
         <EntityType Name="tblAgentLevel">
           <Key>
@@ -508,7 +522,7 @@
           <Key>
             <PropertyRef Name="BookingID" />
           </Key>
-          <Property Name="BookingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingID" Type="Guid" Nullable="false" />
           <Property Name="ProjectID" Type="Int32" />
           <Property Name="TowerID" Type="Int32" />
           <Property Name="FlatID" Type="Int32" />
@@ -534,6 +548,18 @@
           <Property Name="SASNet" Type="Double" />
           <Property Name="Aadhar" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblPaymentInfo">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingID" Type="Guid" />
+          <Property Name="BookingAmount" Type="Int32" />
+          <Property Name="BalanceAmount" Type="Int32" />
+          <Property Name="PaymentMode" Type="Int32" />
+          <Property Name="ReferenceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Aadhar" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -757,6 +783,19 @@
                 <ScalarProperty Name="TowerID" ColumnName="TowerID" />
                 <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
                 <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPaymentInfoes">
+            <EntityTypeMapping TypeName="salesDBModel.tblPaymentInfo">
+              <MappingFragment StoreEntitySet="tblPaymentInfo">
+                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

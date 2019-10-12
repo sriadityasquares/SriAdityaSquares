@@ -144,6 +144,7 @@ namespace DataLayer
                     bookingInfo.SASNet = bookingInfo.SASComm - bookingInfo.SASTDS;
                 }
                 bookingInfo.AgentComm = 10000;
+                bookingInfo.BookingID = Guid.NewGuid();
                 var config = new MapperConfiguration(cfg =>
                 {
                     cfg.CreateMap<BookingInformation, tblBookingInformation>();
@@ -162,7 +163,21 @@ namespace DataLayer
                 IMapper mapper1 = config1.CreateMapper();
                 mapper1.Map<BookingInformation, tblCustomerInfo>(bookingInfo, customerDetails);
                 dbEntity.tblCustomerInfoes.Add(customerDetails);
+
+                var config2 = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<BookingInformation, tblPaymentInfo>();
+                });
+                tblPaymentInfo paymentDetails = new tblPaymentInfo();
+                IMapper mapper2 = config2.CreateMapper();
+                mapper2.Map<BookingInformation, tblPaymentInfo>(bookingInfo, paymentDetails);
+                dbEntity.tblPaymentInfoes.Add(paymentDetails);
+
+                tblFlat flat = dbEntity.tblFlats.Where(x => x.FlatID == bookingInfo.FlatID).FirstOrDefault();
+                flat.BookingStatus = "P";
+
                 dbEntity.SaveChanges();
+
                 return true;
             }
             catch(Exception ex)

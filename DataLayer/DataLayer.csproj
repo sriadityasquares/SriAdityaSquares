@@ -92,6 +92,9 @@
     <Compile Include="tblFlat.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblPaymentInfo.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblProject.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>

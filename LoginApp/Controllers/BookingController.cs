@@ -1,6 +1,8 @@
 ﻿using BusinessLayer;
 using DataLayer;
 using LoginApp.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using ModelLayer;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,18 @@ namespace LoginApp.Controllers
         BookingBL booking = new BookingBL();
         public static List<Country> countryList;
         public static List<Projects> projectList;
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         // GET: Booking
         public ActionResult Index()
         {
@@ -36,7 +50,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
-
+        
 
         [HttpPost]
         public ActionResult New(ModelLayer.BookingInformation b)
@@ -45,6 +59,8 @@ namespace LoginApp.Controllers
             if(result)
             {
                 ViewBag.result = "Booking Successfull";
+                var user = new ApplicationUser { UserName = b.Email, Email = b.Email };
+                UserManager.CreateAsync(user, "Welcome@123");
             }
             else
             {

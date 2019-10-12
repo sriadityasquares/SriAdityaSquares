@@ -14,7 +14,7 @@ namespace DataLayer
     
     public partial class tblBookingInformation
     {
-        public int BookingID { get; set; }
+        public System.Guid BookingID { get; set; }
         public Nullable<int> ProjectID { get; set; }
         public Nullable<int> TowerID { get; set; }
         public Nullable<int> FlatID { get; set; }

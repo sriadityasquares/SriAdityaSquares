@@ -9,7 +9,7 @@ namespace ModelLayer
 {
     public partial class BookingInformation
     {
-        public int BookingID { get; set; }
+        public Guid BookingID { get; set; }
         [Required]
         [Display(Name = "Project")]
         public Nullable<int> ProjectID { get; set; }
@@ -80,5 +80,6 @@ namespace ModelLayer
         public Nullable<int> Country { get; set; }
         public Nullable<int> State { get; set; }
         public Nullable<int> City { get; set; }
+        public int PaymentID { get; set; }
     }
 }
