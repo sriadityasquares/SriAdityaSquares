@@ -3,6 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Booking = "active";
+    var message = TempData["successmessage"] ?? string.Empty;
 }
 
 <br />
@@ -168,78 +169,72 @@
 <script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js">
 </script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"> </script>
-    <script>
-        var ClubHouseCharges;
+<script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
+<script>
+    var ClubHouseCharges;
     $(document).ready(function () {
-            $("#Country").change(function () {
-                alert($("#Country").val());
-                if ($("#Country").val() != '') {
-                    $.get("/Cascade/GetStateList", { CountryId: $("#Country").val() }, function (data) {
-                        $("#State").empty();
-                        $("#State").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
-                        $("#City").empty();
-                        $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
-                        $.each(data, function (index, row) {
-                            debugger;
-                            $("#State").append("<option value='" + row.StateID + "'>" + row.StateName + "</option>")
-                        });
-                    });
-                }
-                else {
+        $("#Country").change(function () {
+            if ($("#Country").val() != '') {
+                $.get("/Cascade/GetStateList", { CountryId: $("#Country").val() }, function (data) {
                     $("#State").empty();
                     $("#State").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
                     $("#City").empty();
                     $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
-                }
-            })
-        });
-
-    $("#State").change(function () {
-            $.get("/Cascade/GetCityList", { StateId: $("#State").val() }, function (data) {
+                    $.each(data, function (index, row) {
+                        $("#State").append("<option value='" + row.StateID + "'>" + row.StateName + "</option>")
+                    });
+                });
+            }
+            else {
+                $("#State").empty();
+                $("#State").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
                 $("#City").empty();
                 $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
-                $.each(data, function (index, row) {
-                    debugger;
-                    $("#City").append("<option value='" + row.CityID + "'>" + row.CityName + "</option>")
-                });
+            }
+        })
+    });
+
+    $("#State").change(function () {
+        $.get("/Cascade/GetCityList", { StateId: $("#State").val() }, function (data) {
+            $("#City").empty();
+            $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#City").append("<option value='" + row.CityID + "'>" + row.CityName + "</option>")
             });
+        });
     });
 
     $("#ProjectID").change(function () {
-            $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
-                $("#TowerID").empty();
-                $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
-                $("#FlatID").empty();
-                $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
-                ClearTextFiels();
-                $.each(data, function (index, row) {
-                    debugger;
-                    $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
-                });
+        $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+            $("#TowerID").empty();
+            $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            ClearTextFiels();
+            $.each(data, function (index, row) {
+                $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
             });
-        $.get("/Booking/GetProjectAgents", {ProjectId: $("#ProjectID").val() }, function (data) {
+        });
+        $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
             $("#AgentID").empty();
             $("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
             $.each(data, function (index, row) {
-                debugger;
                 $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+            });
+        });
     });
-});
-});
 
     $("#TowerID").change(function () {
-            $.get("/Booking/GetFlats", { TowerId: $("#TowerID").val() }, function (data) {
-                //$("#TowerID").empty();
-                //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
-                $("#FlatID").empty();
-                $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
-                ClearTextFiels();
-                $.each(data, function (index, row) {
-                    debugger;
-                    $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
-                });
+        $.get("/Booking/GetFlats", { TowerId: $("#TowerID").val() }, function (data) {
+            //$("#TowerID").empty();
+            //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            ClearTextFiels();
+            $.each(data, function (index, row) {
+                $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
             });
+        });
     });
 
     $("#FlatID").change(function () {
@@ -262,55 +257,61 @@
 
                 });
             });
-    }
+        }
         else {
             ClearTextFiels();
-    }
-});
+        }
+    });
 
     function ClearTextFiels() {
-            $("#Floor").val('');
+        $("#Floor").val('');
         $("#Bhk").val('');
-        // $("#HighRiseCharges").val('');
+        $("#HighRiseCharges").val('');
         $("#Area").val('');
         //$("#MaintenanceCharges").val('');
         $("#Facing").val('');
+        $("#TotalRate").val('');
+        $("#FinalRate").val('');
+        $("#GrandRate").val('');
+        $("#BookingAmount").val('');
+        $("#BalanceAmount").val('');
+        $("#SftRate").val('');
         //$("#TotalRate").val('');
-        //$("#ClubHouseCharges").val('');
+        $("#ClubHouseCharges").val('');
     }
 
     $("#SftRate").keyup(function () {
-            SetTotalRate();
+        SetTotalRate();
     });
 
     $("#HighRiseCharges").keyup(function () {
-            SetTotalRate();
+        SetTotalRate();
     });
 
     $("#Discount").keyup(function () {
-            SetTotalRate();
+        SetTotalRate();
     });
 
     $("#BookingAmount").keyup(function () {
-            SetBalanceAmount();
+        SetBalanceAmount();
     });
 
     function SetTotalRate() {
         if ($("#SftRate").val() != '' && $("#HighRiseCharges").val() != '' && $("#Discount").val() != '') {
             $("#TotalRate").val(parseInt($("#SftRate").val()) + parseInt($("#HighRiseCharges").val()) - parseInt($("#Discount").val()));
-        $("#FinalRate").val(parseInt($("#TotalRate").val()) * parseInt($("#Area").val()))
+            $("#FinalRate").val(parseInt($("#TotalRate").val()) * parseInt($("#Area").val()))
             if ($("#ClubHouseCharges").val() != '') {
-            $("#GrandRate").val(parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val()))
-        }
+                $("#GrandRate").val(parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val()))
+            }
         }
         else {
             $("#TotalRate").val('');
-        $("#FinalRate").val('');
-        $("#GrandRate").val('');
-        $("#BookingAmount").val('');
-        $("#BalanceAmount").val('');
+            $("#FinalRate").val('');
+            $("#GrandRate").val('');
+            $("#BookingAmount").val('');
+            $("#BalanceAmount").val('');
+        }
     }
-}
 
 
     function SetBalanceAmount() {
@@ -320,16 +321,16 @@
         else {
             $("#BalanceAmount").val('')
         }
-        }
+    }
 
 
 
 
     $("#submitbtn").submit(function () {
+        if (!$('#submitbtn').valid()) {
             $('#ValidationSummaryModal').modal('show');
-
+        }
     });
-
 
 
 </script>

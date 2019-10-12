@@ -58,19 +58,22 @@ namespace LoginApp.Controllers
             bool result = booking.SaveNewBooking(b);
             if(result)
             {
-                ViewBag.result = "Booking Successfull";
+                //ViewBag.result = "Booking Successfull";
+                TempData["successmessage"] = "Booking Successfully";
                 var user = new ApplicationUser { UserName = b.Email, Email = b.Email };
                 UserManager.CreateAsync(user, "Welcome@123");
             }
             else
             {
-                ViewBag.result = "Booking Failed";
+                TempData["successmessage"] = "Booking Failed";
             }
             countryList = common.BindCountry();
             projectList = booking.BindProjects();
+            
             ViewBag.CountryList = new SelectList(countryList, "CountryID", "CountryName");
             ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
             //ViewBag.AgentList = new SelectList(countryList, "CountryID", "CountryName");
+            ModelState.Clear();
             return View();
         }
 
