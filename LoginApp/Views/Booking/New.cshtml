@@ -14,20 +14,6 @@
 
     @Html.AntiForgeryToken()
     <div class="jumbotron">
-
-        <div class="modal fade" id="ValidationSummaryModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title">Validation Errors</h4>
-                    </div>
-                    <div class="modal-body">
-                        @Html.ValidationSummary()
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
         <div class="row">
             <div class="col-md-1 col-xs">
                 <h3 align="center">New Booking</h3>
@@ -167,9 +153,8 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 <script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js">
-</script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
+<script src="~/Scripts/toastr.min.js"></script>
+<link href="~/Content/toastr.min.css" rel="stylesheet" />
 <script>
     var ClubHouseCharges;
     $(document).ready(function () {
@@ -327,17 +312,70 @@
 
 
     $("#submitbtn").submit(function () {
-        if (!$('#submitbtn').valid()) {
-            $('#ValidationSummaryModal').modal('show');
-        }
+        Validations();
+        //if (!$('#submitbtn').valid()) {
+        //    $('#ValidationSummaryModal').modal('show');
+        //}
     });
 
-
+    function Validations() {
+        if ($("#Name").val() == '') {
+            toastr.error("Name is Required");
+            return;
+        }
+        if ($("#Country").val() == '') {
+            toastr.error("Country is Required"); return;
+        }
+        if ($("#State").val() == '0') {
+            toastr.error("State is Required"); return;
+        }
+        if ($("#City").val() == '0') {
+            toastr.error("City is Required"); return;
+        }
+        if ($("#Nominee").val() == '') {
+            toastr.error("Nominee is Required"); return;
+        }
+        if ($("#Relationship").val() == '0') {
+            toastr.error("Relationship is Required"); return;
+        }
+        if ($("#Age").val() == '') {
+            toastr.error("Age is Required"); return;
+        }
+        if ($("#Dob").val() == '0') {
+            toastr.error("Dob is Required"); return;
+        }
+        if ($("#Aadhar").val() == '0') {
+            toastr.error("Aadhar is Required"); return;
+        }
+        if ($("#Pan").val() == '') {
+            toastr.error("Pan is Required"); return;
+        }
+        if ($("#Address").val() == '0') {
+            toastr.error("Address is Required"); return;
+        }
+        if ($("#Pincode").val() == '0') {
+            toastr.error("Pincode is Required"); return;
+        }
+        if ($("#Mobile").val() == '0') {
+            toastr.error("Mobile is Required"); return;
+        }
+        if ($("#Email").val() == '0') {
+            toastr.error("Email is Required"); return;
+        }
+    }
 </script>
 
 <script type="text/javascript">
     $(window).load(function () {
-        $('#ValidationSummaryModal').modal('hide');
+        var tempdataval = '@TempData["successmessage"]';
+        if (tempdataval != '') {
+            if (tempdataval == 'Booking Successfully')
+                toastr.success(tempdataval);
+            else {
+                toastr.error(tempdataval);
+            }
+        }
+        
     });
 </script>
 
