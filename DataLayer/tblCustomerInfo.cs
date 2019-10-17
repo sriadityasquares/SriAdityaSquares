@@ -29,5 +29,7 @@ namespace DataLayer
         public Nullable<int> Country { get; set; }
         public Nullable<int> State { get; set; }
         public Nullable<int> City { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
     }
 }

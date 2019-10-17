@@ -145,6 +145,12 @@ namespace DataLayer
                 }
                 bookingInfo.AgentComm = 10000;
                 bookingInfo.BookingID = Guid.NewGuid();
+                bookingInfo.CreatedBy = "";
+                bookingInfo.CreatedDate = System.DateTime.Now.Date;
+                bookingInfo.Day = System.DateTime.Now.Day;
+                bookingInfo.Month = System.DateTime.Now.Month;
+                bookingInfo.Year = System.DateTime.Now.Year;
+
                 var config = new MapperConfiguration(cfg =>
                 {
                     cfg.CreateMap<BookingInformation, tblBookingInformation>();
@@ -176,12 +182,21 @@ namespace DataLayer
                 tblFlat flat = dbEntity.tblFlats.Where(x => x.FlatID == bookingInfo.FlatID).FirstOrDefault();
                 flat.BookingStatus = "P";
 
+                //var flatCountInTower = dbEntity.tblTowers.Where(x => x.TowerID == bookingInfo.TowerID).Select(z => z.FlatCount);
+
+                //var bookedFlatcount = dbEntity.tblFlats.Where(x => x.TowerID == bookingInfo.TowerID && x.BookingStatus != "O").ToList().Count();
+                //if(flatCountInTower.ToString() == bookedFlatcount.ToString())
+                //{
+                //    tblTower tower = dbEntity.tblTowers.Where(x => x.TowerID == bookingInfo.TowerID).FirstOrDefault();
+                //    tower.BookingStatus = "C";
+                //}
                 dbEntity.SaveChanges();
 
                 return true;
             }
             catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }

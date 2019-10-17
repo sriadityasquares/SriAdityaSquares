@@ -266,9 +266,9 @@ h3.deadline-form {
         color: #000;
     }
 
-.k-grid-header th.k-header {
+/*.k-grid-header th.k-header {
     overflow: hidden;
-}
+}*/
 
 .successgreen {
     color: rgb(147, 196, 76);
@@ -3724,7 +3724,7 @@ tr.Expired td {
     left:-10px!important;
     min-width:160px!important;
 }*/
-.k-grid-header th.k-header {
+/*.k-grid-header th.k-header {
     padding: 12px 5px !important;
 }
 
@@ -3742,7 +3742,7 @@ tr.Expired td {
 
 .k-grid .k-pager-numbers {
     margin-right: 0px !important;
-}
+}*/
 
 .dec-icon {
     color: red !important;
@@ -4535,9 +4535,9 @@ Media queries- START
  =============================*/
 
 
-.k-grid table td {
+/*.k-grid table td {
     border-bottom: 1px solid #c5c5c5 !important;
-}
+}*/
 
 #SentRequests .text-right {
     padding-left: 0px !important;
@@ -4647,7 +4647,7 @@ input[type=checkbox]:checked:before {
     }
 }
 
-.k-grid tr:hover {
+/*.k-grid tr:hover {
     background-image: none !important;
 }
 
@@ -4668,7 +4668,7 @@ input[type=checkbox]:checked:before {
 .k-grid table td {
     border-bottom: none !important;
     padding: 10px;
-}
+}*/
 
 
 
@@ -4814,9 +4814,9 @@ input[type=checkbox]:checked:before {
     text-align: left !important;
 }
 
-.k-grid tr:hover {
+/*.k-grid tr:hover {
     background-color: #e9e9e9 !important;
-}
+}*/
 
 .switch input[type=checkbox] {
     display: none;

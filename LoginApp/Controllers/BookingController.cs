@@ -4,6 +4,7 @@ using LoginApp.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using ModelLayer;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace LoginApp.Controllers
         {
             countryList = common.BindCountry();
             projectList = booking.BindProjects();
+            var json = JsonConvert.SerializeObject(projectList);
             ViewBag.CountryList = new SelectList(countryList, "CountryID", "CountryName");
             ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
             //ViewBag.AgentList = new SelectList(countryList, "CountryID", "CountryName");
@@ -67,13 +69,13 @@ namespace LoginApp.Controllers
             {
                 TempData["successmessage"] = "Booking Failed";
             }
+            ModelState.Clear();
             countryList = common.BindCountry();
             projectList = booking.BindProjects();
             
             ViewBag.CountryList = new SelectList(countryList, "CountryID", "CountryName");
             ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
             //ViewBag.AgentList = new SelectList(countryList, "CountryID", "CountryName");
-            ModelState.Clear();
             return View();
         }
 

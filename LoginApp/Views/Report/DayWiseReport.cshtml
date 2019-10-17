@@ -1,0 +1,101 @@
+﻿@model ModelLayer.Report
+@{
+    ViewBag.Title = "DayWiseReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="background-color:white;padding-bottom:10px">
+
+    <div class="row">
+        <div class="col-md-8 col-xs">
+            <h3 align="center">Day Wise Booking Report</h3>
+        </div>
+
+    </div>
+
+    <div class="row" style="padding-top:5px">
+        @Html.LabelFor(m => m.From, new { @class = "col-md-1 required" })
+        <input class="textbox-control col-md-3" id="datepicker1" value="10/10/2011" title="datepicker" />
+        @Html.LabelFor(m => m.To, new { @class = "col-md-1 required" })
+        <input class="textbox-control col-md-3" id="datepicker2" value="10/10/2011" title="datepicker" />
+        @*@Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })*@
+        <div class="col-md-12 col=xs">
+            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
+        </div>
+    </div>
+    
+        <div id="grid"></div>
+    
+
+
+</div>
+
+<script>
+
+        $("#datepicker1").kendoDatePicker();
+        $("#datepicker2").kendoDatePicker();
+        $(document).ready(function () {
+            $("#grid").hide();
+            $("#grid").kendoGrid({
+                toolbar: ["excel"],
+                excel: {
+                fileName: "Kendo UI Grid Export.xlsx",
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true
+            },
+                dataSource: {
+                    data: null,
+                    //schema: {
+                    //    model: {
+                    //        fields: {
+                    //            ProductName: { type: "string" },
+                    //            UnitPrice: { type: "number" },
+                    //            UnitsInStock: { type: "number" },
+                    //            Discontinued: { type: "boolean" }
+                    //        }
+                    //    }
+                    //},
+                },
+                //height: 550,
+                scrollable: true,
+                sortable: true,
+                filterable: true,
+                columns: [
+                    { field: "Name", title: "Name" },
+                    { field: "Aadhar", title: "Aadhar" },
+                    { field: "Pan", title: "Pan" },
+                    { field: "Discontinued", width: "130px" }
+                ],
+                
+                
+            });
+        });
+
+
+        $("#submitbtn").click(function () {
+            var fromDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+            var toDate = kendo.toString($("#datepicker2").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+            var params = { start: fromDate, end: toDate }
+            $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetReportbyDate", "Report")',
+                contentType: "application/json; charset=utf-8",
+                data: { start: fromDate, end: toDate },
+            dataType: "json",
+                success: function (result) {
+
+                    var grid = $("#grid").data("kendoGrid");
+                    var dataSource = new kendo.data.DataSource({ data: result });
+                    grid.setDataSource(dataSource);
+                    grid.dataSource.read();
+                    //$("#grid").height(400);
+                    $('#grid .k-grid-content').height(100%);
+                    $("#grid").show();
+
+                },
+                //error: function (httpRequest, textStatus, errorThrown) {
+                //    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+                //}
+            });
+        });
+</script>

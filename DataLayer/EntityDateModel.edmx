@@ -74,6 +74,18 @@
           <Property Name="SASNet" Type="float" />
           <Property Name="Aadhar" Type="int" />
           <Property Name="Name" Type="varchar" MaxLength="250" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ProjectName" Type="varchar" MaxLength="250" />
+          <Property Name="TowerName" Type="varchar" MaxLength="250" />
+          <Property Name="FlatName" Type="varchar" MaxLength="250" />
+          <Property Name="AgentName" Type="varchar" MaxLength="250" />
+          <Property Name="CountryName" Type="varchar" MaxLength="250" />
+          <Property Name="StateName" Type="varchar" MaxLength="250" />
+          <Property Name="CityName" Type="varchar" MaxLength="250" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Day" Type="int" />
         </EntityType>
         <EntityType Name="tblCity">
           <Key>
@@ -119,6 +131,8 @@
           <Property Name="Country" Type="int" />
           <Property Name="State" Type="int" />
           <Property Name="City" Type="int" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tblFlats">
           <Key>
@@ -149,6 +163,8 @@
           <Property Name="PaymentMode" Type="int" />
           <Property Name="ReferenceNo" Type="nvarchar" MaxLength="50" />
           <Property Name="Aadhar" Type="int" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tblProjects">
           <Key>
@@ -238,6 +254,11 @@
         <Function Name="sp_GetAgentsByProjectID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_getBookingInfoByDates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fromdate" Type="datetime" Mode="In" />
+          <Parameter Name="todate" Type="datetime" Mode="In" />
+          <Parameter Name="projectid" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_GetFlatDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FlatID" Type="int" Mode="In" />
           <Parameter Name="ProjectID" Type="int" Mode="In" />
@@ -306,6 +327,11 @@
           </FunctionImport>
           <EntitySet Name="tblBookingInformations" EntityType="salesDBModel.tblBookingInformation" />
           <EntitySet Name="tblPaymentInfoes" EntityType="salesDBModel.tblPaymentInfo" />
+          <FunctionImport Name="sp_getBookingInfoByDates" ReturnType="Collection(salesDBModel.sp_getBookingInfoByDates_Result)">
+            <Parameter Name="fromdate" Mode="In" Type="DateTime" />
+            <Parameter Name="todate" Mode="In" Type="DateTime" />
+            <Parameter Name="projectid" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblAgentLevel">
           <Key>
@@ -499,6 +525,8 @@
           <Property Name="Country" Type="Int32" />
           <Property Name="State" Type="Int32" />
           <Property Name="City" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <ComplexType Name="sp_GetAgentsByProjectID_Result">
           <Property Type="Int32" Name="AgentID" Nullable="false" />
@@ -548,6 +576,18 @@
           <Property Name="SASNet" Type="Double" />
           <Property Name="Aadhar" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ProjectName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="TowerName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FlatName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AgentName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CountryName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="StateName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CityName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Day" Type="Int32" />
         </EntityType>
         <EntityType Name="tblPaymentInfo">
           <Key>
@@ -560,7 +600,24 @@
           <Property Name="PaymentMode" Type="Int32" />
           <Property Name="ReferenceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Aadhar" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
         </EntityType>
+        <ComplexType Name="sp_getBookingInfoByDates_Result">
+          <Property Type="String" Name="projectname" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="towername" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="flatname" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="agentname" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="bookingdate" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="bookingamount" Nullable="true" />
+          <Property Type="Int32" Name="discount" Nullable="true" />
+          <Property Type="Int32" Name="highrisecharges" Nullable="true" />
+          <Property Type="Int32" Name="area" Nullable="true" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+          <Property Type="Int32" Name="month" Nullable="true" />
+          <Property Type="Int32" Name="day" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -710,6 +767,8 @@
           <EntitySetMapping Name="tblCustomerInfoes">
             <EntityTypeMapping TypeName="salesDBModel.tblCustomerInfo">
               <MappingFragment StoreEntitySet="tblCustomerInfo">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="Country" ColumnName="Country" />
@@ -757,6 +816,18 @@
           <EntitySetMapping Name="tblBookingInformations">
             <EntityTypeMapping TypeName="salesDBModel.tblBookingInformation">
               <MappingFragment StoreEntitySet="tblBookingInformation">
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
                 <ScalarProperty Name="SASNet" ColumnName="SASNet" />
@@ -789,6 +860,8 @@
           <EntitySetMapping Name="tblPaymentInfoes">
             <EntityTypeMapping TypeName="salesDBModel.tblPaymentInfo">
               <MappingFragment StoreEntitySet="tblPaymentInfo">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
                 <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
                 <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
@@ -799,6 +872,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_getBookingInfoByDates" FunctionName="salesDBModel.Store.sp_getBookingInfoByDates">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_getBookingInfoByDates_Result">
+                <ScalarProperty Name="projectname" ColumnName="projectname" />
+                <ScalarProperty Name="towername" ColumnName="towername" />
+                <ScalarProperty Name="flatname" ColumnName="flatname" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="agentname" ColumnName="agentname" />
+                <ScalarProperty Name="bookingdate" ColumnName="bookingdate" />
+                <ScalarProperty Name="bookingamount" ColumnName="bookingamount" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+                <ScalarProperty Name="highrisecharges" ColumnName="highrisecharges" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="day" ColumnName="day" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

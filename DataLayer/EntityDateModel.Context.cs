@@ -62,5 +62,22 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatDetails_Result>("sp_GetFlatDetails", flatIDParameter, projectIDParameter);
         }
+    
+        public virtual ObjectResult<sp_getBookingInfoByDates_Result> sp_getBookingInfoByDates(Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate, Nullable<int> projectid)
+        {
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("fromdate", fromdate) :
+                new ObjectParameter("fromdate", typeof(System.DateTime));
+    
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("todate", todate) :
+                new ObjectParameter("todate", typeof(System.DateTime));
+    
+            var projectidParameter = projectid.HasValue ?
+                new ObjectParameter("projectid", projectid) :
+                new ObjectParameter("projectid", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_getBookingInfoByDates_Result>("sp_getBookingInfoByDates", fromdateParameter, todateParameter, projectidParameter);
+        }
     }
 }

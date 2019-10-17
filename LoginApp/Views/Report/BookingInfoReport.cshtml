@@ -1,0 +1,169 @@
+﻿@model ModelLayer.Report
+@{
+    ViewBag.Title = "BookingInfoReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Reports = "active";
+    ViewBag.BookingInfoReport = "active";
+}
+
+<div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;padding-top:20px;">
+
+    <div class="row">
+        <div class="col-md-12 col-xs">
+            <h3 align="center">Booking Information Report</h3>
+        </div>
+
+    </div>
+
+    <div class="row" style="padding-top:5px">
+        @Html.LabelFor(m => m.Project, new { @class = "col-md-1" })
+        @Html.DropDownListFor(m => m.Project, ViewBag.ProjectList as SelectList, "--Select Project--", new { @class = "textbox-control col-md-2 col-xs" })
+        @Html.LabelFor(m => m.From, new { @class = "col-md-1 required" })
+        <input class="textbox-control col-md-2" id="datepicker1" value="10/01/2019" title="datepicker" />
+        @*<input id="datepicker1" class="col-md-2" style="width: 100%" />*@
+        @Html.LabelFor(m => m.To, new { @class = "col-md-1 required" })
+        <input class="textbox-control col-md-2" id="datepicker2" value="10/31/2019" title="datepicker" />
+        @*@Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })*@
+        <div class="col-md-12 col=xs">
+            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
+        </div>
+    </div>
+    <hr />
+    <br />
+    <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
+        <div id="grid"></div>
+    </div>
+
+
+</div>
+<script type="text/x-kendo-template" id="searchtemplate">
+    <div class="toolbar">
+
+        <div>
+            <a data-toggle="tooltip" title="Export to Excel" class="k-button k-button-icontext k-grid-excel" href="\#"><i class="fa fa-file-excel-o fa-lg"></i></a>
+        </div>
+        
+    </div>
+
+</script>
+
+<script>
+
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+
+
+        $("#datepicker1").kendoDatePicker();
+        $("#datepicker2").kendoDatePicker();
+        $(document).ready(function () {
+            $("#grid").hide();
+            $("#grid").kendoGrid({
+                toolbar: kendo.template($("#searchtemplate").html()),
+                excel: {
+                    fileName: "Kendo UI Grid Export.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true
+            },
+                dataSource: {
+                    data: null,
+                    //schema: {
+                    //    model: {
+                    //        fields: {
+                    //            ProductName: { type: "string" },
+                    //            UnitPrice: { type: "number" },
+                    //            UnitsInStock: { type: "number" },
+                    //            Discontinued: { type: "boolean" }
+                    //        }
+                    //    }
+                    //},
+                },
+                //height: 550,
+                width: 'auto',
+                sortable: true,
+                //filterable: true,
+                columns: [
+                    { field: "projectname", title: "PROJECT" ,width :120},
+                    { field: "towername", title: "TOWER",width :120 },
+                    { field: "flatname", title: "FLAT",width :120 },
+                    { field: "agentname", title: "AGENT" ,width :120},
+                    { field: "bookingdate", title: "BOOKING DATE" ,width: 120 },
+                    { field: "bookingamount", title: "BOOKING AMOUNT" ,width: 130},
+                    { field: "discount", title: "DISCOUNT", width: 100 },
+                    { field: "highrisecharges", title: "HIGH RISE", width: 100 },
+                    { field: "area", title: "AREA(sqft)", width :100 },
+                    { field: "year" ,title: "YEAR" , width :75},
+                    { field: "month" ,title: "MONTH" , width :75},
+                    { field: "day" ,title: "DAY", width :75 }
+
+                ],
+
+
+            });
+        });
+
+
+        $('.k-icon k-i-file-excel').toggleClass('k-i-file-excel');
+
+
+        $("#submitbtn").click(function () {
+            var fromDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+            var toDate = kendo.toString($("#datepicker2").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+            var params = { start: fromDate, end: toDate , projectID : $("#Project").val() }
+            $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetReportbyDate", "Report")',
+            contentType: "application/json; charset=utf-8",
+            data: { start: fromDate, end: toDate, projectID : $("#Project").val() },
+            dataType: "json",
+            success: function (result) {
+
+            var grid = $("#grid").data("kendoGrid");
+            var dataSource = new kendo.data.DataSource({ data: result });
+            grid.setDataSource(dataSource);
+            grid.dataSource.read();
+            //$("#grid").height(400);
+            $('#grid .k-grid-content').height(500);
+            $("#grid").show();
+
+            },
+            //error: function (httpRequest, textStatus, errorThrown) {
+            //    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+            //}
+            });
+            });
+
+
+
+</script>
+
+
+<style>
+
+    /*html {
+                    font-size: 12px;
+                    font-family: Arial, Helvetica, sans-serif;
+                }*/
+
+    .k-i-calendar {
+        background-image: url('../../Content/Images/calendar.png');
+        background-position: center !important;
+        border: none;
+        height: 16px !important;
+        padding-bottom: 2px;
+    }
+
+    k-i-file-excel {
+        background-image: url('../../Content/Images/icons8-microsoft-excel-64.png');
+    }
+
+
+
+    /*.k-grid table tbody tr td {
+                    border: 1px thin black !important;
+                }*/
+
+</style>
+

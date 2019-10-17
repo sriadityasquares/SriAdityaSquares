@@ -40,5 +40,17 @@ namespace DataLayer
         public Nullable<double> SASNet { get; set; }
         public Nullable<int> Aadhar { get; set; }
         public string Name { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string ProjectName { get; set; }
+        public string TowerName { get; set; }
+        public string FlatName { get; set; }
+        public string AgentName { get; set; }
+        public string CountryName { get; set; }
+        public string StateName { get; set; }
+        public string CityName { get; set; }
+        public Nullable<int> Year { get; set; }
+        public Nullable<int> Month { get; set; }
+        public Nullable<int> Day { get; set; }
     }
 }

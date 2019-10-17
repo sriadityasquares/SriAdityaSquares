@@ -21,5 +21,7 @@ namespace DataLayer
         public Nullable<int> PaymentMode { get; set; }
         public string ReferenceNo { get; set; }
         public Nullable<int> Aadhar { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
     }
 }
