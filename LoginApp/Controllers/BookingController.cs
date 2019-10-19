@@ -61,9 +61,11 @@ namespace LoginApp.Controllers
             if(result)
             {
                 //ViewBag.result = "Booking Successfull";
-                TempData["successmessage"] = "Booking Successfully";
+                TempData["successmessage"] = "Booking Successfull";
                 var user = new ApplicationUser { UserName = b.Email, Email = b.Email };
+
                 UserManager.CreateAsync(user, "Welcome@123");
+                UserManager.AddToRoleAsync(user.Id, "Customer");
             }
             else
             {
@@ -105,6 +107,13 @@ namespace LoginApp.Controllers
         {
             List<FlatDetails> FlatDetails = booking.BindFlatDetails(FlatId, ProjectID);
             return Json(FlatDetails, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetProjects()
+        {
+            projectList = booking.BindProjects();
+            return Json(projectList, JsonRequestBehavior.AllowGet);
 
         }
     }

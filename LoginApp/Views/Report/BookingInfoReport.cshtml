@@ -6,25 +6,27 @@
     ViewBag.BookingInfoReport = "active";
 }
 
-<div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;padding-top:20px;">
+<div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
 
     <div class="row">
-        <div class="col-md-12 col-xs">
-            <h3 align="center">Booking Information Report</h3>
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px" align="center">Booking Information Report</h3>
         </div>
 
     </div>
 
     <div class="row" style="padding-top:5px">
         @Html.LabelFor(m => m.Project, new { @class = "col-md-1" })
-        @Html.DropDownListFor(m => m.Project, ViewBag.ProjectList as SelectList, "--Select Project--", new { @class = "textbox-control col-md-2 col-xs" })
+        <div class="col-md-3 col-xs">
+            @Html.DropDownListFor(m => m.Project, ViewBag.ProjectList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
+        </div>
         @Html.LabelFor(m => m.From, new { @class = "col-md-1 required" })
         <input class="textbox-control col-md-2" id="datepicker1" value="10/01/2019" title="datepicker" />
         @*<input id="datepicker1" class="col-md-2" style="width: 100%" />*@
         @Html.LabelFor(m => m.To, new { @class = "col-md-1 required" })
         <input class="textbox-control col-md-2" id="datepicker2" value="10/31/2019" title="datepicker" />
         @*@Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })*@
-        <div class="col-md-12 col=xs">
+        <div class="col-md-12 col-xs">
             <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
         </div>
     </div>
@@ -42,7 +44,7 @@
         <div>
             <a data-toggle="tooltip" title="Export to Excel" class="k-button k-button-icontext k-grid-excel" href="\#"><i class="fa fa-file-excel-o fa-lg"></i></a>
         </div>
-        
+
     </div>
 
 </script>
@@ -50,7 +52,12 @@
 <script>
 
         $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();
+             $(".js-select2").select2();
+        $(".js-select2-multi").select2();
+
+        $(".large").select2({
+            dropdownCssClass: "big-drop",
+        });
         });
 
 
@@ -108,15 +115,28 @@
         $('.k-icon k-i-file-excel').toggleClass('k-i-file-excel');
 
 
-        $("#submitbtn").click(function () {
+    $("#submitbtn").click(function () {
+
+            if ($("#Project").val() == null) {
+                toastr.error("Please select a project");
+                return;
+            }
+            if ($("#datepicker1").data("kendoDatePicker").value() == null) {
+                toastr.error("Please select From Date");
+                return;
+            }
+            if ($("#datepicker2").data("kendoDatePicker").value() == null) {
+                toastr.error("Please select To Date");
+                return;
+            }
+
             var fromDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'MM/dd/yyyy');
             var toDate = kendo.toString($("#datepicker2").data("kendoDatePicker").value(), 'MM/dd/yyyy');
-            var params = { start: fromDate, end: toDate , projectID : $("#Project").val() }
             $.ajax({
             type: "GET",
             url: '@Url.Action("GetReportbyDate", "Report")',
-            contentType: "application/json; charset=utf-8",
-            data: { start: fromDate, end: toDate, projectID : $("#Project").val() },
+                contentType: "application/json; charset=utf-8",
+                data: { start: fromDate, end: toDate, projectID: $("#Project").val().toString() },
             dataType: "json",
             success: function (result) {
 
@@ -129,9 +149,7 @@
             $("#grid").show();
 
             },
-            //error: function (httpRequest, textStatus, errorThrown) {
-            //    alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
-            //}
+
             });
             });
 
@@ -142,10 +160,9 @@
 
 <style>
 
-    /*html {
-                    font-size: 12px;
-                    font-family: Arial, Helvetica, sans-serif;
-                }*/
+    #Project option {
+        width: 250px
+    }
 
     .k-i-calendar {
         background-image: url('../../Content/Images/calendar.png');
@@ -158,12 +175,5 @@
     k-i-file-excel {
         background-image: url('../../Content/Images/icons8-microsoft-excel-64.png');
     }
-
-
-
-    /*.k-grid table tbody tr td {
-                    border: 1px thin black !important;
-                }*/
-
 </style>
 

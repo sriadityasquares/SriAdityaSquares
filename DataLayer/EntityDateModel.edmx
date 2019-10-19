@@ -152,6 +152,13 @@
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="tblMonth">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MonthName" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblPaymentInfo">
           <Key>
             <PropertyRef Name="PaymentID" />
@@ -215,6 +222,13 @@
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="tblYear">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="YearName" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Flats1">
           <End Role="tblProjects" Type="Self.tblProjects" Multiplicity="0..1" />
           <End Role="tblFlats" Type="Self.tblFlats" Multiplicity="*" />
@@ -255,13 +269,21 @@
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_getBookingInfoByDates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="fromdate" Type="datetime" Mode="In" />
-          <Parameter Name="todate" Type="datetime" Mode="In" />
-          <Parameter Name="projectid" Type="int" Mode="In" />
+          <Parameter Name="fromdate" Type="varchar" Mode="In" />
+          <Parameter Name="todate" Type="varchar" Mode="In" />
+          <Parameter Name="projectid" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_GetFlatDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FlatID" Type="int" Mode="In" />
           <Parameter Name="ProjectID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetPeriodWiseBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Option" Type="int" Mode="In" />
+          <Parameter Name="Project" Type="varchar" Mode="In" />
+          <Parameter Name="Year" Type="varchar" Mode="In" />
+          <Parameter Name="Month" Type="varchar" Mode="In" />
+          <Parameter Name="fromdate" Type="varchar" Mode="In" />
+          <Parameter Name="todate" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="salesDBModelStoreContainer">
           <EntitySet Name="tblAgentLevels" EntityType="Self.tblAgentLevels" Schema="dbo" store:Type="Tables" />
@@ -272,11 +294,13 @@
           <EntitySet Name="tblCountries" EntityType="Self.tblCountries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCustomerInfo" EntityType="Self.tblCustomerInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlats" EntityType="Self.tblFlats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblMonth" EntityType="Self.tblMonth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPaymentInfo" EntityType="Self.tblPaymentInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProjects" EntityType="Self.tblProjects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblStates" EntityType="Self.tblStates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblStatus" EntityType="Self.tblStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTowers" EntityType="Self.tblTowers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblYear" EntityType="Self.tblYear" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Flats1" Association="Self.FK_Flats1">
             <End Role="tblProjects" EntitySet="tblProjects" />
             <End Role="tblFlats" EntitySet="tblFlats" />
@@ -327,10 +351,20 @@
           </FunctionImport>
           <EntitySet Name="tblBookingInformations" EntityType="salesDBModel.tblBookingInformation" />
           <EntitySet Name="tblPaymentInfoes" EntityType="salesDBModel.tblPaymentInfo" />
+          <FunctionImport Name="sp_GetPeriodWiseBookingDetails" ReturnType="Collection(salesDBModel.sp_GetPeriodWiseBookingDetails_Result)">
+            <Parameter Name="Option" Mode="In" Type="Int32" />
+            <Parameter Name="Project" Mode="In" Type="String" />
+            <Parameter Name="Year" Mode="In" Type="String" />
+            <Parameter Name="Month" Mode="In" Type="String" />
+            <Parameter Name="fromdate" Mode="In" Type="String" />
+            <Parameter Name="todate" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tblMonths" EntityType="salesDBModel.tblMonth" />
+          <EntitySet Name="tblYears" EntityType="salesDBModel.tblYear" />
           <FunctionImport Name="sp_getBookingInfoByDates" ReturnType="Collection(salesDBModel.sp_getBookingInfoByDates_Result)">
-            <Parameter Name="fromdate" Mode="In" Type="DateTime" />
-            <Parameter Name="todate" Mode="In" Type="DateTime" />
-            <Parameter Name="projectid" Mode="In" Type="Int32" />
+            <Parameter Name="fromdate" Mode="In" Type="String" />
+            <Parameter Name="todate" Mode="In" Type="String" />
+            <Parameter Name="projectid" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblAgentLevel">
@@ -603,6 +637,31 @@
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
         </EntityType>
+        <ComplexType Name="sp_GetPeriodWiseBookingDetails_Result">
+          <Property Type="Int32" Name="totalbookingamount" Nullable="true" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+          <Property Type="Int32" Name="MONTH" Nullable="true" />
+          <Property Type="Int32" Name="DAY" Nullable="true" />
+          <Property Type="Int32" Name="flatsbooked" Nullable="true" />
+          <Property Type="Int32" Name="projectid" Nullable="true" />
+          <Property Type="Int32" Name="towerid" Nullable="true" />
+          <Property Type="String" Name="projectname" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="towername" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <EntityType Name="tblMonth">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MonthName" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblYear">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YearName" Type="Int32" Nullable="false" />
+        </EntityType>
         <ComplexType Name="sp_getBookingInfoByDates_Result">
           <Property Type="String" Name="projectname" Nullable="true" MaxLength="250" />
           <Property Type="String" Name="towername" Nullable="true" MaxLength="250" />
@@ -869,6 +928,37 @@
                 <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
                 <ScalarProperty Name="BookingID" ColumnName="BookingID" />
                 <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetPeriodWiseBookingDetails" FunctionName="salesDBModel.Store.sp_GetPeriodWiseBookingDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetPeriodWiseBookingDetails_Result">
+                <ScalarProperty Name="totalbookingamount" ColumnName="totalbookingamount" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="MONTH" ColumnName="MONTH" />
+                <ScalarProperty Name="DAY" ColumnName="DAY" />
+                <ScalarProperty Name="flatsbooked" ColumnName="flatsbooked" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="towerid" ColumnName="towerid" />
+                <ScalarProperty Name="projectname" ColumnName="projectname" />
+                <ScalarProperty Name="towername" ColumnName="towername" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblMonths">
+            <EntityTypeMapping TypeName="salesDBModel.tblMonth">
+              <MappingFragment StoreEntitySet="tblMonth">
+                <ScalarProperty Name="MonthName" ColumnName="MonthName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblYears">
+            <EntityTypeMapping TypeName="salesDBModel.tblYear">
+              <MappingFragment StoreEntitySet="tblYear">
+                <ScalarProperty Name="YearName" ColumnName="YearName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

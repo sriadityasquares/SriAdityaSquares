@@ -21,6 +21,8 @@
         <EntityTypeShape EntityType="salesDBModel.tblCustomerInfo" Width="1.5" PointX="9.375" PointY="8.75" />
         <EntityTypeShape EntityType="salesDBModel.tblBookingInformation" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblPaymentInfo" Width="1.5" PointX="5.375" PointY="11.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblMonth" Width="1.5" PointX="11.375" PointY="10.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblYear" Width="1.5" PointX="12.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

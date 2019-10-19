@@ -49,7 +49,7 @@ namespace LoginApp.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Username")]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
@@ -64,7 +64,7 @@ namespace LoginApp.Models
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "Username")]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]

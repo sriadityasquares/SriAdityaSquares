@@ -11,9 +11,14 @@ namespace BusinessLayer
     public class ReportBL
     {
         ReportDL db = new ReportDL();
-        public List<GetBookingInfoByDate> BindBookingInfo(DateTime start, DateTime end, int projectID)
+        public List<GetBookingInfoByDate> BindBookingInfo(string start, string end, string projectID)
         {
-            return db.BindBookingInfo(start,end,projectID);
+            return db.BindBookingInfo(start, end, projectID);
+        }
+
+        public List<GetPeriodWiseBookingDetails> BindPeriodWiseBookingInfo(int option, string fromDate, string toDate, string projectID, string years, string month)
+        {
+            return db.BindPeriodWiseBookingInfo(option, fromDate, toDate, projectID, years, month);
         }
     }
 }

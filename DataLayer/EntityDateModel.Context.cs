@@ -40,6 +40,8 @@ namespace DataLayer
         public virtual DbSet<tblCustomerInfo> tblCustomerInfoes { get; set; }
         public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
         public virtual DbSet<tblPaymentInfo> tblPaymentInfoes { get; set; }
+        public virtual DbSet<tblMonth> tblMonths { get; set; }
+        public virtual DbSet<tblYear> tblYears { get; set; }
     
         public virtual ObjectResult<sp_GetAgentsByProjectID_Result> sp_GetAgentsByProjectID(Nullable<int> projectID)
         {
@@ -63,19 +65,48 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatDetails_Result>("sp_GetFlatDetails", flatIDParameter, projectIDParameter);
         }
     
-        public virtual ObjectResult<sp_getBookingInfoByDates_Result> sp_getBookingInfoByDates(Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate, Nullable<int> projectid)
+        public virtual ObjectResult<sp_GetPeriodWiseBookingDetails_Result> sp_GetPeriodWiseBookingDetails(Nullable<int> option, string project, string year, string month, string fromdate, string todate)
         {
-            var fromdateParameter = fromdate.HasValue ?
+            var optionParameter = option.HasValue ?
+                new ObjectParameter("Option", option) :
+                new ObjectParameter("Option", typeof(int));
+    
+            var projectParameter = project != null ?
+                new ObjectParameter("Project", project) :
+                new ObjectParameter("Project", typeof(string));
+    
+            var yearParameter = year != null ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(string));
+    
+            var monthParameter = month != null ?
+                new ObjectParameter("Month", month) :
+                new ObjectParameter("Month", typeof(string));
+    
+            var fromdateParameter = fromdate != null ?
                 new ObjectParameter("fromdate", fromdate) :
-                new ObjectParameter("fromdate", typeof(System.DateTime));
+                new ObjectParameter("fromdate", typeof(string));
     
-            var todateParameter = todate.HasValue ?
+            var todateParameter = todate != null ?
                 new ObjectParameter("todate", todate) :
-                new ObjectParameter("todate", typeof(System.DateTime));
+                new ObjectParameter("todate", typeof(string));
     
-            var projectidParameter = projectid.HasValue ?
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetPeriodWiseBookingDetails_Result>("sp_GetPeriodWiseBookingDetails", optionParameter, projectParameter, yearParameter, monthParameter, fromdateParameter, todateParameter);
+        }
+    
+        public virtual ObjectResult<sp_getBookingInfoByDates_Result> sp_getBookingInfoByDates(string fromdate, string todate, string projectid)
+        {
+            var fromdateParameter = fromdate != null ?
+                new ObjectParameter("fromdate", fromdate) :
+                new ObjectParameter("fromdate", typeof(string));
+    
+            var todateParameter = todate != null ?
+                new ObjectParameter("todate", todate) :
+                new ObjectParameter("todate", typeof(string));
+    
+            var projectidParameter = projectid != null ?
                 new ObjectParameter("projectid", projectid) :
-                new ObjectParameter("projectid", typeof(int));
+                new ObjectParameter("projectid", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_getBookingInfoByDates_Result>("sp_getBookingInfoByDates", fromdateParameter, todateParameter, projectidParameter);
         }

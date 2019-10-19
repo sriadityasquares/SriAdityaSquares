@@ -191,7 +191,7 @@ body {
     /*Changed form Kelloggs*/
     /*color: #4c4441;*/
     color: #222 !important;
-}   
+}
 
 a {
     color: #ea4f4c !important;
@@ -511,9 +511,9 @@ label {
     padding-right: 10px;
     outline: none;
     height: 30px;
-    font-size:small
+    font-size: small;
+    
     /**/
-   
 }
 
 .login-box .form-group, .login-box .form-group .btn {
@@ -991,7 +991,7 @@ p.timeline-Tweet-text {
 /*==========</Manish>===========*/
 
 /* radio button styles starts here */
-.radio {
+/*.radio {
     outline: none;
     float: left;
     color: #000;
@@ -1085,9 +1085,76 @@ p.timeline-Tweet-text {
 
 .radio-primary input[type="radio"]:checked + label::after {
     background-color: #978d8a;
-}
+}*/
 
 /* radio button styles ends  here */
+
+/*Venkat Radio Button CSS*/
+*,
+*::before *::after {
+    box-sizing: border-box;
+}
+
+
+.radios {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*@media (max-width: 640px) {
+    .radios {
+        flex-direction: column;
+    }
+}*/
+
+.radio input {
+    position: absolute;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+    .radio input:focus + label {
+        background: #eeeeff;
+    }
+
+        .radio input:focus + label .checker {
+            border-color: #6666ff;
+        }
+
+    .radio input:checked + label .checker {
+        box-shadow: inset 0 0 0 6px #EA4F4C;
+    }
+
+.radio label {
+    display: flex;
+    align-items: center;
+    height: 28px;
+    border-radius: 14px;
+    margin: 10px;
+    padding: 0 8px 0 6px;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+}
+
+    .radio label:hover {
+        background: #eeeeff;
+    }
+
+        .radio label:hover .checker {
+            box-shadow: inset 0 0 0 2px #6666ff;
+        }
+
+.radio .checker {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: inset 0 0 0 2px #ccc;
+    transition: box-shadow 0.1s ease;
+}
 
 /* ===================================
 1. layout
@@ -2936,19 +3003,7 @@ ul.events-list {
 }
 /*-------------NETWORK DATABASE START*/
 
-#collapse1 .k-multiselect {
-    border: 1px solid #ccc !important;
-    box-shadow: none !important;
-    font-size: 12px;
-}
 
-#collapse1 .k-multiselect-wrap {
-    min-height: 2em;
-}
-
-#collapse1 input {
-    font-size: 15px;
-}
 
 .employeeCount {
     font-size: 12px;
@@ -4535,9 +4590,9 @@ Media queries- START
  =============================*/
 
 
-/*.k-grid table td {
+.k-grid table td {
     border-bottom: 1px solid #c5c5c5 !important;
-}*/
+}
 
 #SentRequests .text-right {
     padding-left: 0px !important;
@@ -5286,5 +5341,3 @@ span.k-numerictextbox {
         border: 1px solid #ec407a;
         box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.15);
     }
-
-

@@ -9,15 +9,21 @@
     <link rel="apple-touch-icon-precomposed" href="">
     <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
-    
-
+    <link href="~/Content/css/select2.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <script src="~/Scripts/kendo/jszip.js"></script>
     <script src="~/Scripts/kendo/kendo.all.min.js"></script>
+    <script src="~/Scripts/select2.min.js"></script>
+    <link href="~/Content/Select2OverWrite.css" rel="stylesheet" />
+    @*<script src="/Scripts/jquery-ui-1.12.1.min.js"></script>*@
+    <script src="/Scripts/toastr.min.js"></script>
+    <link href="/Content/toastr.min.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -29,6 +35,15 @@
                     <li>
                         <a href="index.html"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
                     </li>
+                    <li class="sub-menu @(ViewBag.Account)">
+                        <a href="javascript:void(0);"><i class="fa fa-user"></i><span>Admin</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <ul>
+
+                            <li>
+                                <a class="@(ViewBag.Register)" href="@Url.Action("Register", "Account")">New User Registration</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="sub-menu @(ViewBag.Booking)">
                         <a href="javascript:void(0);"><i class="fa fa-ticket"></i><span>Booking</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
@@ -36,24 +51,7 @@
                             <li>
                                 <a class="@(ViewBag.NewBooking)" href="@Url.Action("New", "Booking")">New Booking</a>
                             </li>
-                            @*<li>
-                                    <a href="ui-panels.html">Panels</a>
-                                </li>
-                                <li>
-                                    <a href="ui-buttons.html">Buttons</a>
-                                </li>
-                                <li>
-                                    <a href="ui-slider-progress.html">Sliders &amp; Progress</a>
-                                </li>
-                                <li>
-                                    <a href="ui-modals-popups.html">Modals &amp; Popups</a>
-                                </li>
-                                <li>
-                                    <a href="ui-icons.html">Icons</a>
-                                </li>
-                                <li>
-                                    <a href="ui-grid.html">Grid</a>
-                                </li>*@
+                            
 
                         </ul>
                     </li>
@@ -61,14 +59,14 @@
                         <a href="javascript:void(0);"><i class="fa fa-table"></i><span>Reports</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
                             <li>
-                                <a class="@(ViewBag.Table)" href="@Url.Action("Index", "Booking")">Day Wise Booking</a>
+                                <a class="@(ViewBag.PeriodWiseBookingReport)" href="@Url.Action("PeriodWiseBookingReport", "Report")">Period Wise Booking</a>
                             </li>
 
                             <li>
                                 <a class="@(ViewBag.BookingInfoReport)" href="@Url.Action("BookingInfoReport", "Report")">Booking Information</a>
                             </li>
                             <li>
-                                <a class="@(ViewBag.PaymentInfoReport)" href="@Url.Action("BookingInfoReport", "Report")">Payment Information</a>
+                                <a class="@(ViewBag.PaymentInfoReport)" href="~/Report/BookingInfoReport/">Payment Information</a>
                             </li>
                         </ul>
                     </li>

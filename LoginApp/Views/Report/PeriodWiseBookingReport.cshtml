@@ -1,0 +1,287 @@
+﻿@model ModelLayer.Report
+@{
+    ViewBag.Title = "PeriodWiseBookingReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PeriodWiseBookingReport = "active";
+    ViewBag.Reports = "active";
+}
+
+<div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
+
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px" align="center">Period Wise Booking Report</h3>
+        </div>
+
+    </div>
+    <div class="row" style="padding-top:5px">
+        @Html.LabelFor(m => m.Project, new { @class = "col-md-1 col-xs" })
+        <div class="col-md-4 col-xs">
+            @Html.DropDownListFor(m => m.Project, ViewBag.ProjectList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
+            @*<select id="Project" multiple="multiple" required name="Project">
+                    @if (ViewBag.Employees != null)
+                    {
+                        foreach (var item in ViewBag.ProjectList as SelectList)
+                        {
+                            if (item.Text != null)
+                            {
+                                <option value="@item">
+                                    @item.ProjectName
+                                </option>
+
+                            }
+                        }
+                    }
+                </select>*@
+        </div>
+        <div class="col-md-4 col-xs">
+            @*@Html.Label("YEAR");
+                @Html.RadioButtonFor(m => m.TimePeriod, "1",new { @class = "checker" })
+                MONTH
+                @Html.RadioButtonFor(m => m.TimePeriod, "2")
+                DAY
+                @Html.RadioButtonFor(m => m.TimePeriod, "3")*@
+            <div class="radios">
+                <div class="radio" style="margin-top:0px">
+                    <input type="radio" id="radio1" value="1" name="radio" checked="checked">
+                    <label for="radio1">
+                        <div class="checker"></div>
+                        Year
+                    </label>
+                </div>
+
+                <div class="radio">
+                    <input type="radio" id="radio2" value="2" name="radio">
+                    <label for="radio2">
+                        <div class="checker"></div>
+                        Month
+                    </label>
+                </div>
+
+                <div class="radio">
+                    <input type="radio" id="radio3" value="3" name="radio">
+                    <label for="radio3">
+                        <div class="checker"></div>
+                        Day
+                    </label>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+        @Html.LabelFor(z => z.Year, new { @class = "col-md-1" })
+        <div class="col-md-2 col-xs">
+            @Html.DropDownListFor(m => m.Year, ViewBag.YearList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
+        </div>
+        @Html.LabelFor(z => z.Month, new { @class = "col-md-1" })
+        <div class="col-md-2 col-xs">
+            @Html.DropDownListFor(m => m.Month, ViewBag.MonthList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
+        </div>
+        @Html.LabelFor(m => m.From, new { @class = "col-md-1 required" })
+        <input class="textbox-control col-md-2" id="datepicker1" value="" title="datepicker" />
+        @*<input id="datepicker1" class="col-md-2" style="width: 100%" />*@
+        @Html.LabelFor(m => m.To, new { @class = "col-md-1 required" })
+        <input class="textbox-control col-md-2" id="datepicker2" value="" title="datepicker" />
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xs">
+            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
+        </div>
+    </div>
+    <hr />
+    <br />
+    <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
+        <div id="grid"></div>
+    </div>
+</div>
+<script type="text/x-kendo-template" id="searchtemplate">
+    <div class="toolbar">
+
+        <div>
+            <a data-toggle="tooltip" title="Export to Excel" class="k-button k-button-icontext k-grid-excel" href="\#"><i class="fa fa-file-excel-o fa-lg"></i></a>
+        </div>
+
+    </div>
+
+</script>
+<script>
+
+    $(document).ready(function () {
+
+        $(".js-select2").select2();
+        $(".js-select2-multi").select2();
+
+        $(".large").select2({
+            dropdownCssClass: "big-drop",
+        });
+    });
+    $("#datepicker1").kendoDatePicker();
+    $("#datepicker2").kendoDatePicker();
+    $("#Year").prop("disabled", false);
+    $("#Month").prop("disabled", true);
+    $('#datepicker1').data('kendoDatePicker').enable(false);
+    $('#datepicker2').data('kendoDatePicker').enable(false);
+    $('input[type=radio][name=radio]').change(function () {
+        if (this.value == 1) {
+            $("#Year").prop("disabled", false);
+            $("#Month").prop("disabled", true);
+            $("#Month").val('');
+            $('#datepicker1').data('kendoDatePicker').enable(false);
+            $('#datepicker2').data('kendoDatePicker').enable(false);
+        }
+        if (this.value == 2) {
+            $("#Year").prop("disabled", false);
+            $("#Month").prop("disabled", false);
+            $('#datepicker1').data('kendoDatePicker').enable(false);
+            $('#datepicker2').data('kendoDatePicker').enable(false);
+        }
+        if (this.value == 3) {
+            $("#Year").prop("disabled", true);
+            $("#Year").val('');
+            $("#Month").prop("disabled", true);
+            $("#Month").val('');
+            $('#datepicker1').data('kendoDatePicker').enable(true);
+            $('#datepicker2').data('kendoDatePicker').enable(true);
+        }
+    });
+
+
+    $("#submitbtn").click(function () {
+        var project = '';
+        var year = '';
+        var option = '';
+        var month = '';
+        var fromDate = '';
+        var toDate = '';
+        if ($("#Project").val() == null) {
+            toastr.error("Please select a project");
+            return;
+        }
+        project = $("#Project").val();
+        option = $('input[type=radio][name=radio]:checked').val();
+        if (option == 1) {
+            if ($("#Year").val() == null) {
+                toastr.error("Please select year");
+                return;
+            }
+            year = $("#Year").val();
+        }
+        if (option == 2) {
+            if ($("#Year").val() == null) {
+                toastr.error("Please select year");
+                return;
+            }
+            if ($("#Month").val() == null) {
+                toastr.error("Please select month");
+                return;
+            }
+            year = $("#Year").val();
+            month = $("#Month").val();
+        }
+        if (option == 3) {
+            if ($("#datepicker1").data("kendoDatePicker").value() == null) {
+                toastr.error("Please select From Date");
+                return;
+            }
+            if ($("#datepicker2").data("kendoDatePicker").value() == null) {
+                toastr.error("Please select To Date");
+                return;
+            }
+            fromDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+            toDate = kendo.toString($("#datepicker2").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+        }
+        alert(project);
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetPeriodWiseBookingReport", "Report")',
+            contentType: "application/json; charset=utf-8",
+            data: { option: option, fromDate: fromDate, toDate: toDate, projects: project.toString(), years: year.toString(), months: month.toString() },
+            dataType: "json",
+            success: function (result) {
+
+                var grid = $("#grid").data("kendoGrid");
+                var dataSource = new kendo.data.DataSource({ data: result });
+                grid.setDataSource(dataSource);
+                grid.dataSource.read();
+                //$("#grid").height(400);
+                $('#grid .k-grid-content').height(300);
+                $("#grid").show();
+
+            },
+
+            });
+            });
+
+
+    $("#grid").hide();
+    $("#grid").kendoGrid({
+        toolbar: kendo.template($("#searchtemplate").html()),
+        excel: {
+            fileName: "Kendo UI Grid Export.xlsx",
+
+            //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+            filterable: true
+        },
+        dataSource: {
+            data: null,
+            //schema: {
+            //    model: {
+            //        fields: {
+            //            ProductName: { type: "string" },
+            //            UnitPrice: { type: "number" },
+            //            UnitsInStock: { type: "number" },
+            //            Discontinued: { type: "boolean" }
+            //        }
+            //    }
+            //},
+        },
+        //height: 550,
+        width: 'auto',
+        sortable: true,
+        //filterable: true,
+        columns: [
+            { field: "projectname", title: "PROJECT", width: 120 },
+            { field: "towername", title: "TOWER", width: 120 },
+            { field: "totalbookingamount", title: "TOATL BOOKING AMOUNT", width: 160 },
+            { field: "flatsbooked", title: "TOTAL FLATS BOOKED", width: 160 },
+            { field: "year", title: "YEAR", width: 75 },
+            { field: "MONTH", title: "MONTH", width: 75 },
+            { field: "DAY", title: "DAY", width: 75 }
+
+        ],
+
+
+    });
+
+
+
+
+</script>
+
+<style>
+    #Project option {
+        width: 250px
+    }
+
+    #Year option {
+        width: 160px
+    }
+
+    #Month option {
+        width: 160px
+    }
+
+    .k-i-calendar {
+        background-image: url('../../Content/Images/calendar.png');
+        background-position: center !important;
+        border: none;
+        height: 16px !important;
+        padding-bottom: 2px;
+    }
+
+     k-i-file-excel {
+        background-image: url('../../Content/Images/icons8-microsoft-excel-64.png');
+    }
+</style>

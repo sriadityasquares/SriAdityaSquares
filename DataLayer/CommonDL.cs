@@ -71,7 +71,45 @@ namespace DataLayer
             return lstCity;
         }
 
-        
+        public List<Year> BindYear()
+        {
+            List<Year> lstYear = new List<Year>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblYear, Year>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstYear = mapper.Map<List<tblYear>, List<Year>>(dbEntity.tblYears.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstYear;
+        }
+
+        public List<Month> BindMonth()
+        {
+            List<Month> lstMonth = new List<Month>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblMonth, Month>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstMonth = mapper.Map<List<tblMonth>, List<Month>>(dbEntity.tblMonths.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstMonth;
+        }
+
+
     }
 }
     

@@ -72,6 +72,9 @@
     <Compile Include="sp_GetFlatDetails_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetPeriodWiseBookingDetails_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblAgent.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
@@ -96,6 +99,9 @@
     <Compile Include="tblFlat.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblMonth.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblPaymentInfo.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
@@ -109,6 +115,9 @@
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblTower.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblYear.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>

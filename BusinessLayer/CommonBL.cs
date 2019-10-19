@@ -25,5 +25,15 @@ namespace BusinessLayer
         {
             return db.BindCity(stateID);
         }
+
+        public List<Year> BindYear()
+        {
+            return db.BindYear();
+        }
+
+        public List<Month> BindMonth()
+        {
+            return db.BindMonth();
+        }
     }
 }

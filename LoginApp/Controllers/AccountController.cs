@@ -140,12 +140,17 @@ namespace LoginApp.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Success", "Account");
+                    ModelState.Clear();
+                    //return RedirectToAction("Success", "Account");
+                    TempData["registermessage"] = "Registration Successful";
+                }
+                else
+                {
+                    TempData["registermessage"] = "Registration Failed";
                 }
                 AddErrors(result);
             }
-
+            
             // If we got this far, something failed, redisplay form
             return View(model);
         }
