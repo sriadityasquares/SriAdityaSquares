@@ -17,8 +17,7 @@ namespace LoginApp.Controllers
     {
         CommonBL common = new CommonBL();
         BookingBL booking = new BookingBL();
-        public static List<Country> countryList;
-        public static List<Projects> projectList;
+        
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
         {
@@ -34,8 +33,8 @@ namespace LoginApp.Controllers
         // GET: Booking
         public ActionResult Index()
         {
-            countryList = common.BindCountry();
-            projectList = booking.BindProjects();
+            List<Country> countryList = common.BindCountry();
+            List<Projects> projectList = booking.BindProjects();
             var json = JsonConvert.SerializeObject(projectList);
             ViewBag.CountryList = new SelectList(countryList, "CountryID", "CountryName");
             ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
@@ -45,10 +44,12 @@ namespace LoginApp.Controllers
 
         public ActionResult New()
         {
-            countryList = common.BindCountry();
-            projectList = booking.BindProjects();
-            ViewBag.CountryList = new SelectList(countryList, "CountryID", "CountryName");
-            ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
+            List<Country> countryList = common.BindCountry();
+            List<Projects> projectList = booking.BindProjects();
+            TempData["CountryList"] = new SelectList(countryList, "CountryID", "CountryName");
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
+            TempData.Keep("CountryList");
             return View();
         }
 
@@ -72,15 +73,9 @@ namespace LoginApp.Controllers
                 TempData["successmessage"] = "Booking Failed";
             }
             ModelState.Clear();
-            countryList = common.BindCountry();
-            projectList = booking.BindProjects();
             
-            ViewBag.CountryList = new SelectList(countryList, "CountryID", "CountryName");
-            ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
-            //ViewBag.AgentList = new SelectList(countryList, "CountryID", "CountryName");
             return View();
         }
-
 
         public JsonResult GetTowers(int ProjectId)
         {
@@ -112,9 +107,16 @@ namespace LoginApp.Controllers
 
         public JsonResult GetProjects()
         {
-            projectList = booking.BindProjects();
+            List<Projects> projectList = booking.BindProjects();
             return Json(projectList, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult MakePayment()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            return View();
         }
     }
 }

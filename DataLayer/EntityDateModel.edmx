@@ -165,13 +165,17 @@
           </Key>
           <Property Name="PaymentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BookingID" Type="uniqueidentifier" />
+          <Property Name="FlatID" Type="int" />
           <Property Name="BookingAmount" Type="int" />
           <Property Name="BalanceAmount" Type="int" />
-          <Property Name="PaymentMode" Type="int" />
+          <Property Name="PaymentModeID" Type="nvarchar" MaxLength="50" />
+          <Property Name="PaymentMode" Type="nvarchar" MaxLength="50" />
           <Property Name="ReferenceNo" Type="nvarchar" MaxLength="50" />
           <Property Name="Aadhar" Type="int" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tblProjects">
           <Key>
@@ -349,7 +353,6 @@
             <Parameter Name="ProjectID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="tblBookingInformations" EntityType="salesDBModel.tblBookingInformation" />
-          <EntitySet Name="tblPaymentInfoes" EntityType="salesDBModel.tblPaymentInfo" />
           <FunctionImport Name="sp_GetPeriodWiseBookingDetails" ReturnType="Collection(salesDBModel.sp_GetPeriodWiseBookingDetails_Result)">
             <Parameter Name="Option" Mode="In" Type="Int32" />
             <Parameter Name="Project" Mode="In" Type="String" />
@@ -366,6 +369,7 @@
             <Parameter Name="projectid" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="tblStatus" EntityType="salesDBModel.tblStatu" />
+          <EntitySet Name="tblPaymentInfoes" EntityType="salesDBModel.tblPaymentInfo" />
         </EntityContainer>
         <EntityType Name="tblAgentLevel">
           <Key>
@@ -615,20 +619,6 @@
           <Property Name="Month" Type="Int32" />
           <Property Name="Day" Type="Int32" />
         </EntityType>
-        <EntityType Name="tblPaymentInfo">
-          <Key>
-            <PropertyRef Name="PaymentID" />
-          </Key>
-          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookingID" Type="Guid" />
-          <Property Name="BookingAmount" Type="Int32" />
-          <Property Name="BalanceAmount" Type="Int32" />
-          <Property Name="PaymentMode" Type="Int32" />
-          <Property Name="ReferenceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Aadhar" Type="Int32" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-        </EntityType>
         <ComplexType Name="sp_GetPeriodWiseBookingDetails_Result">
           <Property Type="Int32" Name="totalbookingamount" Nullable="true" />
           <Property Type="Int32" Name="year" Nullable="true" />
@@ -676,6 +666,24 @@
           <Property Name="ID" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="BookingStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="StatusType" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblPaymentInfo">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingID" Type="Guid" />
+          <Property Name="FlatID" Type="Int32" />
+          <Property Name="BookingAmount" Type="Int32" />
+          <Property Name="BalanceAmount" Type="Int32" />
+          <Property Name="PaymentModeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentMode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Aadhar" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -907,21 +915,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblPaymentInfoes">
-            <EntityTypeMapping TypeName="salesDBModel.tblPaymentInfo">
-              <MappingFragment StoreEntitySet="tblPaymentInfo">
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
-                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
-                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
-                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
-                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
-                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_GetPeriodWiseBookingDetails" FunctionName="salesDBModel.Store.sp_GetPeriodWiseBookingDetails">
             <ResultMapping>
               <ComplexTypeMapping TypeName="salesDBModel.sp_GetPeriodWiseBookingDetails_Result">
@@ -978,6 +971,25 @@
                 <ScalarProperty Name="StatusType" ColumnName="StatusType" />
                 <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPaymentInfoes">
+            <EntityTypeMapping TypeName="salesDBModel.tblPaymentInfo">
+              <MappingFragment StoreEntitySet="tblPaymentInfo">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="PaymentModeID" ColumnName="PaymentModeID" />
+                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

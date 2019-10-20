@@ -16,12 +16,16 @@ namespace DataLayer
     {
         public int PaymentID { get; set; }
         public Nullable<System.Guid> BookingID { get; set; }
+        public Nullable<int> FlatID { get; set; }
         public Nullable<int> BookingAmount { get; set; }
         public Nullable<int> BalanceAmount { get; set; }
-        public Nullable<int> PaymentMode { get; set; }
+        public string PaymentModeID { get; set; }
+        public string PaymentMode { get; set; }
         public string ReferenceNo { get; set; }
         public Nullable<int> Aadhar { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string UpdatedBy { get; set; }
+        public Nullable<System.DateTime> UpdatedDate { get; set; }
     }
 }

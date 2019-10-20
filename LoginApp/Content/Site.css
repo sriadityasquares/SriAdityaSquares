@@ -237,14 +237,14 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
-h3.deadline-form {
-    color: #666;
-    font-weight: 400;
-    margin-top: 18px;
-    margin-bottom: 15px;
-    font-size: 14px;
-    line-height: 16px;
-}
+    h3.deadline-form {
+        color: #666;
+        font-weight: 400;
+        margin-top: 18px;
+        margin-bottom: 15px;
+        font-size: 14px;
+        line-height: 16px;
+    }
 
 .Review-Table-Box {
     width: 100%;
@@ -505,7 +505,6 @@ label {
     outline: none;
     height: 30px;
     font-size: small;
-    
     /**/
 }
 
@@ -5319,3 +5318,9 @@ button, input, select, textarea {
         border: 1px solid #ec407a;
         box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.15);
     }
+
+.specialLine {
+    box-sizing: border-box;
+    border-top: 3px solid rgba(227, 63, 14, 1);
+    margin-bottom: 10px;
+}

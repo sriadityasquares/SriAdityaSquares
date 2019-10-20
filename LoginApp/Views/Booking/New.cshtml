@@ -17,7 +17,8 @@
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-1 col-xs">
-                <h3 align="center">New Booking</h3>
+                <h3 align="center" style="margin-bottom:2px">NEW BOOKING</h3>
+                <div class="specialLine"></div>
             </div>
 
         </div>
@@ -32,6 +33,7 @@
         @Html.HiddenFor(m => m.CountryName)
         @Html.HiddenFor(m => m.StateName)
         @Html.HiddenFor(m => m.CityName)
+        @Html.HiddenFor(m => m.PaymentMode)
         <div class="row" style="padding-top:5px">
             @Html.LabelFor(m => m.Name, new { @class = "col-md-1 required" })
             @Html.TextBoxFor(m => m.Name, new { @class = "textbox-control col-md-11 col-xs" })
@@ -39,7 +41,7 @@
         </div>
         <div class="row">
             @Html.LabelFor(m => m.Country, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.Country, ViewBag.CountryList as SelectList, "--Select Country--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.DropDownListFor(model => model.Country, TempData["CountryList"] as SelectList, "--Select Country--", new { @class = "textbox-control col-md-3 col-xs" })
             @Html.LabelFor(m => m.State, new { @class = "col-md-1" })
             @Html.DropDownListFor(model => model.State, new SelectList(" "), "--Select State--", new { @class = "textbox-control col-md-3 col-xs" })
             @*@Html.ValidationMessageFor(m => m.stateID, "", new { @class = "text-danger" })*@
@@ -85,7 +87,7 @@
         </div>
         <div class="row" style="padding-top:5px">
             @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.ProjectID, ViewBag.ProjectList as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
             @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
             @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
             @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
@@ -130,8 +132,8 @@
         </div>
         <div class="row">
 
-            @Html.LabelFor(m => m.PaymentMode, new { @class = "col-md-1" })
-            @Html.DropDownListFor(m => m.PaymentMode, new List<SelectListItem>
+            @Html.LabelFor(m => m.PaymentModeID, new { @class = "col-md-1" })
+            @Html.DropDownListFor(m => m.PaymentModeID, new List<SelectListItem>
     {
          new SelectListItem{ Text="--Mode--", Value = "0"  },
         new SelectListItem{ Text="Cheque", Value = "1" },
@@ -182,237 +184,239 @@
                 $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
             }
         })
-    });
 
-    $("#State").change(function () {
-        $.get("/Cascade/GetCityList", { StateId: $("#State").val() }, function (data) {
-            $("#City").empty();
-            $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
-            $.each(data, function (index, row) {
-                $("#City").append("<option value='" + row.CityID + "'>" + row.CityName + "</option>")
-            });
-        });
-    });
 
-    $("#ProjectID").change(function () {
-        $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
-            $("#TowerID").empty();
-            $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
-            $("#FlatID").empty();
-            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
-            ClearTextFiels();
-            $.each(data, function (index, row) {
-                $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
-            });
-        });
-        $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
-            $("#AgentID").empty();
-            $("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
-            $.each(data, function (index, row) {
-                $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
-            });
-        });
-    });
-
-    $("#TowerID").change(function () {
-        $.get("/Booking/GetFlats", { TowerId: $("#TowerID").val() }, function (data) {
-            //$("#TowerID").empty();
-            //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
-            $("#FlatID").empty();
-            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
-            ClearTextFiels();
-            $.each(data, function (index, row) {
-                $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
-            });
-        });
-    });
-
-    $("#FlatID").change(function () {
-        if ($("#FlatID").val() != 0) {
-            $.get("/Booking/GetFlatDetails", { FlatId: $("#FlatID").val(), ProjectId: $("#ProjectID").val() }, function (data) {
-                //$("#TowerID").empty();
-                //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
-                //$("#FlatID").empty();
-                //$("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+        $("#State").change(function () {
+            $.get("/Cascade/GetCityList", { StateId: $("#State").val() }, function (data) {
+                $("#City").empty();
+                $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
                 $.each(data, function (index, row) {
-                    debugger;
-                    $("#Floor").val(row.Floor);
-                    $("#Bhk").val(row.Bhk);
-                    //$("#HighRiseCharges").val(row.HighRiseCharges);
-                    $("#Area").val(row.Sft);
-                    //$("#MaintenanceCharges").val(row.Maintenance);
-                    $("#Facing").val(row.Facing);
-                    //$("#TotalRate").val(row.TotalRate);
-                    $("#ClubHouseCharges").val(row.ClubHouseCharges);
-
+                    $("#City").append("<option value='" + row.CityID + "'>" + row.CityName + "</option>")
                 });
             });
-        }
-        else {
-            ClearTextFiels();
-        }
-    });
+        });
 
-    function ClearTextFiels() {
-        $("#Floor").val('');
-        $("#Bhk").val('');
-        $("#HighRiseCharges").val('');
-        $("#Area").val('');
-        //$("#MaintenanceCharges").val('');
-        $("#Facing").val('');
-        $("#TotalRate").val('');
-        $("#FinalRate").val('');
-        $("#GrandRate").val('');
-        $("#BookingAmount").val('');
-        $("#BalanceAmount").val('');
-        $("#SftRate").val('');
-        //$("#TotalRate").val('');
-        $("#ClubHouseCharges").val('');
-    }
+        $("#ProjectID").change(function () {
+            $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+                $("#TowerID").empty();
+                $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+                $("#FlatID").empty();
+                $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+                ClearTextFiels();
+                $.each(data, function (index, row) {
+                    $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+                });
+            });
+            $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
+                $("#AgentID").empty();
+                $("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
+                $.each(data, function (index, row) {
+                    $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+                });
+            });
+        });
 
-    $("#SftRate").keyup(function () {
-        SetTotalRate();
-    });
+        $("#TowerID").change(function () {
+            $.get("/Booking/GetFlats", { TowerId: $("#TowerID").val() }, function (data) {
+                //$("#TowerID").empty();
+                //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+                $("#FlatID").empty();
+                $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+                ClearTextFiels();
+                $.each(data, function (index, row) {
+                    $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
+                });
+            });
+        });
 
-    $("#HighRiseCharges").keyup(function () {
-        SetTotalRate();
-    });
+        $("#FlatID").change(function () {
+            if ($("#FlatID").val() != 0) {
+                $.get("/Booking/GetFlatDetails", { FlatId: $("#FlatID").val(), ProjectId: $("#ProjectID").val() }, function (data) {
+                    //$("#TowerID").empty();
+                    //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+                    //$("#FlatID").empty();
+                    //$("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+                    $.each(data, function (index, row) {
+                        $("#Floor").val(row.Floor);
+                        $("#Bhk").val(row.Bhk);
+                        //$("#HighRiseCharges").val(row.HighRiseCharges);
+                        $("#Area").val(row.Sft);
+                        //$("#MaintenanceCharges").val(row.Maintenance);
+                        $("#Facing").val(row.Facing);
+                        //$("#TotalRate").val(row.TotalRate);
+                        $("#ClubHouseCharges").val(row.ClubHouseCharges);
 
-    $("#Discount").keyup(function () {
-        SetTotalRate();
-    });
-
-    $("#BookingAmount").keyup(function () {
-        SetBalanceAmount();
-    });
-
-    function SetTotalRate() {
-        if ($("#SftRate").val() != '' && $("#HighRiseCharges").val() != '' && $("#Discount").val() != '') {
-            $("#TotalRate").val(parseInt($("#SftRate").val()) + parseInt($("#HighRiseCharges").val()) - parseInt($("#Discount").val()));
-            $("#FinalRate").val(parseInt($("#TotalRate").val()) * parseInt($("#Area").val()))
-            if ($("#ClubHouseCharges").val() != '') {
-                $("#GrandRate").val(parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val()))
+                    });
+                });
             }
-        }
-        else {
+            else {
+                ClearTextFiels();
+            }
+        });
+
+        function ClearTextFiels() {
+            $("#Floor").val('');
+            $("#Bhk").val('');
+            $("#HighRiseCharges").val('');
+            $("#Area").val('');
+            //$("#MaintenanceCharges").val('');
+            $("#Facing").val('');
             $("#TotalRate").val('');
             $("#FinalRate").val('');
             $("#GrandRate").val('');
             $("#BookingAmount").val('');
             $("#BalanceAmount").val('');
+            $("#SftRate").val('');
+            //$("#TotalRate").val('');
+            $("#ClubHouseCharges").val('');
         }
-    }
 
+        $("#SftRate").keyup(function () {
+            SetTotalRate();
+        });
 
-    function SetBalanceAmount() {
-        if ($("#GrandRate").val() != '' && $("#BookingAmount").val() != '') {
-            $("#BalanceAmount").val(parseInt($("#GrandRate").val()) - parseInt($("#BookingAmount").val()))
+        $("#HighRiseCharges").keyup(function () {
+            SetTotalRate();
+        });
+
+        $("#Discount").keyup(function () {
+            SetTotalRate();
+        });
+
+        $("#BookingAmount").keyup(function () {
+            SetBalanceAmount();
+        });
+
+        function SetTotalRate() {
+            if ($("#SftRate").val() != '' && $("#HighRiseCharges").val() != '' && $("#Discount").val() != '') {
+                $("#TotalRate").val(parseInt($("#SftRate").val()) + parseInt($("#HighRiseCharges").val()) - parseInt($("#Discount").val()));
+                $("#FinalRate").val(parseInt($("#TotalRate").val()) * parseInt($("#Area").val()))
+                if ($("#ClubHouseCharges").val() != '') {
+                    $("#GrandRate").val(parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val()))
+                }
+            }
+            else {
+                $("#TotalRate").val('');
+                $("#FinalRate").val('');
+                $("#GrandRate").val('');
+                $("#BookingAmount").val('');
+                $("#BalanceAmount").val('');
+            }
         }
-        else {
-            $("#BalanceAmount").val('')
+
+
+        function SetBalanceAmount() {
+            if ($("#GrandRate").val() != '' && $("#BookingAmount").val() != '') {
+                $("#BalanceAmount").val(parseInt($("#GrandRate").val()) - parseInt($("#BookingAmount").val()))
+            }
+            else {
+                $("#BalanceAmount").val('')
+            }
         }
-    }
 
 
 
 
-    $("#submitbtn").submit(function () {
-        Validations();
-        SetHiddenFields();
-        //if (!$('#submitbtn').valid()) {
-        //    $('#ValidationSummaryModal').modal('show');
-        //}
+        $("#submitbtn").submit(function () {
+            Validations();
+            SetHiddenFields();
+            //if (!$('#submitbtn').valid()) {
+            //    $('#ValidationSummaryModal').modal('show');
+            //}
+        });
+
+        function SetHiddenFields() {
+            $("#ProjectName").val($("#ProjectID option:selected").text());
+            $("#TowerName").val($("#TowerID option:selected").text());
+            $("#FlatName").val($("#FlatID option:selected").text());
+            $("#AgentName").val($("#AgentID option:selected").text());
+            $("#CountryName").val($("#Country option:selected").text());
+            $("#StateName").val($("#State option:selected").text());
+            $("#CityName").val($("#City option:selected").text());
+            $("#PaymentMode").val($("#PaymentModeID option:selected").text());
+        };
+
+
+        function Validations() {
+            if ($("#Name").val() == '') {
+                toastr.error("Name is Required");
+                return;
+            }
+            if ($("#Country").val() == '') {
+                toastr.error("Country is Required"); return;
+            }
+            if ($("#State").val() == '0') {
+                toastr.error("State is Required"); return;
+            }
+            if ($("#City").val() == '0') {
+                toastr.error("City is Required"); return;
+            }
+            if ($("#Nominee").val() == '') {
+                toastr.error("Nominee is Required"); return;
+            }
+            if ($("#Relationship").val() == '0') {
+                toastr.error("Relationship is Required"); return;
+            }
+            if ($("#Age").val() == '') {
+                toastr.error("Age is Required"); return;
+            }
+            if ($("#Dob").val() == '0') {
+                toastr.error("Dob is Required"); return;
+            }
+            if ($("#Aadhar").val() == '0') {
+                toastr.error("Aadhar is Required"); return;
+            }
+            if ($("#Pan").val() == '') {
+                toastr.error("Pan is Required"); return;
+            }
+            if ($("#Address").val() == '') {
+                toastr.error("Address is Required"); return;
+            }
+            if ($("#Pincode").val() == '') {
+                toastr.error("Pincode is Required"); return;
+            }
+            if ($("#Mobile").val() == '') {
+                toastr.error("Mobile is Required"); return;
+            }
+            if ($("#ProjectID").val() == '0') {
+                toastr.error("Project is Required"); return;
+            }
+            if ($("#TowerID").val() == '0') {
+                toastr.error("Tower is Required"); return;
+            }
+            if ($("#FlatID").val() == '0') {
+                toastr.error("Flat is Required"); return;
+            }
+            if ($("#SftRate").val() == '') {
+                toastr.error("SftRate is Required"); return;
+            }
+            if ($("#HighRiseCharges").val() == '') {
+                toastr.error("High Rise charge is Required"); return;
+            }
+            if ($("#Discount").val() == '') {
+                toastr.error("Discount is Required"); return;
+            }
+            if ($("#TotalRate").val() == '') {
+                toastr.error("Total Rate is Required"); return;
+            }
+            if ($("#AgentID").val() == '0') {
+                toastr.error("Agent is Required"); return;
+            }
+            if ($("#FinalRate").val() == '') {
+                toastr.error("Final Rate is Required"); return;
+            }
+            if ($("#Discount").val() == '') {
+                toastr.error("Discount is Required"); return;
+            }
+            if ($("#TotalRate").val() == '') {
+                toastr.error("Total Rate is Required"); return;
+            }
+            if ($("#BookingAmount").val() == '') {
+                toastr.error("Booking Amount Required"); return;
+            }
+        }
+
     });
-
-    function SetHiddenFields() {
-        $("#ProjectName").val($("#ProjectID option:selected").text());
-        $("#TowerName").val($("#TowerID option:selected").text());
-        $("#FlatName").val($("#FlatID option:selected").text());
-        $("#AgentName").val($("#AgentID option:selected").text());
-        $("#CountryName").val($("#Country option:selected").text());
-        $("#StateName").val($("#State option:selected").text());
-        $("#CityName").val($("#City option:selected").text());
-    };
-
-
-    function Validations() {
-        if ($("#Name").val() == '') {
-            toastr.error("Name is Required");
-            return;
-        }
-        if ($("#Country").val() == '') {
-            toastr.error("Country is Required"); return;
-        }
-        if ($("#State").val() == '0') {
-            toastr.error("State is Required"); return;
-        }
-        if ($("#City").val() == '0') {
-            toastr.error("City is Required"); return;
-        }
-        if ($("#Nominee").val() == '') {
-            toastr.error("Nominee is Required"); return;
-        }
-        if ($("#Relationship").val() == '0') {
-            toastr.error("Relationship is Required"); return;
-        }
-        if ($("#Age").val() == '') {
-            toastr.error("Age is Required"); return;
-        }
-        if ($("#Dob").val() == '0') {
-            toastr.error("Dob is Required"); return;
-        }
-        if ($("#Aadhar").val() == '0') {
-            toastr.error("Aadhar is Required"); return;
-        }
-        if ($("#Pan").val() == '') {
-            toastr.error("Pan is Required"); return;
-        }
-        if ($("#Address").val() == '') {
-            toastr.error("Address is Required"); return;
-        }
-        if ($("#Pincode").val() == '') {
-            toastr.error("Pincode is Required"); return;
-        }
-        if ($("#Mobile").val() == '') {
-            toastr.error("Mobile is Required"); return;
-        }
-        if ($("#ProjectID").val() == '0') {
-            toastr.error("Project is Required"); return;
-        }
-        if ($("#TowerID").val() == '0') {
-            toastr.error("Tower is Required"); return;
-        }
-        if ($("#FlatID").val() == '0') {
-            toastr.error("Flat is Required"); return;
-        }
-        if ($("#SftRate").val() == '') {
-            toastr.error("SftRate is Required"); return;
-        }
-        if ($("#HighRiseCharges").val() == '') {
-            toastr.error("High Rise charge is Required"); return;
-        }
-         if ($("#Discount").val() == '') {
-            toastr.error("Discount is Required"); return;
-        }
-         if ($("#TotalRate").val() == '') {
-            toastr.error("Total Rate is Required"); return;
-        }
-         if ($("#AgentID").val() == '0') {
-            toastr.error("Agent is Required"); return; 
-        }
-        if ($("#FinalRate").val() == '') {
-            toastr.error("Final Rate is Required"); return;
-        }
-         if ($("#Discount").val() == '') {
-            toastr.error("Discount is Required"); return;
-        }
-         if ($("#TotalRate").val() == '') {
-            toastr.error("Total Rate is Required"); return;
-        }
-         if ($("#BookingAmount").val() == '') {
-            toastr.error("Booking Amount Required"); return; 
-        }
-    }
 </script>
 
 <script type="text/javascript">

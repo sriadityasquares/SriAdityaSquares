@@ -1,0 +1,75 @@
+﻿@model ModelLayer.BookingInformation
+@{
+    ViewBag.Title = "MakePayment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Booking = "active";
+    ViewBag.MakePayment = "active";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">PAYMENTS</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+    <div class="row">
+        <hr />
+    </div>
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+
+    <div id="paymentInfo" class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+</div>
+<script>
+
+    $("#paymentInfo").hide();
+    $("#ProjectID").change(function () {
+        $.get("/Booking/GetAllTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+            $("#TowerID").empty();
+            $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+            });
+        });
+    });
+
+    $("#TowerID").change(function () {
+        $.get("/Booking/GetAllFlats", { TowerId: $("#TowerID").val() }, function (data) {
+            //$("#TowerID").empty();
+            //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
+            });
+        });
+    });
+
+    $("#FlatID").change(function () {
+        $("#paymentInfo").show();
+        $.get("/Booking/GetLastPaymentDetails", { FlatId: $("#FlatID").val() }, function (data) {
+
+            $.each(data, function (index, row) {
+
+            });
+        });
+    });
+
+</script>

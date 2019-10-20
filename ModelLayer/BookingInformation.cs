@@ -39,6 +39,7 @@ namespace ModelLayer
         [Display(Name = "Grand Total")]
         public Nullable<int> GrandRate { get; set; }
         [Display(Name = "Mode")]
+        public string PaymentModeID { get; set; }
         public string PaymentMode { get; set; }
         [Display(Name = "Ref No")]
         public string ReferenceNo { get; set; }
@@ -72,6 +73,7 @@ namespace ModelLayer
         public string Dob { get; set; }
         public string Address { get; set; }
         public Nullable<int> Pincode { get; set; }
+        [Required]
         public Nullable<int> Mobile { get; set; }
 
         [EmailAddress]
