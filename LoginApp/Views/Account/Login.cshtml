@@ -16,11 +16,13 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-
-                        <div class="row" style="padding-top:10px">  
-                            <h2 class="login-text col-xs-4 col-sm-6 col-md-6">LOG IN</h2>
-                            @*<h2 class="register-text col-xs-8 col-sm-6 col-md-6">@Html.ActionLink("Register Here", "Register", "Account")</h2>*@
+                        <div class="row marb15">
+                            <div class="col-md-4 col-xs">
+                                <h3 align="center" style="margin-bottom:2px">LOG IN</h3>
+                                <div  style="margin-left:15px" class="specialLine col-md-2"></div>
+                            </div>
                         </div>
+
 
                         <div class="row marb15">
                             @Html.LabelFor(m => m.Email, new { @class = "col-sm-4 col-xs-12" })

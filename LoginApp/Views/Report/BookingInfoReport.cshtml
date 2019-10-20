@@ -10,12 +10,13 @@
 
     <div class="row">
         <div class="col-md-12 col-xs" style="margin-top:0px">
-            <h3 style="margin-top:0px" align="center">Booking Information Report</h3>
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">BOOKING INFORMATION</h3>
+            <div class="specialLine col-md-1"></div>
         </div>
 
     </div>
 
-    <div class="row" style="padding-top:5px">
+    <div class="row" style="margin-top:20px">
         @Html.LabelFor(m => m.Project, new { @class = "col-md-1" })
         <div class="col-md-3 col-xs">
             @Html.DropDownListFor(m => m.Project, ViewBag.ProjectList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
