@@ -205,7 +205,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="char" MaxLength="1" Nullable="false" />
-          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="BookingStatus" Type="nvarchar" MaxLength="50" />
           <Property Name="StatusType" Type="int" />
         </EntityType>
         <EntityType Name="tblTowers">
@@ -331,7 +331,6 @@
             <End Role="tblProject" EntitySet="tblProjects" />
             <End Role="tblFlat" EntitySet="tblFlats" />
           </AssociationSet>
-          <EntitySet Name="tblStatus" EntityType="salesDBModel.tblStatu" />
           <EntitySet Name="tblTowers" EntityType="salesDBModel.tblTower" />
           <AssociationSet Name="FK_Flats2" Association="salesDBModel.FK_Flats2">
             <End Role="tblTower" EntitySet="tblTowers" />
@@ -366,6 +365,7 @@
             <Parameter Name="todate" Mode="In" Type="String" />
             <Parameter Name="projectid" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="tblStatus" EntityType="salesDBModel.tblStatu" />
         </EntityContainer>
         <EntityType Name="tblAgentLevel">
           <Key>
@@ -492,14 +492,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="tblStatu">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusType" Type="Int32" />
-        </EntityType>
         <EntityType Name="tblTower">
           <Key>
             <PropertyRef Name="TowerID" />
@@ -677,6 +669,14 @@
           <Property Type="Int32" Name="month" Nullable="true" />
           <Property Type="Int32" Name="day" Nullable="true" />
         </ComplexType>
+        <EntityType Name="tblStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="BookingStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusType" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -796,15 +796,6 @@
                 <ScalarProperty Name="StateName" ColumnName="StateName" />
                 <ScalarProperty Name="CountryID" ColumnName="CountryID" />
                 <ScalarProperty Name="StateID" ColumnName="StateID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblStatus">
-            <EntityTypeMapping TypeName="salesDBModel.tblStatu">
-              <MappingFragment StoreEntitySet="tblStatus">
-                <ScalarProperty Name="StatusType" ColumnName="StatusType" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -981,6 +972,15 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblStatus">
+            <EntityTypeMapping TypeName="salesDBModel.tblStatu">
+              <MappingFragment StoreEntitySet="tblStatus">
+                <ScalarProperty Name="StatusType" ColumnName="StatusType" />
+                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

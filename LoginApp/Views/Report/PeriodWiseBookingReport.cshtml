@@ -79,11 +79,18 @@
         <div class="col-md-2 col-xs">
             @Html.DropDownListFor(m => m.Month, ViewBag.MonthList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
         </div>
-        @Html.LabelFor(m => m.From, new { @class = "col-md-1 required" })
+        @*@Html.LabelFor(m => m.From, new { @class = "col-md-1 required" })
         <input class="textbox-control col-md-2" id="datepicker1" value="" title="datepicker" />
-        @*<input id="datepicker1" class="col-md-2" style="width: 100%" />*@
         @Html.LabelFor(m => m.To, new { @class = "col-md-1 required" })
-        <input class="textbox-control col-md-2" id="datepicker2" value="" title="datepicker" />
+        <input class="textbox-control col-md-2" id="datepicker2" value="" title="datepicker" />*@
+        @Html.LabelFor(m => m.From, new { @class = "col-md-1 required" })
+        <div class="col-md-2">
+            <input id="datepicker1" value="" title="datepicker" />
+        </div>
+        @Html.LabelFor(m => m.To, new { @class = "col-md-1 required" })
+        <div class="col-md-2">
+            <input id="datepicker2" value="" title="datepicker" />
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12 col-xs">
@@ -273,13 +280,7 @@
         width: 160px
     }
 
-    .k-i-calendar {
-        background-image: url('../../Content/Images/calendar.png');
-        background-position: center !important;
-        border: none;
-        height: 16px !important;
-        padding-bottom: 2px;
-    }
+    
 
      k-i-file-excel {
         background-image: url('../../Content/Images/icons8-microsoft-excel-64.png');

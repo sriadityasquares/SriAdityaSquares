@@ -7,8 +7,12 @@
     <link rel="icon" href="" sizes="32x32">
     <link rel="icon" href="" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="">
-    <link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
-    <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />
+    @*<link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
+        <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />*@
+    @*<link href="~/Content/kendo/2014.1.318/kendo.common.min.css" rel="stylesheet" />*@
+    <link href="~/Content/kendo/2019.3.917/kendo.common.min.css" rel="stylesheet" />
+    @*<link href="~/Content/kendo/2014.1.318/kendo.default.min.css" rel="stylesheet" />*@
+    <link href="~/Content/kendo/2019.3.917/kendo.default.min.css" rel="stylesheet" />
     <link href="~/Content/css/select2.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -17,8 +21,13 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
-    <script src="~/Scripts/kendo/jszip.js"></script>
-    <script src="~/Scripts/kendo/kendo.all.min.js"></script>
+
+
+    @*<script src="~/Scripts/kendo/jszip.js"></script>*@
+
+
+    <script src="~/Scripts/jszip.js"></script>
+    <script src="~/Scripts/kendo.all.min.js"></script>
     <script src="~/Scripts/select2.min.js"></script>
     <link href="~/Content/Select2OverWrite.css" rel="stylesheet" />
     @*<script src="/Scripts/jquery-ui-1.12.1.min.js"></script>*@
@@ -35,12 +44,15 @@
                     <li>
                         <a href="index.html"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
                     </li>
-                    <li class="sub-menu @(ViewBag.Account)">
+                    <li class="sub-menu @(ViewBag.Admin)">
                         <a href="javascript:void(0);"><i class="fa fa-user"></i><span>Admin</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
 
                             <li>
                                 <a class="@(ViewBag.Register)" href="@Url.Action("Register", "Account")">New User Registration</a>
+                            </li>
+                            <li>
+                                <a class="@(ViewBag.Project)" href="@Url.Action("Index", "Project")">Projects</a>
                             </li>
                         </ul>
                     </li>
@@ -51,7 +63,7 @@
                             <li>
                                 <a class="@(ViewBag.NewBooking)" href="@Url.Action("New", "Booking")">New Booking</a>
                             </li>
-                            
+
 
                         </ul>
                     </li>
@@ -194,7 +206,7 @@
 </html>
 <style>
     body {
-        background-image: font-family: 'Open Sans', sans-serif;
+        font-family: 'Open Sans', sans-serif;
         background-image: url('../../Content/Images/blur-blurred-background-colors-754082.jpg');
         padding: 0;
         margin: 0;

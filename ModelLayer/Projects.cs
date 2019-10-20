@@ -29,5 +29,7 @@ namespace ModelLayer
         public virtual ICollection<Flats> tblFlats { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Towers> tblTowers { get; set; }
+
+        public string BookingStatusName { get; set; }
     }
 }

@@ -15,17 +15,21 @@
 
     <div class="row" style="padding-top:5px">
         @Html.LabelFor(m => m.From, new { @class = "col-md-1 required" })
-        <input class="textbox-control col-md-3" id="datepicker1" value="10/10/2011" title="datepicker" />
+        <div class="col-md-2">
+            <input id="datepicker1" value="10/01/2019" title="datepicker" />
+        </div>
         @Html.LabelFor(m => m.To, new { @class = "col-md-1 required" })
-        <input class="textbox-control col-md-3" id="datepicker2" value="10/10/2011" title="datepicker" />
+        <div class="col-md-2">
+            <input id="datepicker2" value="10/01/2019" title="datepicker" />
+        </div>
         @*@Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })*@
         <div class="col-md-12 col=xs">
             <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
         </div>
     </div>
-    
-        <div id="grid"></div>
-    
+
+    <div id="grid"></div>
+
 
 
 </div>
@@ -66,8 +70,8 @@
                     { field: "Pan", title: "Pan" },
                     { field: "Discontinued", width: "130px" }
                 ],
-                
-                
+
+
             });
         });
 

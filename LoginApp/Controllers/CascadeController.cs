@@ -23,45 +23,18 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IEnumerable<SelectListItem> BindCountryDetails()
-        {
-
-
-            //List<tblCountry> countryDetail = new List<tblCountry>();
-            //try
-            //{
-            //    countryDetail = objCasc.BindCountry();
-            //}
-            
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
-
-            //return countryDetail;
-            var li = new List<SelectListItem>();
-            li.Add(new SelectListItem
-            {
-                Text = "--Select--",
-                Value = ""
-            });
-
-
-            li.AddRange(objCasc.BindCountry().Select(x => new SelectListItem
-            {
-                Text = x.CountryName,
-                Value = x.CountryID.ToString(),
-                Selected = (x.CountryID == 0)
-            })) ;
-            return li;
-        }
-
 
         public JsonResult GetStateList(int CountryId)
         {
             List<State> StateList = objCasc.BindState(CountryId);
             return Json(StateList, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetStatus()
+        {
+            List<Status> statusList = objCasc.BindStatus();
+            return Json(statusList, JsonRequestBehavior.AllowGet);
 
         }
 

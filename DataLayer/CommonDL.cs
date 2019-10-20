@@ -51,6 +51,25 @@ namespace DataLayer
             return lstState;
         }
 
+        public List<Status> BindStatus()
+        {
+            List<Status> lstStatus = new List<Status>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblStatu, Status>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstStatus = mapper.Map<List<tblStatu>, List<Status>>(dbEntity.tblStatus.Where(x => x.StatusType == 1).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstStatus;
+        }
+
         public List<City> BindCity(int stateId)
         {
             List<City> lstCity = new List<City>();

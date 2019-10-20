@@ -235,14 +235,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
 }
 
-.k-button {
-    font-weight: 600;
-}
 
-div.k-window {
-    border-radius: 0px;
-    border-width: 0px;
-}
 
 h3.deadline-form {
     color: #666;
@@ -940,10 +933,7 @@ select:disabled {
     padding: 8px 0px;
 }
 
-.k-button:focus:active:not(.k-state-disabled):not([disabled]), .k-button:focus:not(.k-state-disabled):not([disabled]) {
-    box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-}
+
 
 p.timeline-Tweet-text {
     font-family: 'Montserrat' !important;
@@ -1419,17 +1409,7 @@ header .navbar {
     font-size: 24px;
 }
 
-.goals:nth-child(2) .k-slider-selection {
-    background-color: orangered;
-}
 
-.goals:nth-child(3) .k-slider-selection {
-    background-color: #eebf3f;
-}
-
-.goals:nth-child(4) .k-slider-selection {
-    background-color: #acd373;
-}
 
 .AllocationGridHeader {
     width: 100%;
@@ -1512,9 +1492,7 @@ header .navbar {
         margin-top: 0;
     }
 
-.k-block, .k-content, .k-dropdown .k-input, .k-popup, .k-toolbar, .k-widget {
-    color: #4c4441 !important;
-}
+
 
 .login-box .checkbox-info input[type="checkbox"]:checked + label::before {
     background-color: #5bc0de;
@@ -3756,18 +3734,18 @@ tr.Expired td {
     position: relative;
 }
 
-.k-datepicker .error-red {
+/*.k-datepicker .error-red {
     border-radius: 0px !important;
     height: 30px;
-}
+}*/
 
-.k-picker-wrap .k-icon {
+/*.k-picker-wrap .k-icon {
     height: 30px;
-}
+}*/
 
-.k-input {
+/*.k-input {
     border-width: 0px !important;
-}
+}*/
 
 /*.k-picker-wrap {border:1px solid #f00!important; border-radius:0px!important;}*/
 
@@ -4877,7 +4855,7 @@ input[type=checkbox]:checked:before {
     display: none;
 }
 
-.Report-Tab .k-tabstrip-items .k-item {
+/*.Report-Tab .k-tabstrip-items .k-item {
     border-radius: 0px 0px 0px 0px !important;
     border: 0px !important;
     vertical-align: bottom !important;
@@ -4918,13 +4896,13 @@ input[type=checkbox]:checked:before {
 .Report-Tab .k-content {
     border-width: 0px !important;
     padding: 1em 0.2em !important;
-}
+}*/
 
 .Report-Tab label {
     line-height: 1.6em;
 }
 
-.Report-Tab .k-tabstrip-items .k-state-active {
+/*.Report-Tab .k-tabstrip-items .k-state-active {
     border: 1px solid #ccc;
     background-color: transparent;
     margin-bottom: -1px !important;
@@ -4942,13 +4920,13 @@ input[type=checkbox]:checked:before {
 
 .Report-Tab .k-tabstrip-items .k-state-active span {
     color: #000;
-}
+}*/
 
 #PendingRequests {
     text-align: center;
 }
 
-#tabstrip .k-tabstrip-items {
+/*#tabstrip .k-tabstrip-items {
     width: 100%;
     border-bottom: 1px solid #d6d1cf !important;
     margin-left: 0px !important;
@@ -4958,7 +4936,7 @@ input[type=checkbox]:checked:before {
 
 .k-tabstrip-items .k-state-default {
     width: 33.3333%;
-}
+}*/
 
 .dashboard-box .carousel-control.left {
     background-image: none !important;
@@ -5014,9 +4992,9 @@ div[data-container-for^='Periods'] {
         background-color: #d9d9d9;
     }
 
-.k-state-selected span[id^='item'] {
+/*.k-state-selected span[id^='item'] {
     color: #fff;
-}
+}*/
 
 th[data-role^='filtermenu'] {
     overflow-y: hidden !important;
@@ -5047,9 +5025,9 @@ th[data-role^='filtermenu'] {
         top: 0;
     }
 
-    .k-link {
+    /*.k-link {
         display: none !important;
-    }
+    }*/
 
     #SubmitReport text {
         display: none !important;
@@ -5082,7 +5060,7 @@ th[data-role^='filtermenu'] {
     position: fixed;
 }
 
-.k-loading-image {
+/*.k-loading-image {
     top: 0;
     left: 0;
     z-index: 2;
@@ -5091,7 +5069,7 @@ th[data-role^='filtermenu'] {
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: center center;
-}
+}*/
 
 
 /*Super Question view*/
@@ -5162,7 +5140,7 @@ th[data-role^='filtermenu'] {
     padding: 5px;
 }
 
-.k-pager-wrap {
+/*.k-pager-wrap {
     border-top: 0;
 }
 
@@ -5173,7 +5151,7 @@ span.k-invalid-msg {
 
 .k-add-button {
     margin-bottom: 2em;
-}
+}*/
 
 @media only screen and (max-width : 620px) {
     .Question-view {
@@ -5229,9 +5207,9 @@ button, input, select, textarea {
     cursor: not-allowed;
 }
 
-span.k-numerictextbox {
+/*span.k-numerictextbox {
     width: 100%;
-}
+}*/
 
 .mylist-heading {
     float: left;
