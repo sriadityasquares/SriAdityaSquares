@@ -33,6 +33,27 @@ namespace DataLayer
             return lstProjects;
         }
 
+        public List<Projects> BindAllProjects()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<Projects> lstProjects = new List<Projects>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblProject, Projects>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstProjects = mapper.Map<List<tblProject>, List<Projects>>(dbEntity.tblProjects.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstProjects;
+        }
         public List<Towers> BindTowers(int projectID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -55,6 +76,27 @@ namespace DataLayer
             return lstTowers;
         }
 
+        public List<Towers> BindAllTowers(int projectID)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<Towers> lstTowers = new List<Towers>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblTower, Towers>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstTowers = mapper.Map<List<tblTower>, List<Towers>>(dbEntity.tblTowers.Where(a => a.ProjectID == projectID).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstTowers;
+        }
         public List<Flats> BindFlats(int towerID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -77,6 +119,27 @@ namespace DataLayer
             return lstFlats;
         }
 
+        public List<Flats> BindAllFlats(int towerID)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<Flats> lstFlats = new List<Flats>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblFlat, Flats>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstFlats;
+        }
         public List<AgentProjectLevel> BindProjectAgents(int projectID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -199,6 +262,29 @@ namespace DataLayer
                 Console.WriteLine(ex.Message);
                 return false;
             }
+        }
+
+        public List<PaymentInformation> BindPaymentDetails(int FlatId)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<PaymentInformation> lstPayDetails = new List<PaymentInformation>();
+            try
+            {
+
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblPaymentInfo, PaymentInformation>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstPayDetails = mapper.Map<List<tblPaymentInfo>, List<PaymentInformation>>(dbEntity.tblPaymentInfoes.Where(x=> x.FlatID == FlatId).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstPayDetails;
         }
     }
 }

@@ -116,7 +116,41 @@ namespace LoginApp.Controllers
         {
             List<Projects> projectList = booking.BindProjects();
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            List<PaymentInformation> lstPayments = new List<PaymentInformation>();
+            ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
             return View();
+        }
+
+        public ActionResult GetPaymentDetails(int flatID)
+        {
+            List<PaymentInformation> lstPayments = booking.BindPaymentDetails(flatID);
+            
+            foreach(var item in lstPayments)
+            {
+                item.FormattedDate = Convert.ToDateTime(item.CreatedDate).Date.ToShortDateString();
+            }
+            return Json(lstPayments, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetAllProjects()
+        {
+            List<Projects> projectList = booking.BindAllProjects();
+            return Json(projectList, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetAllTowers(int ProjectId)
+        {
+            List<Towers> CityList = booking.BindAllTowers(ProjectId);
+            return Json(CityList, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetAllFlats(int TowerId)
+        {
+            List<Flats> CityList = booking.BindAllFlats(TowerId);
+            return Json(CityList, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

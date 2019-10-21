@@ -98,5 +98,6 @@ namespace ModelLayer
         public Nullable<int> Month { get; set; }
         public Nullable<int> Day { get; set; }
 
+
     }
 }

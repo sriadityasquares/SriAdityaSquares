@@ -54,6 +54,7 @@
     <Compile Include="GetBookingInfoByDate.cs" />
     <Compile Include="GetPeriodWiseBookingDetails.cs" />
     <Compile Include="Month.cs" />
+    <Compile Include="PaymentInformation.cs" />
     <Compile Include="Projects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Report.cs" />

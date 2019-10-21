@@ -16,6 +16,11 @@ namespace BusinessLayer
             return db.BindProjects();
         }
 
+        public List<Projects> BindAllProjects()
+        {
+            return db.BindAllProjects();
+        }
+
         public List<Towers> BindTowers(int projectID)
         {
             return db.BindTowers(projectID);
@@ -24,6 +29,16 @@ namespace BusinessLayer
         public List<Flats> BindFlats(int towerID)
         {
             return db.BindFlats(towerID);
+        }
+
+        public List<Towers> BindAllTowers(int projectID)
+        {
+            return db.BindAllTowers(projectID);
+        }
+
+        public List<Flats> BindAllFlats(int towerID)
+        {
+            return db.BindAllFlats(towerID);
         }
 
         public List<AgentProjectLevel> BindProjectAgents(int projectID)
@@ -39,6 +54,11 @@ namespace BusinessLayer
         public bool SaveNewBooking(BookingInformation b)
         {
             return db.SaveNewBooking(b);
+        }
+
+        public List<PaymentInformation> BindPaymentDetails(int FlatId)
+        {
+            return db.BindPaymentDetails(FlatId);
         }
     }
 }
