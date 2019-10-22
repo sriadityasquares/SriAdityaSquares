@@ -467,9 +467,14 @@
     <Content Include="Content\css\select2.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\147.jpg" />
     <Content Include="Content\Images\blur-blurred-background-colors-754082.jpg" />
     <Content Include="Content\Images\calendar.png" />
     <Content Include="Content\Images\icons8-microsoft-excel-64.png" />
+    <Content Include="Content\Images\joanna-kosinska-RE-8WswW95o-unsplash.jpg" />
+    <Content Include="Content\Images\Jumbtron.PNG" />
+    <Content Include="Content\Images\pawel-czerwinski-SlBmEVU2y-A-unsplash.jpg" />
+    <Content Include="Content\Images\r_-r-2_BZuGgkP4k-unsplash.jpg" />
     <Content Include="Content\Images\sort.png" />
     <Content Include="Content\KendoOverWrite.css" />
     <Content Include="Content\kendo\2019.3.917\Black\editor.png" />

@@ -31,14 +31,14 @@ namespace BusinessLayer
             return db.BindFlats(towerID);
         }
 
-        public List<Towers> BindAllTowers(int projectID)
+        public List<Towers> BindTowersInProgress(int projectID)
         {
-            return db.BindAllTowers(projectID);
+            return db.BindTowersInProgress(projectID);
         }
 
-        public List<Flats> BindAllFlats(int towerID)
+        public List<Flats> BindFlatsInProgress(int towerID)
         {
-            return db.BindAllFlats(towerID);
+            return db.BindFlatsInProgress(towerID);
         }
 
         public List<AgentProjectLevel> BindProjectAgents(int projectID)
@@ -59,6 +59,11 @@ namespace BusinessLayer
         public List<PaymentInformation> BindPaymentDetails(int FlatId)
         {
             return db.BindPaymentDetails(FlatId);
+        }
+
+        public bool SaveNewPayment(PaymentInformation payInfo)
+        {
+            return db.SaveNewPayment(payInfo);
         }
     }
 }

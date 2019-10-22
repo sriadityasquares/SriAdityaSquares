@@ -176,6 +176,9 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Day" Type="int" />
         </EntityType>
         <EntityType Name="tblProjects">
           <Key>
@@ -684,6 +687,9 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Day" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -977,6 +983,9 @@
           <EntitySetMapping Name="tblPaymentInfoes">
             <EntityTypeMapping TypeName="salesDBModel.tblPaymentInfo">
               <MappingFragment StoreEntitySet="tblPaymentInfo">
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />

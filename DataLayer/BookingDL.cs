@@ -76,7 +76,7 @@ namespace DataLayer
             return lstTowers;
         }
 
-        public List<Towers> BindAllTowers(int projectID)
+        public List<Towers> BindTowersInProgress(int projectID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
 
@@ -89,7 +89,7 @@ namespace DataLayer
                     cfg.CreateMap<tblTower, Towers>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstTowers = mapper.Map<List<tblTower>, List<Towers>>(dbEntity.tblTowers.Where(a => a.ProjectID == projectID).ToList()).ToList();
+                lstTowers = mapper.Map<List<tblTower>, List<Towers>>(dbEntity.tblTowers.Where(a => a.ProjectID == projectID && a.BookingStatus == "P").ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -119,7 +119,7 @@ namespace DataLayer
             return lstFlats;
         }
 
-        public List<Flats> BindAllFlats(int towerID)
+        public List<Flats> BindFlatsInProgress(int towerID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
 
@@ -132,7 +132,7 @@ namespace DataLayer
                     cfg.CreateMap<tblFlat, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID).ToList()).ToList();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && a.BookingStatus== "P").ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -285,6 +285,37 @@ namespace DataLayer
                 ex.ToString();
             }
             return lstPayDetails;
+        }
+
+        public bool SaveNewPayment(PaymentInformation payInfo)
+        {
+            try
+            {
+                payInfo.CreatedBy = "";
+                payInfo.CreatedDate = System.DateTime.Now.Date;
+                payInfo.Day = System.DateTime.Now.Day;
+                payInfo.Month = System.DateTime.Now.Month;
+                payInfo.Year = System.DateTime.Now.Year;
+                var config2 = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<PaymentInformation, tblPaymentInfo>();
+                });
+                tblPaymentInfo paymentDetails = new tblPaymentInfo();
+                IMapper mapper2 = config2.CreateMapper();
+                mapper2.Map<PaymentInformation, tblPaymentInfo>(payInfo, paymentDetails);
+                dbEntity.tblPaymentInfoes.Add(paymentDetails);
+                if(payInfo.BalanceAmount == 0)
+                {
+                    tblFlat flat = dbEntity.tblFlats.Where(x => x.FlatID == payInfo.FlatID).FirstOrDefault();
+                    flat.BookingStatus = "C";
+                }
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

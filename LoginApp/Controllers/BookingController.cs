@@ -17,7 +17,7 @@ namespace LoginApp.Controllers
     {
         CommonBL common = new CommonBL();
         BookingBL booking = new BookingBL();
-        
+
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
         {
@@ -53,13 +53,13 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        
+
 
         [HttpPost]
         public ActionResult New(ModelLayer.BookingInformation b)
         {
             bool result = booking.SaveNewBooking(b);
-            if(result)
+            if (result)
             {
                 //ViewBag.result = "Booking Successfull";
                 TempData["successmessage"] = "Booking Successfull";
@@ -73,7 +73,7 @@ namespace LoginApp.Controllers
                 TempData["successmessage"] = "Booking Failed";
             }
             ModelState.Clear();
-            
+
             return View();
         }
 
@@ -98,7 +98,7 @@ namespace LoginApp.Controllers
 
         }
 
-        public JsonResult GetFlatDetails(int FlatId,int ProjectID)
+        public JsonResult GetFlatDetails(int FlatId, int ProjectID)
         {
             List<FlatDetails> FlatDetails = booking.BindFlatDetails(FlatId, ProjectID);
             return Json(FlatDetails, JsonRequestBehavior.AllowGet);
@@ -116,6 +116,21 @@ namespace LoginApp.Controllers
         {
             List<Projects> projectList = booking.BindProjects();
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
+            List<PaymentInformation> lstPayments = new List<PaymentInformation>();
+            ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult MakePayment(PaymentInformation payInfo)
+        {
+            var result = booking.SaveNewPayment(payInfo);
+            if (result)
+                TempData["successmessage"] = "Payment Successfull";
+            else
+                TempData["successmessage"] = "Payment Failed";
+            ModelState.Clear();
             List<PaymentInformation> lstPayments = new List<PaymentInformation>();
             ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
             return View();
@@ -124,8 +139,8 @@ namespace LoginApp.Controllers
         public ActionResult GetPaymentDetails(int flatID)
         {
             List<PaymentInformation> lstPayments = booking.BindPaymentDetails(flatID);
-            
-            foreach(var item in lstPayments)
+
+            foreach (var item in lstPayments)
             {
                 item.FormattedDate = Convert.ToDateTime(item.CreatedDate).Date.ToShortDateString();
             }
@@ -139,16 +154,16 @@ namespace LoginApp.Controllers
 
         }
 
-        public JsonResult GetAllTowers(int ProjectId)
+        public JsonResult GetTowersInProgress(int ProjectId)
         {
-            List<Towers> CityList = booking.BindAllTowers(ProjectId);
+            List<Towers> CityList = booking.BindTowersInProgress(ProjectId);
             return Json(CityList, JsonRequestBehavior.AllowGet);
 
         }
 
-        public JsonResult GetAllFlats(int TowerId)
+        public JsonResult GetFlatsInProgress(int TowerId)
         {
-            List<Flats> CityList = booking.BindAllFlats(TowerId);
+            List<Flats> CityList = booking.BindFlatsInProgress(TowerId);
             return Json(CityList, JsonRequestBehavior.AllowGet);
 
         }

@@ -37,5 +37,8 @@ namespace ModelLayer
 
         [Display(Name = "Total Balance")]
         public Nullable<int> TotalBalance { get; set; }
+        public Nullable<int> Year { get; set; }
+        public Nullable<int> Month { get; set; }
+        public Nullable<int> Day { get; set; }
     }
 }

@@ -11,26 +11,30 @@
     //@(ViewContext.ClientValidationEnabled = false)
 
 @Html.AntiForgeryToken()
-    <div class="jumbotron">
-        <div class="row">
-            <div class="col-md-1 col-xs">
-                <h3 align="center" style="margin-bottom:2px">PAYMENTS</h3>
-                <div class="specialLine"></div>
-            </div>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">PAYMENTS</h3>
+            <div class="specialLine"></div>
+        </div>
 
-        </div>
-        <div class="row">
-            <hr />
-        </div>
-        <div class="row" style="padding-top:10px">
-            @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
-        </div>
-        <div id="paydetails" class="row justify-content-center" style="padding-top:20px">
+    </div>
+    <div class="row">
+        <hr />
+    </div>
+    @Html.HiddenFor(m=>m.PaymentMode)
+    @Html.HiddenFor(m=>m.BookingID)
+    @Html.HiddenFor(m=>m.Aadhar)
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+    <div id="paydetails">
+        <div class="row justify-content-center" style="padding-top:20px">
             <div class="" col-md-12 col-sm-12 col-xs-12 table-responsive">
                 <table id="table" style="margin-left:250px;width:50%" class="table table-bordered">
                     <thead>
@@ -80,13 +84,15 @@
             </div>
         </div>
     </div>
+</div>
 }
 <script>
 
 
     HideDiv();
     $("#ProjectID").change(function () {
-        $.get("/Booking/GetAllTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+        $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+            HideDiv();
             $("#TowerID").empty();
             $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
             $("#FlatID").empty();
@@ -99,9 +105,10 @@
 
     $("#TowerID").change(function () {
 
-        $.get("/Booking/GetAllFlats", { TowerId: $("#TowerID").val() }, function (data) {
+        $.get("/Booking/GetFlatsInProgress", { TowerId: $("#TowerID").val() }, function (data) {
             //$("#TowerID").empty();
             //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            HideDiv();
             $("#FlatID").empty();
             $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
             $.each(data, function (index, row) {
@@ -109,50 +116,77 @@
             });
         });
     });
-    var TotalPaid = "";
-    var BalanceAmount = ""
+
     $("#FlatID").change(function () {
         TotalPaid = ""
         $.get("/Booking/GetPaymentDetails", { flatID: $("#FlatID").val() }, function (data) {
-
+            var TotalPaid = 0;
+            var BalanceAmount = "";
+            var BookingID = "";
+            var Aadhar = "";
             $.each(data, function (index, row) {
                 $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td></tr>");
-                TotalPaid = TotalPaid + row.BookingAmount;
-                BalanceAmount = row.BalanceAmount;
+                TotalPaid = TotalPaid + Number(row.BookingAmount);
+                BalanceAmount = parseInt(row.BalanceAmount);
+                BookingID = row.BookingID;
+                Aadhar = row.Aadhar;
             });
             $("#TotalPaid").val(TotalPaid);
             $("#TotalBalance").val(BalanceAmount);
+            $("#BookingID").val(BookingID);
+            $("#Aadhar").val(Aadhar);
             ShowDiv();
         });
     });
 
     $("#BookingAmount").keyup(function () {
-            SetBalanceAmount();
+        SetBalanceAmount();
     });
 
+    $("#submitbtn").submit(function () {
+        Validations();
+    });
 
     function SetBalanceAmount() {
         if ($("#TotalBalance").val() != '' && $("#BookingAmount").val() != '') {
-                $("#BalanceAmount").val(parseInt($("#TotalBalance").val()) - parseInt($("#BookingAmount").val()))
-            }
-            else {
-                $("#BalanceAmount").val('')
-            }
+            $("#BalanceAmount").val(parseInt($("#TotalBalance").val()) - parseInt($("#BookingAmount").val()))
+        }
+        else {
+            $("#BalanceAmount").val('')
+        }
     }
 
     function HideDiv() {
         $("#paydetails").hide();
-        $("#paydetails1").hide();
-        $("#paydetails2").hide();
-        $("#paydetails3").hide();
-        $("#paydetails4").hide();
     };
 
     function ShowDiv() {
         $("#paydetails").show();
-        $("#paydetails1").show();
-        $("#paydetails2").show();
-        $("#paydetails3").show();
-        $("#paydetails4").show();
     };
+
+    function Validations() {
+
+        if ($("#BookingAmount").val() == '') {
+            toastr.error("Booking Amount Required"); return;
+        }
+
+        if ($("#PaymentModeID").val() == '0') {
+            toastr.error("Payment mode is required");
+        }
+        $("#PaymentMode").val($("#PaymentModeID option:selected").text());
+    }
+</script>
+
+<script type="text/javascript">
+    $(window).load(function () {
+        var tempdataval = '@TempData["successmessage"]';
+        if (tempdataval != '') {
+            if (tempdataval == 'Payment Successfull')
+                toastr.success(tempdataval);
+            else {
+                toastr.error(tempdataval);
+            }
+        }
+
+    });
 </script>
