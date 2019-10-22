@@ -41,6 +41,11 @@ namespace ModelLayer
         [Display(Name = "Mode")]
         public string PaymentModeID { get; set; }
         public string PaymentMode { get; set; }
+
+
+        [Display(Name = "Scheme")]
+        public string SchemeID { get; set; }
+        public string SchemeName { get; set; }
         [Display(Name = "Ref No")]
         public string ReferenceNo { get; set; }
         [Display(Name = "Booking Amount")]

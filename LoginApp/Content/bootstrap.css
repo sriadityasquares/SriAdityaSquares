@@ -4930,11 +4930,13 @@ a.list-group-item.active > .badge,
 }
 
 .jumbotron {
-  padding: 30px;
-  margin-bottom: 30px;
-  line-height: 2.1428571435;
-  color: inherit;
-  background-color: white;
+    padding: 30px;
+    margin-bottom: 30px;
+    line-height: 2.1428571435;
+    color: inherit;
+    background-color: whitesmoke;
+    /*background-image: url('../../Content/Images/joanna-kosinska-RE-8WswW95o-unsplash.jpg');
+    background-size:auto 100%;opacity:0.8;*/
 }
 
 .jumbotron h1 {

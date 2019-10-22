@@ -9,10 +9,13 @@ namespace ModelLayer
 {
     public class PaymentInformation
     {
+        [Display(Name = "Project")]
         public int ProjectID { get; set; }
+        [Display(Name = "Tower")]
         public int TowerID { get; set; }
         public int PaymentID { get; set; }
         public Nullable<System.Guid> BookingID { get; set; }
+        [Display(Name = "Flat")]
         public Nullable<int> FlatID { get; set; }
 
         [Display(Name ="New Paid Amount")]

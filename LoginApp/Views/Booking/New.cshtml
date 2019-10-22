@@ -14,7 +14,7 @@
     //@(ViewContext.ClientValidationEnabled = false)
 
     @Html.AntiForgeryToken()
-    <div class="jumbotron" >
+    <div class="jumbotron">
         <div class="row">
             <div class="col-md-1 col-xs">
                 <h3 align="center" style="margin-bottom: 2px;">NEW BOOKING</h3>
@@ -87,11 +87,13 @@
         </div>
         <div class="row" style="padding-top:5px">
             @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-2 col-xs" })
             @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-2 col-xs" })
             @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-2 col-xs" })
+            @Html.LabelFor(m => m.SchemeID, new { @class = "col-md-1" })
+            @Html.DropDownListFor(model => model.SchemeID, TempData["ProjectList"] as SelectList, "--Select Scheme--", new { @class = "textbox-control col-md-2 col-xs" })
         </div>
         <div class="row">
             @Html.LabelFor(m => m.Floor, new { @class = "col-md-1" })
@@ -148,6 +150,8 @@
             @Html.LabelFor(m => m.BalanceAmount, new { @class = "col-md-2" })
             @Html.TextBoxFor(m => m.BalanceAmount, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
         </div>
+
+
         <div class="row">
             <br />
             <div class="col-md-6 no-pad">
@@ -440,7 +444,4 @@
         font-weight: bold !important;
         color: red !important;
     }
-
-
-
 </style>
