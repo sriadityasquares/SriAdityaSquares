@@ -12,14 +12,23 @@ namespace DataLayer
     using System;
     using System.Collections.Generic;
     
-    public partial class tblAgent
+    public partial class tblAgentMaster
     {
         public int AgentID { get; set; }
+        public string AgentCode { get; set; }
         public string AgentName { get; set; }
         public string AgentStatus { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
+        public string AgentAadhar { get; set; }
+        public string AgentPAN { get; set; }
+        public Nullable<int> AgentBankAcctNo { get; set; }
+        public string AgentBankName { get; set; }
+        public string AgentBankBranch { get; set; }
+        public string AgentBankIFSC { get; set; }
+        public string AgentSponserCode { get; set; }
+        public string AgentSuperSponserCode { get; set; }
     }
 }

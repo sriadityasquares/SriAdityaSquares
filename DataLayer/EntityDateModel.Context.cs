@@ -27,9 +27,7 @@ namespace DataLayer
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<tblAgentLevel> tblAgentLevels { get; set; }
         public virtual DbSet<tblAgentProjectLevel> tblAgentProjectLevels { get; set; }
-        public virtual DbSet<tblAgent> tblAgents { get; set; }
         public virtual DbSet<tblCity> tblCities { get; set; }
         public virtual DbSet<tblCountry> tblCountries { get; set; }
         public virtual DbSet<tblFlat> tblFlats { get; set; }
@@ -42,6 +40,8 @@ namespace DataLayer
         public virtual DbSet<tblYear> tblYears { get; set; }
         public virtual DbSet<tblStatu> tblStatus { get; set; }
         public virtual DbSet<tblPaymentInfo> tblPaymentInfoes { get; set; }
+        public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
+        public virtual DbSet<tblLevelsMaster> tblLevelsMasters { get; set; }
     
         public virtual ObjectResult<sp_GetAgentsByProjectID_Result> sp_GetAgentsByProjectID(Nullable<int> projectID)
         {

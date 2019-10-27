@@ -34,6 +34,7 @@
         @Html.HiddenFor(m => m.StateName)
         @Html.HiddenFor(m => m.CityName)
         @Html.HiddenFor(m => m.PaymentMode)
+        @Html.HiddenFor(m=>m.Level)
         <div class="row" style="padding-top:5px">
             @Html.LabelFor(m => m.Name, new { @class = "col-md-1 required" })
             @Html.TextBoxFor(m => m.Name, new { @class = "textbox-control col-md-11 col-xs" })
@@ -199,8 +200,10 @@
                 });
             });
         });
-
+        var levelID = 0;
+        var AgentList;
         $("#ProjectID").change(function () {
+            
             $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
                 $("#TowerID").empty();
                 $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
@@ -213,6 +216,7 @@
             });
             $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
                 $("#AgentID").empty();
+                AgentList = data;
                 $("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
                 $.each(data, function (index, row) {
                     $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
@@ -338,10 +342,16 @@
             $("#StateName").val($("#State option:selected").text());
             $("#CityName").val($("#City option:selected").text());
             $("#PaymentMode").val($("#PaymentModeID option:selected").text());
+             var SortedAgentList = AgentList.filter(function (e) {
+                return e.AgentID == $("#AgentID").val();
+            });
+            $("#Level").val(SortedAgentList[0].Level);
         };
 
 
         function Validations() {
+           
+        
             if ($("#Name").val() == '') {
                 toastr.error("Name is Required");
                 return;

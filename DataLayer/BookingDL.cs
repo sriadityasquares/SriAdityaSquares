@@ -67,7 +67,7 @@ namespace DataLayer
                     cfg.CreateMap<tblTower, Towers>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstTowers = mapper.Map<List<tblTower>, List<Towers>>(dbEntity.tblTowers.Where(a => a.ProjectID == projectID && a.BookingStatus=="O").ToList()).ToList();
+                lstTowers = mapper.Map<List<tblTower>, List<Towers>>(dbEntity.tblTowers.Where(a => a.ProjectID == projectID && a.BookingStatus == "O").ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -132,7 +132,7 @@ namespace DataLayer
                     cfg.CreateMap<tblFlat, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && a.BookingStatus== "P").ToList()).ToList();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && a.BookingStatus == "P").ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -147,11 +147,6 @@ namespace DataLayer
             List<AgentProjectLevel> lstAgents = new List<AgentProjectLevel>();
             try
             {
-
-                
-
-
-
                 //lstCountry = dbEntity.tblProjects.ToList();
                 var config = new MapperConfiguration(cfg =>
                 {
@@ -167,7 +162,7 @@ namespace DataLayer
             return lstAgents;
         }
 
-        public List<FlatDetails> BindFlatDetails(int flatID,int ProjectID)
+        public List<FlatDetails> BindFlatDetails(int flatID, int ProjectID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
 
@@ -194,19 +189,33 @@ namespace DataLayer
         {
             try
             {
-                if(bookingInfo.TotalRate > 2600)
+                //if(bookingInfo.TotalRate > 2600)
+                //{
+                //    bookingInfo.SASComm = (bookingInfo.FinalRate *4.25)/100;
+                //    bookingInfo.SASTDS = (bookingInfo.SASComm *5)/ 100;
+                //    bookingInfo.SASNet = bookingInfo.SASComm - bookingInfo.SASTDS;
+                //}
+                //else
+                //{
+                //    bookingInfo.SASComm = (bookingInfo.FinalRate * 8.25) / 100;
+                //    bookingInfo.SASTDS = (bookingInfo.SASComm * 5) / 100;
+                //    bookingInfo.SASNet = bookingInfo.SASComm - bookingInfo.SASTDS;
+                //}
+
+                var levelPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == bookingInfo.Level).Select(z => z.Percentage).FirstOrDefault();
+                var TotalComm = (bookingInfo.FinalRate * 10) / 100;
+                if (Convert.ToDouble(levelPercentage) == Convert.ToDouble(10))
                 {
-                    bookingInfo.SASComm = (bookingInfo.FinalRate *4.25)/100;
-                    bookingInfo.SASTDS = (bookingInfo.SASComm *5)/ 100;
-                    bookingInfo.SASNet = bookingInfo.SASComm - bookingInfo.SASTDS;
+                    bookingInfo.SASComm = TotalComm;
+                    bookingInfo.AgentComm = 0;
                 }
                 else
                 {
-                    bookingInfo.SASComm = (bookingInfo.FinalRate * 8.25) / 100;
-                    bookingInfo.SASTDS = (bookingInfo.SASComm * 5) / 100;
-                    bookingInfo.SASNet = bookingInfo.SASComm - bookingInfo.SASTDS;
+                    bookingInfo.AgentComm = (bookingInfo.FinalRate * Convert.ToDouble(levelPercentage)) / 100;
+                    bookingInfo.SASComm = TotalComm - bookingInfo.AgentComm;
                 }
-                bookingInfo.AgentComm = 10000;
+                bookingInfo.SASTDS = (bookingInfo.SASComm * 5) / 100;
+                bookingInfo.SASNet = bookingInfo.SASComm - bookingInfo.SASTDS;
                 bookingInfo.BookingID = Guid.NewGuid();
                 bookingInfo.CreatedBy = "";
                 bookingInfo.CreatedDate = System.DateTime.Now.Date;
@@ -257,7 +266,7 @@ namespace DataLayer
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return false;
@@ -278,7 +287,7 @@ namespace DataLayer
                     cfg.CreateMap<tblPaymentInfo, PaymentInformation>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstPayDetails = mapper.Map<List<tblPaymentInfo>, List<PaymentInformation>>(dbEntity.tblPaymentInfoes.Where(x=> x.FlatID == FlatId).ToList()).ToList();
+                lstPayDetails = mapper.Map<List<tblPaymentInfo>, List<PaymentInformation>>(dbEntity.tblPaymentInfoes.Where(x => x.FlatID == FlatId).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -304,7 +313,7 @@ namespace DataLayer
                 IMapper mapper2 = config2.CreateMapper();
                 mapper2.Map<PaymentInformation, tblPaymentInfo>(payInfo, paymentDetails);
                 dbEntity.tblPaymentInfoes.Add(paymentDetails);
-                if(payInfo.BalanceAmount == 0)
+                if (payInfo.BalanceAmount == 0)
                 {
                     tblFlat flat = dbEntity.tblFlats.Where(x => x.FlatID == payInfo.FlatID).FirstOrDefault();
                     flat.BookingStatus = "C";
@@ -312,7 +321,7 @@ namespace DataLayer
                 dbEntity.SaveChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }

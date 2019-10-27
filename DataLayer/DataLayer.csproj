@@ -75,10 +75,7 @@
     <Compile Include="sp_GetPeriodWiseBookingDetails_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblAgent.cs">
-      <DependentUpon>EntityDateModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblAgentLevel.cs">
+    <Compile Include="tblAgentMaster.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblAgentProjectLevel.cs">
@@ -97,6 +94,9 @@
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblFlat.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblLevelsMaster.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblMonth.cs">

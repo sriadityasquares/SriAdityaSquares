@@ -12,11 +12,11 @@ namespace DataLayer
     using System;
     using System.Collections.Generic;
     
-    public partial class tblAgentLevel
+    public partial class tblLevelsMaster
     {
         public int LevelID { get; set; }
         public string LevelName { get; set; }
-        public Nullable<int> Percentage { get; set; }
+        public Nullable<double> Percentage { get; set; }
         public string Status { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }

@@ -5,18 +5,26 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="salesDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="tblAgentLevels">
+        <EntityType Name="tblAgentMaster">
           <Key>
-            <PropertyRef Name="LevelID" />
+            <PropertyRef Name="AgentID" />
           </Key>
-          <Property Name="LevelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LevelName" Type="nvarchar" MaxLength="250" />
-          <Property Name="Percentage" Type="int" />
-          <Property Name="Status" Type="char" MaxLength="1" />
+          <Property Name="AgentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgentCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AgentName" Type="varchar" MaxLength="255" />
+          <Property Name="AgentStatus" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="AgentAadhar" Type="varchar" MaxLength="50" />
+          <Property Name="AgentPAN" Type="varchar" MaxLength="50" />
+          <Property Name="AgentBankAcctNo" Type="int" />
+          <Property Name="AgentBankName" Type="varchar" MaxLength="50" />
+          <Property Name="AgentBankBranch" Type="varchar" MaxLength="50" />
+          <Property Name="AgentBankIFSC" Type="varchar" MaxLength="50" />
+          <Property Name="AgentSponserCode" Type="varchar" MaxLength="50" />
+          <Property Name="AgentSuperSponserCode" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tblAgentProjectLevels">
           <Key>
@@ -27,18 +35,6 @@
           <Property Name="ProjectID" Type="int" Nullable="false" />
           <Property Name="Level" Type="varchar" MaxLength="255" />
           <Property Name="Status" Type="char" MaxLength="1" />
-          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
-          <Property Name="CreatedDate" Type="datetime" />
-          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
-          <Property Name="UpdatedDate" Type="datetime" />
-        </EntityType>
-        <EntityType Name="tblAgents">
-          <Key>
-            <PropertyRef Name="AgentID" />
-          </Key>
-          <Property Name="AgentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AgentName" Type="varchar" MaxLength="255" />
-          <Property Name="AgentStatus" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
@@ -147,6 +143,19 @@
           <Property Name="Sft" Type="int" />
           <Property Name="Facing" Type="varchar" MaxLength="255" />
           <Property Name="BookingStatus" Type="char" MaxLength="1" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblLevelsMaster">
+          <Key>
+            <PropertyRef Name="LevelID" />
+          </Key>
+          <Property Name="LevelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LevelName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Percentage" Type="float" />
+          <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
@@ -293,14 +302,14 @@
           <Parameter Name="todate" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="salesDBModelStoreContainer">
-          <EntitySet Name="tblAgentLevels" EntityType="Self.tblAgentLevels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAgentMaster" EntityType="Self.tblAgentMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAgentProjectLevels" EntityType="Self.tblAgentProjectLevels" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblAgents" EntityType="Self.tblAgents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBookingInformation" EntityType="Self.tblBookingInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCity" EntityType="Self.tblCity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCountries" EntityType="Self.tblCountries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCustomerInfo" EntityType="Self.tblCustomerInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlats" EntityType="Self.tblFlats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLevelsMaster" EntityType="Self.tblLevelsMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMonth" EntityType="Self.tblMonth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPaymentInfo" EntityType="Self.tblPaymentInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProjects" EntityType="Self.tblProjects" Schema="dbo" store:Type="Tables" />
@@ -326,9 +335,7 @@
     <edmx:ConceptualModels>
       <Schema Namespace="salesDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="salesDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="tblAgentLevels" EntityType="salesDBModel.tblAgentLevel" />
           <EntitySet Name="tblAgentProjectLevels" EntityType="salesDBModel.tblAgentProjectLevel" />
-          <EntitySet Name="tblAgents" EntityType="salesDBModel.tblAgent" />
           <EntitySet Name="tblCities" EntityType="salesDBModel.tblCity" />
           <EntitySet Name="tblCountries" EntityType="salesDBModel.tblCountry" />
           <EntitySet Name="tblFlats" EntityType="salesDBModel.tblFlat" />
@@ -373,20 +380,9 @@
           </FunctionImport>
           <EntitySet Name="tblStatus" EntityType="salesDBModel.tblStatu" />
           <EntitySet Name="tblPaymentInfoes" EntityType="salesDBModel.tblPaymentInfo" />
+          <EntitySet Name="tblAgentMasters" EntityType="salesDBModel.tblAgentMaster" />
+          <EntitySet Name="tblLevelsMasters" EntityType="salesDBModel.tblLevelsMaster" />
         </EntityContainer>
-        <EntityType Name="tblAgentLevel">
-          <Key>
-            <PropertyRef Name="LevelID" />
-          </Key>
-          <Property Name="LevelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LevelName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Percentage" Type="Int32" />
-          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="tblAgentProjectLevel">
           <Key>
             <PropertyRef Name="AgentID" />
@@ -396,18 +392,6 @@
           <Property Name="ProjectID" Type="Int32" Nullable="false" />
           <Property Name="Level" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="tblAgent">
-          <Key>
-            <PropertyRef Name="AgentID" />
-          </Key>
-          <Property Name="AgentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AgentName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="AgentStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
@@ -691,26 +675,46 @@
           <Property Name="Month" Type="Int32" />
           <Property Name="Day" Type="Int32" />
         </EntityType>
+        <EntityType Name="tblAgentMaster">
+          <Key>
+            <PropertyRef Name="AgentID" />
+          </Key>
+          <Property Name="AgentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgentName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AgentStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="AgentAadhar" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgentPAN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgentBankAcctNo" Type="Int32" />
+          <Property Name="AgentBankName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgentBankBranch" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgentBankIFSC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgentSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgentSuperSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tblLevelsMaster">
+          <Key>
+            <PropertyRef Name="LevelID" />
+          </Key>
+          <Property Name="LevelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LevelName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Percentage" Type="Double" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="salesDBModelStoreContainer" CdmEntityContainer="salesDBEntities">
-          <EntitySetMapping Name="tblAgentLevels">
-            <EntityTypeMapping TypeName="salesDBModel.tblAgentLevel">
-              <MappingFragment StoreEntitySet="tblAgentLevels">
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
-                <ScalarProperty Name="LevelName" ColumnName="LevelName" />
-                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tblAgentProjectLevels">
             <EntityTypeMapping TypeName="salesDBModel.tblAgentProjectLevel">
               <MappingFragment StoreEntitySet="tblAgentProjectLevels">
@@ -721,19 +725,6 @@
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Level" ColumnName="Level" />
                 <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblAgents">
-            <EntityTypeMapping TypeName="salesDBModel.tblAgent">
-              <MappingFragment StoreEntitySet="tblAgents">
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="AgentStatus" ColumnName="AgentStatus" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
                 <ScalarProperty Name="AgentID" ColumnName="AgentID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -999,6 +990,42 @@
                 <ScalarProperty Name="FlatID" ColumnName="FlatID" />
                 <ScalarProperty Name="BookingID" ColumnName="BookingID" />
                 <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAgentMasters">
+            <EntityTypeMapping TypeName="salesDBModel.tblAgentMaster">
+              <MappingFragment StoreEntitySet="tblAgentMaster">
+                <ScalarProperty Name="AgentSuperSponserCode" ColumnName="AgentSuperSponserCode" />
+                <ScalarProperty Name="AgentSponserCode" ColumnName="AgentSponserCode" />
+                <ScalarProperty Name="AgentBankIFSC" ColumnName="AgentBankIFSC" />
+                <ScalarProperty Name="AgentBankBranch" ColumnName="AgentBankBranch" />
+                <ScalarProperty Name="AgentBankName" ColumnName="AgentBankName" />
+                <ScalarProperty Name="AgentBankAcctNo" ColumnName="AgentBankAcctNo" />
+                <ScalarProperty Name="AgentPAN" ColumnName="AgentPAN" />
+                <ScalarProperty Name="AgentAadhar" ColumnName="AgentAadhar" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="AgentStatus" ColumnName="AgentStatus" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentCode" ColumnName="AgentCode" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblLevelsMasters">
+            <EntityTypeMapping TypeName="salesDBModel.tblLevelsMaster">
+              <MappingFragment StoreEntitySet="tblLevelsMaster">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="LevelName" ColumnName="LevelName" />
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
