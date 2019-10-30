@@ -31,6 +31,14 @@
                 update: {
                     url: "/Project/UpdateProject",
                     dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                        }
+                        else {
+                        toastr.error('Error in Updating');
+                             }
+                        }
                 },
                 destroy: {
                     url: "/Sample/Destroy",
@@ -83,6 +91,7 @@
         });
 
 
+
         function statusDropDownEditor(container, options) {
                     $('<input required name="' + options.field + '"/>')
                         .appendTo(container)
@@ -102,6 +111,10 @@
 
     });
 </script>
+
+
+
+
 
 <style>
     .specialLine {
