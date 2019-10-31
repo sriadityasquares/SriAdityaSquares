@@ -36,5 +36,31 @@ namespace DataLayer
                 return false;
             }
         }
+
+        public bool AddProject(Projects p)
+        {
+            try
+            {
+                p.BookingStatusName = null;
+                tblProject projectNew = new tblProject();
+
+                
+                    var config = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<Projects, tblProject>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                    });
+                    IMapper mapper = config.CreateMapper();
+                    //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
+                    mapper.Map<Projects, tblProject>(p, projectNew);
+                    dbEntity.tblProjects.Add(projectNew);
+                    dbEntity.SaveChanges();
+                
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

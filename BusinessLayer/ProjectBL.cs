@@ -15,5 +15,11 @@ namespace BusinessLayer
         {
             return project.UpdateProject(p);
         }
+
+        public bool AddProject(Projects p)
+        {
+            return project.AddProject(p);
+        }
+
     }
 }

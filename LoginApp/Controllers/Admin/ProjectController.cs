@@ -51,13 +51,28 @@ namespace LoginApp.Controllers.Admin
         {
             try
             {
-                // TODO: Add insert logic here
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+                List<Projects> data = JsonConvert.DeserializeObject<List<Projects>>(models,settings);
+                var result = project.AddProject(data[0]);
+                //if (result)
+                //{
+                //    TempData["successmessage"] = "Added Successfull";
+                //}
+                //else
+                //{
+                //    TempData["successmessage"] = "Update Successfull";
+                //}
+                // TODO: Add update logic here
 
-                return RedirectToAction("Index");
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return Json(false, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -70,14 +85,14 @@ namespace LoginApp.Controllers.Admin
             {
                 List<Projects> data = JsonConvert.DeserializeObject<List<Projects>>(models);
                 var result = project.UpdateProject(data[0]);
-                if(result)
-                {
-                    TempData["successmessage"] = "Update Successfull";
-                }
-                else
-                {
-                    TempData["successmessage"] = "Update Successfull";
-                }
+                //if(result)
+                //{
+                //    TempData["successmessage"] = "Update Successfull";
+                //}
+                //else
+                //{
+                //    TempData["successmessage"] = "Update Successfull";
+                //}
                 // TODO: Add update logic here
 
                 return Json(true, JsonRequestBehavior.AllowGet);

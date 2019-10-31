@@ -42,46 +42,46 @@
             <div id="leftside-navigation" class="nano">
                 <ul class="nano-content">
                     <li>
-                        <a href="index.html"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+                        <a href="index.html"><i class="fa fa-dashboard"></i><span>DASHBOARD</span></a>
                     </li>
                     <li class="sub-menu @(ViewBag.Admin)">
-                        <a href="javascript:void(0);"><i class="fa fa-user"></i><span>Admin</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <a href="javascript:void(0);"><i class="fa fa-user"></i><span>ADMIN</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
 
                             <li>
-                                <a class="@(ViewBag.Register)" href="@Url.Action("Register", "Account")">New User Registration</a>
+                                <a class="@(ViewBag.Register)" href="@Url.Action("Register", "Account")">NEW USER REGISTRATION</a>
                             </li>
                             <li>
-                                <a class="@(ViewBag.Project)" href="@Url.Action("Index", "Project")">Projects</a>
+                                <a class="@(ViewBag.Project)" href="@Url.Action("Index", "Project")">PROJECTS</a>
                             </li>
                         </ul>
                     </li>
                     <li class="sub-menu @(ViewBag.Booking)">
-                        <a href="javascript:void(0);"><i class="fa fa-ticket"></i><span>Booking</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <a href="javascript:void(0);"><i class="fa fa-ticket"></i><span>BOOKING</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
 
                             <li>
-                                <a class="@(ViewBag.NewBooking)" href="@Url.Action("New", "Booking")">New Booking</a>
+                                <a class="@(ViewBag.NewBooking)" href="@Url.Action("New", "Booking")">NEW BOOKING</a>
                             </li>
                             <li>
-                                <a class="@(ViewBag.MakePayment)" href="@Url.Action("MakePayment", "Booking")">Payments</a>
+                                <a class="@(ViewBag.MakePayment)" href="@Url.Action("MakePayment", "Booking")">PAYMENTS</a>
                             </li>
 
 
                         </ul>
                     </li>
                     <li class="sub-menu @(ViewBag.Reports)">
-                        <a href="javascript:void(0);"><i class="fa fa-table"></i><span>Reports</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <a href="javascript:void(0);"><i class="fa fa-table"></i><span>REPORTS</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
                             <li>
-                                <a class="@(ViewBag.PeriodWiseBookingReport)" href="@Url.Action("PeriodWiseBookingReport", "Report")">Period Wise Booking</a>
+                                <a class="@(ViewBag.PeriodWiseBookingReport)" href="@Url.Action("PeriodWiseBookingReport", "Report")">PERIOD WISE BOOKING</a>
                             </li>
 
                             <li>
-                                <a class="@(ViewBag.BookingInfoReport)" href="@Url.Action("BookingInfoReport", "Report")">Booking Information</a>
+                                <a class="@(ViewBag.BookingInfoReport)" href="@Url.Action("BookingInfoReport", "Report")">BOOKING INFORMATION</a>
                             </li>
                             <li>
-                                <a class="@(ViewBag.PaymentInfoReport)" href="~/Report/BookingInfoReport/">Payment Information</a>
+                                <a class="@(ViewBag.PaymentInfoReport)" href="~/Report/BookingInfoReport/">PAYMENT INFORMATION</a>
                             </li>
                         </ul>
                     </li>
@@ -246,7 +246,9 @@
             }
 
                 .sidebar #leftside-navigation ul li.active > a {
-                    color: #1abc9c;
+                    color: gold !important;
+                    /*border-color : #ffffff !important;
+                    outline-color :#ffffff !important;*/
                 }
 
                 .sidebar #leftside-navigation ul li.active ul {
@@ -282,6 +284,7 @@
                         .sidebar #leftside-navigation ul li a i .fa-angle-left,
                         .sidebar #leftside-navigation ul li a i .fa-angle-right {
                             padding-top: 3px;
+                            
                         }
 
             .sidebar #leftside-navigation ul ul {

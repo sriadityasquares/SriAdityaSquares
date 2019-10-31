@@ -46,7 +46,15 @@
                 },
                 create: {
                     url: "/Project/CreateProject",
-                    dataType: "jsonp"
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Added Successfull');
+                        }
+                        else {
+                        toastr.error('Error in Adding');
+                             }
+                        }
                 },
                 parameterMap: function (options, operation) {
                     if (operation !== "read" && options.models) {
@@ -84,8 +92,8 @@
                 {
                     command: [
                         { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
-                        { name: "destroy", text: " " }
-                    ], title: "&nbsp;", width: "130px"
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "60px"
                 }],
                     editable: "inline",
         });
