@@ -52,5 +52,9 @@ namespace DataLayer
         public Nullable<int> Year { get; set; }
         public Nullable<int> Month { get; set; }
         public Nullable<int> Day { get; set; }
+        public Nullable<int> PaymentTimePeriod { get; set; }
+        public Nullable<int> DownPaymentTimePeriod { get; set; }
+        public Nullable<int> SchemeID { get; set; }
+        public string SchemeName { get; set; }
     }
 }

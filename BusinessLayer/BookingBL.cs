@@ -46,6 +46,11 @@ namespace BusinessLayer
             return db.BindProjectAgents(projectID);
         }
 
+        public List<Schemes> BindSchemes(int projectID)
+        {
+            return db.BindSchemes(projectID);
+        }
+
         public List<FlatDetails> BindFlatDetails(int FlatId, int ProjectID)
         {
             return db.BindFlatDetails(FlatId, ProjectID);

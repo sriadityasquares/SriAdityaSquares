@@ -89,7 +89,7 @@ namespace DataLayer
                     cfg.CreateMap<tblTower, Towers>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstTowers = mapper.Map<List<tblTower>, List<Towers>>(dbEntity.tblTowers.Where(a => a.ProjectID == projectID && a.BookingStatus == "P").ToList()).ToList();
+                lstTowers = mapper.Map<List<tblTower>, List<Towers>>(dbEntity.tblTowers.Where(a => a.ProjectID == projectID && a.BookingStatus == "H" || a.BookingStatus == "S").ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -132,7 +132,7 @@ namespace DataLayer
                     cfg.CreateMap<tblFlat, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && a.BookingStatus == "P").ToList()).ToList();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && a.BookingStatus == "H" || a.BookingStatus == "S").ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -162,6 +162,25 @@ namespace DataLayer
             return lstAgents;
         }
 
+        public List<Schemes> BindSchemes(int projectID)
+        {
+            List<Schemes> lstSchemes = new List<Schemes>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblSchemeMaster, Schemes>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstSchemes = mapper.Map<List<tblSchemeMaster>, List<Schemes>>(dbEntity.tblSchemeMasters.Where(z=> z.ProjectID == projectID).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstSchemes;
+        }
         public List<FlatDetails> BindFlatDetails(int flatID, int ProjectID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -252,7 +271,14 @@ namespace DataLayer
                 dbEntity.tblPaymentInfoes.Add(paymentDetails);
 
                 tblFlat flat = dbEntity.tblFlats.Where(x => x.FlatID == bookingInfo.FlatID).FirstOrDefault();
-                flat.BookingStatus = "P";
+                var bookingstatus = "";
+                if (bookingInfo.BookingAmount >= (0.25) * bookingInfo.FinalRate)
+                {
+                    bookingstatus = "S";
+                }
+                else
+                    bookingstatus = "H";
+                flat.BookingStatus = bookingstatus;
 
                 //var flatCountInTower = dbEntity.tblTowers.Where(x => x.TowerID == bookingInfo.TowerID).Select(z => z.FlatCount);
 

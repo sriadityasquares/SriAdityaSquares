@@ -35,13 +35,14 @@ namespace DataLayer
         public virtual DbSet<tblState> tblStates { get; set; }
         public virtual DbSet<tblTower> tblTowers { get; set; }
         public virtual DbSet<tblCustomerInfo> tblCustomerInfoes { get; set; }
-        public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
         public virtual DbSet<tblMonth> tblMonths { get; set; }
         public virtual DbSet<tblYear> tblYears { get; set; }
         public virtual DbSet<tblStatu> tblStatus { get; set; }
         public virtual DbSet<tblPaymentInfo> tblPaymentInfoes { get; set; }
         public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
         public virtual DbSet<tblLevelsMaster> tblLevelsMasters { get; set; }
+        public virtual DbSet<tblSchemeMaster> tblSchemeMasters { get; set; }
+        public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
     
         public virtual ObjectResult<sp_GetAgentsByProjectID_Result> sp_GetAgentsByProjectID(Nullable<int> projectID)
         {

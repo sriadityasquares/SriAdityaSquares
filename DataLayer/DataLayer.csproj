@@ -109,6 +109,9 @@
     <Compile Include="tblProject.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblSchemeMaster.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblState.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>

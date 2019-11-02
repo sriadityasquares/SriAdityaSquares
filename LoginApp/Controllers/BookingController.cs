@@ -98,6 +98,13 @@ namespace LoginApp.Controllers
 
         }
 
+        public JsonResult GetSchemes(int ProjectId)
+        {
+            List<Schemes> SchemeList = booking.BindSchemes(ProjectId);
+            return Json(SchemeList, JsonRequestBehavior.AllowGet);
+        }
+
+
         public JsonResult GetFlatDetails(int FlatId, int ProjectID)
         {
             List<FlatDetails> FlatDetails = booking.BindFlatDetails(FlatId, ProjectID);

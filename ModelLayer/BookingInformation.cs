@@ -105,6 +105,9 @@ namespace ModelLayer
 
         public Nullable<int> Level { get; set; }
 
+        public Nullable<int> PaymentTimePeriod { get; set; }
+        public Nullable<int> DownPaymentTimePeriod { get; set; }
+        
 
     }
 }
