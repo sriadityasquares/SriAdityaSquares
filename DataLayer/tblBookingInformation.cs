@@ -56,5 +56,6 @@ namespace DataLayer
         public Nullable<int> DownPaymentTimePeriod { get; set; }
         public Nullable<int> SchemeID { get; set; }
         public string SchemeName { get; set; }
+        public Nullable<System.DateTime> DueDate { get; set; }
     }
 }

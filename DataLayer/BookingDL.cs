@@ -241,7 +241,8 @@ namespace DataLayer
                 bookingInfo.Day = System.DateTime.Now.Day;
                 bookingInfo.Month = System.DateTime.Now.Month;
                 bookingInfo.Year = System.DateTime.Now.Year;
-
+                int noOfDays = Convert.ToInt32(bookingInfo.PaymentTimePeriod);
+                bookingInfo.DueDate = DateTime.Now.AddDays(noOfDays);
                 var config = new MapperConfiguration(cfg =>
                 {
                     cfg.CreateMap<BookingInformation, tblBookingInformation>();

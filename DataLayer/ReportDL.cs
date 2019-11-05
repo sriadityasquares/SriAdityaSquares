@@ -30,7 +30,26 @@ namespace DataLayer
             }
             return lstBooking;
         }
-       
+
+        public List<GetPaymentInfoByDate> BindPaymentInfo(string fromDate, string toDate, string projectID)
+        {
+            List<GetPaymentInfoByDate> lstPayments = new List<GetPaymentInfoByDate>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_getPaymentInfoByDates_Result, GetPaymentInfoByDate>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstPayments = mapper.Map<List<sp_getPaymentInfoByDates_Result>, List<GetPaymentInfoByDate>>(dbEntity.sp_getPaymentInfoByDates(fromDate, toDate, projectID).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstPayments;
+        }
 
         public List<GetPeriodWiseBookingDetails> BindPeriodWiseBookingInfo(int option,string fromDate, string toDate, string projectID,string years,string month)
         {

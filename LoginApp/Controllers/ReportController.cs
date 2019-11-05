@@ -48,10 +48,24 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        public JsonResult GetReportbyDate(string start, string end,string projectID)
+        public ActionResult PaymentInfoReport()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
+            return View();
+        }
+
+        public JsonResult GetBookingReportbyDate(string start, string end,string projectID)
         {
             ReportBL rep = new ReportBL();
             List<GetBookingInfoByDate> list = rep.BindBookingInfo(start, end, projectID);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetPaymentReportbyDate(string start, string end, string projectID)
+        {
+            ReportBL rep = new ReportBL();
+            List<GetPaymentInfoByDate> list = rep.BindPaymentInfo(start, end, projectID);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
     }

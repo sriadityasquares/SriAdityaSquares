@@ -1607,6 +1607,7 @@
     <Content Include="Scripts\kendo.all.min.js.map" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Booking\MakePayment.cshtml" />
+    <Content Include="Views\Report\PaymentInfoReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

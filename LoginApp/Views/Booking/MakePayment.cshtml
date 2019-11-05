@@ -124,11 +124,14 @@
             var BalanceAmount = "";
             var BookingID = "";
             var Aadhar = "";
+            var DueDate = "";
+
             $.each(data, function (index, row) {
                 $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td></tr>");
                 TotalPaid = TotalPaid + Number(row.BookingAmount);
                 BalanceAmount = parseInt(row.BalanceAmount);
                 BookingID = row.BookingID;
+
                 Aadhar = row.Aadhar;
             });
             $("#TotalPaid").val(TotalPaid);

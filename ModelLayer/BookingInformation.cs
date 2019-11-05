@@ -107,7 +107,7 @@ namespace ModelLayer
 
         public Nullable<int> PaymentTimePeriod { get; set; }
         public Nullable<int> DownPaymentTimePeriod { get; set; }
-        
+        public Nullable<System.DateTime> DueDate { get; set; }
 
     }
 }

@@ -1,16 +1,16 @@
 ﻿@model ModelLayer.Report
 @{
-    ViewBag.Title = "BookingInfoReport";
+    ViewBag.Title = "PaymentInfoReport";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Reports = "active";
-    ViewBag.BookingInfoReport = "active";
+    ViewBag.PaymentInfoReport = "active";
 }
 
 <div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
 
     <div class="row">
         <div class="col-md-12 col-xs" style="margin-top:0px">
-            <h3 style="margin-top:0px;margin-bottom:4px" align="left">BOOKING INFORMATION</h3>
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">PAYMENT INFORMATION</h3>
             <div class="specialLine col-md-1"></div>
         </div>
 
@@ -22,11 +22,11 @@
             @Html.DropDownListFor(m => m.Project, ViewBag.ProjectList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
         </div>
         @Html.LabelFor(m => m.From, new { @class = "col-md-1" })
-        
+
         <div class="col-md-2">
             <input id="datepicker1" value="10/01/2019" title="datepicker" />
         </div>
-        
+
         @Html.LabelFor(m => m.To, new { @class = "col-md-1" })
         <div class="col-md-2">
             <input id="datepicker2" value="10/31/2019" title="datepicker" />
@@ -103,11 +103,10 @@
                     { field: "towername", title: "TOWER",width :120 },
                     { field: "flatname", title: "FLAT",width :120 },
                     { field: "agentname", title: "AGENT" ,width :120},
-                    { field: "bookingdate", title: "BOOKING DATE" ,width: 120 },
-                    { field: "bookingamount", title: "BOOKING AMOUNT" ,width: 140},
-                    { field: "discount", title: "DISCOUNT", width: 100 },
-                    { field: "highrisecharges", title: "HIGH RISE", width: 100 },
-                    { field: "area", title: "AREA(sqft)", width :100 },
+                    { field: "BookingAmount", title: "AMOUNT PAID" ,width: 120 },
+                    { field: "BalanceAmount", title: "AMOUNT REM" ,width: 140},
+                    { field: "PaidDate", title: "PAID DATE", width: 100 },
+                    { field: "DueDate", title: "DUE DATE", width: 100 },
                     { field: "year" ,title: "YEAR" , width :75},
                     { field: "month" ,title: "MONTH" , width :75},
                     { field: "day" ,title: "DAY", width :75 }
@@ -119,7 +118,7 @@
         });
 
 
-       
+
 
 
     $("#submitbtn").click(function () {
@@ -141,7 +140,7 @@
             var toDate = kendo.toString($("#datepicker2").data("kendoDatePicker").value(), 'MM/dd/yyyy');
             $.ajax({
             type: "GET",
-            url: '@Url.Action("GetBookingReportbyDate", "Report")',
+            url: '@Url.Action("GetPaymentReportbyDate", "Report")',
                 contentType: "application/json; charset=utf-8",
                 data: { start: fromDate, end: toDate, projectID: $("#Project").val().toString() },
             dataType: "json",
@@ -183,4 +182,3 @@
         background-image: url('../../Content/Images/icons8-microsoft-excel-64.png');
     }*/
 </style>
-

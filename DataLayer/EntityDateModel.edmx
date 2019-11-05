@@ -86,6 +86,7 @@
           <Property Name="DownPaymentTimePeriod" Type="int" />
           <Property Name="SchemeID" Type="int" />
           <Property Name="SchemeName" Type="nvarchar" MaxLength="250" />
+          <Property Name="DueDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tblCity">
           <Key>
@@ -314,6 +315,11 @@
           <Parameter Name="FlatID" Type="int" Mode="In" />
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_getPaymentInfoByDates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fromdate" Type="varchar" Mode="In" />
+          <Parameter Name="todate" Type="varchar" Mode="In" />
+          <Parameter Name="projectid" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_GetPeriodWiseBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Option" Type="int" Mode="In" />
           <Parameter Name="Project" Type="varchar" Mode="In" />
@@ -405,6 +411,11 @@
           <EntitySet Name="tblLevelsMasters" EntityType="salesDBModel.tblLevelsMaster" />
           <EntitySet Name="tblSchemeMasters" EntityType="salesDBModel.tblSchemeMaster" />
           <EntitySet Name="tblBookingInformations" EntityType="salesDBModel.tblBookingInformation" />
+          <FunctionImport Name="sp_getPaymentInfoByDates" ReturnType="Collection(salesDBModel.sp_getPaymentInfoByDates_Result)">
+            <Parameter Name="fromdate" Mode="In" Type="String" />
+            <Parameter Name="todate" Mode="In" Type="String" />
+            <Parameter Name="projectid" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblAgentProjectLevel">
           <Key>
@@ -752,7 +763,22 @@
           <Property Name="DownPaymentTimePeriod" Type="Int32" />
           <Property Name="SchemeID" Type="Int32" />
           <Property Name="SchemeName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DueDate" Type="DateTime" Precision="3" />
         </EntityType>
+        <ComplexType Name="sp_getPaymentInfoByDates_Result">
+          <Property Type="String" Name="projectname" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="towername" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="flatname" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="agentname" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="BookingAmount" Nullable="true" />
+          <Property Type="Int32" Name="BalanceAmount" Nullable="true" />
+          <Property Type="String" Name="PaidDate" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="DueDate" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="year" Nullable="true" />
+          <Property Type="Int32" Name="month" Nullable="true" />
+          <Property Type="Int32" Name="day" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1050,6 +1076,7 @@
           <EntitySetMapping Name="tblBookingInformations">
             <EntityTypeMapping TypeName="salesDBModel.tblBookingInformation">
               <MappingFragment StoreEntitySet="tblBookingInformation">
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
                 <ScalarProperty Name="SchemeName" ColumnName="SchemeName" />
                 <ScalarProperty Name="SchemeID" ColumnName="SchemeID" />
                 <ScalarProperty Name="DownPaymentTimePeriod" ColumnName="DownPaymentTimePeriod" />
@@ -1095,6 +1122,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_getPaymentInfoByDates" FunctionName="salesDBModel.Store.sp_getPaymentInfoByDates">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_getPaymentInfoByDates_Result">
+                <ScalarProperty Name="projectname" ColumnName="projectname" />
+                <ScalarProperty Name="towername" ColumnName="towername" />
+                <ScalarProperty Name="flatname" ColumnName="flatname" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="agentname" ColumnName="agentname" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="day" ColumnName="day" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

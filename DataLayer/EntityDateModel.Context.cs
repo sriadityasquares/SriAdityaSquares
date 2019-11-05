@@ -111,5 +111,22 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_getBookingInfoByDates_Result>("sp_getBookingInfoByDates", fromdateParameter, todateParameter, projectidParameter);
         }
+    
+        public virtual ObjectResult<sp_getPaymentInfoByDates_Result> sp_getPaymentInfoByDates(string fromdate, string todate, string projectid)
+        {
+            var fromdateParameter = fromdate != null ?
+                new ObjectParameter("fromdate", fromdate) :
+                new ObjectParameter("fromdate", typeof(string));
+    
+            var todateParameter = todate != null ?
+                new ObjectParameter("todate", todate) :
+                new ObjectParameter("todate", typeof(string));
+    
+            var projectidParameter = projectid != null ?
+                new ObjectParameter("projectid", projectid) :
+                new ObjectParameter("projectid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_getPaymentInfoByDates_Result>("sp_getPaymentInfoByDates", fromdateParameter, todateParameter, projectidParameter);
+        }
     }
 }
