@@ -440,6 +440,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Admin\ProjectController.cs" />
+    <Compile Include="Controllers\Admin\TowerController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\CascadeController.cs" />
@@ -1608,6 +1609,9 @@
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Booking\MakePayment.cshtml" />
     <Content Include="Views\Report\PaymentInfoReport.cshtml" />
+    <Content Include="Views\Tower\Index.cshtml" />
+    <Content Include="Views\Report\AgentInfoReport.cshtml" />
+    <Content Include="Views\Report\AgentWiseBookingReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

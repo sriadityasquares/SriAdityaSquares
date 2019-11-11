@@ -70,5 +70,10 @@ namespace BusinessLayer
         {
             return db.SaveNewPayment(payInfo);
         }
+
+        public List<GetTowerDetails> BindTowerDetails()
+        {
+            return db.BindTowerDetails();
+        }
     }
 }

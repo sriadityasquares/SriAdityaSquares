@@ -306,6 +306,11 @@
         <Function Name="sp_GetAgentsByProjectID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_GetAgentWiseBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Project" Type="varchar" Mode="In" />
+          <Parameter Name="fromdate" Type="varchar" Mode="In" />
+          <Parameter Name="todate" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_getBookingInfoByDates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fromdate" Type="varchar" Mode="In" />
           <Parameter Name="todate" Type="varchar" Mode="In" />
@@ -328,6 +333,7 @@
           <Parameter Name="fromdate" Type="varchar" Mode="In" />
           <Parameter Name="todate" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_GetTowerDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="salesDBModelStoreContainer">
           <EntitySet Name="tblAgentMaster" EntityType="Self.tblAgentMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAgentProjectLevels" EntityType="Self.tblAgentProjectLevels" Schema="dbo" store:Type="Tables" />
@@ -415,6 +421,12 @@
             <Parameter Name="fromdate" Mode="In" Type="String" />
             <Parameter Name="todate" Mode="In" Type="String" />
             <Parameter Name="projectid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetTowerDetails" ReturnType="Collection(salesDBModel.sp_GetTowerDetails_Result)" />
+          <FunctionImport Name="sp_GetAgentWiseBookingDetails" ReturnType="Collection(salesDBModel.sp_GetAgentWiseBookingDetails_Result)">
+            <Parameter Name="Project" Mode="In" Type="String" />
+            <Parameter Name="fromdate" Mode="In" Type="String" />
+            <Parameter Name="todate" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblAgentProjectLevel">
@@ -779,6 +791,32 @@
           <Property Type="Int32" Name="month" Nullable="true" />
           <Property Type="Int32" Name="day" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="sp_GetTowerDetails_Result">
+          <Property Type="Int32" Name="TowerID" Nullable="false" />
+          <Property Type="String" Name="TowerName" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="ProjectID" Nullable="true" />
+          <Property Type="Int32" Name="FlatCount" Nullable="true" />
+          <Property Type="String" Name="BookingStatus" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="sp_GetAgentWiseBookingDetails_Result">
+          <Property Type="Int32" Name="AgentID" Nullable="true" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="TotalBookingamount" Nullable="true" />
+          <Property Type="String" Name="CreatedDate" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Year" Nullable="true" />
+          <Property Type="Int32" Name="Month" Nullable="true" />
+          <Property Type="Int32" Name="Day" Nullable="true" />
+          <Property Type="Int32" Name="flatsbooked" Nullable="true" />
+          <Property Type="Int32" Name="projectid" Nullable="true" />
+          <Property Type="Int32" Name="towerid" Nullable="true" />
+          <Property Type="String" Name="projectname" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="towername" Nullable="true" MaxLength="250" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1137,6 +1175,40 @@
                 <ScalarProperty Name="year" ColumnName="year" />
                 <ScalarProperty Name="month" ColumnName="month" />
                 <ScalarProperty Name="day" ColumnName="day" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetTowerDetails" FunctionName="salesDBModel.Store.sp_GetTowerDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetTowerDetails_Result">
+                <ScalarProperty Name="TowerID" ColumnName="TowerID" />
+                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="FlatCount" ColumnName="FlatCount" />
+                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentWiseBookingDetails" FunctionName="salesDBModel.Store.sp_GetAgentWiseBookingDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentWiseBookingDetails_Result">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="TotalBookingamount" ColumnName="TotalBookingamount" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="flatsbooked" ColumnName="flatsbooked" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="towerid" ColumnName="towerid" />
+                <ScalarProperty Name="projectname" ColumnName="projectname" />
+                <ScalarProperty Name="towername" ColumnName="towername" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

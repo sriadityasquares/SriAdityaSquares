@@ -1,0 +1,183 @@
+﻿@model ModelLayer.Report
+@{
+    ViewBag.Title = "AgentInfoReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Reports = "active";
+    ViewBag.AgentWiseBookingReport = "active";
+}
+
+<div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
+
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">AGENT WISE BOOKING INFORMATION</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+
+    <div class="row" style="margin-top:20px">
+        @Html.LabelFor(m => m.Project, new { @class = "col-md-1" })
+        <div class="col-md-3 col-xs">
+            @Html.DropDownListFor(m => m.Project, ViewBag.ProjectList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
+        </div>
+        @Html.LabelFor(m => m.From, new { @class = "col-md-1" })
+
+        <div class="col-md-2">
+            <input id="datepicker1" value="10/01/2019" title="datepicker" />
+        </div>
+
+        @Html.LabelFor(m => m.To, new { @class = "col-md-1" })
+        <div class="col-md-2">
+            <input id="datepicker2" value="10/31/2019" title="datepicker" />
+        </div>
+
+        @*@Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })*@
+        <div class="col-md-12 col-xs">
+            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
+        </div>
+    </div>
+    <hr />
+    <br />
+    <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
+        <div id="grid"></div>
+    </div>
+
+
+</div>
+<script type="text/x-kendo-template" id="searchtemplate">
+    <div class="toolbar">
+
+        <div>
+            <a data-toggle="tooltip" title="Export to Excel" class="k-button k-button-icontext k-grid-excel" href="\#"><i class="fa fa-file-excel-o fa-lg"></i></a>
+        </div>
+
+    </div>
+
+</script>
+
+<script>
+
+        $(document).ready(function(){
+             $(".js-select2").select2();
+        $(".js-select2-multi").select2();
+
+        $(".large").select2({
+            dropdownCssClass: "big-drop",
+        });
+        });
+
+
+
+        $("#datepicker1").kendoDatePicker();
+        $("#datepicker2").kendoDatePicker();
+        $(document).ready(function () {
+            $("#grid").hide();
+            $("#grid").kendoGrid({
+                toolbar: kendo.template($("#searchtemplate").html()),
+                excel: {
+                    fileName: "AgentBookingInfoReport.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true
+            },
+                dataSource: {
+                    data: null,
+                    //schema: {
+                    //    model: {
+                    //        fields: {
+                    //            ProductName: { type: "string" },
+                    //            UnitPrice: { type: "number" },
+                    //            UnitsInStock: { type: "number" },
+                    //            Discontinued: { type: "boolean" }
+                    //        }
+                    //    }
+                    //},
+                },
+                //height: 550,
+                width: 'auto',
+                sortable: true,
+                //filterable: true,
+                columns: [
+                    { field: "AgentName", title: "AGENT" ,width :120},
+                    { field: "projectname", title: "PROJECT" ,width :120},
+                    { field: "towername", title: "TOWER",width :120 },
+                    { field: "CreatedDate", title: "BOOKING DATE" ,width: 120 },
+                    { field: "TotalBookingamount", title: "BOOKING AMOUNT" ,width: 140},
+                    { field: "flatsbooked", title: "FLATS BOOKED", width: 120 },
+                    { field: "Year" ,title: "YEAR" , width :75},
+                    { field: "Month" ,title: "MONTH" , width :75},
+                    { field: "Day" ,title: "DAY", width :75 }
+
+                ],
+
+
+            });
+        });
+
+
+
+
+
+    $("#submitbtn").click(function () {
+
+            if ($("#Project").val() == null) {
+                toastr.error("Please select a project");
+                return;
+            }
+            if ($("#datepicker1").data("kendoDatePicker").value() == null) {
+                toastr.error("Please select From Date");
+                return;
+            }
+            if ($("#datepicker2").data("kendoDatePicker").value() == null) {
+                toastr.error("Please select To Date");
+                return;
+            }
+
+            var fromDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+            var toDate = kendo.toString($("#datepicker2").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+            $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetAgentBookingReportbyDate", "Report")',
+                contentType: "application/json; charset=utf-8",
+                data: { start: fromDate, end: toDate, projectID: $("#Project").val().toString() },
+            dataType: "json",
+            success: function (result) {
+
+            var grid = $("#grid").data("kendoGrid");
+            var dataSource = new kendo.data.DataSource({ data: result });
+            grid.setDataSource(dataSource);
+            grid.dataSource.read();
+            //$("#grid").height(400);
+            $('#grid .k-grid-content').height(500);
+            $("#grid").show();
+
+            },
+
+            });
+            });
+
+
+
+</script>
+
+
+<style>
+
+    #Project option {
+        width: 250px
+    }
+
+    /*.k-i-calendar {
+        background-image: url('../../Content/Images/calendar.png');
+        background-position: center !important;
+        border: none;
+        height: 16px !important;
+        padding-bottom: 2px;
+    }*/
+
+    /*k-i-file-excel {
+        background-image: url('../../Content/Images/icons8-microsoft-excel-64.png');
+    }*/
+</style>
+

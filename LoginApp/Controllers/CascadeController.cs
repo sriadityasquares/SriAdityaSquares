@@ -12,7 +12,7 @@ namespace LoginApp.Controllers
     public class CascadeController : Controller
     {
         CommonBL objCasc = new CommonBL();
-        
+        BookingBL objBooking = new BookingBL();
         // GET: Cascade
         public ActionResult Index()
         {
@@ -38,6 +38,11 @@ namespace LoginApp.Controllers
 
         }
 
+        public JsonResult GetProjects()
+        {
+            List<Projects> projectList = objBooking.BindProjects();
+            return Json(projectList, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult GetCityList(int StateId)
         {

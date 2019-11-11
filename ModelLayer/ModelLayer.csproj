@@ -51,9 +51,11 @@
     <Compile Include="Country.cs" />
     <Compile Include="FlatDetails.cs" />
     <Compile Include="Flats.cs" />
+    <Compile Include="GetAgentWiseBookingDetails.cs" />
     <Compile Include="GetBookingInfoByDate.cs" />
     <Compile Include="GetPaymentInfoByDate.cs" />
     <Compile Include="GetPeriodWiseBookingDetails.cs" />
+    <Compile Include="GetTowerDetails.cs" />
     <Compile Include="Month.cs" />
     <Compile Include="PaymentInformation.cs" />
     <Compile Include="Projects.cs" />

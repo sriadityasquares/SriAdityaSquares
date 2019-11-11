@@ -353,5 +353,25 @@ namespace DataLayer
                 return false;
             }
         }
+
+        public List<GetTowerDetails> BindTowerDetails()
+        {
+            List<GetTowerDetails> lstTowers = new List<GetTowerDetails>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetTowerDetails_Result, GetTowerDetails>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstTowers = mapper.Map<List<sp_GetTowerDetails_Result>, List<GetTowerDetails>>(dbEntity.sp_GetTowerDetails().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstTowers;
+        }
     }
 }

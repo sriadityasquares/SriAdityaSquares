@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">TOWERS</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Tower/Details",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Tower/UpdateTower",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                        }
+                    }
+                },
+                destroy: {
+                    url: "/Sample/Destroy",
+                    dataType: "jsonp"
+                },
+                create: {
+                    url: "/Tower/CreateTower",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Added Successfull');
+                        }
+                        else {
+                            toastr.error('Error in Adding');
+                        }
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "TowerID",
+                    fields: {
+                        TowerID: { editable: false, nullable: true },
+                        ProjectName: { defaultValue: { ProjectID: 0, ProjectName: "Select Project" } },
+                        TowerName: { validation: { required: true } },
+                        BookingStatus: { validation: { required: true } },
+                        FlatCount: { type: "number", validation: { min: 0, required: true } }
+                    }
+                }
+            }
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 550,
+            toolbar: ["create"],
+            columns: [
+                //{ field: "Project", title: "Project", width: "250px", editor: projectDropDownEditor, template: "#=Project.ProjectName#" },
+                {
+                    field: "ProjectName",
+                    template: '#=ProjectName?ProjectName.ProjectName:""#',
+                    title: "Project", width: "250px",
+                    editor: function projectDropDownEditor(container, options) {
+                        $('<input required name="' + options.field + '"/>')
+                            .appendTo(container)
+                            .kendoDropDownList({
+                                autoBind: false,
+                                dataTextField: "ProjectName",
+                                dataValueField: "ProjectID",
+
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: "/Cascade/GetProjects",
+
+                                    }
+                                }
+                            });
+                    }
+                },
+                { field: "TowerName", title: "Tower", width: "200px" },
+                { field: "BookingStatus", title: "Status", width: "100px", editor: statusDropDownEditor },
+                { field: "FlatCount", title: "No of Flats", width: "120px" },
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "60px"
+                }],
+            editable: "inline",
+        });
+
+
+
+        function statusDropDownEditor(container, options) {
+            $('<input id="status" required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: true,
+                    dataTextField: "BookingStatus",
+                    dataValueField: "ID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetStatus",
+
+                        }
+                    }
+                });
+        }
+        function projectDropDownEditor(container, options) {
+            $('<input required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: false,
+                    dataTextField: "ProjectName",
+                    dataValueField: "ProjectID",
+
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetProjects",
+
+                        }
+                    }
+                });
+
+        }
+
+    });
+</script>
