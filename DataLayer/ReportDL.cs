@@ -71,6 +71,25 @@ namespace DataLayer
             return lstBooking;
         }
 
+        public List<GetBhkWiseBookingDetails> BindBhkBookingInfo(string fromDate, string toDate, string projectID)
+        {
+            List<GetBhkWiseBookingDetails> lstBooking = new List<GetBhkWiseBookingDetails>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetBhkWiseBookingDetails_Result, GetBhkWiseBookingDetails>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<sp_GetBhkWiseBookingDetails_Result>, List<GetBhkWiseBookingDetails>>(dbEntity.sp_GetBhkWiseBookingDetails(projectID, fromDate, toDate).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstBooking;
+        }
         public List<GetPeriodWiseBookingDetails> BindPeriodWiseBookingInfo(int option,string fromDate, string toDate, string projectID,string years,string month)
         {
             List<GetPeriodWiseBookingDetails> lstBooking = new List<GetPeriodWiseBookingDetails>();

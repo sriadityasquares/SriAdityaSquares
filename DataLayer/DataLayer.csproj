@@ -70,6 +70,9 @@
     <Compile Include="sp_GetAgentWiseBookingDetails_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetBhkWiseBookingDetails_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_getBookingInfoByDates_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>

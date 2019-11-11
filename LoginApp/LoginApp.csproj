@@ -1612,6 +1612,7 @@
     <Content Include="Views\Tower\Index.cshtml" />
     <Content Include="Views\Report\AgentInfoReport.cshtml" />
     <Content Include="Views\Report\AgentWiseBookingReport.cshtml" />
+    <Content Include="Views\Report\BhkWiseBookingReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
