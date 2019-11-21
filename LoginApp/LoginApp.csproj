@@ -1617,6 +1617,7 @@
     <Content Include="Views\Report\AgentWiseBookingReport.cshtml" />
     <Content Include="Views\Report\BhkWiseBookingReport.cshtml" />
     <Content Include="Views\Agent\Index.cshtml" />
+    <Content Include="Views\Report\FacingWiseBookingReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

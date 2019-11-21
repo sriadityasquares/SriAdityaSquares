@@ -323,6 +323,11 @@
           <Parameter Name="todate" Type="varchar" Mode="In" />
           <Parameter Name="projectid" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_GetFacingWiseBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Project" Type="varchar" Mode="In" />
+          <Parameter Name="fromdate" Type="varchar" Mode="In" />
+          <Parameter Name="todate" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_GetFlatDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FlatID" Type="int" Mode="In" />
           <Parameter Name="ProjectID" Type="int" Mode="In" />
@@ -440,6 +445,11 @@
             <Parameter Name="todate" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="tblAgentMasters" EntityType="salesDBModel.tblAgentMaster" />
+          <FunctionImport Name="sp_GetFacingWiseBookingDetails" ReturnType="Collection(salesDBModel.sp_GetFacingWiseBookingDetails_Result)">
+            <Parameter Name="Project" Mode="In" Type="String" />
+            <Parameter Name="fromdate" Mode="In" Type="String" />
+            <Parameter Name="todate" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblAgentProjectLevel">
           <Key>
@@ -844,6 +854,19 @@
           <Property Name="AgentSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AgentSuperSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="sp_GetFacingWiseBookingDetails_Result">
+          <Property Type="String" Name="Facing" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TotalBookingamount" Nullable="true" />
+          <Property Type="String" Name="CreatedDate" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Year" Nullable="true" />
+          <Property Type="Int32" Name="Month" Nullable="true" />
+          <Property Type="Int32" Name="Day" Nullable="true" />
+          <Property Type="Int32" Name="flatsbooked" Nullable="true" />
+          <Property Type="Int32" Name="projectid" Nullable="true" />
+          <Property Type="Int32" Name="towerid" Nullable="true" />
+          <Property Type="String" Name="projectname" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="towername" Nullable="true" MaxLength="250" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1258,6 +1281,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetFacingWiseBookingDetails" FunctionName="salesDBModel.Store.sp_GetFacingWiseBookingDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetFacingWiseBookingDetails_Result">
+                <ScalarProperty Name="Facing" ColumnName="Facing" />
+                <ScalarProperty Name="TotalBookingamount" ColumnName="TotalBookingamount" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="flatsbooked" ColumnName="flatsbooked" />
+                <ScalarProperty Name="projectid" ColumnName="projectid" />
+                <ScalarProperty Name="towerid" ColumnName="towerid" />
+                <ScalarProperty Name="projectname" ColumnName="projectname" />
+                <ScalarProperty Name="towername" ColumnName="towername" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

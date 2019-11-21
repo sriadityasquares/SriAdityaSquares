@@ -55,6 +55,7 @@
     <Compile Include="GetAgentWiseBookingDetails.cs" />
     <Compile Include="GetBhkWiseBookingDetails.cs" />
     <Compile Include="GetBookingInfoByDate.cs" />
+    <Compile Include="GetFacingWiseBookingDetails.cs" />
     <Compile Include="GetPaymentInfoByDate.cs" />
     <Compile Include="GetPeriodWiseBookingDetails.cs" />
     <Compile Include="GetTowerDetails.cs" />

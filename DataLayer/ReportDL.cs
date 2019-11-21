@@ -90,6 +90,26 @@ namespace DataLayer
             }
             return lstBooking;
         }
+
+        public List<GetFacingWiseBookingDetails> BindFacingBookingInfo(string fromDate, string toDate, string projectID)
+        {
+            List<GetFacingWiseBookingDetails> lstBooking = new List<GetFacingWiseBookingDetails>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetFacingWiseBookingDetails_Result, GetFacingWiseBookingDetails>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<sp_GetFacingWiseBookingDetails_Result>, List<GetFacingWiseBookingDetails>>(dbEntity.sp_GetFacingWiseBookingDetails(projectID, fromDate, toDate).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstBooking;
+        }
         public List<GetPeriodWiseBookingDetails> BindPeriodWiseBookingInfo(int option,string fromDate, string toDate, string projectID,string years,string month)
         {
             List<GetPeriodWiseBookingDetails> lstBooking = new List<GetPeriodWiseBookingDetails>();

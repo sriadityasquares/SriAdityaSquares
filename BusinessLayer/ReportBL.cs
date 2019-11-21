@@ -31,6 +31,11 @@ namespace BusinessLayer
         {
             return db.BindBhkBookingInfo(start, end, projectID);
         }
+
+        public List<GetFacingWiseBookingDetails> BindFacingBookingInfo(string start, string end, string projectID)
+        {
+            return db.BindFacingBookingInfo(start, end, projectID);
+        }
         public List<GetPeriodWiseBookingDetails> BindPeriodWiseBookingInfo(int option, string fromDate, string toDate, string projectID, string years, string month)
         {
             return db.BindPeriodWiseBookingInfo(option, fromDate, toDate, projectID, years, month);
