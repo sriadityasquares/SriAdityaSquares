@@ -373,5 +373,25 @@ namespace DataLayer
             }
             return lstTowers;
         }
+
+        public List<AgentMaster> BindAgents()
+        {
+            List<AgentMaster> lstAgents = new List<AgentMaster>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentMaster, AgentMaster>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgents = mapper.Map<List<tblAgentMaster>, List<AgentMaster>>(dbEntity.tblAgentMasters.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstAgents;
+        }
     }
 }

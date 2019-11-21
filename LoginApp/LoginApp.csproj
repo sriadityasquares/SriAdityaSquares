@@ -439,6 +439,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\AgentController.cs" />
     <Compile Include="Controllers\Admin\ProjectController.cs" />
     <Compile Include="Controllers\Admin\TowerController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -814,6 +815,7 @@
     <Content Include="Content\kendo\2019.3.917\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\2019.3.917\Uniform\sprite_kpi_2x.png" />
     <Content Include="Content\Select2OverWrite.css" />
+    <Content Include="Content\sweetalert.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -1475,6 +1477,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
@@ -1613,6 +1616,7 @@
     <Content Include="Views\Report\AgentInfoReport.cshtml" />
     <Content Include="Views\Report\AgentWiseBookingReport.cshtml" />
     <Content Include="Views\Report\BhkWiseBookingReport.cshtml" />
+    <Content Include="Views\Agent\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

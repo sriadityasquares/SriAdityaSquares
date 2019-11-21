@@ -26,6 +26,10 @@ namespace BusinessLayer
             return db.BindStatus();
         }
 
+        public List<Status> BindStatus2()
+        {
+            return db.BindStatus2();
+        }
         public List<City> BindCity(int stateID)
         {
             return db.BindCity(stateID);

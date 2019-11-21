@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgentDL.cs" />
     <Compile Include="BookingDL.cs" />
     <Compile Include="CommonDL.cs" />
     <Compile Include="EntityDateModel.Context.cs">

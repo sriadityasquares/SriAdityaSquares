@@ -38,6 +38,12 @@ namespace LoginApp.Controllers
 
         }
 
+        public JsonResult GetStatus2()
+        {
+            List<Status> statusList = objCasc.BindStatus2();
+            return Json(statusList, JsonRequestBehavior.AllowGet);
+
+        }
         public JsonResult GetProjects()
         {
             List<Projects> projectList = objBooking.BindProjects();

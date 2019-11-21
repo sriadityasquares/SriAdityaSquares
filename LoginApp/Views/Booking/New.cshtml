@@ -265,7 +265,9 @@
             downPayment = SortedSchemeList[0].DownPayment;
             downDuePeriod = SortedSchemeList[0].DownPaymentTimePeriod;
             DuePeriod = SortedSchemeList[0].PaymentTimePeriod;
-            toastr.info('Minimum Down Payment : ' + downPayment + '\n' + 'Down Payment Due Period : ' + downDuePeriod + ' days' );
+            //toastr.info('Minimum Down Payment : ' + downPayment + '\n' + 'Down Payment Due Period : ' + downDuePeriod + ' days');
+            swal("Down Payment Info!", 'Minimum Down Payment : ' + downPayment + '\n' + 'Down Payment Due Period : ' + downDuePeriod + ' days', "info")
+
             toastr.options.timeOut = 2000;
             toastr.options.closeButton = false;
         });
@@ -393,7 +395,8 @@
            
         
             if ($("#Name").val() == '') {
-                toastr.error("Name is Required");
+                //toastr.error("Name is Required");
+                swal("Name is Required!", "", "warning")
                 return;
             }
             if ($("#Country").val() == '') {

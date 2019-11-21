@@ -75,5 +75,10 @@ namespace BusinessLayer
         {
             return db.BindTowerDetails();
         }
+
+        public List<AgentMaster> BindAgents()
+        {
+            return db.BindAgents();
+        }
     }
 }

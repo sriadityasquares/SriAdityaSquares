@@ -20,10 +20,10 @@
         <EntityTypeShape EntityType="salesDBModel.tblYear" Width="1.5" PointX="12.375" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblStatu" Width="1.5" PointX="5.375" PointY="8.75" />
         <EntityTypeShape EntityType="salesDBModel.tblPaymentInfo" Width="1.5" PointX="5.375" PointY="11.75" />
-        <EntityTypeShape EntityType="salesDBModel.tblAgentMaster" Width="1.5" PointX="12.75" PointY="3.75" />
         <EntityTypeShape EntityType="salesDBModel.tblLevelsMaster" Width="1.5" PointX="0.75" PointY="13.75" />
         <EntityTypeShape EntityType="salesDBModel.tblSchemeMaster" Width="1.5" PointX="13.375" PointY="8.75" />
         <EntityTypeShape EntityType="salesDBModel.tblBookingInformation" Width="1.5" PointX="11.375" PointY="13.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblAgentMaster" Width="1.5" PointX="13.375" PointY="13.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -4935,6 +4935,7 @@ a.list-group-item.active > .badge,
     line-height: 2.1428571435;
     color: inherit;
     background-color: whitesmoke;
+    //margin-left: 150px;
     /*background-image: url('../../Content/Images/joanna-kosinska-RE-8WswW95o-unsplash.jpg');
     background-size:auto 100%;opacity:0.8;*/
 }

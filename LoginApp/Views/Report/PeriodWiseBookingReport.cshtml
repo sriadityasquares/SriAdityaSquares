@@ -200,7 +200,6 @@
             fromDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'MM/dd/yyyy');
             toDate = kendo.toString($("#datepicker2").data("kendoDatePicker").value(), 'MM/dd/yyyy');
         }
-        alert(project);
         $.ajax({
             type: "GET",
             url: '@Url.Action("GetPeriodWiseBookingReport", "Report")',

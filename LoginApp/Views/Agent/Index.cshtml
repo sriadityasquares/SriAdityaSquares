@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Admin = "active";
+    ViewBag.Agent = "active";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">AGENTS</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Agent/Details",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Agent/UpdateAgent",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                        }
+                        else {
+                        toastr.error('Error in Updating');
+                             }
+                        }
+                },
+                destroy: {
+                    url: "/Sample/Destroy",
+                    dataType: "jsonp"
+                },
+                create: {
+                    url: "/Agent/CreateAgent",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Added Successfull');
+                        }
+                        else {
+                        toastr.error('Error in Adding');
+                             }
+                        }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "AgentID",
+                    fields: {
+                        AgentID: { editable: false, nullable: true },
+                        AgentCode: { editable: true, nullable: true },
+                        AgentName: { editable: true, nullable: true },
+                        AgentAadhar: { validation: { required: false } },
+                        AgentPAN: { validation: { required: false } },
+                        AgentMobileNo: { validation: { required: false } },
+                        AgenteMail: { validation: { required: false } },
+                        AgentBankAcctNo: { validation: { required: false } },
+                        AgentBankName: { validation: { required: false } },
+                        AgentBankBranch: { validation: { required: false } },
+                        AgentBankIFSC: { validation: { required: false } },
+                        AgentSponserCode: { validation: { required: false } },
+                        AgentSuperSponserCode: { validation: { required: false } },
+                        AgentStatus: { validation: { required: false } },
+                    }
+                }
+            }
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 550,
+            toolbar: ["create"],
+            columns: [
+                { field: "AgentCode", title: "Code", width: "60px" },
+                { field: "AgentName", title: "Name", width: "200px" },
+                { field: "AgentAadhar", title: "Aadhar", width: "200px" },
+                { field: "AgentMobileNo", title: "Mobile", width: "200px" },
+                { field: "AgenteMail", title: "Email", width: "200px" },
+                { field: "AgentPAN", title: "Pan", width: "150px" },
+                { field: "AgentBankAcctNo", title: "Account No.", width: "150px" },
+                { field: "AgentBankName", title: "Bank Name", width: "150px" },
+                { field: "AgentBankBranch", title: "Bank Branch", width: "150px" },
+                { field: "AgentBankIFSC", title: "IFSC Code", width: "120px" },
+                { field: "AgentSponserCode", title: "Sponsor Code", width: "100px" },
+                { field: "AgentSuperSponserCode", title: "Super Sponsor Code", width: "140px" },
+                { field: "AgentStatus", title: "Status", width: "140px",editor: statusDropDownEditor},
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "160px"
+                }],
+                    editable: "inline",
+        });
+
+
+
+        function statusDropDownEditor(container, options) {
+                    $('<input required name="' + options.field + '"/>')
+                        .appendTo(container)
+                        .kendoDropDownList({
+                            autoBind: true,
+                            dataTextField: "BookingStatus",
+                            dataValueField: "ID",
+                            dataSource: {
+                                type: "json",
+                                transport: {
+                                    read: "/Cascade/GetStatus2/",
+                                }
+                            }
+                        });
+                }
+
+    });
+</script>
+
+
+
+
+
+<style>
+    .specialLine {
+        box-sizing: border-box;
+        border-top: 3px solid rgba(227, 63, 14, 1);
+        margin-bottom: 10px;
+    }
+</style>
