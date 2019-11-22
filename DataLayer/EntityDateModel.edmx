@@ -224,6 +224,7 @@
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="SqFtCost" Type="int" />
           <Property Name="PaymentTimePeriod" Type="int" />
+          <Property Name="PaymentPercentage" Type="int" />
           <Property Name="DownPayment" Type="int" />
           <Property Name="DownPaymentTimePeriod" Type="int" />
         </EntityType>
@@ -426,7 +427,6 @@
           <EntitySet Name="tblStatus" EntityType="salesDBModel.tblStatu" />
           <EntitySet Name="tblPaymentInfoes" EntityType="salesDBModel.tblPaymentInfo" />
           <EntitySet Name="tblLevelsMasters" EntityType="salesDBModel.tblLevelsMaster" />
-          <EntitySet Name="tblSchemeMasters" EntityType="salesDBModel.tblSchemeMaster" />
           <EntitySet Name="tblBookingInformations" EntityType="salesDBModel.tblBookingInformation" />
           <FunctionImport Name="sp_getPaymentInfoByDates" ReturnType="Collection(salesDBModel.sp_getPaymentInfoByDates_Result)">
             <Parameter Name="fromdate" Mode="In" Type="String" />
@@ -450,6 +450,7 @@
             <Parameter Name="fromdate" Mode="In" Type="String" />
             <Parameter Name="todate" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="tblSchemeMasters" EntityType="salesDBModel.tblSchemeMaster" />
         </EntityContainer>
         <EntityType Name="tblAgentProjectLevel">
           <Key>
@@ -713,23 +714,6 @@
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="tblSchemeMaster">
-          <Key>
-            <PropertyRef Name="SchemeID" />
-          </Key>
-          <Property Name="SchemeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProjectID" Type="Int32" Nullable="false" />
-          <Property Name="SchemeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SchemeStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <Property Name="SqFtCost" Type="Int32" />
-          <Property Name="PaymentTimePeriod" Type="Int32" />
-          <Property Name="DownPayment" Type="Int32" />
-          <Property Name="DownPaymentTimePeriod" Type="Int32" />
-        </EntityType>
         <EntityType Name="tblBookingInformation">
           <Key>
             <PropertyRef Name="BookingID" />
@@ -867,6 +851,24 @@
           <Property Type="String" Name="projectname" Nullable="true" MaxLength="250" />
           <Property Type="String" Name="towername" Nullable="true" MaxLength="250" />
         </ComplexType>
+        <EntityType Name="tblSchemeMaster">
+          <Key>
+            <PropertyRef Name="SchemeID" />
+          </Key>
+          <Property Name="SchemeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectID" Type="Int32" Nullable="false" />
+          <Property Name="SchemeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SchemeStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="SqFtCost" Type="Int32" />
+          <Property Name="PaymentTimePeriod" Type="Int32" />
+          <Property Name="PaymentPercentage" Type="Int32" />
+          <Property Name="DownPayment" Type="Int32" />
+          <Property Name="DownPaymentTimePeriod" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1121,24 +1123,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblSchemeMasters">
-            <EntityTypeMapping TypeName="salesDBModel.tblSchemeMaster">
-              <MappingFragment StoreEntitySet="tblSchemeMaster">
-                <ScalarProperty Name="DownPaymentTimePeriod" ColumnName="DownPaymentTimePeriod" />
-                <ScalarProperty Name="DownPayment" ColumnName="DownPayment" />
-                <ScalarProperty Name="PaymentTimePeriod" ColumnName="PaymentTimePeriod" />
-                <ScalarProperty Name="SqFtCost" ColumnName="SqFtCost" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="SchemeStatus" ColumnName="SchemeStatus" />
-                <ScalarProperty Name="SchemeName" ColumnName="SchemeName" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="SchemeID" ColumnName="SchemeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tblBookingInformations">
             <EntityTypeMapping TypeName="salesDBModel.tblBookingInformation">
               <MappingFragment StoreEntitySet="tblBookingInformation">
@@ -1298,6 +1282,25 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblSchemeMasters">
+            <EntityTypeMapping TypeName="salesDBModel.tblSchemeMaster">
+              <MappingFragment StoreEntitySet="tblSchemeMaster">
+                <ScalarProperty Name="DownPaymentTimePeriod" ColumnName="DownPaymentTimePeriod" />
+                <ScalarProperty Name="DownPayment" ColumnName="DownPayment" />
+                <ScalarProperty Name="PaymentPercentage" ColumnName="PaymentPercentage" />
+                <ScalarProperty Name="PaymentTimePeriod" ColumnName="PaymentTimePeriod" />
+                <ScalarProperty Name="SqFtCost" ColumnName="SqFtCost" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="SchemeStatus" ColumnName="SchemeStatus" />
+                <ScalarProperty Name="SchemeName" ColumnName="SchemeName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="SchemeID" ColumnName="SchemeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

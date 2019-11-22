@@ -445,6 +445,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\CascadeController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -1618,6 +1619,7 @@
     <Content Include="Views\Report\BhkWiseBookingReport.cshtml" />
     <Content Include="Views\Agent\Index.cshtml" />
     <Content Include="Views\Report\FacingWiseBookingReport.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

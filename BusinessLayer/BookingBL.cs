@@ -31,6 +31,10 @@ namespace BusinessLayer
             return db.BindFlats(towerID);
         }
 
+        public List<Flats> BindAllFlats(int towerID)
+        {
+            return db.BindAllFlats(towerID);
+        }
         public List<Towers> BindTowersInProgress(int projectID)
         {
             return db.BindTowersInProgress(projectID);

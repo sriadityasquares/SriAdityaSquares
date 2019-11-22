@@ -18,6 +18,7 @@ namespace ModelLayer
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public Nullable<int> SqFtCost { get; set; }
         public Nullable<int> PaymentTimePeriod { get; set; }
+            public Nullable<int> PaymentPercentage { get; set; }
         public Nullable<int> DownPayment { get; set; }
         public Nullable<int> DownPaymentTimePeriod { get; set; }
     }

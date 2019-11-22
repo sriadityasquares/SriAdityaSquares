@@ -91,6 +91,13 @@ namespace LoginApp.Controllers
 
         }
 
+        public JsonResult GetAllFlats(int TowerId)
+        {
+            List<Flats> flatList = booking.BindAllFlats(TowerId);
+            return Json(flatList, JsonRequestBehavior.AllowGet);
+
+        }
+
         public JsonResult GetProjectAgents(int ProjectId)
         {
             List<AgentProjectLevel> AgentList = booking.BindProjectAgents(ProjectId);

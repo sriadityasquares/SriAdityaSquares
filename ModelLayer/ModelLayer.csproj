@@ -50,6 +50,7 @@
     <Compile Include="City.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Country.cs" />
+    <Compile Include="Dashboard.cs" />
     <Compile Include="FlatDetails.cs" />
     <Compile Include="Flats.cs" />
     <Compile Include="GetAgentWiseBookingDetails.cs" />
