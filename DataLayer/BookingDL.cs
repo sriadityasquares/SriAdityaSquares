@@ -230,22 +230,13 @@ namespace DataLayer
         {
             try
             {
-                //if(bookingInfo.TotalRate > 2600)
-                //{
-                //    bookingInfo.SASComm = (bookingInfo.FinalRate *4.25)/100;
-                //    bookingInfo.SASTDS = (bookingInfo.SASComm *5)/ 100;
-                //    bookingInfo.SASNet = bookingInfo.SASComm - bookingInfo.SASTDS;
-                //}
-                //else
-                //{
-                //    bookingInfo.SASComm = (bookingInfo.FinalRate * 8.25) / 100;
-                //    bookingInfo.SASTDS = (bookingInfo.SASComm * 5) / 100;
-                //    bookingInfo.SASNet = bookingInfo.SASComm - bookingInfo.SASTDS;
-                //}
-
+                
+                var highestLevel = dbEntity.tblAgentProjectLevels.OrderByDescending(e => e.LevelID).Where(z => z.ProjectID == bookingInfo.ProjectID).Select(z => z.LevelID).FirstOrDefault();
+                var highestPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == highestLevel).Select(z => z.Percentage).FirstOrDefault();
                 var levelPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == bookingInfo.Level).Select(z => z.Percentage).FirstOrDefault();
-                var TotalComm = (bookingInfo.FinalRate * 10) / 100;
-                if (Convert.ToDouble(levelPercentage) == Convert.ToDouble(10))
+                var TotalComm = (bookingInfo.FinalRate * highestPercentage) / 100;
+                bookingInfo.TotalComm = TotalComm;
+                if (Convert.ToDouble(levelPercentage) == Convert.ToDouble(highestPercentage))
                 {
                     bookingInfo.SASComm = TotalComm;
                     bookingInfo.AgentComm = 0;
@@ -257,6 +248,8 @@ namespace DataLayer
                 }
                 bookingInfo.SASTDS = (bookingInfo.SASComm * 5) / 100;
                 bookingInfo.SASNet = bookingInfo.SASComm - bookingInfo.SASTDS;
+                bookingInfo.AgentTDS = (bookingInfo.AgentComm * 5) / 100;
+                bookingInfo.AgentNet = bookingInfo.AgentComm - bookingInfo.AgentTDS;
                 bookingInfo.BookingID = Guid.NewGuid();
                 bookingInfo.CreatedBy = "";
                 bookingInfo.CreatedDate = System.DateTime.Now.Date;
@@ -302,15 +295,6 @@ namespace DataLayer
                 else
                     bookingstatus = "H";
                 flat.BookingStatus = bookingstatus;
-
-                //var flatCountInTower = dbEntity.tblTowers.Where(x => x.TowerID == bookingInfo.TowerID).Select(z => z.FlatCount);
-
-                //var bookedFlatcount = dbEntity.tblFlats.Where(x => x.TowerID == bookingInfo.TowerID && x.BookingStatus != "O").ToList().Count();
-                //if(flatCountInTower.ToString() == bookedFlatcount.ToString())
-                //{
-                //    tblTower tower = dbEntity.tblTowers.Where(x => x.TowerID == bookingInfo.TowerID).FirstOrDefault();
-                //    tower.BookingStatus = "C";
-                //}
                 dbEntity.SaveChanges();
 
                 return true;

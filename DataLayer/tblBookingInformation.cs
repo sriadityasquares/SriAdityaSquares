@@ -57,5 +57,8 @@ namespace DataLayer
         public Nullable<int> SchemeID { get; set; }
         public string SchemeName { get; set; }
         public Nullable<System.DateTime> DueDate { get; set; }
+        public Nullable<double> AgentTDS { get; set; }
+        public Nullable<double> AgentNet { get; set; }
+        public Nullable<double> TotalComm { get; set; }
     }
 }

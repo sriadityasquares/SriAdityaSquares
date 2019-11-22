@@ -27,7 +27,6 @@ namespace DataLayer
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<tblAgentProjectLevel> tblAgentProjectLevels { get; set; }
         public virtual DbSet<tblCity> tblCities { get; set; }
         public virtual DbSet<tblCountry> tblCountries { get; set; }
         public virtual DbSet<tblFlat> tblFlats { get; set; }
@@ -40,18 +39,10 @@ namespace DataLayer
         public virtual DbSet<tblStatu> tblStatus { get; set; }
         public virtual DbSet<tblPaymentInfo> tblPaymentInfoes { get; set; }
         public virtual DbSet<tblLevelsMaster> tblLevelsMasters { get; set; }
-        public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
         public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
         public virtual DbSet<tblSchemeMaster> tblSchemeMasters { get; set; }
-    
-        public virtual ObjectResult<sp_GetAgentsByProjectID_Result> sp_GetAgentsByProjectID(Nullable<int> projectID)
-        {
-            var projectIDParameter = projectID.HasValue ?
-                new ObjectParameter("ProjectID", projectID) :
-                new ObjectParameter("ProjectID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentsByProjectID_Result>("sp_GetAgentsByProjectID", projectIDParameter);
-        }
+        public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
+        public virtual DbSet<tblAgentProjectLevel> tblAgentProjectLevels { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {
@@ -183,6 +174,15 @@ namespace DataLayer
                 new ObjectParameter("todate", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFacingWiseBookingDetails_Result>("sp_GetFacingWiseBookingDetails", projectParameter, fromdateParameter, todateParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetAgentsByProjectID_Result> sp_GetAgentsByProjectID(Nullable<int> projectID)
+        {
+            var projectIDParameter = projectID.HasValue ?
+                new ObjectParameter("ProjectID", projectID) :
+                new ObjectParameter("ProjectID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentsByProjectID_Result>("sp_GetAgentsByProjectID", projectIDParameter);
         }
     }
 }

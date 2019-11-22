@@ -68,7 +68,7 @@
     </div>
     <div class="row">
         @Html.LabelFor(m => m.Aadhar, new { @class = "col-md-1" })
-        @Html.TextBoxFor(m => m.Aadhar, new { @class = "textbox-control col-md-5 col-xs" })
+        @Html.TextBoxFor(m => m.Aadhar, new { @class = "textbox-control col-md-5 col-xs",@type = "number" })
         @Html.LabelFor(m => m.Pan, new { @class = "col-md-2" })
         @Html.TextBoxFor(m => m.Pan, new { @class = "textbox-control col-md-4 col-xs" })
     </div>
@@ -80,7 +80,7 @@
     </div>
     <div style="padding-top:5px" class="row">
         @Html.LabelFor(m => m.Mobile, new { @class = "col-md-1" })
-        @Html.TextBoxFor(m => m.Mobile, new { @class = "textbox-control col-md-5 col-xs" })
+        @Html.TextBoxFor(m => m.Mobile, new { @class = "textbox-control col-md-5 col-xs",@type = "number" })
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2" })
         @Html.TextBoxFor(m => m.Email, new { @class = "textbox-control col-md-4 col-xs" })
     </div>
@@ -384,7 +384,7 @@
              var SortedAgentList = AgentList.filter(function (e) {
                 return e.AgentID == $("#AgentID").val();
             });
-            $("#Level").val(SortedAgentList[0].Level);
+            $("#Level").val(SortedAgentList[0].LevelID);
             $("#SchemeName").val($("#SchemeID option:selected").text());
             $("#DownPaymentTimePeriod").val(downDuePeriod);
             $("#PaymentTimePeriod").val(DuePeriod);
@@ -420,7 +420,7 @@
             if ($("#Dob").val() == '0') {
                 toastr.error("Dob is Required"); return;
             }
-            if ($("#Aadhar").val() == '0') {
+            if ($("#Aadhar").val() == '') {
                 toastr.error("Aadhar is Required"); return;
             }
             if ($("#Pan").val() == '') {
