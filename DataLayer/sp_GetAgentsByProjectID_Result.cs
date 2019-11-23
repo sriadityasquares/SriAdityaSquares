@@ -13,6 +13,7 @@ namespace DataLayer
     
     public partial class sp_GetAgentsByProjectID_Result
     {
+
         public int AgentID { get; set; }
         public int ProjectID { get; set; }
         public Nullable<int> LevelID { get; set; }

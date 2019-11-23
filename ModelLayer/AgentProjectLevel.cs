@@ -8,6 +8,7 @@ namespace ModelLayer
 {
     public partial class AgentProjectLevel
     {
+
         public int AgentID { get; set; }
         public int ProjectID { get; set; }
         public Nullable<int> LevelID { get; set; }

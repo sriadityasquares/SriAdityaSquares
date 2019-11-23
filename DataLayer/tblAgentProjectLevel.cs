@@ -13,7 +13,8 @@ namespace DataLayer
     using System.Collections.Generic;
     
     public partial class tblAgentProjectLevel
-    {
+    {  
+
         public int AgentID { get; set; }
         public int ProjectID { get; set; }
         public Nullable<int> LevelID { get; set; }
