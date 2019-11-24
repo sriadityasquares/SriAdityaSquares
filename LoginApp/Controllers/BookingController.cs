@@ -95,16 +95,6 @@ namespace LoginApp.Controllers
         public JsonResult GetAllFlats(int TowerId)
         {
             List<Flats> flatList = booking.BindAllFlats(TowerId);
-            List<Flats> newFlatList = new List<Flats>();
-            for(int i=0;i< flatList.Count -1;i++)
-            {
-                newFlatList.Add(flatList[i]);
-                int k = i + 1;
-                for (int j=i+100;j< 1011;j++)
-                {
-                    newFlatList.Add(flatList[j]);
-                }
-            }
             return Json(flatList, JsonRequestBehavior.AllowGet);
 
         }
