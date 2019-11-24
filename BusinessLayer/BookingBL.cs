@@ -70,11 +70,20 @@ namespace BusinessLayer
             return db.BindPaymentDetails(FlatId);
         }
 
+        public List<AgentPaymentInformation> BindAgentPaymentDetails(int FlatId)
+        {
+            return db.BindAgentPaymentDetails(FlatId);
+        }
+
         public bool SaveNewPayment(PaymentInformation payInfo)
         {
             return db.SaveNewPayment(payInfo);
         }
 
+        public bool SaveNewAgentPayment(AgentPaymentInformation payInfo)
+        {
+            return db.SaveNewAgentPayment(payInfo);
+        }
         public List<GetTowerDetails> BindTowerDetails()
         {
             return db.BindTowerDetails();

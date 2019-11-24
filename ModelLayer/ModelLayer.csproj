@@ -45,6 +45,7 @@
     <Compile Include="Agent.cs" />
     <Compile Include="AgentLevel.cs" />
     <Compile Include="AgentMaster.cs" />
+    <Compile Include="AgentPaymentInformation.cs" />
     <Compile Include="AgentProjectLevel.cs" />
     <Compile Include="BookingInformation.cs" />
     <Compile Include="City.cs" />

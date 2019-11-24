@@ -3,6 +3,60 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+ @*<style>
+        .seatSelection {
+            text-align: center;
+            padding: 5px;
+            margin: 15px;
+        }
+
+        .seatsReceipt {
+            text-align: center;
+        }
+
+        .seatNumber {
+            display: inline;
+            padding: 10px;
+            background: linear-gradient(to top, #761818, #761818, #761818, #761818, #761818, #B54041, #F3686A);
+            color: black;
+            border-radius: 5px;
+            width: 35px;
+            height: 50px;
+            border-radius: 7px;
+            line-height: 25px;
+            margin-bottom: 10px;
+            margin-top: -32px;
+            transform: skew(20deg);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .seatRow {
+            padding: 10px;
+        }
+
+        .seatSelected {
+            background-color: lightgreen;
+            color: black;
+        }
+
+        .seatUnavailable {
+            background-color: gray;
+        }
+
+        .seatRowNumber {
+            clear: none;
+            display: inline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .seatsAmount {
+            max-width: 2em;
+        }
+ </style>*@
 <style>
 
     .theatre {
@@ -42,8 +96,11 @@
             }
 
     .left .cinema-row {
-        transform: skew(-15deg);
-        margin: 0 6px;
+        /*transform: skew(-15deg);*/
+        /*margin: 0 6px;
+        padding-left: 50px;*/
+        margin: 60px 30px 60px 30px;
+        
     }
 
     .left .seat {
@@ -51,82 +108,105 @@
         height: 50px;
         border-radius: 7px;
         background: linear-gradient(to top, #761818, #761818, #761818, #761818, #761818, #B54041, #F3686A);
-        margin-bottom: 10px;
-        transform: skew(20deg);
-        margin-top: -32px;
+        margin: 0px 0px 0px 0px;
+        /*transform: skew(20deg);
+        margin-top: -32px;*/
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     }
 
+    .left .row-1 {
+        transform: rotate(-90deg);
+        margin-top: 240px;
+        margin-right:30px;
+    }
+
+    .left .row-1 .seat {
+            transform: rotate(90deg);
+        }
+
     .left .row-2 {
-        transform: skew(-13deg);
+        transform: rotate(-90deg);
+        margin-top: 120px;
+        margin-right:30px;
     }
 
         .left .row-2 .seat {
-            transform: skew(18deg);
+            transform: rotate(90deg);
         }
 
     .left .row-3 {
-        transform: skew(-12deg);
+        transform: rotate(-90deg);
+        margin-top: 0px;
+        margin-right:45px;
     }
 
         .left .row-3 .seat {
-            transform: skew(16deg);
+            transform: rotate(90deg);
         }
 
     .left .row-4 {
-        transform: skew(-11deg);
+        transform: rotate(-90deg);
+        margin-top: -120px;
+        margin-right:-30px;
     }
 
         .left .row-4 .seat {
-            transform: skew(15deg);
+            transform: rotate(90deg);
         }
 
     .left .row-5 {
-        transform: skew(-10deg);
+        transform: rotate(-90deg);
+        margin-top: -240px;
+        margin-right:-30px;
     }
 
         .left .row-5 .seat {
-            transform: skew(12deg);
+            transform:rotate(90deg);
         }
 
     .left .row-6 {
-        transform: skew(-9deg);
+        transform: rotate(-90deg);
+        margin-top: -360px;
     }
 
         .left .row-6 .seat {
-            transform: skew(10deg);
+            transform: rotate(90deg);
         }
 
     .left .row-7 {
-        transform: skew(-8deg);
+        transform: rotate(-90deg);
+        margin-top: -480px;
     }
 
         .left .row-7 .seat {
-            transform: skew(8deg);
+            transform: rotate(90deg);
         }
 
     .left .row-8 {
-        transform: skew(-7deg);
+        transform: rotate(-90deg);
+        margin-top: -600px;
     }
 
         .left .row-8 .seat {
-            transform: skew(6deg);
+            transform: rotate(90deg);
         }
 
     .left .row-9 {
-        transform: skew(-6deg);
+        transform: rotate(-90deg);
+        margin-top: -720px;
     }
 
         .left .row-9 .seat {
-            transform: skew(4deg);
+            transform: rotate(90deg);
         }
 
     .left .row-10 {
-        transform: skew(-5deg);
+        transform: rotate(-90deg);
+        margin-top: -840px;
     }
 
         .left .row-10 .seat {
-            transform: skew(2deg);
+            transform: rotate(90deg);
         }
 
     .right {
@@ -233,11 +313,11 @@
             <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-book"></i>SHOW FLAT STATUS</button>
         </div>
     </div>
-    <br />
-    <br />
+    @*<br />
+    <br />*@
 
     <div id="labels" class="row" style="display:none">
-        <br />
+        
         <div class="col-md-3">
             <div style="background:linear-gradient(to bottom,ForestGreen, white)" class="seat"><label for="4C"> OPEN </label> </div>
         </div>
@@ -284,12 +364,6 @@
         $.get("/Booking/GetAllFlats", { TowerId: $("#Tower").val() }, function (data) {
             $.each(data, function (index, row) {
 
-                if (index == 0) {
-                    FloorNo = row.Floor;
-                    html = '<div class="cinema-seats left"> <div class="cinema-row row-1">';
-
-                }
-
 
                 if (index == 0) {
                     FloorNo = row.Floor;
@@ -300,6 +374,7 @@
                     html = html + '</div>'
                     html = html + '<div class="cinema-row row-' + row.Floor + '">';
                 }
+                
                 if (row.BookingStatus == 'O') {
                     html = html + '<div style="background:linear-gradient(to bottom,ForestGreen, white)" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }

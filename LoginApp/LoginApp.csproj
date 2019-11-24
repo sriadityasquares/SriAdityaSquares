@@ -1620,6 +1620,7 @@
     <Content Include="Views\Agent\Index.cshtml" />
     <Content Include="Views\Report\FacingWiseBookingReport.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Booking\MakeAgentPayment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

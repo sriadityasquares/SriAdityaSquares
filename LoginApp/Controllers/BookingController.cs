@@ -73,7 +73,8 @@ namespace LoginApp.Controllers
                 TempData["successmessage"] = "Booking Failed";
             }
             ModelState.Clear();
-
+            TempData.Keep("ProjectList");
+            TempData.Keep("CountryList");
             return View();
         }
 
@@ -94,6 +95,16 @@ namespace LoginApp.Controllers
         public JsonResult GetAllFlats(int TowerId)
         {
             List<Flats> flatList = booking.BindAllFlats(TowerId);
+            List<Flats> newFlatList = new List<Flats>();
+            for(int i=0;i< flatList.Count -1;i++)
+            {
+                newFlatList.Add(flatList[i]);
+                int k = i + 1;
+                for (int j=i+100;j< 1011;j++)
+                {
+                    newFlatList.Add(flatList[j]);
+                }
+            }
             return Json(flatList, JsonRequestBehavior.AllowGet);
 
         }
@@ -145,6 +156,9 @@ namespace LoginApp.Controllers
             else
                 TempData["successmessage"] = "Payment Failed";
             ModelState.Clear();
+            //List<Projects> projectList1 = booking.BindProjects();
+            //TempData["ProjectList"] = new SelectList(projectList1, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
             List<PaymentInformation> lstPayments = new List<PaymentInformation>();
             ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
             return View();
@@ -153,6 +167,17 @@ namespace LoginApp.Controllers
         public ActionResult GetPaymentDetails(int flatID)
         {
             List<PaymentInformation> lstPayments = booking.BindPaymentDetails(flatID);
+
+            foreach (var item in lstPayments)
+            {
+                item.FormattedDate = Convert.ToDateTime(item.CreatedDate).Date.ToShortDateString();
+            }
+            return Json(lstPayments, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetAgentPaymentDetails(int flatID)
+        {
+            List<AgentPaymentInformation> lstPayments = booking.BindAgentPaymentDetails(flatID);
 
             foreach (var item in lstPayments)
             {
@@ -180,6 +205,31 @@ namespace LoginApp.Controllers
             List<Flats> CityList = booking.BindFlatsInProgress(TowerId);
             return Json(CityList, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult MakeAgentPayment()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectListAgentPayments"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectListAgentPayments");
+            //List<AgentPaymentInformation> lstPayments = new List<AgentPaymentInformation>();
+            //ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult MakeAgentPayment(AgentPaymentInformation payInfo)
+        {
+            var result = booking.SaveNewAgentPayment(payInfo);
+            if (result)
+                TempData["successmessage"] = "Payment Successfull";
+            else
+                TempData["successmessage"] = "Payment Failed";
+            ModelState.Clear();
+            TempData.Keep("ProjectListAgentPayments");
+            List<PaymentInformation> lstPayments = new List<PaymentInformation>();
+            ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
+            return View();
         }
     }
 }

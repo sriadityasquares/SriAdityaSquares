@@ -88,6 +88,7 @@ namespace ModelLayer
         public Nullable<int> State { get; set; }
         public Nullable<int> City { get; set; }
         public int PaymentID { get; set; }
+        public int AgentPaymentID { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
 
@@ -112,6 +113,10 @@ namespace ModelLayer
         public Nullable<double> AgentTDS { get; set; }
         public Nullable<double> AgentNet { get; set; }
         public Nullable<double> TotalComm { get; set; }
+        public Nullable<double> AgentNetPaid { get; set; }
+        public Nullable<double> AgentNetBalance { get; set; }
 
+        public Nullable<double> SASNetPaid { get; set; }
+        public Nullable<double> SASNetBalance { get; set; }
     }
 }

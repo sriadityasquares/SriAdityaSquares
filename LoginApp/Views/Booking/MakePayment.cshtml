@@ -54,15 +54,15 @@
 
         <div id="paydetails1" style="padding-top:5px" class="row">
             @Html.LabelFor(m => m.TotalPaid, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.TotalPaid, new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.TextBoxFor(m => m.TotalPaid, new { @class = "textbox-control col-md-3 col-xs", @readonly =true })
             @Html.LabelFor(m => m.TotalBalance, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.TotalBalance, new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.TextBoxFor(m => m.TotalBalance, new { @class = "textbox-control col-md-3 col-xs", @readonly =true })
         </div>
         <div id="paydetails2" style="padding-top:5px" class="row">
             @Html.LabelFor(m => m.BookingAmount, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.BookingAmount, new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.TextBoxFor(m => m.BookingAmount, new { @class = "textbox-control col-md-3 col-xs",@type = "number" })
             @Html.LabelFor(m => m.BalanceAmount, new { @class = "col-md-2" })
-            @Html.TextBoxFor(m => m.BalanceAmount, new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.TextBoxFor(m => m.BalanceAmount, new { @class = "textbox-control col-md-3 col-xs",@type = "number" })
         </div>
         <div id="paydetails3" style="padding-top:5px" class="row">
             @Html.LabelFor(m => m.PaymentModeID, new { @class = "col-md-2" })

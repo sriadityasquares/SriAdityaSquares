@@ -28,6 +28,25 @@
           <Property Name="AgentSponserCode" Type="nvarchar" MaxLength="50" />
           <Property Name="AgentSuperSponserCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="tblAgentPaymentInfo">
+          <Key>
+            <PropertyRef Name="AgentPaymentID" />
+          </Key>
+          <Property Name="AgentPaymentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingID" Type="uniqueidentifier" />
+          <Property Name="FlatID" Type="int" />
+          <Property Name="SASNetPaid" Type="float" />
+          <Property Name="SASNetBalance" Type="float" />
+          <Property Name="AgentNetPaid" Type="float" />
+          <Property Name="AgentNetBalance" Type="float" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Day" Type="int" />
+        </EntityType>
         <EntityType Name="tblAgentProjectLevels">
           <Key>
             <PropertyRef Name="AgentID" />
@@ -352,6 +371,7 @@
         <Function Name="sp_GetTowerDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="salesDBModelStoreContainer">
           <EntitySet Name="tblAgentMaster" EntityType="Self.tblAgentMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAgentPaymentInfo" EntityType="Self.tblAgentPaymentInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAgentProjectLevels" EntityType="Self.tblAgentProjectLevels" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBookingInformation" EntityType="Self.tblBookingInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCity" EntityType="Self.tblCity" Schema="dbo" store:Type="Tables" />
@@ -452,8 +472,9 @@
           <EntitySet Name="tblBookingInformations" EntityType="salesDBModel.tblBookingInformation" />
           <EntitySet Name="tblAgentProjectLevels" EntityType="salesDBModel.tblAgentProjectLevel" />
           <FunctionImport Name="sp_GetAgentsByProjectID" ReturnType="Collection(salesDBModel.sp_GetAgentsByProjectID_Result)">
-            <Parameter Name="ProjectID" Mode="In" Type="Int32" />
+          <Parameter Name="ProjectID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="tblAgentPaymentInfoes" EntityType="salesDBModel.tblAgentPaymentInfo" />
         </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -875,6 +896,25 @@
           <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
           <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
         </ComplexType>
+        <EntityType Name="tblAgentPaymentInfo">
+          <Key>
+            <PropertyRef Name="AgentPaymentID" />
+          </Key>
+          <Property Name="AgentPaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingID" Type="Guid" />
+          <Property Name="FlatID" Type="Int32" />
+          <Property Name="SASNetPaid" Type="Double" />
+          <Property Name="SASNetBalance" Type="Double" />
+          <Property Name="AgentNetPaid" Type="Double" />
+          <Property Name="AgentNetBalance" Type="Double" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Day" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1310,6 +1350,26 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblAgentPaymentInfoes">
+            <EntityTypeMapping TypeName="salesDBModel.tblAgentPaymentInfo">
+              <MappingFragment StoreEntitySet="tblAgentPaymentInfo">
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="AgentNetBalance" ColumnName="AgentNetBalance" />
+                <ScalarProperty Name="AgentNetPaid" ColumnName="AgentNetPaid" />
+                <ScalarProperty Name="SASNetBalance" ColumnName="SASNetBalance" />
+                <ScalarProperty Name="SASNetPaid" ColumnName="SASNetPaid" />
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="AgentPaymentID" ColumnName="AgentPaymentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

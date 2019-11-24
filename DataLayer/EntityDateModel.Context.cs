@@ -43,6 +43,7 @@ namespace DataLayer
         public virtual DbSet<tblSchemeMaster> tblSchemeMasters { get; set; }
         public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
         public virtual DbSet<tblAgentProjectLevel> tblAgentProjectLevels { get; set; }
+        public virtual DbSet<tblAgentPaymentInfo> tblAgentPaymentInfoes { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {

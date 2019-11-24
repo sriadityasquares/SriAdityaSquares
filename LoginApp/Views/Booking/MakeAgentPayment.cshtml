@@ -1,0 +1,240 @@
+﻿@model ModelLayer.AgentPaymentInformation
+@{
+    ViewBag.Title = "MakeAgentPayment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Booking = "active";
+    ViewBag.MakeAgentPayment = "active";
+}
+
+@using (Html.BeginForm("MakeAgentPayment", "Booking", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "submitbtn" }))
+{
+    //@(ViewContext.ClientValidationEnabled = false)
+
+    @Html.AntiForgeryToken()
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-1 col-xs">
+                <h3 align="center" style="margin-bottom:2px">AGENT PAYMENTS</h3>
+                <div class="specialLine"></div>
+            </div>
+
+        </div>
+        <div class="row">
+            <hr />
+        </div>
+      
+        @Html.HiddenFor(m => m.BookingID)
+        <div class="row" style="padding-top:10px">
+            @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
+            @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectListAgentPayments"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
+            @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
+            @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+        </div>
+        <div id="paydetails">
+            <div class="row justify-content-center" style="padding-top:20px">
+                <div class="" col-md-12 col-sm-12 col-xs-12 table-responsive">
+                    <table id="table" style="margin-left:250px;width:50%" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="263px"> SAS Amount Paid</th>
+                                <th>Date of Payment</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="row justify-content-center" style="padding-top:20px">
+                <div class="" col-md-12 col-sm-12 col-xs-12 table-responsive">
+                    <table id="table1" style="margin-left:250px;width:50%" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="263px">Agent Amount Paid</th>
+                                <th>Date of Payment</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div id="paydetails1" style="padding-top:5px" class="row">
+                @Html.LabelFor(m => m.TotalPaidSAS, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.TotalPaidSAS, new { @class = "textbox-control col-md-3 col-xs", @readonly =true })
+                @Html.LabelFor(m => m.TotalBalanceSAS, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.TotalBalanceSAS, new { @class = "textbox-control col-md-3 col-xs",@readonly =true })
+            </div>
+            <div id="paydetails2" style="padding-top:5px" class="row">
+                @Html.LabelFor(m => m.SASNetPaid, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.SASNetPaid, new { @class = "textbox-control col-md-3 col-xs" ,@type = "number"})
+                @Html.LabelFor(m => m.SASNetBalance, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.SASNetBalance, new { @class = "textbox-control col-md-3 col-xs",@type = "number" })
+            </div>
+            <div id="paydetails3" style="padding-top:5px" class="row">
+                @Html.LabelFor(m => m.TotalPaidAgent, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.TotalPaidAgent, new { @class = "textbox-control col-md-3 col-xs",@readonly =true })
+                @Html.LabelFor(m => m.TotalBalanceAgent, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.TotalBalanceAgent, new { @class = "textbox-control col-md-3 col-xs",@readonly =true })
+            </div>
+            <div id="paydetails4" style="padding-top:5px" class="row">
+                @Html.LabelFor(m => m.AgentNetPaid, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.AgentNetPaid, new { @class = "textbox-control col-md-3 col-xs",@type = "number" })
+                @Html.LabelFor(m => m.AgentNetBalance, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.AgentNetBalance, new { @class = "textbox-control col-md-3 col-xs",@type = "number" })
+            </div>
+            @*<div id="paydetails3" style="padding-top:5px" class="row">
+            @Html.LabelFor(m => m.PaymentModeID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(m => m.PaymentModeID, new List<SelectListItem>
+        {
+             new SelectListItem{ Text="--Mode--", Value = "0"  },
+            new SelectListItem{ Text="Cheque", Value = "1" },
+            new SelectListItem{ Text="NEFT", Value = "2" },
+            new SelectListItem{ Text="CC", Value = "3" },
+            new SelectListItem{ Text="Cash", Value = "4" },
+         }, new { @class = "textbox-control col-md-3 col-xs", @readonly = "readonly" })
+            @Html.LabelFor(m => m.ReferenceNo, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.ReferenceNo, new { @class = "textbox-control col-md-3 col-xs" })
+        </div>*@
+            <div id="paydetails5" style="padding-top:5px" class="row">
+                <br />
+                <div class="col-md-6 no-pad">
+                    <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>PAY</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+
+
+    HideDiv();
+    $("#ProjectID").change(function () {
+        $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+            HideDiv();
+            $("#TowerID").empty();
+            $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+            });
+        });
+    });
+
+    $("#TowerID").change(function () {
+
+        $.get("/Booking/GetFlatsInProgress", { TowerId: $("#TowerID").val() }, function (data) {
+            //$("#TowerID").empty();
+            //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            HideDiv();
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
+            });
+        });
+    });
+
+    $("#FlatID").change(function () {
+        TotalPaid = ""
+        $.get("/Booking/GetAgentPaymentDetails", { flatID: $("#FlatID").val() }, function (data) {
+            var TotalPaidSAS = 0;
+            var BalanceAmountSAS = "";
+            var TotalPaidAgent = 0;
+            var BalanceAmountAgent = "";
+            var BookingID = "";
+            //var Aadhar = "";
+            var DueDate = "";
+
+            $.each(data, function (index, row) {
+                $('#table tbody').append("<tr><td>" + row.SASNetPaid + "</td><td>" + row.FormattedDate + "</td></tr>");
+                TotalPaidSAS = TotalPaidSAS + Number(row.SASNetPaid);
+                BalanceAmountSAS = parseInt(row.SASNetBalance);
+                BookingID = row.BookingID;
+
+                //Aadhar = row.Aadhar;
+                $('#table1 tbody').append("<tr><td>" + row.AgentNetPaid + "</td><td>" + row.FormattedDate + "</td></tr>");
+                TotalPaidAgent = TotalPaidAgent + Number(row.AgentNetPaid);
+                BalanceAmountAgent = parseInt(row.AgentNetBalance);
+            });
+            $("#TotalPaidSAS").val(TotalPaidSAS);
+            $("#TotalBalanceSAS").val(BalanceAmountSAS);
+            $("#TotalPaidAgent").val(TotalPaidAgent);
+            $("#TotalBalanceAgent").val(BalanceAmountAgent);
+            $("#BookingID").val(BookingID);
+            ShowDiv();
+        });
+    });
+
+    $("#SASNetPaid").keyup(function () {
+        SetSASBalanceAmount();
+    });
+
+    $("#AgentNetPaid").keyup(function () {
+        SetAgentBalanceAmount();
+    });
+    $("#submitbtn").submit(function () {
+        Validations();
+    });
+
+    function SetSASBalanceAmount() {
+        if ($("#TotalBalanceSAS").val() != '' && $("#SASNetPaid").val() != '') {
+            $("#SASNetBalance").val(parseInt($("#TotalBalanceSAS").val()) - parseInt($("#SASNetPaid").val()))
+        }
+        else {
+            $("#SASNetBalance").val('')
+        }
+    }
+
+    function SetAgentBalanceAmount() {
+        if ($("#TotalBalanceAgent").val() != '' && $("#AgentNetPaid").val() != '') {
+            $("#AgentNetBalance").val(parseInt($("#TotalBalanceAgent").val()) - parseInt($("#AgentNetPaid").val()))
+        }
+        else {
+            $("#AgentNetBalance").val('')
+        }
+    }
+    function HideDiv() {
+        $("#paydetails").hide();
+    };
+
+    function ShowDiv() {
+        $("#paydetails").show();
+    };
+
+    function Validations() {
+
+        if ($("#SASNetPaid").val() == '') {
+            toastr.error("SAS Net Paid is Required"); return;
+        }
+
+        if ($("#AgentNetPaid").val() == '') {
+            toastr.error("Agent Net Paid is Required"); return;
+        }
+
+    }
+</script>
+
+<script type="text/javascript">
+    $(window).load(function () {
+        var tempdataval = '@TempData["successmessage"]';
+        if (tempdataval != '') {
+            if (tempdataval == 'Payment Successfull')
+                toastr.success(tempdataval);
+            else {
+                toastr.error(tempdataval);
+            }
+        }
+
+    });
+</script>
+

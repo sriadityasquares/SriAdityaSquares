@@ -12,15 +12,21 @@ namespace DataLayer
     using System;
     using System.Collections.Generic;
     
-    public partial class tblAgentProjectLevel
+    public partial class tblAgentPaymentInfo
     {
-        public int AgentID { get; set; }
-        public int ProjectID { get; set; }
-        public Nullable<int> LevelID { get; set; }
-        public string Status { get; set; }
+        public int AgentPaymentID { get; set; }
+        public Nullable<System.Guid> BookingID { get; set; }
+        public Nullable<int> FlatID { get; set; }
+        public Nullable<double> SASNetPaid { get; set; }
+        public Nullable<double> SASNetBalance { get; set; }
+        public Nullable<double> AgentNetPaid { get; set; }
+        public Nullable<double> AgentNetBalance { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
+        public Nullable<int> Year { get; set; }
+        public Nullable<int> Month { get; set; }
+        public Nullable<int> Day { get; set; }
     }
 }

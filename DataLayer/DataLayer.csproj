@@ -95,6 +95,9 @@
     <Compile Include="tblAgentMaster.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblAgentPaymentInfo.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblAgentProjectLevel.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
