@@ -1,5 +1,6 @@
 ﻿@model ModelLayer.Dashboard
 @{
+    ViewBag.Dashboard = "active";
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -208,6 +209,68 @@
         padding: 4px 0;
         padding-left: 4px;
     }
+
+    [data-tooltip] {
+        position: relative;
+        z-index: 2;
+        cursor: pointer;
+    }
+
+        /* Hide the tooltip content by default */
+        [data-tooltip]:before,
+        [data-tooltip]:after {
+            visibility: hidden;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Position tooltip above the element */
+        [data-tooltip]:before {
+            position: absolute;
+            bottom: 150%;
+            left: 50%;
+            margin-bottom: 5px;
+            margin-left: -80px;
+            padding: 7px;
+            width: 160px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            background-color: #000;
+            background-color: hsla(0, 0%, 20%, 0.9);
+            color: #fff;
+            content: attr(data-tooltip);
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+
+        /* Triangle hack to make tooltip look like a speech bubble */
+        [data-tooltip]:after {
+            position: absolute;
+            bottom: 150%;
+            left: 50%;
+            margin-left: -5px;
+            width: 0;
+            border-top: 5px solid #000;
+            border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+            border-right: 5px solid transparent;
+            border-left: 5px solid transparent;
+            content: " ";
+            font-size: 0;
+            line-height: 0;
+        }
+
+        /* Show tooltip content on hover */
+        [data-tooltip]:hover:before,
+        [data-tooltip]:hover:after {
+            visibility: visible;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+            filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+            opacity: 1;
+        }
 </style>
 <div class="jumbotron">
     <div class="row">
@@ -217,6 +280,23 @@
         </div>
 
     </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+
+                </div>
+                <div class="modal-body">...</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<button id="myBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Launch demo modal</button>*@
     <div class="row">
         <hr />
     </div>
@@ -227,12 +307,12 @@
         @Html.LabelFor(m => m.Tower, new { @class = "col-md-2" })
         @Html.DropDownListFor(model => model.Tower, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
     </div>
-    <div class="row">
-        <br />
-        <div class="col-md-7 no-pad">
-            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-book"></i>SHOW FLAT STATUS</button>
-        </div>
-    </div>
+    @*<div class="row">
+            <br />
+            <div class="col-md-7 no-pad">
+                <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-book"></i>SHOW FLAT STATUS</button>
+            </div>
+        </div>*@
     <br />
     <br />
 
@@ -268,6 +348,12 @@
 </div>
 
 <script>
+   $(document).ready(function () {
+      
+    //$("#myBtn").click(function(){
+    //     $('#myModal').modal('show');
+    //});
+});
     $("#Project").change(function () {
         $.get("/Booking/GetTowers", { ProjectId: $("#Project").val() }, function (data) {
             $("#Tower").empty();
@@ -280,7 +366,10 @@
     });
     var FloorNo;
     var html = '';
-    $("#submitbtn").click(function () {
+    //var Facing;
+    //var Sqft;
+    //var Bhk;
+    $("#Tower").change(function () {
         $.get("/Booking/GetAllFlats", { TowerId: $("#Tower").val() }, function (data) {
             $.each(data, function (index, row) {
 
@@ -300,17 +389,22 @@
                     html = html + '</div>'
                     html = html + '<div class="cinema-row row-' + row.Floor + '">';
                 }
+                //var Facing = row.Facing;
+                //var Sqft = row.Sft;
+                //var Bhk = row.Bhk;
+                //alert(row.Facing);
                 if (row.BookingStatus == 'O') {
-                    html = html + '<div style="background:linear-gradient(to bottom,ForestGreen, white)" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+
+                    html = html + '<div style="background:linear-gradient(to bottom,ForestGreen, white)" onclick="ShowBookingScreen('+row.FlatID+')"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }
                 if (row.BookingStatus == 'S') {
-                    html = html + '<div style="background-color: #bd4f6c;background-image:linear-gradient(326deg, #bd4f6c 0%, #d7816a 74%);" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                    html = html + '<div style="background-color: #bd4f6c;background-image:linear-gradient(326deg, #bd4f6c 0%, #d7816a 74%);" onclick="ShowFlatDetails(\'' + row.Facing + '\',' + row.Sft + ',' + row.Bhk + ',' + row.FlatName + ')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }
                 if (row.BookingStatus == 'M') {
-                    html = html + '<div style="background:linear-gradient(to bottom,#7AD7F0, white)"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                    html = html + '<div style="background:linear-gradient(to bottom,#7AD7F0, white);"  onclick="ShowFlatDetails(\'' + row.Facing + '\',' + row.Sft + ',' + row.Bhk + ',' + row.FlatName + ')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }
                 if (row.BookingStatus == 'P') {
-                    html = html + '<div style="background:linear-gradient(to bottom,#FFD700, white)"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                    html = html + '<div style="background:linear-gradient(to bottom,#FFD700, white);" onclick="ShowFlatDetails(\'' + row.Facing + '\',' + row.Sft + ',' + row.Bhk + ',' + row.FlatName + ')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }
                 //html = html + '<div class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 //if (index == 1) {
@@ -324,5 +418,95 @@
             $('#labels').show();
         });
     });
+
+    function ShowBookingScreen(FlatID) {
+        window.location.href ="/Booking/New?ProjectID=" + $("#Project").val() + "&TowerID=" +  $("#Tower").val()+ "&FlatID=" + FlatID;
+    }
+
+    function ShowFlatDetails(Facing, Sft, Bhk, Flat) {
+        //swal({
+        //    buttons: ["Book"],
+        //});
+        //        swal("Flat Info!", 'Flat No : ' + Flat + '\n' + 'Facing : ' + Facing + '\n' + 'Sqft : ' + Sft + '\n' + 'BHK :' + Bhk, "success",{
+        //  button: {
+        //    text: "Hey ho!",
+        //  },
+        //});
+        //swal({
+        //    text: 'Flat No : ' + Flat + '\n' + 'Facing : ' + Facing + '\n' + 'Sqft : ' + Sft + '\n' + 'BHK :' + Bhk,
+        //    buttons: ["Select Patient?", "Speed Case?"],
+        //});
+        //        Swal.fire(
+        //  'Good job!',
+        //  'You clicked the button!',
+        //  'success'
+        //)
+        //swal({
+        //    title: "Flat Info",
+        //    text: 'Flat No : ' + Flat + '\n' + 'Facing : ' + Facing + '\n' + 'Sqft : ' + Sft + '\n' + 'BHK :' + Bhk,
+        //    //type: "info",
+        //    //showCancelButton: true,
+        //    confirmButtonColor: 'ForestGreen',
+        //    confirmButtonText: 'Book!',
+        //    cancelButtonText: "Cancel!",
+        //    closeOnConfirm: false,
+        //    closeOnCancel: false
+        //})
+        //$.toastr({
+        //    heading: 'Positioning',
+        //    text: 'Use the predefined ones, or specify a custom object',
+        //    position: 'middle-center',
+        //    stack: false,
+        //    hideAfter: false
+        //})
+
+        //int Project = parseInt($("#Project").val())
+        @*//window.location.href = '@Url.Action("New", "Booking",new { ProjectID = Project, TowerID =})';*@
+
+
+     @*$.ajax({
+                    type: "GET",
+                    url: '@Url.Action("New", "Booking")',
+         contentType: "application/json; charset=utf-8",
+         data: {
+             ProjectID: $("#Project").val(), TowerID : $("#Tower").val(),FlatID : 205},
+                    dataType: "json",
+                    success: function (cities) {
+
+                    }
+                });*@
+
+
+        window.location.href ="/Booking/New?ProjectID=" + $("#Project").val() + "&TowerID=" +  $("#Tower").val()+ "&FlatID=" + 535;
+
+        toastr.options = {
+            //"closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-center",
+            "preventDuplicates": true,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": 0,
+            "extendedTimeOut": 0,
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+            "tapToDismiss": false
+        }
+
+        toastr.success('', "Clear itself?<br /><br /><button type='button' class='btn'>Book</button>");
+
+    };
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+
+
 
 </script>

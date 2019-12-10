@@ -43,7 +43,7 @@
             <div id="leftside-navigation" class="nano">
                 <ul class="nano-content">
                     <li>
-                        <a href="index.html"><i class="fa fa-dashboard"></i><span>DASHBOARD</span></a>
+                        <a class="@(ViewBag.Dashboard)" href="@Url.Action("Index", "Dashboard")"><i class="fa fa-dashboard"></i><span>DASHBOARD</span></a>
                     </li>
                     <li class="sub-menu @(ViewBag.Admin)">
                         <a href="javascript:void(0);"><i class="fa fa-user"></i><span>ADMIN</span><i class="arrow fa fa-angle-right pull-right"></i></a>

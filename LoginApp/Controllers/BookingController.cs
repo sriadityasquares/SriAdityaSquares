@@ -42,10 +42,13 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        public ActionResult New()
+        public ActionResult New(int ProjectID = 0,int TowerID = 0,int FlatID = 0)
         {
             List<Country> countryList = common.BindCountry();
             List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectID"] = ProjectID;
+            TempData["TowerID"] = TowerID;
+            TempData["FlatID"] = FlatID;
             TempData["CountryList"] = new SelectList(countryList, "CountryID", "CountryName");
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             TempData.Keep("ProjectList");
