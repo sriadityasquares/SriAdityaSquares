@@ -246,9 +246,11 @@
                     });
                 });
 
-            //$("#ProjectID").prop("disabled", true);
-            //$("#TowerID").prop("disabled", true);
-            //$("#FlatID").prop("disabled", true);
+            $("#ProjectID").prop("disabled", true);
+            $("#TowerID").prop("disabled", true);
+            $("#FlatID").prop("disabled", true);
+
+
         };
 
 
@@ -469,11 +471,14 @@
             $("#SchemeName").val($("#SchemeID option:selected").text());
             $("#DownPaymentTimePeriod").val(downDuePeriod);
             $("#PaymentTimePeriod").val(DuePeriod);
+            $("#ProjectID").prop("disabled", false);
+            $("#TowerID").prop("disabled", false);
+            $("#FlatID").prop("disabled", false);
         };
         var validationsFlag = false;
 
         function Validations() {
-
+            
 
             if ($("#Name").val() == '') {
                 //toastr.error("Name is Required");
@@ -492,7 +497,7 @@
             if ($("#Nominee").val() == '') {
                 toastr.error("Nominee is Required"); return;
             }
-            if ($("#Relationship").val() == '0') {
+            if ($("#Relationship").val() == '') {
                 toastr.error("Relationship is Required"); return;
             }
             if ($("#Age").val() == '') {
@@ -501,12 +506,12 @@
             if ($("#Dob").val() == '0') {
                 toastr.error("Dob is Required"); return;
             }
-            if ($("#Aadhar").val() == '') {
-                toastr.error("Aadhar is Required"); return;
-            }
-            if ($("#Pan").val() == '') {
-                toastr.error("Pan is Required"); return;
-            }
+            //if ($("#Aadhar").val() == '') {
+            //    toastr.error("Aadhar is Required"); return;
+            //}
+            //if ($("#Pan").val() == '') {
+            //    toastr.error("Pan is Required"); return;
+            //}
             if ($("#Address").val() == '') {
                 toastr.error("Address is Required"); return;
             }
@@ -516,6 +521,7 @@
             if ($("#Mobile").val() == '') {
                 toastr.error("Mobile is Required"); return;
             }
+            
             if ($("#ProjectID").val() == '0') {
                 toastr.error("Project is Required"); return;
             }

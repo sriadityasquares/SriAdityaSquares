@@ -7,6 +7,7 @@ using ModelLayer;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -98,6 +99,17 @@ namespace LoginApp.Controllers
         public JsonResult GetAllFlats(int TowerId)
         {
             List<Flats> flatList = booking.BindAllFlats(TowerId);
+            //var dir = HttpContext.Current.Request.Url.PathAndQuery;
+            //var dir = Server.MapPath("/Content/Images");
+            //foreach (var flat in flatList)
+            //{
+
+            //    if(flat.FlatPlanURL != null)
+            //    {
+            //        var path = Path.Combine(dir,flat.FlatPlanURL);
+            //        flat.FlatPlanURL = path.Replace(@"\\", @"\");
+            //    }
+            //}
             return Json(flatList, JsonRequestBehavior.AllowGet);
 
         }
