@@ -1,0 +1,210 @@
+﻿
+@{
+    ViewBag.Title = "Agent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Dashboard = "active";
+    ViewBag.AgentDashboard = "active";
+}
+
+<div class="jumbotron" style="padding-bottom:10px;margin-bottom:10px">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">AGENT HIERARCHY</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-8" style="padding-left:250px">
+            <br />
+            <div style="overflow:auto;height:743px" id="bookingstatus"></div>
+        </div>
+    </div>
+</div>
+<script>
+    var html = '';
+    $(document).ready(function () {
+        $.get("/DashBoard/GetAgentCommissionByAgentLogin", function (data) {
+
+            $.each(data, function (index, row) {
+                if (index == 0) {
+
+                    html = '<div  class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2"><ul class="timeline">';
+
+                }
+                html = html + ' <li class="timeline-item"> <div class="timeline-info"><span>' + row.AgentID + '</span> </div><div class="timeline-marker"></div> <div class="timeline-content"><h3 style="color:#ea4f4c" class="timeline-title">' + row.AgentName + '</h3><p> <b> AGENT COMMISSION : </b><b style="color:BLACK">' + row.AgentCommission + '</b></p> </div></li>'
+
+            })
+            html = html + ' </ul></div>';
+            $('#bookingstatus').html(html);
+        })
+    });
+</script>
+
+
+@*<style>
+
+           .timeline {
+               display: -webkit-flex;
+               display: flex;
+               -webkit-flex-direction: column;
+               flex-direction: column;
+               padding: 0 62px;
+               margin: 0;
+               list-style: none;
+           }
+
+               .timeline::before {
+                   position: fixed;
+                   top: 0;
+                   height: 100%;
+                   padding-right: 11px;
+                   border-right: 2px solid #F2F2F2;
+                   content: "";
+               }
+
+           .timeline__item {
+               display: -webkit-flex;
+               display: flex;
+               -webkit-align-items: stretch;
+               align-items: stretch;
+               padding: 62px 0;
+           }
+
+           .timeline__step {
+               padding-right: 62px;
+           }
+
+           .timeline__step__marker {
+               position: relative;
+               display: table-cell;
+               height: 24px;
+               min-height: 24px;
+               width: 24px;
+               min-width: 24px;
+               border: 4px solid #F2F2F2;
+               -moz-border-radius: 50%;
+               -webkit-border-radius: 50%;
+               border-radius: 50%;
+               background-color: white;
+               z-index: 0;
+           }
+
+           .timeline__step__marker--red {
+               border-color: #FF3467;
+           }
+
+           .timeline__step__marker--blue {
+               border-color: #18D0BF;
+           }
+
+           .timeline__step__marker--salmon {
+               border-color: #F48A6D;
+           }
+
+           .timeline__step__marker--purple {
+               border-color: #C178FA;
+           }
+
+           .timeline__time {
+               padding-right: 126px;
+               font-size: 26px;
+           }
+
+           .timeline__title {
+               padding-bottom: 26px;
+               font-size: 32px;
+           }
+
+           .timeline__points {
+               padding: 0;
+               list-style: none;
+               font-size: 24px;
+               color: #77777D;
+           }
+
+               .timeline__points > * {
+                   padding: 0 0 12px 0;
+               }
+
+           /* For mobile!
+        */
+
+           .timeline {
+               padding: 0 35.42857px;
+           }
+
+               .timeline::before {
+                   padding-right: 6.28571px;
+               }
+
+           .timeline__item {
+               padding: 35.42857px 0;
+           }
+
+           .timeline__step {
+               padding-right: 35.42857px;
+           }
+
+           .timeline__step__marker {
+               height: 13.71429px;
+               min-hieght: 13.71429px;
+               width: 13.71429px;
+               min-width: 13.71429px;
+               border-width: 2.28571px;
+           }
+
+           .timeline__time {
+               padding-right: 72px;
+               font-size: 14.85714px;
+           }
+
+           .timeline__title {
+               padding-bottom: 14.85714px;
+               font-size: 18.28571px;
+           }
+
+           .timeline__points {
+               font-size: 13.71429px;
+           }
+
+               .timeline__points > * {
+                   padding-bottom: 6.85714px;
+               }
+
+           }
+           /* Display stuff
+        */
+           html {
+               background: url(//s3-us-west-2.amazonaws.com/s.cdpn.io/153256/trees.jpg) no-repeat center center fixed;
+               -moz-background-size: cover;
+               -o-background-size: cover;
+               -webkit-background-size: cover;
+               background-size: cover;
+           }
+
+           html, body {
+               line-height: 1.5rem;
+               font-family: "Muli", sans-serif;
+               font-weight: 300;
+               margin: 0;
+               box-sizing: border-box;
+               height: 100%;
+           }
+
+           *, *:before, *:after {
+               box-sizing: inherit;
+           }
+
+           .card {
+               background-color: white;
+               max-width: 750px;
+               margin: 0 auto;
+               height: 100%;
+               -moz-box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+               -webkit-box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+               box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+               display: table;
+           }
+    </style>*@

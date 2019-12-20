@@ -374,7 +374,8 @@ namespace LoginApp.Controllers
                 return RedirectToAction("Admin", "Home");
             else if (UserManager.IsInRole(UserID, "Client"))
                 return RedirectToAction("Contact", "Home");
-            else
+            else if (UserManager.IsInRole(UserID, "Agent"))
+                return RedirectToAction("Agent", "Dashboard");
                 return null;
         }
 

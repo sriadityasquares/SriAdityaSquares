@@ -1636,6 +1636,7 @@
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Booking\MakeAgentPayment.cshtml" />
     <Content Include="Views\Report\FlatWiseAgentCommission.cshtml" />
+    <Content Include="Views\Dashboard\Agent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

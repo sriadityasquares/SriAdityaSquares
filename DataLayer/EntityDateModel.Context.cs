@@ -199,5 +199,14 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatWiseTotalAgentCommission_Result>("sp_GetFlatWiseTotalAgentCommission", projectIDParameter, towerIDParameter);
         }
+    
+        public virtual ObjectResult<sp_GetAgentCommissionByAgentLogin_Result> sp_GetAgentCommissionByAgentLogin(string agentEmail)
+        {
+            var agentEmailParameter = agentEmail != null ?
+                new ObjectParameter("AgentEmail", agentEmail) :
+                new ObjectParameter("AgentEmail", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentCommissionByAgentLogin_Result>("sp_GetAgentCommissionByAgentLogin", agentEmailParameter);
+        }
     }
 }

@@ -343,6 +343,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_GetAgentCommissionByAgentLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AgentEmail" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="sp_GetAgentsByProjectID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
@@ -499,6 +502,9 @@
           <FunctionImport Name="sp_GetFlatWiseTotalAgentCommission" ReturnType="Collection(salesDBModel.sp_GetFlatWiseTotalAgentCommission_Result)">
             <Parameter Name="ProjectID" Mode="In" Type="Int32" />
             <Parameter Name="TowerID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetAgentCommissionByAgentLogin" ReturnType="Collection(salesDBModel.sp_GetAgentCommissionByAgentLogin_Result)">
+            <Parameter Name="AgentEmail" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblCity">
@@ -965,6 +971,11 @@
           <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
           <Property Type="Double" Name="AgentComm" Nullable="true" />
           <Property Type="String" Name="AgentParent" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetAgentCommissionByAgentLogin_Result">
+          <Property Type="Int32" Name="AgentID" Nullable="false" />
+          <Property Type="String" Name="AgentName" Nullable="true" />
+          <Property Type="Int32" Name="AgentCommission" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1448,6 +1459,15 @@
                 <ScalarProperty Name="AgentName" ColumnName="AgentName" />
                 <ScalarProperty Name="AgentComm" ColumnName="AgentComm" />
                 <ScalarProperty Name="AgentParent" ColumnName="AgentParent" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentCommissionByAgentLogin" FunctionName="salesDBModel.Store.sp_GetAgentCommissionByAgentLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentCommissionByAgentLogin_Result">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentCommission" ColumnName="AgentCommission" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
