@@ -1,0 +1,180 @@
+﻿@model ModelLayer.Dashboard
+@{
+    ViewBag.FlatWiseAgentCommission = "active";
+    ViewBag.Reports = "active";
+    ViewBag.Title = "FlatWiseAgentCommission";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
+
+        <div class="row">
+            <div class="col-md-12 col-xs" style="margin-top:0px">
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">FLAT WISE AGENT COMMISSION</h3>
+                <div class="specialLine col-md-1"></div>
+            </div>
+
+        </div>
+
+        <div class="row" style="padding-top:10px">
+            @Html.LabelFor(m => m.Project, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.Project, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.Tower, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.Tower, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+        </div>
+        <br />
+        <hr />
+        <br />
+        <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
+            <div id="grid"></div>
+            <script type="text/x-kendo-template" id="template">
+                <div class="tabstrip">
+                    <ul>
+                        <li class="k-state-active">
+                            AGENTS
+                        </li>
+                    </ul>
+                    <div>
+                        <div class="orders"></div>
+                    </div>
+
+                </div>
+
+            </script>
+            <script type="text/x-kendo-template" id="searchtemplate">
+                <div class="toolbar">
+
+                    <div>
+                        <a data-toggle="tooltip" title="Export to Excel" class="k-button k-button-icontext k-grid-excel" href="\#"><i class="fa fa-file-excel-o fa-lg"></i></a>
+                    </div>
+
+                </div>
+
+            </script>
+            <script>
+            $("#Project").change(function () {
+                $.get("/Booking/GetTowers", { ProjectId: $("#Project").val() }, function (data) {
+                    $("#Tower").empty();
+                    $("#Tower").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+
+                    $.each(data, function (index, row) {
+                        $("#Tower").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+                    });
+                });
+            });
+            $("#Tower").change(function () {
+            $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetFlatAgentCommission", "Report")',
+                contentType: "application/json; charset=utf-8",
+                data: { projectID: $("#Project").val(), towerID :  $("#Tower").val() },
+            dataType: "json",
+            success: function (result) {
+
+            var grid = $("#grid").data("kendoGrid");
+            var dataSource = new kendo.data.DataSource({ data: result });
+            grid.setDataSource(dataSource);
+            grid.dataSource.read();
+            //$("#grid").height(400);
+            $('#grid .k-grid-content').height(500);
+            $("#grid").show();
+
+            },
+
+            });
+            });
+
+            $(document).ready(function () {
+                 $("#grid").hide();
+                var element = $("#grid").kendoGrid({
+                    dataSource: {
+                        data: null,
+                    },
+                    height: 550,
+                    sortable: true,
+                    pageable: false,
+                    detailTemplate: kendo.template($("#template").html()),
+                    detailInit: detailInit,
+                    dataBound: function () {
+                        this.expandRow(this.tbody.find("tr.k-master-row").first());
+                    },
+                    columns: [
+                        {
+                            field: "FlatID",
+                            title: "Flat",
+                            width: "120px",
+                            hidden :true
+                        },
+                        {
+                            field: "FlatName",
+                            title: "FLAT",
+                            width: "120px"
+                        },
+                        {
+                            field: "FinalRate",
+                            title: "FINAL RATE",
+                            width: "120px"
+                        },
+                        {
+                            field: "AgentComm",
+                            title : "Agent Commission",
+                            width: "120px",
+                            hidden :true
+                        },
+                        {
+                            field: "AgentID",
+                            title : "Agent ID",
+                            width: "120px",
+                            hidden:true
+                        },
+                        {
+                            field: "AgentParent",
+                            title : "Agent Parents",
+                            width: "120px",
+                            hidden:true
+                        }
+                    ]
+                });
+            });
+
+            function detailInit(e) {
+                var detailRow = e.detailRow;
+                //alert('1');
+
+                detailRow.find(".tabstrip").kendoTabStrip({
+                    animation: {
+                        open: { effects: "fadeIn" }
+                    }
+                });
+
+                detailRow.find(".orders").kendoGrid({
+
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Report/GetFlatAgentCommissionDetails"
+                        },
+                        filter: { field: "FlatID", operator: "eq", value: e.data.FlatID }
+                    },
+                    scrollable: false,
+                    columns: [
+                    { field: "AgentID", title: "ID", width: "70px" },
+                    { field: "AgentName", title: "AGENT NAME", width: "150px" },
+                    { field: "AgentCommission", title: "AGENT COMMISSION", width: "250px" }
+                ]
+                });
+            }
+            </script>
+            <style>
+                .k-detail-cell .k-tabstrip .k-content {
+                    padding: 0.2em;
+                }
+            </style>
+
+
+
+        </div>
+
+    </div>
+

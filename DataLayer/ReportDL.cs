@@ -11,7 +11,7 @@ namespace DataLayer
     public class ReportDL
     {
         salesDBEntities dbEntity = new salesDBEntities();
-        public List<GetBookingInfoByDate> BindBookingInfo(string fromDate,string toDate,string projectID)
+        public List<GetBookingInfoByDate> BindBookingInfo(string fromDate, string toDate, string projectID)
         {
             List<GetBookingInfoByDate> lstBooking = new List<GetBookingInfoByDate>();
             try
@@ -22,7 +22,7 @@ namespace DataLayer
                     cfg.CreateMap<sp_getBookingInfoByDates_Result, GetBookingInfoByDate>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstBooking = mapper.Map<List<sp_getBookingInfoByDates_Result>, List<GetBookingInfoByDate>>(dbEntity.sp_getBookingInfoByDates(fromDate,toDate,projectID).ToList()).ToList();
+                lstBooking = mapper.Map<List<sp_getBookingInfoByDates_Result>, List<GetBookingInfoByDate>>(dbEntity.sp_getBookingInfoByDates(fromDate, toDate, projectID).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -62,7 +62,7 @@ namespace DataLayer
                     cfg.CreateMap<sp_GetAgentWiseBookingDetails_Result, GetAgentWiseBookingDetails>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstBooking = mapper.Map<List<sp_GetAgentWiseBookingDetails_Result>, List<GetAgentWiseBookingDetails>>(dbEntity.sp_GetAgentWiseBookingDetails(projectID,fromDate, toDate).ToList()).ToList();
+                lstBooking = mapper.Map<List<sp_GetAgentWiseBookingDetails_Result>, List<GetAgentWiseBookingDetails>>(dbEntity.sp_GetAgentWiseBookingDetails(projectID, fromDate, toDate).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -110,7 +110,62 @@ namespace DataLayer
             }
             return lstBooking;
         }
-        public List<GetPeriodWiseBookingDetails> BindPeriodWiseBookingInfo(int option,string fromDate, string toDate, string projectID,string years,string month)
+
+        public List<GetFlatWiseTotalAgentCommission> BindFlatAgentCommission(int projectID, int towerID)
+        {
+            List<GetFlatWiseTotalAgentCommission> lstBooking = new List<GetFlatWiseTotalAgentCommission>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetFlatWiseTotalAgentCommission_Result, GetFlatWiseTotalAgentCommission>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<sp_GetFlatWiseTotalAgentCommission_Result>, List<GetFlatWiseTotalAgentCommission>>(dbEntity.sp_GetFlatWiseTotalAgentCommission(projectID, towerID).ToList()).ToList();
+                foreach (var item in lstBooking)
+                {
+                    var newPercentage = (item.AgentComm / item.FinalRate) * 100;
+                    var oldPercentage = 0;
+
+                    if (item.AgentParent != "")
+                    {
+                        var agentList = item.AgentParent.Split(',');
+                        foreach (var agent in agentList)
+                        {
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstBooking;
+        }
+
+        public List<FlatWiseAgentCommission> BindFlatAgentCommissionDetails()
+        {
+            List<FlatWiseAgentCommission> lstAgents = new List<FlatWiseAgentCommission>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblFlatWiseAgentCommission, FlatWiseAgentCommission>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgents = mapper.Map<List<tblFlatWiseAgentCommission>, List<FlatWiseAgentCommission>>(dbEntity.tblFlatWiseAgentCommissions.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstAgents;
+        }
+
+        public List<GetPeriodWiseBookingDetails> BindPeriodWiseBookingInfo(int option, string fromDate, string toDate, string projectID, string years, string month)
         {
             List<GetPeriodWiseBookingDetails> lstBooking = new List<GetPeriodWiseBookingDetails>();
             try
@@ -123,7 +178,7 @@ namespace DataLayer
                     cfg.CreateMap<sp_GetPeriodWiseBookingDetails_Result, GetPeriodWiseBookingDetails>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstBooking = mapper.Map<List<sp_GetPeriodWiseBookingDetails_Result>, List<GetPeriodWiseBookingDetails>>(dbEntity.sp_GetPeriodWiseBookingDetails(option,projectID, years,month,fromDate.ToString(),toDate.ToString()).ToList()).ToList();
+                lstBooking = mapper.Map<List<sp_GetPeriodWiseBookingDetails_Result>, List<GetPeriodWiseBookingDetails>>(dbEntity.sp_GetPeriodWiseBookingDetails(option, projectID, years, month, fromDate.ToString(), toDate.ToString()).ToList()).ToList();
 
             }
             catch (Exception ex)

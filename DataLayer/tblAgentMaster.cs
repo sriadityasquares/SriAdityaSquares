@@ -32,5 +32,7 @@ namespace DataLayer
         public string AgentBankIFSC { get; set; }
         public string AgentSponserCode { get; set; }
         public string AgentSuperSponserCode { get; set; }
+        public string AgentParent { get; set; }
+        public string AgentChild { get; set; }
     }
 }

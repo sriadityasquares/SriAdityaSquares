@@ -1635,6 +1635,7 @@
     <Content Include="Views\Report\FacingWiseBookingReport.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Booking\MakeAgentPayment.cshtml" />
+    <Content Include="Views\Report\FlatWiseAgentCommission.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

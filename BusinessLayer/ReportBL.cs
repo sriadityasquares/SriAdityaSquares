@@ -36,6 +36,17 @@ namespace BusinessLayer
         {
             return db.BindFacingBookingInfo(start, end, projectID);
         }
+
+        public List<GetFlatWiseTotalAgentCommission> BindFlatAgentCommission(int projectID,int towerID)
+        {
+            return db.BindFlatAgentCommission(projectID,towerID);
+        }
+
+        public List<FlatWiseAgentCommission> BindFlatAgentCommissionDetails()
+        {
+            return db.BindFlatAgentCommissionDetails();
+        }
+
         public List<GetPeriodWiseBookingDetails> BindPeriodWiseBookingInfo(int option, string fromDate, string toDate, string projectID, string years, string month)
         {
             return db.BindPeriodWiseBookingInfo(option, fromDate, toDate, projectID, years, month);

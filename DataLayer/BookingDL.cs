@@ -230,7 +230,6 @@ namespace DataLayer
         {
             try
             {
-                
                 var highestLevel = dbEntity.tblAgentProjectLevels.OrderByDescending(e => e.LevelID).Where(z => z.ProjectID == bookingInfo.ProjectID).Select(z => z.LevelID).FirstOrDefault();
                 var highestPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == highestLevel).Select(z => z.Percentage).FirstOrDefault();
                 var levelPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == bookingInfo.Level).Select(z => z.Percentage).FirstOrDefault();
@@ -315,6 +314,50 @@ namespace DataLayer
                 else
                     bookingstatus = "H";
                 flat.BookingStatus = bookingstatus;
+
+                //Flat Wise Agent Commissions
+                List<tblFlatWiseAgentCommission> lstFwac = new List<tblFlatWiseAgentCommission>();
+                if (!string.IsNullOrEmpty(bookingInfo.AgentParent))
+                {
+                    var allAgentList = dbEntity.sp_GetAgentsByProjectID(bookingInfo.ProjectID).ToList();
+                    bookingInfo.AgentParent = bookingInfo.AgentParent + ',' + bookingInfo.AgentID;
+                    var agentList = bookingInfo.AgentParent.Split(',');
+                    foreach (var agent in agentList)
+                    {
+                        tblFlatWiseAgentCommission fwac = new tblFlatWiseAgentCommission();
+                        var currentAgent = allAgentList.Where(x => x.AgentID == Convert.ToInt32(agent)).FirstOrDefault();
+                        fwac.FlatID = Convert.ToInt32(bookingInfo.FlatID);
+                        fwac.FlatName = bookingInfo.FlatName;
+                        fwac.AgentID = currentAgent.AgentID;
+                        fwac.AgentName = currentAgent.AgentName;
+                        fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == currentAgent.LevelID).Select(y => y.Percentage).FirstOrDefault();
+                        lstFwac.Add(fwac);
+                    }
+                    lstFwac = lstFwac.OrderBy(x => x.Percentage).ToList();
+                    double oldPercentage = 0;
+                    foreach (var item in lstFwac)
+                    {
+                        var difference = item.Percentage - oldPercentage;
+                        item.AgentCommission = Convert.ToInt32((bookingInfo.FinalRate * difference) / 100);
+                        oldPercentage = Convert.ToDouble(item.Percentage);
+                        dbEntity.tblFlatWiseAgentCommissions.Add(item);
+                    }
+                }
+                else
+                {
+                    tblFlatWiseAgentCommission fwac = new tblFlatWiseAgentCommission();
+                    //var currentAgent = allAgentList.Where(x => x.AgentID == Convert.ToInt32(agent)).FirstOrDefault();
+                    fwac.FlatID = Convert.ToInt32(bookingInfo.FlatID);
+                    fwac.FlatName = bookingInfo.FlatName;
+                    fwac.AgentID = Convert.ToInt32(bookingInfo.AgentID);
+                    fwac.AgentName = bookingInfo.AgentName;
+                    fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == bookingInfo.Level).Select(y => y.Percentage).FirstOrDefault();
+                    fwac.AgentCommission = Convert.ToInt32((bookingInfo.FinalRate * fwac.Percentage) / 100);
+                    dbEntity.tblFlatWiseAgentCommissions.Add(fwac);
+                    //lstFwac.Add(fwac);
+                }
+
+
 
                 dbEntity.SaveChanges();
 

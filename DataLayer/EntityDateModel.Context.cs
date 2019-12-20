@@ -44,6 +44,7 @@ namespace DataLayer
         public virtual DbSet<tblAgentProjectLevel> tblAgentProjectLevels { get; set; }
         public virtual DbSet<tblAgentPaymentInfo> tblAgentPaymentInfoes { get; set; }
         public virtual DbSet<tblFlat> tblFlats { get; set; }
+        public virtual DbSet<tblFlatWiseAgentCommission> tblFlatWiseAgentCommissions { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {
@@ -184,6 +185,19 @@ namespace DataLayer
                 new ObjectParameter("ProjectID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentsByProjectID_Result>("sp_GetAgentsByProjectID", projectIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetFlatWiseTotalAgentCommission_Result> sp_GetFlatWiseTotalAgentCommission(Nullable<int> projectID, Nullable<int> towerID)
+        {
+            var projectIDParameter = projectID.HasValue ?
+                new ObjectParameter("ProjectID", projectID) :
+                new ObjectParameter("ProjectID", typeof(int));
+    
+            var towerIDParameter = towerID.HasValue ?
+                new ObjectParameter("TowerID", towerID) :
+                new ObjectParameter("TowerID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatWiseTotalAgentCommission_Result>("sp_GetFlatWiseTotalAgentCommission", projectIDParameter, towerIDParameter);
         }
     }
 }

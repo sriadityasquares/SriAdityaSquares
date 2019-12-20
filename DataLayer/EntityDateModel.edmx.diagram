@@ -25,6 +25,7 @@
         <EntityTypeShape EntityType="salesDBModel.tblFlat" Width="1.5" PointX="5.25" PointY="0.75" />
         <AssociationConnector Association="salesDBModel.FK_Flats1" />
         <AssociationConnector Association="salesDBModel.FK_Flats2" />
+        <EntityTypeShape EntityType="salesDBModel.tblFlatWiseAgentCommission" Width="1.5" PointX="9.375" PointY="14.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

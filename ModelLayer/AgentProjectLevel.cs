@@ -19,5 +19,8 @@ namespace ModelLayer
         public Nullable<System.DateTime> UpdatedDate { get; set; }
 
         public string AgentName { get; set; }
+
+        public string AgentParent { get; set; }
+        public string AgentChild { get; set; }
     }
 }

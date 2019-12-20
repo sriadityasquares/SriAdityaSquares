@@ -10,19 +10,15 @@
 namespace DataLayer
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_GetAgentsByProjectID_Result
+    public partial class tblFlatWiseAgentCommission
     {
+        public int FlatID { get; set; }
+        public string FlatName { get; set; }
         public int AgentID { get; set; }
-        public int ProjectID { get; set; }
-        public Nullable<int> LevelID { get; set; }
-        public string Status { get; set; }
-        public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public string UpdatedBy { get; set; }
-        public Nullable<System.DateTime> UpdatedDate { get; set; }
         public string AgentName { get; set; }
-        public string AgentParent { get; set; }
-        public string AgentChild { get; set; }
+        public Nullable<int> AgentCommission { get; set; }
+        public Nullable<double> Percentage { get; set; }
     }
 }

@@ -118,5 +118,7 @@ namespace ModelLayer
 
         public Nullable<double> SASNetPaid { get; set; }
         public Nullable<double> SASNetBalance { get; set; }
+
+        public string AgentParent { get; set; }
     }
 }

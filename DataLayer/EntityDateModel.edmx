@@ -27,6 +27,8 @@
           <Property Name="AgentBankIFSC" Type="nvarchar" MaxLength="100" />
           <Property Name="AgentSponserCode" Type="nvarchar" MaxLength="50" />
           <Property Name="AgentSuperSponserCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="AgentParent" Type="nvarchar(max)" />
+          <Property Name="AgentChild" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="tblAgentPaymentInfo">
           <Key>
@@ -177,6 +179,18 @@
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="FlatPlanURL" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="tblFlatWiseAgentCommissions">
+          <Key>
+            <PropertyRef Name="FlatID" />
+            <PropertyRef Name="AgentID" />
+          </Key>
+          <Property Name="FlatID" Type="int" Nullable="false" />
+          <Property Name="FlatName" Type="nvarchar" MaxLength="50" />
+          <Property Name="AgentID" Type="int" Nullable="false" />
+          <Property Name="AgentName" Type="nvarchar(max)" />
+          <Property Name="AgentCommission" Type="int" />
+          <Property Name="Percentage" Type="float" />
         </EntityType>
         <EntityType Name="tblLevelsMaster">
           <Key>
@@ -356,6 +370,10 @@
           <Parameter Name="FlatID" Type="int" Mode="In" />
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_GetFlatWiseTotalAgentCommission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProjectID" Type="int" Mode="In" />
+          <Parameter Name="TowerID" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_getPaymentInfoByDates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fromdate" Type="varchar" Mode="In" />
           <Parameter Name="todate" Type="varchar" Mode="In" />
@@ -379,6 +397,7 @@
           <EntitySet Name="tblCountries" EntityType="Self.tblCountries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCustomerInfo" EntityType="Self.tblCustomerInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlats" EntityType="Self.tblFlats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblFlatWiseAgentCommissions" EntityType="Self.tblFlatWiseAgentCommissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLevelsMaster" EntityType="Self.tblLevelsMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMonth" EntityType="Self.tblMonth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPaymentInfo" EntityType="Self.tblPaymentInfo" Schema="dbo" store:Type="Tables" />
@@ -463,9 +482,6 @@
           <EntitySet Name="tblSchemeMasters" EntityType="salesDBModel.tblSchemeMaster" />
           <EntitySet Name="tblBookingInformations" EntityType="salesDBModel.tblBookingInformation" />
           <EntitySet Name="tblAgentProjectLevels" EntityType="salesDBModel.tblAgentProjectLevel" />
-          <FunctionImport Name="sp_GetAgentsByProjectID" ReturnType="Collection(salesDBModel.sp_GetAgentsByProjectID_Result)">
-          <Parameter Name="ProjectID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="tblAgentPaymentInfoes" EntityType="salesDBModel.tblAgentPaymentInfo" />
           <EntitySet Name="tblFlats" EntityType="salesDBModel.tblFlat" />
           <AssociationSet Name="FK_Flats1" Association="salesDBModel.FK_Flats1">
@@ -476,6 +492,14 @@
             <End Role="tblTower" EntitySet="tblTowers" />
             <End Role="tblFlat" EntitySet="tblFlats" />
           </AssociationSet>
+          <FunctionImport Name="sp_GetAgentsByProjectID" ReturnType="Collection(salesDBModel.sp_GetAgentsByProjectID_Result)">
+          <Parameter Name="ProjectID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="tblFlatWiseAgentCommissions" EntityType="salesDBModel.tblFlatWiseAgentCommission" />
+          <FunctionImport Name="sp_GetFlatWiseTotalAgentCommission" ReturnType="Collection(salesDBModel.sp_GetFlatWiseTotalAgentCommission_Result)">
+            <Parameter Name="ProjectID" Mode="In" Type="Int32" />
+            <Parameter Name="TowerID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -745,6 +769,8 @@
           <Property Name="AgentBankIFSC" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="AgentSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AgentSuperSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentParent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentChild" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <ComplexType Name="sp_GetFacingWiseBookingDetails_Result">
           <Property Type="String" Name="Facing" Nullable="true" MaxLength="100" />
@@ -842,17 +868,6 @@
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
-        <ComplexType Name="sp_GetAgentsByProjectID_Result">
-          <Property Type="Int32" Name="AgentID" Nullable="false" />
-          <Property Type="Int32" Name="ProjectID" Nullable="false" />
-          <Property Type="Int32" Name="LevelID" Nullable="true" />
-          <Property Type="String" Name="Status" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="128" />
-          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="128" />
-          <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
-        </ComplexType>
         <EntityType Name="tblAgentPaymentInfo">
           <Key>
             <PropertyRef Name="AgentPaymentID" />
@@ -917,6 +932,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="sp_GetAgentsByProjectID_Result">
+          <Property Type="Int32" Name="AgentID" Nullable="false" />
+          <Property Type="Int32" Name="ProjectID" Nullable="false" />
+          <Property Type="Int32" Name="LevelID" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="AgentParent" Nullable="true" />
+          <Property Type="String" Name="AgentChild" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="tblFlatWiseAgentCommission">
+          <Key>
+            <PropertyRef Name="FlatID" />
+            <PropertyRef Name="AgentID" />
+          </Key>
+          <Property Name="FlatID" Type="Int32" Nullable="false" />
+          <Property Name="FlatName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentID" Type="Int32" Nullable="false" />
+          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentCommission" Type="Int32" />
+          <Property Name="Percentage" Type="Double" />
+        </EntityType>
+        <ComplexType Name="sp_GetFlatWiseTotalAgentCommission_Result">
+          <Property Type="Int32" Name="FlatID" Nullable="true" />
+          <Property Type="String" Name="FlatName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="FinalRate" Nullable="true" />
+          <Property Type="Int32" Name="AgentID" Nullable="false" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
+          <Property Type="Double" Name="AgentComm" Nullable="true" />
+          <Property Type="String" Name="AgentParent" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1195,6 +1244,8 @@
           <EntitySetMapping Name="tblAgentMasters">
             <EntityTypeMapping TypeName="salesDBModel.tblAgentMaster">
               <MappingFragment StoreEntitySet="tblAgentMaster">
+                <ScalarProperty Name="AgentChild" ColumnName="AgentChild" />
+                <ScalarProperty Name="AgentParent" ColumnName="AgentParent" />
                 <ScalarProperty Name="AgentSuperSponserCode" ColumnName="AgentSuperSponserCode" />
                 <ScalarProperty Name="AgentSponserCode" ColumnName="AgentSponserCode" />
                 <ScalarProperty Name="AgentBankIFSC" ColumnName="AgentBankIFSC" />
@@ -1318,21 +1369,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetAgentsByProjectID" FunctionName="salesDBModel.Store.sp_GetAgentsByProjectID">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentsByProjectID_Result">
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="tblAgentPaymentInfoes">
             <EntityTypeMapping TypeName="salesDBModel.tblAgentPaymentInfo">
               <MappingFragment StoreEntitySet="tblAgentPaymentInfo">
@@ -1373,6 +1409,48 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentsByProjectID" FunctionName="salesDBModel.Store.sp_GetAgentsByProjectID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentsByProjectID_Result">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentParent" ColumnName="AgentParent" />
+                <ScalarProperty Name="AgentChild" ColumnName="AgentChild" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblFlatWiseAgentCommissions">
+            <EntityTypeMapping TypeName="salesDBModel.tblFlatWiseAgentCommission">
+              <MappingFragment StoreEntitySet="tblFlatWiseAgentCommissions">
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="AgentCommission" ColumnName="AgentCommission" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetFlatWiseTotalAgentCommission" FunctionName="salesDBModel.Store.sp_GetFlatWiseTotalAgentCommission">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetFlatWiseTotalAgentCommission_Result">
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="FinalRate" ColumnName="FinalRate" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentComm" ColumnName="AgentComm" />
+                <ScalarProperty Name="AgentParent" ColumnName="AgentParent" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

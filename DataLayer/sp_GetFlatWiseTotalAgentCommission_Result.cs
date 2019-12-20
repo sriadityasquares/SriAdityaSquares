@@ -11,18 +11,14 @@ namespace DataLayer
 {
     using System;
     
-    public partial class sp_GetAgentsByProjectID_Result
+    public partial class sp_GetFlatWiseTotalAgentCommission_Result
     {
+        public Nullable<int> FlatID { get; set; }
+        public string FlatName { get; set; }
+        public Nullable<int> FinalRate { get; set; }
         public int AgentID { get; set; }
-        public int ProjectID { get; set; }
-        public Nullable<int> LevelID { get; set; }
-        public string Status { get; set; }
-        public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public string UpdatedBy { get; set; }
-        public Nullable<System.DateTime> UpdatedDate { get; set; }
         public string AgentName { get; set; }
+        public Nullable<double> AgentComm { get; set; }
         public string AgentParent { get; set; }
-        public string AgentChild { get; set; }
     }
 }

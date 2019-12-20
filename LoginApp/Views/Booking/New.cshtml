@@ -38,6 +38,7 @@
         @Html.HiddenFor(m => m.SchemeName)
         @Html.HiddenFor(m => m.DownPaymentTimePeriod)
         @Html.HiddenFor(m => m.PaymentTimePeriod)
+        @Html.HiddenFor(m=>m.AgentParent)
         <div class="row" style="padding-top:5px">
             @Html.LabelFor(m => m.Name, new { @class = "col-md-1 required" })
             @Html.TextBoxFor(m => m.Name, new { @class = "textbox-control col-md-11 col-xs" })
@@ -468,6 +469,7 @@
                 return e.AgentID == $("#AgentID").val();
             });
             $("#Level").val(SortedAgentList[0].LevelID);
+            $("#AgentParent").val(SortedAgentList[0].AgentParent);
             $("#SchemeName").val($("#SchemeID option:selected").text());
             $("#DownPaymentTimePeriod").val(downDuePeriod);
             $("#PaymentTimePeriod").val(DuePeriod);

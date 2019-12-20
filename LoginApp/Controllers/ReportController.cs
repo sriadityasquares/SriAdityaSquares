@@ -1,5 +1,6 @@
 ﻿using BusinessLayer;
 using ModelLayer;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,6 +111,30 @@ namespace LoginApp.Controllers
         {
             ReportBL rep = new ReportBL();
             List<GetFacingWiseBookingDetails> list = rep.BindFacingBookingInfo(start, end, projectID);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult FlatWiseAgentCommission()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            return View();
+        }
+
+        public JsonResult GetFlatAgentCommission(int projectID, int towerID)
+        {
+            ReportBL rep = new ReportBL();
+            List<GetFlatWiseTotalAgentCommission> list = rep.BindFlatAgentCommission(projectID,towerID);
+            
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetFlatAgentCommissionDetails()
+        {
+            ReportBL rep = new ReportBL();
+            //var flatAgent = JsonConvert.DeserializeObject<List<GetFlatWiseTotalAgentCommission>>(data);
+            //GetFlatWiseTotalAgentCommission datalist = JsonConvert.DeserializeObject<GetFlatWiseTotalAgentCommission>(data);
+            List<FlatWiseAgentCommission> list =  rep.BindFlatAgentCommissionDetails();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
     }
