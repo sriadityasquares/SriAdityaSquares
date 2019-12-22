@@ -531,5 +531,25 @@ namespace DataLayer
             }
             return lstAgents;
         }
+
+        public List<FlatWiseAgentCommission> BindAgentsDashboard(string email)
+        {
+            List<FlatWiseAgentCommission> lstAgents = new List<FlatWiseAgentCommission>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetAgentCommissionByAgentLogins_Result, FlatWiseAgentCommission>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgents = mapper.Map<List<sp_GetAgentCommissionByAgentLogins_Result>, List<FlatWiseAgentCommission>>(dbEntity.sp_GetAgentCommissionByAgentLogins(email).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstAgents;
+        }
     }
 }

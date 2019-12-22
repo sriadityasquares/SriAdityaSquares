@@ -15,5 +15,9 @@ namespace ModelLayer
         public Nullable<int> AgentCommission { get; set; }
 
         public double? Percentage { get; set; }
+
+        public string AgentCode { get; set; }
+        //public Nullable<int> AgentCommission { get; set; }
+        public string AgentSponserCode { get; set; }
     }
 }

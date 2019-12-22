@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Agent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Dashboard = "active";
+    ViewBag.AgentDashboard = "active";
+}
+
+
+<div class="jumbotron" style="padding-bottom:10px;margin-bottom:10px">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">AGENT HIERARCHY</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
+            <br />
+            <div id="treelist"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //var service = "https://demos.telerik.com/kendo-ui/service";
+
+        $("#treelist").kendoTreeList({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "/Dashboard/GetAgentCommissionByAgentLogins",
+                        dataType: "json"
+                    }
+                },
+
+
+                schema: {
+                    model: {
+                        id: "AgentCode",
+                        parentId: "AgentSponserCode",
+                        fields: {
+                            //AgentCode: { field: "AgentCode", type: "number" },
+                            AgentSponserCode: { field: "AgentSponserCode", nullable: true },
+                            //Extension: { field: "Extension", type: "number" }
+                        },
+                        expanded: false
+                    }
+                }
+            },
+            height: 740,
+            filterable: true,
+            sortable: true,
+            columns: [
+                {
+                    field: "AgentName", title: "AgentName", width: 180,
+                },
+                { field: "AgentCode", title: "AgentCode", width: 160 },
+
+                { field: "AgentCommission", width: 200 }
+            ],
+
+        });
+    });
+</script>

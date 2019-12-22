@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace LoginApp.Controllers
 {
@@ -25,10 +26,26 @@ namespace LoginApp.Controllers
             return View();
         }
 
+        public ActionResult Agents()
+        {
+            return View();
+        }
+
         public JsonResult GetAgentCommissionByAgentLogin()
         {
             var email = User.Identity.Name;
             List<FlatWiseAgentCommission> list = booking.BindAgentDashboard(email);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetAgentCommissionByAgentLogins()
+        {
+            var email = User.Identity.Name;
+            List<FlatWiseAgentCommission> list = booking.BindAgentsDashboard(email);
+            //JavaScriptSerializer jss = new JavaScriptSerializer();
+
+            //string output = jss.Serialize(list);
+            list[0].AgentSponserCode = null;
             return Json(list, JsonRequestBehavior.AllowGet);
         }
     }

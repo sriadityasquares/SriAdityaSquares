@@ -208,5 +208,14 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentCommissionByAgentLogin_Result>("sp_GetAgentCommissionByAgentLogin", agentEmailParameter);
         }
+    
+        public virtual ObjectResult<sp_GetAgentCommissionByAgentLogins_Result> sp_GetAgentCommissionByAgentLogins(string agentEmail)
+        {
+            var agentEmailParameter = agentEmail != null ?
+                new ObjectParameter("AgentEmail", agentEmail) :
+                new ObjectParameter("AgentEmail", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentCommissionByAgentLogins_Result>("sp_GetAgentCommissionByAgentLogins", agentEmailParameter);
+        }
     }
 }

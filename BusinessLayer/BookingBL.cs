@@ -98,5 +98,10 @@ namespace BusinessLayer
         {
             return db.BindAgentDashboard(email);
         }
+
+        public List<FlatWiseAgentCommission> BindAgentsDashboard(string email)
+        {
+            return db.BindAgentsDashboard(email);
+        }
     }
 }
