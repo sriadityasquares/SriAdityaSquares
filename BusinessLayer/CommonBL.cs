@@ -26,6 +26,15 @@ namespace BusinessLayer
             return db.BindStatus();
         }
 
+        public List<Agent> BindAgents()
+        {
+            return db.BindAgents();
+        }
+
+        public List<AgentDropdown> BindAgents2()
+        {
+            return db.BindAgents2();
+        }
         public List<Status> BindStatus2()
         {
             return db.BindStatus2();

@@ -70,6 +70,44 @@ namespace DataLayer
             return lstStatus;
         }
 
+        public List<Agent> BindAgents()
+        {
+            List<Agent> lstAgent = new List<Agent>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentMaster, Agent>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<Agent>>(dbEntity.tblAgentMasters.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstAgent;
+        }
+
+        public List<AgentDropdown> BindAgents2()
+        {
+            List<AgentDropdown> lstAgent = new List<AgentDropdown>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentMaster, AgentDropdown>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<AgentDropdown>>(dbEntity.tblAgentMasters.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstAgent;
+        }
+
         public List<Status> BindStatus2()
         {
             List<Status> lstStatus = new List<Status>();

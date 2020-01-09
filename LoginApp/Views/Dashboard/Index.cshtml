@@ -7,7 +7,7 @@
 }
 
 <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
+    <div style="width:800px;padding-bottom:40px" class="modal-dialog">
 
         <!-- Modal content-->
         <div class="modal-content">
@@ -16,7 +16,9 @@
                 <h4 class="modal-title">Flat Plan</h4>
             </div>
             <div class="modal-body">
-                <img id="img01" class="img-responsive" />
+                <div class="imageContainer">
+                    <img id="img01" class="img-responsive" />
+                </div>
             </div>
             <div class="modal-footer">
                 <button onclick="GoToBooking()" type="button" class="btn btn-default orangebg pull-right" data-dismiss="modal">BOOK</button>
@@ -33,7 +35,7 @@
         </div>
 
     </div>
-    
+
     @*<button id="myBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Launch demo modal</button>*@
     <div class="row">
         <hr />
@@ -53,7 +55,7 @@
         </div>*@
     <br />
     <br />
-    
+
     <div id="labels" class="row" style="display:none">
         <br />
         <div class="col-md-3">
@@ -69,7 +71,7 @@
             <div style="background:linear-gradient(to bottom,#7AD7F0, white)" class="seat"><label for="4C"> MORTGAGE </label> </div>
         </div>
         <div class="col-md-3">
-            <div style="background:linear-gradient(to bottom,#FFD700, white)" class="seat"><label for="4C"> PENDING </label> </div>
+            <div style="background:linear-gradient(to bottom,#FFD700, white)" class="seat"><label for="4C"> PROGRESS/HOLD </label> </div>
         </div>
     </div>
 
@@ -87,7 +89,7 @@
 
 <script>
    $(document).ready(function () {
-      
+
     //$("#myBtn").click(function(){
     //     $('#myModal').modal('show');
     //});
@@ -142,7 +144,7 @@
                 if (row.BookingStatus == 'M') {
                     html = html + '<div style="background:linear-gradient(to bottom,#7AD7F0, white);"   class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }
-                if (row.BookingStatus == 'H') {
+                if (row.BookingStatus == 'H' || row.BookingStatus =='P') {
                     html = html + '<div style="background:linear-gradient(to bottom,#FFD700, white);"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }
                 //html = html + '<div class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
@@ -258,3 +260,9 @@
 
 
 </script>
+<style>
+    /*.imageContainer > img:hover {
+  width: 1024px;
+  height: 968px;
+}*/
+</style>

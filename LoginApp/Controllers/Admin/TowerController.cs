@@ -1,5 +1,6 @@
 ﻿using BusinessLayer;
 using ModelLayer;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace LoginApp.Controllers.Admin
     {
         public static List<GetTowerDetails> towerList = new List<GetTowerDetails>();
         BookingBL booking = new BookingBL();
-        //ProjectBL project = new ProjectBL();
+        AdminBL towers = new AdminBL();
         // GET: Tower
         public ActionResult Index()
         {
@@ -23,18 +24,6 @@ namespace LoginApp.Controllers.Admin
         public ActionResult Details()
         {
             towerList = booking.BindTowerDetails();
-            //foreach (var item in towerList)
-            //{
-            //    switch (item.BookingStatus)
-            //    {
-            //        case "O":
-            //            item.BookingStatusName = "OPEN";
-            //            break;
-            //        case "C":
-            //            item.BookingStatusName = "CLOSED";
-            //            break;
-            //    }
-            //}
             return Json(towerList, JsonRequestBehavior.AllowGet);
         }
 
@@ -42,14 +31,29 @@ namespace LoginApp.Controllers.Admin
         [HttpGet]
         public ActionResult CreateTower(string models)
         {
-            return View();
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+            List<Towers> data = JsonConvert.DeserializeObject<List<Towers>>(models, settings);
+            data[0].ProjectID = Convert.ToInt32(data[0].ProjectName);
+            var result = towers.AddTower(data[0]);
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
 
         [HttpGet]
         public ActionResult UpdateTower(string models)
         {
-            return View();
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+            List<Towers> data = JsonConvert.DeserializeObject<List<Towers>>(models, settings);
+            var result = towers.UpdateTower(data[0]);
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
         // POST: Tower/Create
         [HttpPost]

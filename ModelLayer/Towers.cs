@@ -15,6 +15,7 @@ namespace ModelLayer
         public int TowerID { get; set; }
         public string TowerName { get; set; }
         public Nullable<int> ProjectID { get; set; }
+        public string ProjectName { get; set; }
         public Nullable<int> FlatCount { get; set; }
         public string BookingStatus { get; set; }
         public string CreatedBy { get; set; }

@@ -26,6 +26,16 @@ namespace LoginApp.Controllers.Admin
             agentsList = booking.BindAgents();
             foreach (var item in agentsList)
             {
+                //item.AgentParentArray =  (item.AgentParent ?? "").Split(',').Select<string, int>(int.Parse);
+                //int[] arrayListParent;
+                //if (!String.IsNullOrEmpty(item.AgentParent))
+                //{
+                //    item.arrayListParent = Array.ConvertAll(item.AgentParent.Split(','), int.Parse);
+                //}
+                //else
+                //{
+                //    item.arrayListParent = null;
+                //}
                 switch (item.AgentStatus)
                 {
                     case "A":

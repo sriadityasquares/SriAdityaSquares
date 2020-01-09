@@ -38,6 +38,20 @@ namespace LoginApp.Controllers
 
         }
 
+        public JsonResult GetAgents()
+        {
+            List<Agent> agentList = objCasc.BindAgents();
+            return Json(agentList, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetAgents2()
+        {
+            List<AgentDropdown> agentList  = objCasc.BindAgents2();
+            return Json(agentList, JsonRequestBehavior.AllowGet);
+
+        }
+
         public JsonResult GetStatus2()
         {
             List<Status> statusList = objCasc.BindStatus2();

@@ -28,5 +28,10 @@ namespace ModelLayer
         public string AgentSuperSponserCode { get; set; }
 
         public string BookingStatusName { get; set; }
+
+        public string AgentParent { get; set; }
+        public string AgentChild { get; set; }
+
+        public int[] arrayListParent { get; set; }
     }
 }

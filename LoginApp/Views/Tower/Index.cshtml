@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+     ViewBag.Admin = "active";
+    ViewBag.Tower = "active";
 }
 
 <div class="jumbotron">
@@ -67,7 +69,7 @@
                     id: "TowerID",
                     fields: {
                         TowerID: { editable: false, nullable: true },
-                        ProjectName: { defaultValue: { ProjectID: 0, ProjectName: "Select Project" } },
+                        ProjectName : { validation: { required: true } },
                         TowerName: { validation: { required: true } },
                         BookingStatus: { validation: { required: true } },
                         FlatCount: { type: "number", validation: { min: 0, required: true } }
@@ -82,11 +84,36 @@
             pageable: true,
             height: 550,
             toolbar: ["create"],
+            edit: function (e) {
+                if (e.model.isNew()) {
+                    //var fieldName = e.container.find("input").attr("name");
+                    //$("#ProjectName").attr("readonly", true);
+                    $(e.container).find('input[name="ProjectName"]').attr("readonly", false);
+                    $(e.container).find('input[name="TowerName"]').attr("readonly", false);
+                    //$('[name="ProjectName"]').attr("editable", true);
+                    //$("#TowerName").attr("readonly", true);
+                    // Disable the editor of the "id" column when editing data items
+                    //var numeric = e.container.find("input[name=id]").data("kendoNumericTextBox");
+                    //numeric.enable(false);
+                }
+                else {
+                    alert(2);
+                    $(e.container).find('input[name="ProjectName"]').attr("readonly", true);
+                    $(e.container).find('input[name="TowerName"]').attr("readonly", true);
+                    //$("select[name=ProjectName]").prop("disabled", "disabled");
+                    //$("#ProjectName").data("kendoDropDownList").enable(false);
+
+                    var dropDown = e.container.find("[data-role='dropdownlist']").data("kendoDropDownList");
+                    dropDown.value(e.model.ProjectID);
+                    dropDown.readonly();
+                }
+            },
             columns: [
                 //{ field: "Project", title: "Project", width: "250px", editor: projectDropDownEditor, template: "#=Project.ProjectName#" },
                 {
                     field: "ProjectName",
-                    template: '#=ProjectName?ProjectName.ProjectName:""#',
+
+                    //template: '#=ProjectID?ProjectName.ProjectName:""#',
                     title: "Project", width: "250px",
                     editor: function projectDropDownEditor(container, options) {
                         $('<input required name="' + options.field + '"/>')
@@ -139,7 +166,7 @@
         function projectDropDownEditor(container, options) {
             $('<input required name="' + options.field + '"/>')
                 .appendTo(container)
-                .kendoDropDownList({
+                .kendoMultiSelect({
                     autoBind: false,
                     dataTextField: "ProjectName",
                     dataValueField: "ProjectID",

@@ -13,7 +13,7 @@ namespace LoginApp.Controllers.Admin
     {
         public static List<Projects> projectList = new List<Projects>();
         BookingBL booking = new BookingBL();
-        ProjectBL project = new ProjectBL();
+        AdminBL project = new AdminBL();
         // GET: Project
         public ActionResult Index()
         {
@@ -58,16 +58,6 @@ namespace LoginApp.Controllers.Admin
                 };
                 List<Projects> data = JsonConvert.DeserializeObject<List<Projects>>(models,settings);
                 var result = project.AddProject(data[0]);
-                //if (result)
-                //{
-                //    TempData["successmessage"] = "Added Successfull";
-                //}
-                //else
-                //{
-                //    TempData["successmessage"] = "Update Successfull";
-                //}
-                // TODO: Add update logic here
-
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

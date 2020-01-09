@@ -36,9 +36,9 @@
                             toastr.success('Update Successfull');
                         }
                         else {
-                        toastr.error('Error in Updating');
-                             }
+                            toastr.error('Error in Updating');
                         }
+                    }
                 },
                 destroy: {
                     url: "/Sample/Destroy",
@@ -52,9 +52,9 @@
                             toastr.success('Added Successfull');
                         }
                         else {
-                        toastr.error('Error in Adding');
-                             }
+                            toastr.error('Error in Adding');
                         }
+                    }
                 },
                 parameterMap: function (options, operation) {
                     if (operation !== "read" && options.models) {
@@ -82,6 +82,8 @@
                         AgentSponserCode: { validation: { required: false } },
                         AgentSuperSponserCode: { validation: { required: false } },
                         AgentStatus: { validation: { required: false } },
+                        AgentParent: { defaultValue: { AgentID: 0, AgentName: "None" } },
+                        AgentChild: { defaultValue: { AgentID: 0, AgentName: "None" } }
                     }
                 }
             }
@@ -92,52 +94,195 @@
             dataSource: dataSource,
             pageable: true,
             height: 550,
+            save: function (e) {
+                var x = $("#parent").data("kendoMultiSelect").value();
+                var y = $("#child").data("kendoMultiSelect").value();
+                $("#child").data("kendoMultiSelect").value(["1"]);
+                $("#parent").data("kendoMultiSelect").value(["1"]);
+                if (x.length > 0) { e.model.AgentParent = x.join(","); }
+                else { e.model.AgentParent = ''; }
+                if (y.length > 0) { e.model.AgentChild = y.join(","); } else {
+                    e.model.AgentChild = '';
+                }
+                //e.model.AgentAadhar = e.model.AgentAadhar + "1";
+                //var arrayListParent = '';
+                //var arrayListChild = '';
+                //for (i = 0; i < e.model.AgentParent.length; i++) {
+                //    if (arrayListParent != '') arrayListParent = arrayListParent + ','
+                //    arrayListParent = arrayListParent + e.model.AgentParent[i];
+                //}
+                //for (i = 0; i < e.model.AgentChild.length; i++) {
+                //    if (arrayListChild != '') arrayListChild = arrayListChild + ','
+                //    arrayListChild = arrayListChild + e.model.AgentChild[i].AgentID;
+                //}
+                //e.model.AgentParent = null;
+                //e.model.AgentChild = null;
+                //e.model.AgentParent = arrayListParent;
+                //e.model.AgentChild = arrayListChild;
+                //e.model.arrayListParent = null;
+                //if (e.values.name !== "") {
+                //    // the user changed the name field
+                //    if (e.values.name !== e.model.name) {
+                //        console.log("name is modified");
+                //    }
+                //} else {
+                //    e.preventDefault();
+                //    console.log("name cannot be empty");
+                //}
+            },
+            //edit: function (e) {
+            //    if (!e.model.isNew()) {
+            //        e.model.AgentParent = e.model.AgentParent.join(',')
+            //    }
+            //    // Always return valid
+            //    //e.sender.editable.validatable.validate = function () { return true; };
+            //    //e.sender.editable.validatable.validateInput = function (input) { return true; };
+            //},
+            //dataBound: onDataBound,
             toolbar: ["create"],
             columns: [
-                { field: "AgentCode", title: "Code", width: "60px" },
+                { field: "AgentCode", title: "Code", width: "100px" },
                 { field: "AgentName", title: "Name", width: "200px" },
                 { field: "AgentAadhar", title: "Aadhar", width: "200px" },
-                { field: "AgentMobileNo", title: "Mobile", width: "200px" },
+                { field: "AgentMobileNo", title: "Mobile", width: "100px" },
                 { field: "AgenteMail", title: "Email", width: "200px" },
-                { field: "AgentPAN", title: "Pan", width: "150px" },
+                { field: "AgentPAN", title: "Pan", width: "100px" },
                 { field: "AgentBankAcctNo", title: "Account No.", width: "150px" },
-                { field: "AgentBankName", title: "Bank Name", width: "150px" },
-                { field: "AgentBankBranch", title: "Bank Branch", width: "150px" },
-                { field: "AgentBankIFSC", title: "IFSC Code", width: "120px" },
-                { field: "AgentSponserCode", title: "Sponsor Code", width: "100px" },
-                { field: "AgentSuperSponserCode", title: "Super Sponsor Code", width: "140px" },
-                { field: "AgentStatus", title: "Status", width: "140px",editor: statusDropDownEditor},
+                { field: "AgentBankName", title: "Bank Name", width: "100px" },
+                { field: "AgentBankBranch", title: "Bank Branch", width: "100px" },
+                { field: "AgentBankIFSC", title: "IFSC", width: "80px" },
+                { field: "AgentSponserCode", title: "SP Code", width: "100px" },
+                { field: "AgentSuperSponserCode", title: "SSP Code", width: "100px" },
+                { field: "AgentStatus", title: "Status", width: "100px", editor: statusDropDownEditor },
+                { field: "AgentParent", title: "Agent Parent", width: "240px", editor: parentDropDownEditor },
+                { field: "AgentChild", title: "Agent Child", width: "240px", editor: childDropDownEditor },
+                //{
+                //    field: "arrayListParent", title: "Agent Parent", width: "240px", editor: parentDropDownEditor, template: "#= arrayListParent.join(',') #"
+                //},
+
                 {
                     command: [
                         { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
                         //{ name: "destroy", text: " " }
-                    ], title: "&nbsp;", width: "160px"
+                    ], title: "&nbsp;", width: "140px"
                 }],
-                    editable: "inline",
+            editable: "inline",
         });
 
-
+        function citiesEditor(container, options) {
+            $("<select multiple='multiple' data-bind='value : arrayListParent'/>")
+                .appendTo(container)
+                .kendoMultiSelect({
+                    autoBind: true,
+                    autoClose: false,
+                    tagMode: "single",
+                    dataTextField: "AgentName",
+                    dataValueField: "AgentID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetAgents2/",
+                        }
+                    }
+                });
+        }
 
         function statusDropDownEditor(container, options) {
-                    $('<input required name="' + options.field + '"/>')
-                        .appendTo(container)
-                        .kendoDropDownList({
-                            autoBind: true,
-                            dataTextField: "BookingStatus",
-                            dataValueField: "ID",
-                            dataSource: {
-                                type: "json",
-                                transport: {
-                                    read: "/Cascade/GetStatus2/",
-                                }
-                            }
-                        });
+            $('<input required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: true,
+                    dataTextField: "BookingStatus",
+                    dataValueField: "ID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetStatus2/",
+                        }
+                    }
+                });
+        }
+        function parentDropDownEditor(container, options) {
+            if (!options.model.isNew()) {
+                if (options.model.AgentParent != null) {
+                    options.model.AgentParent = options.model.AgentParent.split(',')
                 }
+                else {
+                    options.model.AgentParent = 0;
+                }
+            }
+            $('<input id="parent" name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoMultiSelect({
+                    autoBind: true,
+                    autoClose: false,
+                    tagMode: "single",
+                    dataTextField: "AgentName",
+                    dataValueField: "AgentID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetAgents/",
+                        }
+                    }
+                });
+        }
 
+        function childDropDownEditor(container, options) {
+            if (!options.model.isNew()) {
+                if (options.model.AgentChild != null || options.model.AgentChild != '') {
+                    options.model.AgentChild = options.model.AgentChild.split(',')
+                }
+                else {
+                    options.model.AgentChild = 0;
+                }
+            }
+            $('<input id="child" name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoMultiSelect({
+                    autoBind: true,
+                    autoClose: false,
+                    tagMode: "single",
+                   
+                    dataTextField: "AgentName",
+                    dataValueField: "AgentID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetAgents/",
+                        }
+                    }
+                });
+        }
+
+        function territoriesEditor(container, options) {
+            if (!options.model.isNew()) {
+                options.model.AgentParent = options.model.AgentParent.split(',')
+            }
+            $('<input name="AgentParent">').appendTo(container)
+                .kendoMultiSelect({
+                    dataValueField: "AgentID",
+                    dataTextField: "AgentName",
+                    autoBind: true,
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetAgents/",
+                        }
+                    }
+                });
+        }
     });
 </script>
 
-
+<script type="text/kendo" id="territoriesTemplate">
+    <ul>
+        alert('xx');
+        # for(var i = 0; i< AgentParent.length; i++){ #
+        <li>#: AgentParent[i].AgentName #</li>
+        # } #
+    </ul>
+</script>
 
 
 
