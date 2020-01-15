@@ -3,5 +3,264 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">FLATS</h3>
+            <div class="specialLine"></div>
+        </div>
 
+    </div>
+    <div id="grid"></div>
+
+</div>
+
+<script>
+    // An array of all brands.
+    //var brands = [
+    //    { brandId: 1, name: "Ford" },
+    //    { brandId: 2, name: "BMW" }
+    //];
+    var projects = [];
+    var towers = [];
+    //var datasource
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Flat/Details",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Flat/UpdateFlat",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                        }
+                    }
+                },
+                destroy: {
+                    url: "/Sample/Destroy",
+                    dataType: "jsonp"
+                },
+                create: {
+                    url: "/Flat/CreateFlat",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Added Successfull');
+                        }
+                        else {
+                            toastr.error('Error in Adding');
+                        }
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "FlatID",
+                    fields: {
+                        FlatID: { editable: false, nullable: true },
+                        FlatName: { validation: { required: true } },
+                        ProjectName: { validation: { required: true } },
+                        TowerName: { validation: { required: true } },
+                        Floor: { validation: { required: true } },
+                        Bhk: { validation: { required: true } },
+                        Sft: { validation: { required: true } },
+                        Facing: { validation: { required: true } },
+                        BookingStatus: { validation: { required: true } },
+                        //FlatCount: { type: "number", validation: { min: 0, required: true } }
+                    }
+                }
+            },
+
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+
+        $.getJSON('/Cascade/GetProjects', function (response) {
+            if (response != null) {
+                projects = response;
+            }
+        });
+        $.getJSON('/Tower/Details', function (response) {
+            if (response != null) {
+                towers = response;
+            }
+        });
+
+
+        // An array of all models.
+        //var models = [
+        //    { modelId: 1, name: "Explorer", brandId: 1 },
+        //    { modelId: 2, name: "Focus", brandId: 1 },
+        //    { modelId: 3, name: "X3", brandId: 2 },
+        //    { modelId: 4, name: "X5", brandId: 2 }
+        //];
+
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            editable: "inline", // use inline mode so both dropdownlists are visible (required for cascading)
+            pageable: {
+                alwaysVisible: true,
+                pageSizes: [5, 10, 20, 100]
+            },
+
+            //serverFiltering: true,
+            height: 550,
+            //navigation: true,
+            pageable: true,
+            toolbar: ["create"],
+            edit: function (e) {
+                if (!e.model.isNew()) {
+                    $("#ProjectID").data("kendoDropDownList").readonly();
+                    $("#TowerID").data("kendoDropDownList").readonly();
+                    $(e.container).find('input[name="FlatName"]').attr("readonly", true);
+                }
+            },
+            save: function (e) {
+                if (e.model.isNew()) {
+                    //e.model.TowerName = e.model.TowerID.TowerID
+                    //e.model.ProjectName = e.model.TowerID.ProjectID
+                    e.model.TowerID = e.model.TowerID.TowerID
+                    e.model.ProjectID = e.model.ProjectID.ProjectID
+                }
+            },
+            //edit: function (e) {
+            //    var x = 1
+            //},
+            columns: [
+                { field: "FlatName", title: "Flat Name", width: "80px" },
+
+                {
+                    // the brandId column
+                    title: "Project",
+                    width: "200px",
+                    field: "ProjectID", // bound to the brandId field
+                    //template : "#if(ProjectID !=null){# #: DeviceLabel # #}",
+                    //template: "#= brandName(ProjectID) #", // the template shows the name corresponding to the brandId field
+                    //template: "#if(data.isNew()){# #: brandName(0) # #}else {# #: brandName(ProjectID) # #}#",
+                    template: $("#template1").html(),
+                    editor: function (container) { // use a dropdownlist as an editor
+                        //create an input element with id and name set as the bound field (brandId)
+                        var input = $('<input id="ProjectID" name="ProjectID">');
+                        // append to the editor container
+                        input.appendTo(container);
+
+                        // initialize a dropdownlist
+                        input.kendoDropDownList({
+                            dataTextField: "ProjectName",
+                            dataValueField: "ProjectID",
+                            dataSource: projects // bind it to the brands array
+                        }).appendTo(container);
+                    }
+                },
+                {
+                    // The modelId column.
+                    title: "Tower",
+                    field: "TowerID",  // bound to the modelId field
+                    //template: "#= modelName(TowerID) #", //the template shows the name corresponding to the modelId field
+                    template: $("#template2").html(),
+                    editor: function (container) { // use a dropdownlist as an editor
+                        var input = $('<input id="TowerID" name="TowerID">');
+                        input.appendTo(container);
+                        input.kendoDropDownList({
+                            dataTextField: "TowerName",
+                            dataValueField: "TowerID",
+                            cascadeFrom: "ProjectID", // cascade from the brands dropdownlist
+                            dataSource: towers // bind it to the models array
+                        }).appendTo(container);
+                    },
+                    width: "170px",
+                },
+                {
+                    field: "Floor", title: "Floor", width: "70px"
+                },
+                {
+                    field: "Bhk", title: "Bhk", width: "70px"
+                },
+                {
+                    field: "Sft", title: "Sft", width: "70px"
+                },
+                { field: "Facing", title: "Facing", width: "80px" },
+                {
+                    field: "BookingStatus", title: "Status", width: "130px", editor: statusDropDownEditor
+                },
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "90px"
+                }
+            ]
+        });
+    })
+
+
+
+
+    function statusDropDownEditor(container, options) {
+        $('<input id="status" name="' + options.field + '"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                autoBind: true,
+                dataTextField: "BookingStatus",
+                dataValueField: "ID",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "/Cascade/GetStatus",
+
+                    }
+                }
+            });
+    }
+
+    function brandName(brandId) {
+        if (brandId != '' || brandId != null) {
+            for (var i = 0; i < projects.length; i++) {
+
+                if (projects[i].ProjectID == brandId) {
+                    return projects[i].ProjectName;
+                }
+            }
+        }
+    }
+
+    function modelName(modelId) {
+        if (modelId != '' || modelId != null) {
+            for (var i = 0; i < towers.length; i++) {
+                if (towers[i].TowerID == modelId) {
+                    return towers[i].TowerName;
+                }
+            }
+        }
+    }
+
+</script>
+
+<script type="text/x-kendo-template" id="template1">
+    #if(typeof ProjectID === 'undefined') {# #: brandName(0) # #} else {# #: brandName(ProjectID) # #}#
+</script>
+<script type="text/x-kendo-template" id="template2">
+    #if(typeof TowerID === 'undefined') {# #: modelName(0) # #} else {# #: modelName(TowerID) # #}#
+</script>
+<script type="text/javascript">
+    function NumericFilter(control) {
+        $(control).kendoNumericTextBox({ format: "#", decimals: 0 });
+
+    }
+</script>

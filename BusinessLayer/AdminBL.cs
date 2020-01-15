@@ -30,5 +30,15 @@ namespace BusinessLayer
         {
             return admin.AddTower(p);
         }
+
+        public bool UpdateFlat(Flats f)
+        {
+            return admin.UpdateFlat(f);
+        }
+
+        public bool AddFlat(Flats f)
+        {
+            return admin.AddFlat(f);
+        }
     }
 }

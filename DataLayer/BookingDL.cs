@@ -141,6 +141,28 @@ namespace DataLayer
             return lstFlats;
         }
 
+        public List<Flats> BindAllFlats()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<Flats> lstFlats = new List<Flats>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblFlat, Flats>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+            return lstFlats;
+        }
+
         public List<Flats> BindFlatsInProgress(int towerID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;

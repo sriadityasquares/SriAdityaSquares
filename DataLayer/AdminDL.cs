@@ -124,5 +124,65 @@ namespace DataLayer
                 return false;
             }
         }
+
+        public bool UpdateFlat(Flats p)
+        {
+            try
+            {
+                //p.BookingStatusName = null;
+                tblFlat flatOld = dbEntity.tblFlats.Where(x => x.FlatID == p.FlatID).FirstOrDefault();
+                if (flatOld != null)
+                {
+                    flatOld.Floor = p.Floor;
+                    flatOld.Bhk = p.Bhk;
+                    flatOld.Sft = p.Sft;
+                    flatOld.Facing = p.Facing.ToUpper();
+                    flatOld.BookingStatus = p.BookingStatus;
+
+                    //towerOld.BookingStatus = p.BookingStatus;
+                    //towerOld.FlatCount = p.FlatCount;
+                    dbEntity.SaveChanges();
+                    
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool AddFlat(Flats p)
+        {
+            try
+            {
+                //p.BookingStatusName = null;
+                tblFlat flatNew = new tblFlat();
+                flatNew.FlatName = p.FlatName;
+                flatNew.ProjectID = p.ProjectID;
+                flatNew.TowerID = p.TowerID;
+                flatNew.Floor = p.Floor;
+                flatNew.Bhk = p.Bhk;
+                flatNew.Sft = p.Sft;
+                flatNew.Facing = p.Facing.ToUpper();
+                flatNew.BookingStatus = p.BookingStatus;
+
+                //var config = new MapperConfiguration(cfg =>
+                //{
+                //    cfg.CreateMap<Towers, tblTower>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                //});
+                //IMapper mapper = config.CreateMapper();
+                ////mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
+                //mapper.Map<Towers, tblTower>(p, towerNew);
+                dbEntity.tblFlats.Add(flatNew);
+                dbEntity.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

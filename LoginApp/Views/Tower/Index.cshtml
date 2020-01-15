@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-     ViewBag.Admin = "active";
+    ViewBag.Admin = "active";
     ViewBag.Tower = "active";
 }
 
@@ -69,13 +69,14 @@
                     id: "TowerID",
                     fields: {
                         TowerID: { editable: false, nullable: true },
-                        ProjectName : { validation: { required: true } },
+                        ProjectName: { validation: { required: true } },
                         TowerName: { validation: { required: true } },
                         BookingStatus: { validation: { required: true } },
                         FlatCount: { type: "number", validation: { min: 0, required: true } }
                     }
                 }
-            }
+            },
+            
         });
 
         $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
@@ -97,7 +98,6 @@
                     //numeric.enable(false);
                 }
                 else {
-                    alert(2);
                     $(e.container).find('input[name="ProjectName"]').attr("readonly", true);
                     $(e.container).find('input[name="TowerName"]').attr("readonly", true);
                     //$("select[name=ProjectName]").prop("disabled", "disabled");
@@ -148,7 +148,7 @@
 
 
         function statusDropDownEditor(container, options) {
-            $('<input id="status" required name="' + options.field + '"/>')
+            $('<input id="status" name="' + options.field + '"/>')
                 .appendTo(container)
                 .kendoDropDownList({
                     autoBind: true,

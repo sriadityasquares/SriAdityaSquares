@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BusinessLayer;
+using ModelLayer;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +11,9 @@ namespace LoginApp.Controllers.Admin
 {
     public class FlatController : Controller
     {
+        public static List<Flats> flatList = new List<Flats>();
+        BookingBL booking = new BookingBL();
+        AdminBL flat = new AdminBL();
         // GET: Flat
         public ActionResult Index()
         {
@@ -15,75 +21,41 @@ namespace LoginApp.Controllers.Admin
         }
 
         // GET: Flat/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details()
         {
-            return View();
+            flatList = booking.BindAllFlats();
+            return Json(flatList, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Flat/Create
-        public ActionResult Create()
+        [HttpGet]
+        public ActionResult CreateFlat(string models)
         {
-            return View();
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+            List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
+            var result = flat.AddFlat(data[0]);
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        // POST: Flat/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
+        [HttpGet]
+        public ActionResult UpdateFlat(string models)
+        {
+            var settings = new JsonSerializerSettings
             {
-                return View();
-            }
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+            List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
+            var result = flat.UpdateFlat(data[0]);
+            //var result = towers.UpdateTower(data[0]);
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Flat/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
-        // POST: Flat/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Flat/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Flat/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
