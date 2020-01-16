@@ -56,13 +56,17 @@
             sortable: true,
             columns: [
                 {
-                    field: "AgentName", title: "AgentName", width: 180,
+                    field: "AgentName", title: "AgentName", width: "350px",
                 },
-                { field: "AgentCode", title: "AgentCode", width: 160 },
+                { field: "AgentCode", title: "AgentCode", width: "150px" },
 
-                { field: "AgentCommission", width: 200 }
+                { field: "AgentCommission", width: "150px",template:"#= currency(AgentCommission)#" }
             ],
 
         });
     });
+
+    function currency(data) {
+        return '<b style="font-size:15px">&#8377;</b>'+'.' + data;
+    }
 </script>
