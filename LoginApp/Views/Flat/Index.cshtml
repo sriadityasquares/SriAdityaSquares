@@ -1,6 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    ViewBag.Admin = "active";
+    ViewBag.Flat = "active";
 }
 
 <div class="jumbotron">
@@ -256,7 +258,7 @@
     #if(typeof ProjectID === 'undefined') {# #: brandName(0) # #} else {# #: brandName(ProjectID) # #}#
 </script>
 <script type="text/x-kendo-template" id="template2">
-    #if(typeof TowerID === 'undefined') {# #: modelName(0) # #} else {# #: modelName(TowerID) # #}#
+    #if(typeof TowerID === 'undefined') {# #: modelName(1) # #} else {# #: modelName(TowerID) # #}#
 </script>
 <script type="text/javascript">
     function NumericFilter(control) {
