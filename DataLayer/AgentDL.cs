@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using log4net;
 using ModelLayer;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace DataLayer
     public class AgentDL
     {
         salesDBEntities dbEntity = new salesDBEntities();
+        private static readonly ILog log =
+           LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public bool UpdateAgent(AgentMaster a)
         {
             try
@@ -33,6 +36,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
+                log.Error("Error :" + ex);
                 return false;
             }
         }
@@ -57,8 +61,9 @@ namespace DataLayer
 
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
+                log.Error("Error :" + ex);
                 return false;
             }
         }

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer;
 using DataLayer;
+using log4net;
 using LoginApp.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -18,7 +19,8 @@ namespace LoginApp.Controllers
     {
         CommonBL common = new CommonBL();
         BookingBL booking = new BookingBL();
-
+        private static readonly ILog log =
+             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
         {
@@ -62,23 +64,30 @@ namespace LoginApp.Controllers
         [HttpPost]
         public ActionResult New(ModelLayer.BookingInformation b)
         {
-            bool result = booking.SaveNewBooking(b);
-            if (result)
+            try
             {
-                //ViewBag.result = "Booking Successfull";
-                TempData["successmessage"] = "Booking Successfull";
-                var user = new ApplicationUser { UserName = b.Email, Email = b.Email };
+                bool result = booking.SaveNewBooking(b);
+                if (result)
+                {
+                    //ViewBag.result = "Booking Successfull";
+                    TempData["successmessage"] = "Booking Successfull";
+                    var user = new ApplicationUser { UserName = b.Email, Email = b.Email };
 
-                UserManager.CreateAsync(user, "Welcome@123");
-                UserManager.AddToRoleAsync(user.Id, "Customer");
+                    UserManager.CreateAsync(user, "Welcome@123");
+                    UserManager.AddToRoleAsync(user.Id, "Customer");
+                }
+                else
+                {
+                    TempData["successmessage"] = "Booking Failed";
+                }
+                ModelState.Clear();
+                TempData.Keep("ProjectList");
+                TempData.Keep("CountryList");
             }
-            else
+            catch(Exception ex)
             {
-                TempData["successmessage"] = "Booking Failed";
+                log.Error("Error :" + ex);
             }
-            ModelState.Clear();
-            TempData.Keep("ProjectList");
-            TempData.Keep("CountryList");
             return View();
         }
 
@@ -99,17 +108,6 @@ namespace LoginApp.Controllers
         public JsonResult GetAllFlats(int TowerId)
         {
             List<Flats> flatList = booking.BindAllFlats(TowerId);
-            //var dir = HttpContext.Current.Request.Url.PathAndQuery;
-            //var dir = Server.MapPath("/Content/Images");
-            //foreach (var flat in flatList)
-            //{
-
-            //    if(flat.FlatPlanURL != null)
-            //    {
-            //        var path = Path.Combine(dir,flat.FlatPlanURL);
-            //        flat.FlatPlanURL = path.Replace(@"\\", @"\");
-            //    }
-            //}
             return Json(flatList, JsonRequestBehavior.AllowGet);
 
         }
@@ -155,17 +153,24 @@ namespace LoginApp.Controllers
         [HttpPost]
         public ActionResult MakePayment(PaymentInformation payInfo)
         {
-            var result = booking.SaveNewPayment(payInfo);
-            if (result)
-                TempData["successmessage"] = "Payment Successfull";
-            else
-                TempData["successmessage"] = "Payment Failed";
-            ModelState.Clear();
-            //List<Projects> projectList1 = booking.BindProjects();
-            //TempData["ProjectList"] = new SelectList(projectList1, "ProjectID", "ProjectName");
-            TempData.Keep("ProjectList");
-            List<PaymentInformation> lstPayments = new List<PaymentInformation>();
-            ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
+            try
+            {
+                var result = booking.SaveNewPayment(payInfo);
+                if (result)
+                    TempData["successmessage"] = "Payment Successfull";
+                else
+                    TempData["successmessage"] = "Payment Failed";
+                ModelState.Clear();
+                //List<Projects> projectList1 = booking.BindProjects();
+                //TempData["ProjectList"] = new SelectList(projectList1, "ProjectID", "ProjectName");
+                TempData.Keep("ProjectList");
+                List<PaymentInformation> lstPayments = new List<PaymentInformation>();
+                ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
+            }
+            catch(Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
             return View();
         }
 
@@ -214,6 +219,7 @@ namespace LoginApp.Controllers
 
         public ActionResult MakeAgentPayment()
         {
+
             List<Projects> projectList = booking.BindProjects();
             TempData["ProjectListAgentPayments"] = new SelectList(projectList, "ProjectID", "ProjectName");
             TempData.Keep("ProjectListAgentPayments");
@@ -225,15 +231,22 @@ namespace LoginApp.Controllers
         [HttpPost]
         public ActionResult MakeAgentPayment(AgentPaymentInformation payInfo)
         {
-            var result = booking.SaveNewAgentPayment(payInfo);
-            if (result)
-                TempData["successmessage"] = "Payment Successfull";
-            else
-                TempData["successmessage"] = "Payment Failed";
-            ModelState.Clear();
-            TempData.Keep("ProjectListAgentPayments");
-            List<PaymentInformation> lstPayments = new List<PaymentInformation>();
-            ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
+            try
+            {
+                var result = booking.SaveNewAgentPayment(payInfo);
+                if (result)
+                    TempData["successmessage"] = "Payment Successfull";
+                else
+                    TempData["successmessage"] = "Payment Failed";
+                ModelState.Clear();
+                TempData.Keep("ProjectListAgentPayments");
+                List<PaymentInformation> lstPayments = new List<PaymentInformation>();
+                ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
+            }
+            catch(Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
             return View();
         }
     }

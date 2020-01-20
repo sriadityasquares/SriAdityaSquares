@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using log4net;
 using ModelLayer;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace DataLayer
     public class ReportDL
     {
         salesDBEntities dbEntity = new salesDBEntities();
+        private static readonly ILog log =
+           LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public List<GetBookingInfoByDate> BindBookingInfo(string fromDate, string toDate, string projectID)
         {
             List<GetBookingInfoByDate> lstBooking = new List<GetBookingInfoByDate>();
@@ -26,7 +29,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstBooking;
         }
@@ -46,7 +49,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstPayments;
         }
@@ -66,7 +69,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstBooking;
         }
@@ -86,7 +89,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstBooking;
         }
@@ -106,7 +109,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstBooking;
         }
@@ -123,24 +126,10 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstBooking = mapper.Map<List<sp_GetFlatWiseTotalAgentCommission_Result>, List<GetFlatWiseTotalAgentCommission>>(dbEntity.sp_GetFlatWiseTotalAgentCommission(projectID, towerID).ToList()).ToList();
-                foreach (var item in lstBooking)
-                {
-                    var newPercentage = (item.AgentComm / item.FinalRate) * 100;
-                    var oldPercentage = 0;
-
-                    if (item.AgentParent != "")
-                    {
-                        var agentList = item.AgentParent.Split(',');
-                        foreach (var agent in agentList)
-                        {
-
-                        }
-                    }
-                }
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstBooking;
         }
@@ -160,7 +149,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstAgents;
         }
@@ -183,7 +172,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstBooking;
         }

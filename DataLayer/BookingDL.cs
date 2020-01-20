@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using log4net;
 using ModelLayer;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace DataLayer
     public class BookingDL
     {
         salesDBEntities dbEntity = new salesDBEntities();
+        private static readonly ILog log =
+           LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public List<Projects> BindProjects()
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -28,7 +31,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstProjects;
         }
@@ -50,7 +53,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstProjects;
         }
@@ -71,7 +74,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstTowers;
         }
@@ -93,7 +96,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstTowers;
         }
@@ -114,7 +117,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstFlats;
         }
@@ -136,7 +139,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstFlats;
         }
@@ -158,7 +161,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstFlats;
         }
@@ -180,7 +183,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstFlats;
         }
@@ -201,7 +204,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstAgents;
         }
@@ -221,7 +224,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstSchemes;
         }
@@ -243,7 +246,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstFlatDetails;
         }
@@ -387,7 +390,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                log.Error("Error :" + ex);
                 return false;
             }
         }
@@ -410,7 +413,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstPayDetails;
         }
@@ -433,7 +436,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstPayDetails;
         }
@@ -465,6 +468,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
+                log.Error("Error :" + ex);
                 return false;
             }
         }
@@ -491,6 +495,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
+                log.Error("Error :" + ex);
                 return false;
             }
         }
@@ -509,7 +514,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstTowers;
         }
@@ -529,7 +534,8 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
+
             }
             return lstAgents;
         }
@@ -549,7 +555,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstAgents;
         }
@@ -559,6 +565,7 @@ namespace DataLayer
             List<FlatWiseAgentCommission> lstAgents = new List<FlatWiseAgentCommission>();
             try
             {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
                 //lstCountry = dbEntity.tblProjects.ToList();
                 var config = new MapperConfiguration(cfg =>
                 {
@@ -569,6 +576,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
+                log.Error("Error :" + ex);
                 ex.ToString();
             }
             return lstAgents;

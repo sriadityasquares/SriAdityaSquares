@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using log4net;
 using ModelLayer;
 using Newtonsoft.Json;
 using System;
@@ -13,6 +14,8 @@ namespace LoginApp.Controllers
     {
         BookingBL booking = new BookingBL();
         CommonBL common = new CommonBL();
+        private static readonly ILog log =
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         // GET: Report
         public ActionResult Index()
         {
@@ -27,6 +30,7 @@ namespace LoginApp.Controllers
 
         public ActionResult PeriodWiseBookingReport()
         {
+
             List<Projects> projectList = booking.BindProjects();
             List<Year> years = common.BindYear();
             List<Month> months = common.BindMonth();
@@ -38,6 +42,7 @@ namespace LoginApp.Controllers
 
         public ActionResult GetPeriodWiseBookingReport(int option,string fromDate,string toDate,string projects,string years,string months) 
         {
+
             ReportBL rep = new ReportBL();
             List<GetPeriodWiseBookingDetails> list = rep.BindPeriodWiseBookingInfo(option, fromDate, toDate, projects, years, months);
             return Json(list, JsonRequestBehavior.AllowGet);

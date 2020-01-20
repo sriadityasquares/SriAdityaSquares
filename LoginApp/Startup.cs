@@ -51,7 +51,12 @@ namespace LoginApp
                     role.Name = "Agent";
                     roleManager.Create(role);
                 }
-
+                if (!roleManager.RoleExists("DataEntry"))
+                {
+                    var role = new IdentityRole();
+                    role.Name = "DataEntry";
+                    roleManager.Create(role);
+                }
 
             }
             catch { }

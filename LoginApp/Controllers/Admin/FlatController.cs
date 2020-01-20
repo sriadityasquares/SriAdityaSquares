@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using log4net;
 using ModelLayer;
 using Newtonsoft.Json;
 using System;
@@ -11,6 +12,8 @@ namespace LoginApp.Controllers.Admin
 {
     public class FlatController : Controller
     {
+        private static readonly ILog log =
+             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static List<Flats> flatList = new List<Flats>();
         BookingBL booking = new BookingBL();
         AdminBL flat = new AdminBL();
@@ -23,7 +26,17 @@ namespace LoginApp.Controllers.Admin
         // GET: Flat/Details/5
         public ActionResult Details()
         {
-            flatList = booking.BindAllFlats();
+            try
+            {
+                flatList = booking.BindAllFlats();
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+               
+            }
+
             return Json(flatList, JsonRequestBehavior.AllowGet);
         }
 
@@ -31,13 +44,21 @@ namespace LoginApp.Controllers.Admin
         [HttpGet]
         public ActionResult CreateFlat(string models)
         {
-            var settings = new JsonSerializerSettings
+            try
             {
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore
-            };
-            List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
-            var result = flat.AddFlat(data[0]);
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+                List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
+                var result = flat.AddFlat(data[0]);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+
+            }
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
@@ -45,13 +66,21 @@ namespace LoginApp.Controllers.Admin
         [HttpGet]
         public ActionResult UpdateFlat(string models)
         {
-            var settings = new JsonSerializerSettings
+            try
             {
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore
-            };
-            List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
-            var result = flat.UpdateFlat(data[0]);
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+                List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
+                var result = flat.UpdateFlat(data[0]);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+
+            }
             //var result = towers.UpdateTower(data[0]);
             return Json(true, JsonRequestBehavior.AllowGet);
         }

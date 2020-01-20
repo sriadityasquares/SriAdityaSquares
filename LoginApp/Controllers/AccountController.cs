@@ -10,16 +10,19 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LoginApp.Models;
 using DataLayer;
+using log4net;
 
 namespace LoginApp.Controllers
 {
+
     [Authorize]
     
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private static readonly ILog log =
+             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public AccountController()
         {
         }
@@ -70,30 +73,40 @@ namespace LoginApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            if (!ModelState.IsValid)
+            try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, change to shouldLockout: true
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        {
+                            var _user = UserManager.FindByEmail(model.Email);
+                            return RedirectToLocal(_user.Id, returnUrl);
+                        }
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    case SignInStatus.RequiresVerification:
+                        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    case SignInStatus.Failure:
+                    default:
+                        ModelState.AddModelError("", "Invalid login attempt.");
+                        return View(model);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    {
-                        var _user = UserManager.FindByEmail(model.Email);
-                        return RedirectToLocal(_user.Id, returnUrl);
-                    }
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
-            }
         }
 
         //
@@ -127,30 +140,37 @@ namespace LoginApp.Controllers
         [Authorize(Roles ="Admin")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    var roleadd = await UserManager.AddToRoleAsync(user.Id, model.Role);
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        var roleadd = await UserManager.AddToRoleAsync(user.Id, model.Role);
 
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    ModelState.Clear();
-                    //return RedirectToAction("Success", "Account");
-                    TempData["registermessage"] = "Registration Successful";
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        ModelState.Clear();
+                        //return RedirectToAction("Success", "Account");
+                        TempData["registermessage"] = "Registration Successful";
+                    }
+                    else
+                    {
+                        TempData["registermessage"] = "Registration Failed";
+                    }
+                    AddErrors(result);
                 }
-                else
-                {
-                    TempData["registermessage"] = "Registration Failed";
-                }
-                AddErrors(result);
             }
-            
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -189,6 +209,7 @@ namespace LoginApp.Controllers
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
+
                     return View("ForgotPasswordConfirmation");
                 }
 
@@ -371,9 +392,9 @@ namespace LoginApp.Controllers
         private ActionResult RedirectToLocal(string UserID, string returnUrl)
         {
             if (UserManager.IsInRole(UserID, "Admin"))
-                return RedirectToAction("Admin", "Home");
-            else if (UserManager.IsInRole(UserID, "Client"))
-                return RedirectToAction("Contact", "Home");
+                return RedirectToAction("Register", "Account");
+            else if (UserManager.IsInRole(UserID, "DataEntry"))
+                return RedirectToAction("Index", "Dashboard");
             else if (UserManager.IsInRole(UserID, "Agent"))
                 return RedirectToAction("Agents", "Dashboard");
                 return null;

@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using log4net;
 using ModelLayer;
 using Newtonsoft.Json;
 using System;
@@ -11,6 +12,8 @@ namespace LoginApp.Controllers.Admin
 {
     public class TowerController : Controller
     {
+        private static readonly ILog log =
+             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static List<GetTowerDetails> towerList = new List<GetTowerDetails>();
         BookingBL booking = new BookingBL();
         AdminBL towers = new AdminBL();
@@ -31,14 +34,21 @@ namespace LoginApp.Controllers.Admin
         [HttpGet]
         public ActionResult CreateTower(string models)
         {
-            var settings = new JsonSerializerSettings
+            try
             {
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore
-            };
-            List<Towers> data = JsonConvert.DeserializeObject<List<Towers>>(models, settings);
-            data[0].ProjectID = Convert.ToInt32(data[0].ProjectName);
-            var result = towers.AddTower(data[0]);
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+                List<Towers> data = JsonConvert.DeserializeObject<List<Towers>>(models, settings);
+                data[0].ProjectID = Convert.ToInt32(data[0].ProjectName);
+                var result = towers.AddTower(data[0]);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
@@ -46,73 +56,22 @@ namespace LoginApp.Controllers.Admin
         [HttpGet]
         public ActionResult UpdateTower(string models)
         {
-            var settings = new JsonSerializerSettings
+            try
             {
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore
-            };
-            List<Towers> data = JsonConvert.DeserializeObject<List<Towers>>(models, settings);
-            var result = towers.UpdateTower(data[0]);
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+                List<Towers> data = JsonConvert.DeserializeObject<List<Towers>>(models, settings);
+                var result = towers.UpdateTower(data[0]);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
             return Json(true, JsonRequestBehavior.AllowGet);
         }
-        // POST: Tower/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Tower/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Tower/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Tower/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Tower/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

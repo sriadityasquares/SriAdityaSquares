@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using log4net;
 using ModelLayer;
 using Newtonsoft.Json;
 using System;
@@ -11,6 +12,8 @@ namespace LoginApp.Controllers.Admin
 {
     public class ProjectController : Controller
     {
+        private static readonly ILog log =
+             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static List<Projects> projectList = new List<Projects>();
         BookingBL booking = new BookingBL();
         AdminBL project = new AdminBL();
@@ -23,18 +26,25 @@ namespace LoginApp.Controllers.Admin
         // GET: Project/Details/5
         public ActionResult Details()
         {
-            projectList = booking.BindProjects();
-            foreach (var item in projectList)
+            try
             {
-                switch (item.BookingStatus)
+                projectList = booking.BindProjects();
+                foreach (var item in projectList)
                 {
-                    case "O":
-                        item.BookingStatusName = "OPEN";
-                        break;
-                    case "C":
-                        item.BookingStatusName = "CLOSED";
-                        break;
+                    switch (item.BookingStatus)
+                    {
+                        case "O":
+                            item.BookingStatusName = "OPEN";
+                            break;
+                        case "C":
+                            item.BookingStatusName = "CLOSED";
+                            break;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
             }
             return Json(projectList, JsonRequestBehavior.AllowGet);
         }
@@ -62,6 +72,7 @@ namespace LoginApp.Controllers.Admin
             }
             catch (Exception ex)
             {
+                log.Error("Error :" + ex);
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
         }
@@ -75,43 +86,14 @@ namespace LoginApp.Controllers.Admin
             {
                 List<Projects> data = JsonConvert.DeserializeObject<List<Projects>>(models);
                 var result = project.UpdateProject(data[0]);
-                //if(result)
-                //{
-                //    TempData["successmessage"] = "Update Successfull";
-                //}
-                //else
-                //{
-                //    TempData["successmessage"] = "Update Successfull";
-                //}
-                // TODO: Add update logic here
+                
 
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch(Exception ex)
             {
+                log.Error("Error :" + ex);
                 return Json(false, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        // GET: Project/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Project/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
             }
         }
     }

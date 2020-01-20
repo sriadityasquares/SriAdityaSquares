@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using log4net;
 using ModelLayer;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace DataLayer
     public class AdminDL
     {
         salesDBEntities dbEntity = new salesDBEntities();
+        private static readonly ILog log =
+           LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public bool UpdateProject(Projects p)
         {
             try
@@ -33,6 +36,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
+                log.Error("Error :" + ex);
                 return false;
             }
         }
@@ -57,8 +61,9 @@ namespace DataLayer
 
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
+                log.Error("Error :" + ex);
                 return false;
             }
         }
@@ -88,8 +93,9 @@ namespace DataLayer
 
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
+                log.Error("Error :" + ex);
                 return false;
             }
         }
@@ -105,22 +111,13 @@ namespace DataLayer
                     towerOld.BookingStatus = p.BookingStatus;
                     towerOld.FlatCount = p.FlatCount;
                     dbEntity.SaveChanges();
-                    //if (towerOld != null)
-                    //{
-                    //    var config = new MapperConfiguration(cfg =>
-                    //    {
-                    //        cfg.CreateMap<Towers, tblTower>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-                    //    });
-                    //    IMapper mapper = config.CreateMapper();
-                    //    //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
-                    //    mapper.Map<Towers, tblTower>(p, towerOld);
-                    //    dbEntity.SaveChanges();
-                    //}
+                    
                 }
                 return true;
             }
             catch (Exception ex)
             {
+                log.Error("Error :" + ex);
                 return false;
             }
         }
@@ -148,6 +145,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
+                log.Error("Error :" + ex);
                 return false;
             }
         }
@@ -179,8 +177,9 @@ namespace DataLayer
 
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
+                log.Error("Error :" + ex);
                 return false;
             }
         }

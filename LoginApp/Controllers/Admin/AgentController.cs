@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using log4net;
 using ModelLayer;
 using Newtonsoft.Json;
 using System;
@@ -11,6 +12,8 @@ namespace LoginApp.Controllers.Admin
 {
     public class AgentController : Controller
     {
+        private static readonly ILog log =
+             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static List<AgentMaster> agentsList = new List<AgentMaster>();
         BookingBL booking = new BookingBL();
         AgentBL agent = new AgentBL();
@@ -23,28 +26,25 @@ namespace LoginApp.Controllers.Admin
         // GET: Project/Details/5
         public ActionResult Details()
         {
-            agentsList = booking.BindAgents();
-            foreach (var item in agentsList)
+            try
             {
-                //item.AgentParentArray =  (item.AgentParent ?? "").Split(',').Select<string, int>(int.Parse);
-                //int[] arrayListParent;
-                //if (!String.IsNullOrEmpty(item.AgentParent))
-                //{
-                //    item.arrayListParent = Array.ConvertAll(item.AgentParent.Split(','), int.Parse);
-                //}
-                //else
-                //{
-                //    item.arrayListParent = null;
-                //}
-                switch (item.AgentStatus)
+                agentsList = booking.BindAgents();
+                foreach (var item in agentsList)
                 {
-                    case "A":
-                        item.BookingStatusName = "ACTIVE";
-                        break;
-                    case "I":
-                        item.BookingStatusName = "INACTIVE";
-                        break;
+                    switch (item.AgentStatus)
+                    {
+                        case "A":
+                            item.BookingStatusName = "ACTIVE";
+                            break;
+                        case "I":
+                            item.BookingStatusName = "INACTIVE";
+                            break;
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                log.Error("Error :" + ex);
             }
             return Json(agentsList, JsonRequestBehavior.AllowGet);
         }
@@ -74,6 +74,7 @@ namespace LoginApp.Controllers.Admin
             }
             catch (Exception ex)
             {
+                log.Error("Error :" + ex);
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
         }
@@ -87,20 +88,11 @@ namespace LoginApp.Controllers.Admin
             {
                 List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models);
                 var result = agent.UpdateAgent(data[0]);
-                //if(result)
-                //{
-                //    TempData["successmessage"] = "Update Successfull";
-                //}
-                //else
-                //{
-                //    TempData["successmessage"] = "Update Successfull";
-                //}
-                // TODO: Add update logic here
-
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch(Exception ex)
             {
+                log.Error("Error :" + ex);
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
         }
@@ -111,20 +103,7 @@ namespace LoginApp.Controllers.Admin
             return View();
         }
 
-        // POST: Project/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       
+        
     }
 }

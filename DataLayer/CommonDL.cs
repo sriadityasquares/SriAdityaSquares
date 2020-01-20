@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using log4net;
 using ModelLayer;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace DataLayer
     public class CommonDL
     {
         salesDBEntities dbEntity = new salesDBEntities();
+        private static readonly ILog log =
+           LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public List<Country> BindCountry()
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -27,7 +30,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstCountry;
         }
@@ -46,7 +49,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstState;
         }
@@ -65,7 +68,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstStatus;
         }
@@ -86,7 +89,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstAgent;
         }
@@ -105,7 +108,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstAgent;
         }
@@ -124,7 +127,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstStatus;
         }
@@ -143,7 +146,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstCity;
         }
@@ -162,7 +165,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstYear;
         }
@@ -181,7 +184,7 @@ namespace DataLayer
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                log.Error("Error :" + ex);
             }
             return lstMonth;
         }

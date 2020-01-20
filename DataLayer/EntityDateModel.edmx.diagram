@@ -26,6 +26,13 @@
         <AssociationConnector Association="salesDBModel.FK_Flats1" />
         <AssociationConnector Association="salesDBModel.FK_Flats2" />
         <EntityTypeShape EntityType="salesDBModel.tblFlatWiseAgentCommission" Width="1.5" PointX="9.375" PointY="14.75" />
+        <EntityTypeShape EntityType="salesDBModel.AspNetRole" Width="1.5" PointX="15.375" PointY="13.5" />
+        <EntityTypeShape EntityType="salesDBModel.AspNetUserClaim" Width="1.5" PointX="19.875" PointY="12" />
+        <EntityTypeShape EntityType="salesDBModel.AspNetUserLogin" Width="1.5" PointX="19.875" PointY="14.75" />
+        <EntityTypeShape EntityType="salesDBModel.AspNetUser" Width="1.5" PointX="17.625" PointY="12.375" />
+        <AssociationConnector Association="salesDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="salesDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="salesDBModel.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

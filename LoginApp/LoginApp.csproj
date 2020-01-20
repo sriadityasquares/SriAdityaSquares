@@ -48,6 +48,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Antiforgery, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Antiforgery.1.0.0\lib\net451\Microsoft.AspNetCore.Antiforgery.dll</HintPath>
     </Reference>
@@ -451,7 +454,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SampleController.cs" />
-    <Compile Include="Controllers\tblProjectsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -488,6 +490,8 @@
     <Content Include="Content\Images\147.jpg" />
     <Content Include="Content\Images\blur-blurred-background-colors-754082.jpg" />
     <Content Include="Content\Images\calendar.png" />
+    <Content Include="Content\Images\Close-icon.png" />
+    <Content Include="Content\Images\Expand-icon.png" />
     <Content Include="Content\Images\icons8-microsoft-excel-64.png" />
     <Content Include="Content\Images\joanna-kosinska-RE-8WswW95o-unsplash.jpg" />
     <Content Include="Content\Images\Jumbtron.PNG" />
