@@ -67,6 +67,8 @@ namespace LoginApp.Controllers.Admin
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
                 List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models,settings);
+                data[0].CreatedBy = User.Identity.Name;
+                data[0].CreatedDate = DateTime.Now.Date;
                 var result = agent.AddAgent(data[0]);
                 
 
@@ -87,6 +89,8 @@ namespace LoginApp.Controllers.Admin
             try
             {
                 List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models);
+                data[0].UpdatedBy = User.Identity.Name;
+                data[0].UpdatedDate = DateTime.Now.Date;
                 var result = agent.UpdateAgent(data[0]);
                 return Json(true, JsonRequestBehavior.AllowGet);
             }

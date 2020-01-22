@@ -34,6 +34,7 @@
                     complete: function (jqXhr, textStatus) {
                         if (textStatus == 'success') {
                             toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
                         }
                         else {
                             toastr.error('Error in Updating');
@@ -50,6 +51,7 @@
                     complete: function (jqXhr, textStatus) {
                         if (textStatus == 'success') {
                             toastr.success('Added Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read(); 
                         }
                         else {
                             toastr.error('Error in Adding');
@@ -104,41 +106,7 @@
                 if (y.length > 0) { e.model.AgentChild = y.join(","); } else {
                     e.model.AgentChild = '';
                 }
-                //e.model.AgentAadhar = e.model.AgentAadhar + "1";
-                //var arrayListParent = '';
-                //var arrayListChild = '';
-                //for (i = 0; i < e.model.AgentParent.length; i++) {
-                //    if (arrayListParent != '') arrayListParent = arrayListParent + ','
-                //    arrayListParent = arrayListParent + e.model.AgentParent[i];
-                //}
-                //for (i = 0; i < e.model.AgentChild.length; i++) {
-                //    if (arrayListChild != '') arrayListChild = arrayListChild + ','
-                //    arrayListChild = arrayListChild + e.model.AgentChild[i].AgentID;
-                //}
-                //e.model.AgentParent = null;
-                //e.model.AgentChild = null;
-                //e.model.AgentParent = arrayListParent;
-                //e.model.AgentChild = arrayListChild;
-                //e.model.arrayListParent = null;
-                //if (e.values.name !== "") {
-                //    // the user changed the name field
-                //    if (e.values.name !== e.model.name) {
-                //        console.log("name is modified");
-                //    }
-                //} else {
-                //    e.preventDefault();
-                //    console.log("name cannot be empty");
-                //}
             },
-            //edit: function (e) {
-            //    if (!e.model.isNew()) {
-            //        e.model.AgentParent = e.model.AgentParent.join(',')
-            //    }
-            //    // Always return valid
-            //    //e.sender.editable.validatable.validate = function () { return true; };
-            //    //e.sender.editable.validatable.validateInput = function (input) { return true; };
-            //},
-            //dataBound: onDataBound,
             toolbar: ["create"],
             columns: [
                 { field: "AgentCode", title: "Code", width: "100px" },
@@ -204,7 +172,7 @@
         }
         function parentDropDownEditor(container, options) {
             if (!options.model.isNew()) {
-                if (options.model.AgentParent != null) {
+                if (options.model.AgentParent != null && options.model.AgentParent != '') {
                     options.model.AgentParent = options.model.AgentParent.split(',')
                 }
                 else {
@@ -230,7 +198,7 @@
 
         function childDropDownEditor(container, options) {
             if (!options.model.isNew()) {
-                if (options.model.AgentChild != null || options.model.AgentChild != '') {
+                if (options.model.AgentChild != null && options.model.AgentChild != '') {
                     options.model.AgentChild = options.model.AgentChild.split(',')
                 }
                 else {
