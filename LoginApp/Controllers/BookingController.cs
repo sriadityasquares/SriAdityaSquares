@@ -66,6 +66,7 @@ namespace LoginApp.Controllers
         {
             try
             {
+                b.CreatedBy = User.Identity.Name;
                 bool result = booking.SaveNewBooking(b);
                 if (result)
                 {

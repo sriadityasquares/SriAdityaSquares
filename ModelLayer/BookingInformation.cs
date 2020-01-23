@@ -52,7 +52,6 @@ namespace ModelLayer
         public Nullable<int> BookingAmount { get; set; }
         [Display(Name = "Balance Amount")]
         public Nullable<int> BalanceAmount { get; set; }
-        [Required]
         [Display(Name = "Agent")]
         public Nullable<int> AgentID { get; set; }
 
@@ -60,25 +59,21 @@ namespace ModelLayer
         public Nullable<double> SASComm { get; set; }
         public Nullable<double> SASTDS { get; set; }
         public Nullable<double> SASNet { get; set; }
-        [Required]
         public Nullable<int> Aadhar { get; set; }
         [Required]
         public string Name { get; set; }
 
         public int ID { get; set; }
-        [Required]
         [Display(Name = "Pan card")]
         public string Pan { get; set; }
         public string Nominee { get; set; }
-        [Required]
+
         [Display(Name = "Relation")]
         public string Relationship { get; set; }
-        [Required]
         public Nullable<int> Age { get; set; }
         public string Dob { get; set; }
         public string Address { get; set; }
         public Nullable<int> Pincode { get; set; }
-        [Required]
         public Nullable<int> Mobile { get; set; }
 
         [EmailAddress]

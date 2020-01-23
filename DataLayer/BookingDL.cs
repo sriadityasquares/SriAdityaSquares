@@ -275,7 +275,7 @@ namespace DataLayer
                 bookingInfo.AgentTDS = (bookingInfo.AgentComm * 5) / 100;
                 bookingInfo.AgentNet = bookingInfo.AgentComm - bookingInfo.AgentTDS;
                 bookingInfo.BookingID = Guid.NewGuid();
-                bookingInfo.CreatedBy = "";
+                //bookingInfo.CreatedBy = "";
                 bookingInfo.CreatedDate = System.DateTime.Now.Date;
                 bookingInfo.Day = System.DateTime.Now.Day;
                 bookingInfo.Month = System.DateTime.Now.Month;
