@@ -33,8 +33,11 @@
 <body>
     @if (Request.IsAuthenticated)
     {
-        <aside class="sidebar">
+        <button type="button" class="btn btn-primary mobname" data-toggle="collapse" data-target="#demo"><i class="fa fa-bars"></i></button>
+
+        <aside class="sidebar mobname collapse" id="demo">
             <div id="leftside-navigation" class="nano">
+
                 <ul class="nano-content">
                     @*<li>
                             <a class="@(ViewBag.Dashboard)" href="@Url.Action("Index", "Dashboard")"><i class="fa fa-dashboard"></i><span>DASHBOARD</span></a>
@@ -236,6 +239,210 @@
                 }
             </div>
         </aside>
+        <aside class="sidebar mobname2 ">
+            <div id="leftside-navigation" class="nano">
+
+                <ul class="nano-content">
+                    @*<li>
+            <a class="@(ViewBag.Dashboard)" href="@Url.Action("Index", "Dashboard")"><i class="fa fa-dashboard"></i><span>DASHBOARD</span></a>
+        </li>*@
+                    <li class="sub-menu @(ViewBag.Dashboard)">
+                        <a href="javascript:void(0);"><i class="fa fa-dashboard"></i><span>DASHBOARD</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <ul>
+
+                            <li>
+                                <a class="@(ViewBag.BookingDashboard)" href="@Url.Action("Index", "Dashboard")">BOOKING STATUS</a>
+                            </li>
+                            @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
+                            {
+                                <li>
+                                    <a class="@(ViewBag.AgentDashboard)" href="@Url.Action("Agents", "Dashboard")">AGENT HIERARCHY</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <li class="sub-menu @(ViewBag.Admin)">
+                            <a href="javascript:void(0);"><i class="fa fa-user"></i><span>ADMIN</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                            <ul>
+
+                                <li>
+                                    <a class="@(ViewBag.Register)" href="@Url.Action("Register", "Account")">NEW USER REGISTRATION</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.Project)" href="@Url.Action("Index", "Project")">PROJECTS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.Tower)" href="@Url.Action("Index", "Tower")">TOWERS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.Flat)" href="@Url.Action("Index", "Flat")">FLATS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">AGENTS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeAgentPayment", "Booking")">AGENT PAYMENTS</a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    <li class="sub-menu @(ViewBag.Booking)">
+                        <a href="javascript:void(0);"><i class="fa fa-ticket"></i><span>BOOKING</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <ul>
+
+                            <li>
+                                <a class="@(ViewBag.NewBooking)" href="@Url.Action("New", "Booking")">NEW BOOKING</a>
+                            </li>
+                            <li>
+                                <a class="@(ViewBag.MakePayment)" href="@Url.Action("MakePayment", "Booking")">PAYMENTS</a>
+                            </li>
+
+
+                        </ul>
+                    </li>
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <li class="sub-menu @(ViewBag.Reports)">
+                            <a href="javascript:void(0);"><i class="fa fa-table"></i><span>REPORTS</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                            <ul>
+                                <li>
+                                    <a class="@(ViewBag.PeriodWiseBookingReport)" href="@Url.Action("PeriodWiseBookingReport", "Report")">PERIOD WISE BOOKING</a>
+                                </li>
+
+                                <li>
+                                    <a class="@(ViewBag.BookingInfoReport)" href="@Url.Action("BookingInfoReport", "Report")">BOOKING INFORMATION</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.PaymentInfoReport)" href="@Url.Action("PaymentInfoReport", "Report")">PAYMENT INFORMATION</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.AgentWiseBookingReport)" href="@Url.Action("AgentWiseBookingReport", "Report")">AGENT WISE BOOKING</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.BhkWiseBookingReport)" href="@Url.Action("BhkWiseBookingReport", "Report")">BHK WISE BOOKING</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.FacingWiseBookingReport)" href="@Url.Action("FacingWiseBookingReport", "Report")">FACING WISE BOOKING</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.FlatWiseAgentCommission)" href="@Url.Action("FlatWiseAgentCommission", "Report")">FLAT WISE AGENT COMMISSION</a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    @*<li class="sub-menu">
+            <a href="javascript:void(0);"><i class="fa fa fa-tasks"></i><span>Forms</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+            <ul>
+                <li>
+                    <a href="forms-components.html">Components</a>
+                </li>
+                <li>
+                    <a href="forms-validation.html">Validation</a>
+                </li>
+                <li>
+                    <a href="forms-mask.html">Mask</a>
+                </li>
+                <li>
+                    <a href="forms-wizard.html">Wizard</a>
+                </li>
+                <li>
+                    <a href="forms-multiple-file.html">Multiple File Upload</a>
+                </li>
+                <li>
+                    <a href="forms-wysiwyg.html">WYSIWYG Editor</a>
+                </li>
+            </ul>
+        </li>
+        <li class="sub-menu active">
+            <a href="javascript:void(0);"><i class="fa fa-envelope"></i><span>Mail</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+            <ul>
+                <li class="active">
+                    <a href="mail-inbox.html">Inbox</a>
+                </li>
+                <li>
+                    <a href="mail-compose.html">Compose Mail</a>
+                </li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:void(0);"><i class="fa fa-bar-chart-o"></i><span>Charts</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+            <ul>
+                <li>
+                    <a href="charts-chartjs.html">Chartjs</a>
+                </li>
+                <li>
+                    <a href="charts-morris.html">Morris</a>
+                </li>
+                <li><a href="charts-c3.html">C3 Charts</a></li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:void(0);"><i class="fa fa-map-marker"></i><span>Maps</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+            <ul>
+                <li>
+                    <a href="map-google.html">Google Map</a>
+                </li>
+                <li>
+                    <a href="map-vector.html">Vector Map</a>
+                </li>
+            </ul>
+        </li>
+        <li class="sub-menu">
+            <a href="typography.html"><i class="fa fa-text-height"></i><span>Typography</span></a>
+        </li>
+        <li class="sub-menu">
+            <a href="javascript:void(0);"><i class="fa fa-file"></i><span>Pages</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+            <ul>
+                <li>
+                    <a href="pages-blank.html">Blank Page</a>
+                </li>
+                <li>
+                    <a href="pages-login.html">Login</a>
+                </li>
+                <li>
+                    <a href="pages-sign-up.html">Sign Up</a>
+                </li>
+                <li>
+                    <a href="pages-calendar.html">Calendar</a>
+                </li>
+                <li>
+                    <a href="pages-timeline.html">Timeline</a>
+                </li>
+            </ul>
+        </li>*@
+                </ul>
+
+
+
+                @using Microsoft.AspNet.Identity
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div id="leftside-navigation" class="nano">
+                            <ul class="logout">
+                                <li>
+                                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                                </li>
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                            </ul>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div id="leftside-navigation" class="nano">
+                        <ul class="logout">
+                            @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+                            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </aside>
     }
     <div class="container body-content">
         @RenderBody()
@@ -259,3 +466,4 @@
         $(this).addClass('sub-menu active');
     });
 </script>
+

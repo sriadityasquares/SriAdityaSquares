@@ -35,7 +35,7 @@
         <div id="paydetails">
             <div class="row justify-content-center" style="padding-top:20px">
                 <div class="" col-md-12 col-sm-12 col-xs-12 table-responsive">
-                    <table id="table" style="margin-left:250px;width:50%" class="table table-bordered">
+                    <table id="table" class="table table-bordered">
                         <thead>
                             <tr>
                                 <th width="263px"> SAS Amount Paid</th>
@@ -52,7 +52,7 @@
 
             <div class="row justify-content-center" style="padding-top:20px">
                 <div class="" col-md-12 col-sm-12 col-xs-12 table-responsive">
-                    <table id="table1" style="margin-left:250px;width:50%" class="table table-bordered">
+                    <table id="table1" class="table table-bordered">
                         <thead>
                             <tr>
                                 <th width="263px">Agent Amount Paid</th>
@@ -69,27 +69,27 @@
 
             <div id="paydetails1" style="padding-top:5px" class="row">
                 @Html.LabelFor(m => m.TotalPaidSAS, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.TotalPaidSAS, new { @class = "textbox-control col-md-3 col-xs", @readonly =true })
+                @Html.TextBoxFor(m => m.TotalPaidSAS, new { @class = "textbox-control col-md-3 col-xs", @readonly = true })
                 @Html.LabelFor(m => m.TotalBalanceSAS, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.TotalBalanceSAS, new { @class = "textbox-control col-md-3 col-xs",@readonly =true })
+                @Html.TextBoxFor(m => m.TotalBalanceSAS, new { @class = "textbox-control col-md-3 col-xs", @readonly = true })
             </div>
             <div id="paydetails2" style="padding-top:5px" class="row">
                 @Html.LabelFor(m => m.SASNetPaid, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.SASNetPaid, new { @class = "textbox-control col-md-3 col-xs" ,@type = "number"})
+                @Html.TextBoxFor(m => m.SASNetPaid, new { @class = "textbox-control col-md-3 col-xs", @type = "number" })
                 @Html.LabelFor(m => m.SASNetBalance, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.SASNetBalance, new { @class = "textbox-control col-md-3 col-xs",@type = "number" })
+                @Html.TextBoxFor(m => m.SASNetBalance, new { @class = "textbox-control col-md-3 col-xs", @type = "number" })
             </div>
             <div id="paydetails3" style="padding-top:5px" class="row">
                 @Html.LabelFor(m => m.TotalPaidAgent, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.TotalPaidAgent, new { @class = "textbox-control col-md-3 col-xs",@readonly =true })
+                @Html.TextBoxFor(m => m.TotalPaidAgent, new { @class = "textbox-control col-md-3 col-xs", @readonly = true })
                 @Html.LabelFor(m => m.TotalBalanceAgent, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.TotalBalanceAgent, new { @class = "textbox-control col-md-3 col-xs",@readonly =true })
+                @Html.TextBoxFor(m => m.TotalBalanceAgent, new { @class = "textbox-control col-md-3 col-xs", @readonly = true })
             </div>
             <div id="paydetails4" style="padding-top:5px" class="row">
                 @Html.LabelFor(m => m.AgentNetPaid, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.AgentNetPaid, new { @class = "textbox-control col-md-3 col-xs",@type = "number" })
+                @Html.TextBoxFor(m => m.AgentNetPaid, new { @class = "textbox-control col-md-3 col-xs", @type = "number" })
                 @Html.LabelFor(m => m.AgentNetBalance, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.AgentNetBalance, new { @class = "textbox-control col-md-3 col-xs",@type = "number" })
+                @Html.TextBoxFor(m => m.AgentNetBalance, new { @class = "textbox-control col-md-3 col-xs", @type = "number" })
             </div>
             @*<div id="paydetails3" style="padding-top:5px" class="row">
             @Html.LabelFor(m => m.PaymentModeID, new { @class = "col-md-2" })
