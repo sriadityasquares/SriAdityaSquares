@@ -38,6 +38,7 @@
                         }
                         else {
                             toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
                         }
                     }
                 },
@@ -55,6 +56,7 @@
                         }
                         else {
                             toastr.error('Error in Adding');
+                            $("#grid").data("kendoGrid").dataSource.read();
                         }
                     }
                 },

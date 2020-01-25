@@ -34,11 +34,13 @@
                     complete: function (jqXhr, textStatus) {
                         if (textStatus == 'success') {
                             toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
                         }
                         else {
-                        toastr.error('Error in Updating');
-                             }
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
                         }
+                    }
                 },
                 destroy: {
                     url: "/Sample/Destroy",
@@ -52,9 +54,9 @@
                             toastr.success('Added Successfull');
                         }
                         else {
-                        toastr.error('Error in Adding');
-                             }
+                            toastr.error('Error in Adding');
                         }
+                    }
                 },
                 parameterMap: function (options, operation) {
                     if (operation !== "read" && options.models) {
@@ -77,7 +79,7 @@
                 }
             }
         });
-        
+
         $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
         $("#grid").kendoGrid({
             dataSource: dataSource,
@@ -87,7 +89,7 @@
             columns: [
                 { field: "ProjectName", title: "Project", width: "250px" },
                 { field: "ProjectLocation", title: "Location", width: "200px" },
-                { field: "BookingStatus", title: "Status", width: "100px", editor :  statusDropDownEditor },
+                { field: "BookingStatus", title: "Status", width: "100px", editor: statusDropDownEditor },
                 { field: "ClubHouseCharges", title: "Club House Charges", width: "120px" },
                 {
                     command: [
@@ -95,27 +97,27 @@
                         //{ name: "destroy", text: " " }
                     ], title: "&nbsp;", width: "60px"
                 }],
-                    editable: "inline",
+            editable: "inline",
         });
 
 
 
         function statusDropDownEditor(container, options) {
-                    $('<input required name="' + options.field + '"/>')
-                        .appendTo(container)
-                        .kendoDropDownList({
-                            autoBind: true,
-                            dataTextField: "BookingStatus",
-                            dataValueField: "ID",
-                            dataSource: {
-                                type: "json",
-                                transport: {
-                                    read: "/Cascade/GetStatus",
+            $('<input required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: true,
+                    dataTextField: "BookingStatus",
+                    dataValueField: "ID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetStatus",
 
-                                }
-                            }
-                        });
-                }
+                        }
+                    }
+                });
+        }
 
     });
 </script>

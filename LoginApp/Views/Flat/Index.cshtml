@@ -41,9 +41,11 @@
                     complete: function (jqXhr, textStatus) {
                         if (textStatus == 'success') {
                             toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
                         }
                         else {
                             toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
                         }
                     }
                 },
