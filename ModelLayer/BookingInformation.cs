@@ -20,40 +20,56 @@ namespace ModelLayer
         [Required]
         [Display(Name = "Flat")]
         public Nullable<int> FlatID { get; set; }
+        [Required]
         public Nullable<int> Floor { get; set; }
+        [Required]
         public Nullable<int> Bhk { get; set; }
+        [Required]
         public Nullable<int> Area { get; set; }
+        [Required]
         public string Facing { get; set; }
         [Required]
         [Display(Name = "SFT Rate")]
         public Nullable<int> SftRate { get; set; }
+        [Required]
         [Display(Name = "High Rise")]
         public Nullable<int> HighRiseCharges { get; set; }
         [Required]
         public Nullable<int> Discount { get; set; }
+        [Required]
         public Nullable<int> TotalRate { get; set; }
+        [Required]
         [Display(Name = "Final")]
         public Nullable<int> FinalRate { get; set; }
+        [Required]
         [Display(Name = "Club House")]
         public Nullable<int> ClubHouseCharges { get; set; }
+        [Required]
         [Display(Name = "Grand Total")]
         public Nullable<int> GrandRate { get; set; }
+        [Required]
         [Display(Name = "Mode")]
         public string PaymentModeID { get; set; }
+        [Required]
         public string PaymentMode { get; set; }
 
-
+        [Required]
         [Display(Name = "Scheme")]
         public string SchemeID { get; set; }
+        [Required]
         public string SchemeName { get; set; }
         [Display(Name = "Ref No")]
+        [Required]
         public string ReferenceNo { get; set; }
+        [Required]
         [Display(Name = "Booking Amount")]
         public Nullable<int> BookingAmount { get; set; }
+        [Required]
         [Display(Name = "Balance Amount")]
         public Nullable<int> BalanceAmount { get; set; }
+        [Required]
         [Display(Name = "Agent")]
-        public Nullable<int> AgentID { get; set; }
+        public int AgentID { get; set; }
 
         public Nullable<double> AgentComm { get; set; }
         public Nullable<double> SASComm { get; set; }

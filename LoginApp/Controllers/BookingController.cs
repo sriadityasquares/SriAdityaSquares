@@ -45,7 +45,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        public ActionResult New(int ProjectID = 0,int TowerID = 0,int FlatID = 0)
+        public ActionResult New(int ProjectID = 0, int TowerID = 0, int FlatID = 0)
         {
             List<Country> countryList = common.BindCountry();
             List<Projects> projectList = booking.BindProjects();
@@ -66,8 +66,9 @@ namespace LoginApp.Controllers
         {
             try
             {
+                bool result = false;
                 b.CreatedBy = User.Identity.Name;
-                bool result = booking.SaveNewBooking(b);
+                result = booking.SaveNewBooking(b);
                 if (result)
                 {
                     //ViewBag.result = "Booking Successfull";
@@ -84,8 +85,9 @@ namespace LoginApp.Controllers
                 ModelState.Clear();
                 TempData.Keep("ProjectList");
                 TempData.Keep("CountryList");
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Error :" + ex);
             }
@@ -168,7 +170,7 @@ namespace LoginApp.Controllers
                 List<PaymentInformation> lstPayments = new List<PaymentInformation>();
                 ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Error :" + ex);
             }
@@ -244,7 +246,7 @@ namespace LoginApp.Controllers
                 List<PaymentInformation> lstPayments = new List<PaymentInformation>();
                 ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Error :" + ex);
             }
