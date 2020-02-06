@@ -31,5 +31,6 @@ namespace DataLayer
         public Nullable<int> City { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.Guid> BookingID { get; set; }
     }
 }

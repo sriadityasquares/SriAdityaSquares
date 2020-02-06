@@ -45,17 +45,35 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        public ActionResult New(int ProjectID = 0, int TowerID = 0, int FlatID = 0)
+        public ActionResult New(int ProjectID = 0, int TowerID = 0, int FlatID = 0,string BookingStatus = "")
         {
             List<Country> countryList = common.BindCountry();
             List<Projects> projectList = booking.BindProjects();
+            
             TempData["ProjectID"] = ProjectID;
             TempData["TowerID"] = TowerID;
             TempData["FlatID"] = FlatID;
+            TempData["SchemeID"] = 0;
+            TempData["AgentID"] = 0;
+
             TempData["CountryList"] = new SelectList(countryList, "CountryID", "CountryName");
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             TempData.Keep("ProjectList");
             TempData.Keep("CountryList");
+            if (BookingStatus != "" && BookingStatus != "O")
+            {
+                ModelLayer.BookingInformation b = new ModelLayer.BookingInformation();
+                b = booking.GetBookingInformation(FlatID);
+                TempData["SchemeID"] = b.SchemeID;
+                TempData["AgentID"] = b.AgentID;
+                TempData["FlatName"] = b.FlatName;
+                TempData["PayMode"] = b.PaymentModeID;
+                TempData["State"] = b.State;
+                TempData["City"] = b.City;
+                TempData["BookingStatus"] = "H";
+                TempData["BookingID"] = b.BookingID;
+                return View(b);
+            }
             return View();
         }
 
@@ -64,11 +82,18 @@ namespace LoginApp.Controllers
         [HttpPost]
         public ActionResult New(ModelLayer.BookingInformation b)
         {
+            bool result = false;
             try
             {
-                bool result = false;
                 b.CreatedBy = User.Identity.Name;
-                result = booking.SaveNewBooking(b);
+                if(b.BookingID == Guid.Empty)
+                {
+                    result = booking.SaveNewBooking(b);
+                }
+                else
+                {
+                    result = booking.UpdateBooking(b);
+                }
                 if (result)
                 {
                     //ViewBag.result = "Booking Successfull";
@@ -91,7 +116,14 @@ namespace LoginApp.Controllers
             {
                 log.Error("Error :" + ex);
             }
-            return View();
+            if (result)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public JsonResult GetTowers(int ProjectId)
@@ -236,6 +268,15 @@ namespace LoginApp.Controllers
         {
             try
             {
+                if(payInfo.AgentNetPaid ==null)
+                {
+                    payInfo.AgentNetPaid = 0;
+                }
+                if (payInfo.AgentNetBalance == null)
+                {
+                    payInfo.AgentNetBalance = 0;
+                }
+                payInfo.CreatedBy = User.Identity.Name;
                 var result = booking.SaveNewAgentPayment(payInfo);
                 if (result)
                     TempData["successmessage"] = "Payment Successfull";

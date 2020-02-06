@@ -70,6 +70,11 @@ namespace BusinessLayer
             return db.SaveNewBooking(b);
         }
 
+        public bool UpdateBooking(BookingInformation b)
+        {
+            return db.UpdateBooking(b);
+        }
+
         public List<PaymentInformation> BindPaymentDetails(int FlatId)
         {
             return db.BindPaymentDetails(FlatId);
@@ -107,6 +112,11 @@ namespace BusinessLayer
         public List<FlatWiseAgentCommission> BindAgentsDashboard(string email)
         {
             return db.BindAgentsDashboard(email);
+        }
+
+        public BookingInformation GetBookingInformation(int FlatID)
+        {
+            return db.GetBookingInformation(FlatID);
         }
     }
 }

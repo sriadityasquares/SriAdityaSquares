@@ -32,7 +32,6 @@ namespace DataLayer
         public virtual DbSet<tblProject> tblProjects { get; set; }
         public virtual DbSet<tblState> tblStates { get; set; }
         public virtual DbSet<tblTower> tblTowers { get; set; }
-        public virtual DbSet<tblCustomerInfo> tblCustomerInfoes { get; set; }
         public virtual DbSet<tblMonth> tblMonths { get; set; }
         public virtual DbSet<tblYear> tblYears { get; set; }
         public virtual DbSet<tblStatu> tblStatus { get; set; }
@@ -40,7 +39,6 @@ namespace DataLayer
         public virtual DbSet<tblLevelsMaster> tblLevelsMasters { get; set; }
         public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
         public virtual DbSet<tblSchemeMaster> tblSchemeMasters { get; set; }
-        public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
         public virtual DbSet<tblAgentProjectLevel> tblAgentProjectLevels { get; set; }
         public virtual DbSet<tblAgentPaymentInfo> tblAgentPaymentInfoes { get; set; }
         public virtual DbSet<tblFlat> tblFlats { get; set; }
@@ -49,6 +47,8 @@ namespace DataLayer
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<tblCustomerInfo> tblCustomerInfoes { get; set; }
+        public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {
@@ -220,6 +220,15 @@ namespace DataLayer
                 new ObjectParameter("AgentEmail", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentCommissionByAgentLogins_Result>("sp_GetAgentCommissionByAgentLogins", agentEmailParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetBookingDetails_Result> sp_GetBookingDetails(Nullable<int> flatID)
+        {
+            var flatIDParameter = flatID.HasValue ?
+                new ObjectParameter("FlatID", flatID) :
+                new ObjectParameter("FlatID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetBookingDetails_Result>("sp_GetBookingDetails", flatIDParameter);
         }
     }
 }

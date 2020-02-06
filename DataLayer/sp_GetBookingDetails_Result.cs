@@ -10,9 +10,8 @@
 namespace DataLayer
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tblBookingInformation
+    public partial class sp_GetBookingDetails_Result
     {
         public System.Guid BookingID { get; set; }
         public Nullable<int> ProjectID { get; set; }
@@ -61,5 +60,17 @@ namespace DataLayer
         public Nullable<double> AgentNet { get; set; }
         public Nullable<double> TotalComm { get; set; }
         public Nullable<int> PaymentModeID { get; set; }
+        public Nullable<int> Pincode { get; set; }
+        public string Address { get; set; }
+        public Nullable<int> Age { get; set; }
+        public Nullable<int> City { get; set; }
+        public Nullable<int> Country { get; set; }
+        public Nullable<int> State { get; set; }
+        public string Nominee { get; set; }
+        public string Relationship { get; set; }
+        public string Dob { get; set; }
+        public string Pan { get; set; }
+        public Nullable<int> Mobile { get; set; }
+        public string Email { get; set; }
     }
 }

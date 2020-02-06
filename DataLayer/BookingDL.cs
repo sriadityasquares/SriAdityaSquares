@@ -395,6 +395,173 @@ namespace DataLayer
             }
         }
 
+        public bool UpdateBooking(BookingInformation bookingInfo)
+        {
+            try
+            {
+                var highestLevel = dbEntity.tblAgentProjectLevels.OrderByDescending(e => e.LevelID).Where(z => z.ProjectID == bookingInfo.ProjectID).Select(z => z.LevelID).FirstOrDefault();
+                var highestPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == highestLevel).Select(z => z.Percentage).FirstOrDefault();
+                var levelPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == bookingInfo.Level).Select(z => z.Percentage).FirstOrDefault();
+                var TotalComm = (bookingInfo.FinalRate * highestPercentage) / 100;
+                bookingInfo.TotalComm = TotalComm;
+                if (Convert.ToDouble(levelPercentage) == Convert.ToDouble(highestPercentage))
+                {
+                    bookingInfo.SASComm = TotalComm;
+                    bookingInfo.AgentComm = 0;
+                }
+                else
+                {
+                    bookingInfo.AgentComm = (bookingInfo.FinalRate * Convert.ToDouble(levelPercentage)) / 100;
+                    bookingInfo.SASComm = TotalComm - bookingInfo.AgentComm;
+                }
+                bookingInfo.SASTDS = (bookingInfo.SASComm * 5) / 100;
+                bookingInfo.SASNet = bookingInfo.SASComm - bookingInfo.SASTDS;
+                bookingInfo.AgentTDS = (bookingInfo.AgentComm * 5) / 100;
+                bookingInfo.AgentNet = bookingInfo.AgentComm - bookingInfo.AgentTDS;
+                //bookingInfo.BookingID = Guid.NewGuid();
+                //bookingInfo.CreatedBy = "";
+                bookingInfo.CreatedDate = System.DateTime.Now.Date;
+                bookingInfo.Day = System.DateTime.Now.Day;
+                bookingInfo.Month = System.DateTime.Now.Month;
+                bookingInfo.Year = System.DateTime.Now.Year;
+                int noOfDays = Convert.ToInt32(bookingInfo.PaymentTimePeriod);
+                bookingInfo.DueDate = DateTime.Now.AddDays(noOfDays);
+
+                tblBookingInformation bookingOld = dbEntity.tblBookingInformations.Where(x => x.BookingID == bookingInfo.BookingID).FirstOrDefault();
+                //Update Booking Info
+                if (bookingOld != null)
+                {
+                    var config = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<BookingInformation, tblBookingInformation>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                    });
+                    IMapper mapper = config.CreateMapper();
+                    //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
+                    mapper.Map<BookingInformation, tblBookingInformation>(bookingInfo, bookingOld);
+                }
+                tblCustomerInfo customerOld = dbEntity.tblCustomerInfoes.Where(x => x.BookingID == bookingInfo.BookingID).FirstOrDefault();
+                bookingInfo.ID = customerOld.ID;
+                customerOld.Pincode = bookingInfo.Pincode;
+                //Update Customer Info
+                if (customerOld != null)
+                {
+                    var config1 = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<BookingInformation, tblCustomerInfo>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                    });
+                    IMapper mapper1 = config1.CreateMapper();
+                    //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
+                    mapper1.Map<BookingInformation, tblCustomerInfo>(bookingInfo, customerOld);
+                }
+                //int? sum = 0;
+                //Update Payment Info
+                List<tblPaymentInfo> paymentListOld = dbEntity.tblPaymentInfoes.Where(x => x.BookingID == bookingInfo.BookingID).OrderBy(x=>x.PaymentID).ToList();
+                for(int i=0;i<paymentListOld.Count;i++)
+                {
+                    if(i == 0)
+                    {
+                        paymentListOld[i].BookingAmount = bookingInfo.BookingAmount;
+                        paymentListOld[i].BalanceAmount = bookingInfo.BalanceAmount;
+                        
+                    }
+                    else
+                    {
+                        paymentListOld[i].BalanceAmount = paymentListOld[i-1].BalanceAmount - paymentListOld[i].BookingAmount;
+                    }
+                }
+
+                //Update Agent Payment Info
+                bookingInfo.SASNetBalance = bookingInfo.SASNet;
+                bookingInfo.AgentNetBalance = bookingInfo.AgentNet;
+                bookingInfo.SASNetPaid = 0;
+                bookingInfo.AgentNetPaid = 0;
+                List<tblAgentPaymentInfo> agentPaymentListOld = dbEntity.tblAgentPaymentInfoes.Where(x => x.BookingID == bookingInfo.BookingID).OrderBy(x => x.AgentPaymentID).ToList();
+                for(int j=0;j<agentPaymentListOld.Count;j++)
+                {
+                    if (j == 0)
+                    {
+                        agentPaymentListOld[j].SASNetPaid = bookingInfo.SASNetPaid;
+                        agentPaymentListOld[j].SASNetBalance = bookingInfo.SASNetBalance;
+                        agentPaymentListOld[j].AgentNetPaid = bookingInfo.AgentNetPaid;
+                        agentPaymentListOld[j].AgentNetBalance = bookingInfo.AgentNetBalance;
+
+                    }
+                    else
+                    {
+                        agentPaymentListOld[j].SASNetBalance = agentPaymentListOld[j-1].SASNetBalance - agentPaymentListOld[j].SASNetPaid;
+                        agentPaymentListOld[j].AgentNetBalance = agentPaymentListOld[j - 1].AgentNetBalance - agentPaymentListOld[j].AgentNetPaid;
+                    }
+                }
+
+                //Flat Status Change
+                tblFlat flat = dbEntity.tblFlats.Where(x => x.FlatID == bookingInfo.FlatID).FirstOrDefault();
+                var bookingstatus = "";
+                if (bookingInfo.BookingAmount >= (0.25) * bookingInfo.FinalRate)
+                {
+                    bookingstatus = "S";
+                }
+                else
+                    bookingstatus = "H";
+                flat.BookingStatus = bookingstatus;
+
+                //Flat Wise Agent Commissions
+                List<tblFlatWiseAgentCommission> lstFwacOld = dbEntity.tblFlatWiseAgentCommissions.Where(x => x.FlatID == bookingInfo.FlatID).ToList();
+                //lstFwacOld.RemoveAll(x => x.FlatID == bookingInfo.FlatID);
+                dbEntity.tblFlatWiseAgentCommissions.RemoveRange(lstFwacOld);
+                //foreach(var item in lstFwacOld)
+                //{
+                //    dbEntity.tblFlatWiseAgentCommissions.Remove(item);
+                //}
+                List<tblFlatWiseAgentCommission> lstFwac = new List<tblFlatWiseAgentCommission>();
+                if (!string.IsNullOrEmpty(bookingInfo.AgentParent))
+                {
+                    var allAgentList = dbEntity.sp_GetAgentsByProjectID(bookingInfo.ProjectID).ToList();
+                    bookingInfo.AgentParent = bookingInfo.AgentParent + ',' + bookingInfo.AgentID;
+                    var agentList = bookingInfo.AgentParent.Split(',');
+                    foreach (var agent in agentList)
+                    {
+                        tblFlatWiseAgentCommission fwac = new tblFlatWiseAgentCommission();
+                        var currentAgent = allAgentList.Where(x => x.AgentID == Convert.ToInt32(agent)).FirstOrDefault();
+                        fwac.FlatID = Convert.ToInt32(bookingInfo.FlatID);
+                        fwac.FlatName = bookingInfo.FlatName;
+                        fwac.AgentID = currentAgent.AgentID;
+                        fwac.AgentName = currentAgent.AgentName;
+                        fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == currentAgent.LevelID).Select(y => y.Percentage).FirstOrDefault();
+                        lstFwac.Add(fwac);
+                    }
+                    lstFwac = lstFwac.OrderBy(x => x.Percentage).ToList();
+                    double oldPercentage = 0;
+                    foreach (var item in lstFwac)
+                    {
+                        var difference = item.Percentage - oldPercentage;
+                        item.AgentCommission = Convert.ToInt32((bookingInfo.FinalRate * difference) / 100);
+                        oldPercentage = Convert.ToDouble(item.Percentage);
+                        dbEntity.tblFlatWiseAgentCommissions.Add(item);
+                    }
+                }
+                else
+                {
+                    tblFlatWiseAgentCommission fwac = new tblFlatWiseAgentCommission();
+                    //var currentAgent = allAgentList.Where(x => x.AgentID == Convert.ToInt32(agent)).FirstOrDefault();
+                    fwac.FlatID = Convert.ToInt32(bookingInfo.FlatID);
+                    fwac.FlatName = bookingInfo.FlatName;
+                    fwac.AgentID = Convert.ToInt32(bookingInfo.AgentID);
+                    fwac.AgentName = bookingInfo.AgentName;
+                    fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == bookingInfo.Level).Select(y => y.Percentage).FirstOrDefault();
+                    fwac.AgentCommission = Convert.ToInt32((bookingInfo.FinalRate * fwac.Percentage) / 100);
+                    dbEntity.tblFlatWiseAgentCommissions.Add(fwac);
+                    //lstFwac.Add(fwac);
+                }
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
         public List<PaymentInformation> BindPaymentDetails(int FlatId)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -477,7 +644,6 @@ namespace DataLayer
         {
             try
             {
-                payInfo.CreatedBy = "";
                 payInfo.CreatedDate = System.DateTime.Now.Date;
                 payInfo.Day = System.DateTime.Now.Day;
                 payInfo.Month = System.DateTime.Now.Month;
@@ -580,6 +746,25 @@ namespace DataLayer
                 ex.ToString();
             }
             return lstAgents;
+        }
+
+        public BookingInformation GetBookingInformation(int FlatID)
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetBookingDetails_Result, BookingInformation>();
+                });
+                IMapper mapper = config.CreateMapper();
+                return mapper.Map<sp_GetBookingDetails_Result, BookingInformation>(dbEntity.sp_GetBookingDetails(FlatID).FirstOrDefault());
+            }
+            catch(Exception ex)
+            {
+                return new BookingInformation();
+            }
         }
     }
 }

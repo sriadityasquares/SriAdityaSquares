@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button onclick="GoToBooking()" type="button" class="btn btn-default orangebg pull-right" data-dismiss="modal">BOOK</button>
+                <button onclick="GoToBooking()" type="button" class="btn btn-default orangebg pull-right" data-dismiss="modal">BOOK/MODIFY</button>
             </div>
         </div>
 
@@ -107,6 +107,7 @@
     var FloorNo;
     var html = '';
     var flatNo;
+    var bookingStatus;
     //var Facing;
     //var Sqft;
     //var Bhk;
@@ -136,16 +137,16 @@
                 //alert(row.Facing);
                 if (row.BookingStatus == 'O') {
 
-                    html = html + '<div style="background:linear-gradient(to bottom,ForestGreen, white)" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\')"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                    html = html + '<div style="background:linear-gradient(to bottom,ForestGreen, white)" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\''+')"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }
                 if (row.BookingStatus == 'S') {
-                    html = html + '<div style="background-color: #bd4f6c;background-image:linear-gradient(326deg, #bd4f6c 0%, #d7816a 74%);"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                    html = html + '<div style="background-color: #bd4f6c;background-image:linear-gradient(326deg, #bd4f6c 0%, #d7816a 74%);" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\''+')"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }
                 if (row.BookingStatus == 'M') {
                     html = html + '<div style="background:linear-gradient(to bottom,#7AD7F0, white);"   class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }
                 if (row.BookingStatus == 'H' || row.BookingStatus =='P') {
-                    html = html + '<div style="background:linear-gradient(to bottom,#FFD700, white);"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                    html = html + '<div style="background:linear-gradient(to bottom,#FFD700, white);" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\''+')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }
                 //html = html + '<div class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 //if (index == 1) {
@@ -160,8 +161,9 @@
         });
     });
 
-    function ShowBookingScreen(FlatID, FlatPlanURL) {
+    function ShowBookingScreen(FlatID, FlatPlanURL,BookingStatus) {
         flatNo = FlatID;
+        bookingStatus = BookingStatus;
         var imgBasePath = "../../Content/Images/";
         var fullPath = imgBasePath + FlatPlanURL;
         $('#img01').attr("src", fullPath);
@@ -170,7 +172,7 @@
     }
 
     function GoToBooking() {
-        window.location.href ="/Booking/New?ProjectID=" + $("#Project").val() + "&TowerID=" +  $("#Tower").val()+ "&FlatID=" + flatNo;
+        window.location.href = "/Booking/New?ProjectID=" + $("#Project").val() + "&TowerID=" + $("#Tower").val() + "&FlatID=" + flatNo + "&BookingStatus=" + bookingStatus;
     }
 
     function ShowFlatDetails(Facing, Sft, Bhk, Flat) {
