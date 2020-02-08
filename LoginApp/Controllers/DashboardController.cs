@@ -12,7 +12,7 @@ using System.Web.Security;
 
 namespace LoginApp.Controllers
 {
-
+    [Authorize]
     public class DashboardController : Controller
     {
         BookingBL booking = new BookingBL();
@@ -66,6 +66,7 @@ namespace LoginApp.Controllers
 
         public ActionResult Agent()
         {
+           
             return View();
         }
 
@@ -74,10 +75,23 @@ namespace LoginApp.Controllers
             return View();
         }
 
+        public ActionResult FlatLifeCycle()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            return View();
+        }
+
+        public ActionResult GetFlatLifeCycle(int flatID)
+        {
+            var flatLifeCycle = booking.BindFlatLifeCycle(flatID);
+            return Json(flatLifeCycle, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetAgentCommissionByAgentLogin()
         {
             var email = User.Identity.Name;
             List<FlatWiseAgentCommission> list = booking.BindAgentDashboard(email);
+            
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 

@@ -85,7 +85,7 @@ namespace DataLayer
                     cfg.CreateMap<tblAgentMaster, Agent>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstAgent = mapper.Map<List<tblAgentMaster>, List<Agent>>(dbEntity.tblAgentMasters.ToList()).ToList();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<Agent>>(dbEntity.tblAgentMasters.Where(x => x.AgentStatus == "A").ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -104,7 +104,7 @@ namespace DataLayer
                     cfg.CreateMap<tblAgentMaster, AgentDropdown>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstAgent = mapper.Map<List<tblAgentMaster>, List<AgentDropdown>>(dbEntity.tblAgentMasters.ToList()).ToList();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<AgentDropdown>>(dbEntity.tblAgentMasters.Where(x=>x.AgentStatus == "A").ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -149,6 +149,26 @@ namespace DataLayer
                 log.Error("Error :" + ex);
             }
             return lstCity;
+        }
+
+        public List<GetPercentages> BindPercentages()
+        {
+            List<GetPercentages> lstPercentage = new List<GetPercentages>();
+            try
+            {
+
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetPercentages_Result, GetPercentages>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstPercentage = mapper.Map<List<sp_GetPercentages_Result>, List<GetPercentages>>(dbEntity.sp_GetPercentages().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstPercentage;
         }
 
         public List<Year> BindYear()

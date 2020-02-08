@@ -40,5 +40,15 @@ namespace BusinessLayer
         {
             return admin.AddFlat(f);
         }
+
+        public bool AddAgentProjectLevel(AgentProjectLevel a)
+        {
+            return admin.AddAgentProjectLevel(a);
+        }
+
+        public bool UpdateAgentProjectLevel(AgentProjectLevel a)
+        {
+            return admin.UpdateAgentProjectLevel(a);
+        }
     }
 }

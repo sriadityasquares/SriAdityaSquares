@@ -54,6 +54,9 @@
                                 <li>
                                     <a class="@(ViewBag.AgentDashboard)" href="@Url.Action("Agents", "Dashboard")">AGENT HIERARCHY</a>
                                 </li>
+                                <li>
+                                    <a class="@(ViewBag.FlatLifeCycle)" href="@Url.Action("FlatLifeCycle", "Dashboard")">FLAT LIFE CYCLE</a>
+                                </li>
                             }
                         </ul>
                     </li>
@@ -62,7 +65,6 @@
                         <li class="sub-menu @(ViewBag.Admin)">
                             <a href="javascript:void(0);"><i class="fa fa-user"></i><span>ADMIN</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                             <ul>
-
                                 <li>
                                     <a class="@(ViewBag.Register)" href="@Url.Action("Register", "Account")">NEW USER REGISTRATION</a>
                                 </li>
@@ -79,8 +81,12 @@
                                     <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">AGENTS</a>
                                 </li>
                                 <li>
+                                    <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">AGENT PAYMENTS</a>
+                                </li>
+                                <li>
                                     <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeAgentPayment", "Booking")">AGENT PAYMENTS</a>
                                 </li>
+
                             </ul>
                         </li>
                     }
@@ -258,6 +264,9 @@
                                 <li>
                                     <a class="@(ViewBag.AgentDashboard)" href="@Url.Action("Agents", "Dashboard")">AGENT HIERARCHY</a>
                                 </li>
+                                <li>
+                                    <a class="@(ViewBag.FlatLifeCycle)" href="@Url.Action("FlatLifeCycle", "Dashboard")">FLAT LIFE CYCLE</a>
+                                </li>
                             }
                         </ul>
                     </li>
@@ -283,8 +292,12 @@
                                     <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">AGENTS</a>
                                 </li>
                                 <li>
+                                    <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">AGENT PROJECT LEVELS</a>
+                                </li>
+                                <li>
                                     <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeAgentPayment", "Booking")">AGENT PAYMENTS</a>
                                 </li>
+
                             </ul>
                         </li>
                     }

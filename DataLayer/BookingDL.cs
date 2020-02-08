@@ -187,6 +187,29 @@ namespace DataLayer
             }
             return lstFlats;
         }
+
+        public List<Flats> BindFlatsExceptOpen(int towerID)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<Flats> lstFlats = new List<Flats>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblFlat, Flats>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && (a.BookingStatus == "H" || a.BookingStatus == "S" || a.BookingStatus == "C")).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstFlats;
+        }
+
         public List<AgentProjectLevel> BindProjectAgents(int projectID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -726,6 +749,44 @@ namespace DataLayer
             return lstAgents;
         }
 
+        public List<GetFlatLifeCycle> BindFlatLifeCycle(int flatID)
+        {
+            List<GetFlatLifeCycle> lstFlatLifeCycle = new List<GetFlatLifeCycle>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetFlatLifeCycle_Result, GetFlatLifeCycle>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstFlatLifeCycle = mapper.Map<List<sp_GetFlatLifeCycle_Result>, List<GetFlatLifeCycle>>(dbEntity.sp_GetFlatLifeCycle(flatID).ToList()).ToList();
+                for(int i =0;i<lstFlatLifeCycle.Count;i++ )
+                {
+                    if(i ==0)
+                    {
+                        lstFlatLifeCycle[i].FlatEvent = "START";
+                    }
+                    else
+                    {
+                        if(lstFlatLifeCycle[i].BalanceAmount == 0)
+                        {
+                            lstFlatLifeCycle[i].FlatEvent = "END";
+                        }
+                        else
+                        {
+                            lstFlatLifeCycle[i].FlatEvent = "PAYMENT " + i;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstFlatLifeCycle;
+        }
+
         public List<FlatWiseAgentCommission> BindAgentsDashboard(string email)
         {
             List<FlatWiseAgentCommission> lstAgents = new List<FlatWiseAgentCommission>();
@@ -764,6 +825,26 @@ namespace DataLayer
             catch(Exception ex)
             {
                 return new BookingInformation();
+            }
+        }
+
+        public List<AgentProjectLevel> BindAgentProjectLevels()
+        {
+            try
+            {
+                List<AgentProjectLevel> lstAgents = new List<AgentProjectLevel>();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentProjectLevel, AgentProjectLevel>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgents = mapper.Map<List<tblAgentProjectLevel>, List<AgentProjectLevel>>(dbEntity.tblAgentProjectLevels.ToList()).ToList();
+                return lstAgents;
+            }
+            catch(Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return new List<AgentProjectLevel>();
             }
         }
     }

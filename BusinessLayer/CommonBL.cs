@@ -44,6 +44,11 @@ namespace BusinessLayer
             return db.BindCity(stateID);
         }
 
+        public List<GetPercentages> BindPercentages()
+        {
+            return db.BindPercentages();
+        }
+
         public List<Year> BindYear()
         {
             return db.BindYear();

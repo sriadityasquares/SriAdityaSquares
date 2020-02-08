@@ -488,6 +488,9 @@
           <Parameter Name="FlatID" Type="int" Mode="In" />
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_GetFlatLifeCycle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FlatID" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_GetFlatWiseTotalAgentCommission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
           <Parameter Name="TowerID" Type="int" Mode="In" />
@@ -497,6 +500,7 @@
           <Parameter Name="todate" Type="varchar" Mode="In" />
           <Parameter Name="projectid" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_GetPercentages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetPeriodWiseBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Option" Type="int" Mode="In" />
           <Parameter Name="Project" Type="varchar" Mode="In" />
@@ -662,8 +666,12 @@
           <EntitySet Name="tblCustomerInfoes" EntityType="salesDBModel.tblCustomerInfo" />
           <EntitySet Name="tblBookingInformations" EntityType="salesDBModel.tblBookingInformation" />
           <FunctionImport Name="sp_GetBookingDetails" ReturnType="Collection(salesDBModel.sp_GetBookingDetails_Result)">
-            <Parameter Name="FlatID" Mode="In" Type="Int32" />
+          <Parameter Name="FlatID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="sp_GetFlatLifeCycle" ReturnType="Collection(salesDBModel.sp_GetFlatLifeCycle_Result)">
+          <Parameter Name="FlatID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetPercentages" ReturnType="Collection(salesDBModel.sp_GetPercentages_Result)" />
         </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -1285,6 +1293,15 @@
           <Property Type="String" Name="Pan" Nullable="true" MaxLength="150" />
           <Property Type="Int32" Name="Mobile" Nullable="true" />
           <Property Type="String" Name="Email" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="sp_GetFlatLifeCycle_Result">
+          <Property Type="Int32" Name="BookingAmount" Nullable="true" />
+          <Property Type="Int32" Name="BalanceAmount" Nullable="true" />
+          <Property Type="String" Name="CreatedDate" Nullable="true" MaxLength="4000" />
+        </ComplexType>
+        <ComplexType Name="sp_GetPercentages_Result">
+          <Property Type="Int32" Name="LevelID" Nullable="false" />
+          <Property Type="Double" Name="percentage" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1908,6 +1925,23 @@
                 <ScalarProperty Name="Pan" ColumnName="Pan" />
                 <ScalarProperty Name="Mobile" ColumnName="Mobile" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetFlatLifeCycle" FunctionName="salesDBModel.Store.sp_GetFlatLifeCycle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetFlatLifeCycle_Result">
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetPercentages" FunctionName="salesDBModel.Store.sp_GetPercentages">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetPercentages_Result">
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
+                <ScalarProperty Name="percentage" ColumnName="percentage" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

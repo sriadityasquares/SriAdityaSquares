@@ -9,6 +9,7 @@ using ModelLayer;
 
 namespace LoginApp.Controllers
 {
+    [Authorize]
     public class CascadeController : Controller
     {
         CommonBL objCasc = new CommonBL();
@@ -102,6 +103,12 @@ namespace LoginApp.Controllers
             }
 
             return cityDetail;
+        }
+
+        public JsonResult GetPercentages()
+        {
+            List<GetPercentages> percentageList = objCasc.BindPercentages();
+            return Json(percentageList, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -11,39 +11,38 @@ using System.Web.Mvc;
 namespace LoginApp.Controllers.Admin
 {
     [Authorize]
-    public class FlatController : Controller
+    public class AgentProjectController : Controller
     {
         private static readonly ILog log =
              LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public static List<Flats> flatList = new List<Flats>();
+        List<AgentProjectLevel> list = new List<AgentProjectLevel>();
+
         BookingBL booking = new BookingBL();
-        AdminBL flat = new AdminBL();
-        // GET: Flat
+        AdminBL agentLevels = new AdminBL();
+        // GET: AgentProject
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: Flat/Details/5
         public ActionResult Details()
         {
             try
             {
-                flatList = booking.BindAllFlats();
+                list = booking.BindAgentProjectLevels();
 
             }
             catch (Exception ex)
             {
                 log.Error("Error :" + ex);
-               
+
             }
 
-            return Json(flatList, JsonRequestBehavior.AllowGet);
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Flat/Create
         [HttpGet]
-        public ActionResult CreateFlat(string models)
+        public ActionResult Create(string models)
         {
             bool result = false;
             try
@@ -53,20 +52,20 @@ namespace LoginApp.Controllers.Admin
                     NullValueHandling = NullValueHandling.Ignore,
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
-                List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
-                result = flat.AddFlat(data[0]);
+                List<AgentProjectLevel> data = JsonConvert.DeserializeObject<List<AgentProjectLevel>>(models, settings);
+                data[0].CreatedBy = User.Identity.Name;
+                data[0].CreatedDate = System.DateTime.Now;
+                 result = agentLevels.AddAgentProjectLevel(data[0]);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 log.Error("Error :" + ex);
-
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpGet]
-        public ActionResult UpdateFlat(string models)
+        public ActionResult Update(string models)
         {
             bool result = false;
             try
@@ -76,18 +75,16 @@ namespace LoginApp.Controllers.Admin
                     NullValueHandling = NullValueHandling.Ignore,
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
-                List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
-                result = flat.UpdateFlat(data[0]);
+                List<AgentProjectLevel> data = JsonConvert.DeserializeObject<List<AgentProjectLevel>>(models, settings);
+                data[0].UpdatedBy = User.Identity.Name;
+                data[0].UpdatedDate = System.DateTime.Now;
+                result = agentLevels.UpdateAgentProjectLevel(data[0]);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 log.Error("Error :" + ex);
-
             }
-            //var result = towers.UpdateTower(data[0]);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
-
     }
 }

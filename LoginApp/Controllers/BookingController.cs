@@ -15,6 +15,7 @@ using System.Web.Mvc;
 
 namespace LoginApp.Controllers
 {
+    [Authorize]
     public class BookingController : Controller
     {
         CommonBL common = new CommonBL();
@@ -55,7 +56,7 @@ namespace LoginApp.Controllers
             TempData["FlatID"] = FlatID;
             TempData["SchemeID"] = 0;
             TempData["AgentID"] = 0;
-
+            ViewBag.ScreenName = "New Booking";
             TempData["CountryList"] = new SelectList(countryList, "CountryID", "CountryName");
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             TempData.Keep("ProjectList");
@@ -64,14 +65,18 @@ namespace LoginApp.Controllers
             {
                 ModelLayer.BookingInformation b = new ModelLayer.BookingInformation();
                 b = booking.GetBookingInformation(FlatID);
-                TempData["SchemeID"] = b.SchemeID;
-                TempData["AgentID"] = b.AgentID;
-                TempData["FlatName"] = b.FlatName;
-                TempData["PayMode"] = b.PaymentModeID;
-                TempData["State"] = b.State;
-                TempData["City"] = b.City;
-                TempData["BookingStatus"] = "H";
-                TempData["BookingID"] = b.BookingID;
+                if (b != null)
+                {
+                    TempData["SchemeID"] = b.SchemeID;
+                    TempData["AgentID"] = b.AgentID;
+                    TempData["FlatName"] = b.FlatName;
+                    TempData["PayMode"] = b.PaymentModeID;
+                    TempData["State"] = b.State;
+                    TempData["City"] = b.City;
+                    TempData["BookingStatus"] = "H";
+                    TempData["BookingID"] = b.BookingID;
+                    ViewBag.ScreenName = "Edit Booking";
+                }
                 return View(b);
             }
             return View();
@@ -190,6 +195,7 @@ namespace LoginApp.Controllers
         {
             try
             {
+                payInfo.CreatedBy = User.Identity.Name;
                 var result = booking.SaveNewPayment(payInfo);
                 if (result)
                     TempData["successmessage"] = "Payment Successfull";
@@ -249,6 +255,13 @@ namespace LoginApp.Controllers
         {
             List<Flats> CityList = booking.BindFlatsInProgress(TowerId);
             return Json(CityList, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetFlatsExceptOpen(int TowerId)
+        {
+            List<Flats> flatList = booking.BindFlatsExceptOpen(TowerId);
+            return Json(flatList, JsonRequestBehavior.AllowGet);
 
         }
 

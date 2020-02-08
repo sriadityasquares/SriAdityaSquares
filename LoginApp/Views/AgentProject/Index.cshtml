@@ -1,0 +1,276 @@
+﻿
+@{
+    ViewBag.Title = "AGENT PROJECT LEVELS";
+    ViewBag.Admin = "active";
+    ViewBag.AgentProjectLevels = "active";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">AGENT PROJECT&LEVELS</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+
+</div>
+<script>
+    
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/AgentProject/Details",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/AgentProject/Update",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                destroy: {
+                    url: "/Sample/Destroy",
+                    dataType: "jsonp"
+                },
+                create: {
+                    url: "/AgentProject/Create",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Added Successfull');
+                        }
+                        else {
+                            toastr.error('Error in Adding');
+                        }
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "AgentID",
+                    fields: {
+                        //AgentID: { editable: false, nullable: true },
+                        //ProjectID: { editable: false, nullable: true },
+                        LevelID: { validation: { required: true } },
+                        Status: { validation: { required: true } },
+                        //FlatCount: { type: "number", validation: { min: 0, required: true } }
+                    }
+                }
+            },
+
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+
+
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            editable: "inline", // use inline mode so both dropdownlists are visible (required for cascading)
+            pageable: {
+                alwaysVisible: true,
+                pageSizes: [5, 10, 20, 100]
+            },
+
+            //serverFiltering: true,
+            height: 550,
+            //navigation: true,
+            pageable: true,
+            toolbar: ["create"],
+            edit: function (e) {
+                if (!e.model.isNew()) {
+                    $("#ProjectID").data("kendoDropDownList").readonly();
+                    $("#AgentID").data("kendoDropDownList").readonly();
+                    //$(e.container).find('input[name="FlatName"]').attr("readonly", true);
+                }
+            },
+            save: function (e) {
+                if (e.model.isNew()) {
+                    //e.model.AgentID = e.model.AgentID.AgentID
+                    e.model.ProjectID = e.model.ProjectID.ProjectID
+                    
+                }
+            },
+            //edit: function (e) {
+            //    var x = 1
+            //},
+            columns: [
+
+                {
+                    // the brandId column
+                    title: "Agent",
+                    width: "200px",
+                    field: "AgentID", // bound to the brandId field
+                    
+                    template: $("#template2").html(),
+                    editor: function (container) { // use a dropdownlist as an editor
+                        //create an input element with id and name set as the bound field (brandId)
+                        var input = $('<input id="AgentID" name="AgentID">');
+                        // append to the editor container
+                        input.appendTo(container);
+
+                        // initialize a dropdownlist
+                        input.kendoDropDownList({
+                            dataTextField: "AgentName",
+                            dataValueField: "AgentID",
+                            dataSource: agents // bind it to the brands array
+                        }).appendTo(container);
+                    }
+                },
+                {
+                    // the brandId column
+                    title: "Project",
+                    width: "200px",
+                    field: "ProjectID", // bound to the brandId field
+                    //template : "#if(ProjectID !=null){# #: DeviceLabel # #}",
+                    //template: "#= brandName(ProjectID) #", // the template shows the name corresponding to the brandId field
+                    //template: "#if(data.isNew()){# #: brandName(0) # #}else {# #: brandName(ProjectID) # #}#",
+                    template: $("#template1").html(),
+                    editor: function (container) { // use a dropdownlist as an editor
+                        //create an input element with id and name set as the bound field (brandId)
+                        var input = $('<input id="ProjectID" name="ProjectID">');
+                        // append to the editor container
+                        input.appendTo(container);
+
+                        // initialize a dropdownlist
+                        input.kendoDropDownList({
+                            dataTextField: "ProjectName",
+                            dataValueField: "ProjectID",
+                            dataSource: projects // bind it to the brands array
+                        }).appendTo(container);
+                    }
+                },
+                {
+                    // the brandId column
+                    title: "Level",
+                    width: "200px",
+                    field: "LevelID", // bound to the brandId field
+                    
+                    template: $("#template3").html(),
+                    editor: function (container) { // use a dropdownlist as an editor
+                        //create an input element with id and name set as the bound field (brandId)
+                        var input = $('<input id="LevelID" name="LevelID">');
+                        // append to the editor container
+                        input.appendTo(container);
+
+                        // initialize a dropdownlist
+                        input.kendoDropDownList({
+                            dataTextField: "percentage",
+                            dataValueField: "LevelID",
+                            dataSource: percentages // bind it to the brands array
+                        }).appendTo(container);
+                    }
+                },
+                {
+                    field: "Status", title: "Status", width: "130px", editor: statusDropDownEditor
+                },
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "90px"
+                }
+            ]
+        });
+    })
+
+
+    var projects = [];
+    $.getJSON('/Cascade/GetProjects', function (response) {
+        if (response != null) {
+            projects = response;
+        }
+    });
+    var agents = [];
+    $.getJSON('/Cascade/GetAgents2', function (response) {
+        if (response != null) {
+            agents = response;
+        }
+    });
+    var percentages = [];
+    $.getJSON('/Cascade/GetPercentages', function (response) {
+        if (response != null) {
+            percentages = response;
+        }
+    });
+
+    function statusDropDownEditor(container, options) {
+        $('<input id="status" name="' + options.field + '"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                autoBind: true,
+                dataTextField: "BookingStatus",
+                dataValueField: "ID",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "/Cascade/GetStatus2",
+
+                    }
+                }
+            });
+    }
+
+    function brandName(brandId) {
+        if (brandId != '' || brandId != null) {
+            for (var i = 0; i < projects.length; i++) {
+
+                if (projects[i].ProjectID == brandId) {
+                    return projects[i].ProjectName;
+                }
+            }
+        }
+    }
+
+    function modelName(modelId) {
+        if (modelId != '' || modelId != null) {
+            for (var i = 0; i < agents.length; i++) {
+                if (agents[i].AgentID == modelId) {
+                    return agents[i].AgentName;
+                }
+            }
+        }
+    }
+
+    function modelName1(modelId) {
+        if (modelId != '' || modelId != null) {
+            for (var i = 0; i < percentages.length; i++) {
+                if (percentages[i].LevelID == modelId) {
+                    return percentages[i].percentage;
+                }
+            }
+        }
+    }
+</script>
+@*<script type="text/x-kendo-template" id="template">
+        #if(typeof ProjectID === 'undefined') {# #: brandName(0) # #} else {# #: brandName(ProjectID) # #}#
+    </script>*@
+<script type="text/x-kendo-template" id="template1">
+    #if(typeof ProjectID === 'undefined') {# #: brandName(0) # #} else {# #: brandName(ProjectID) # #}#
+</script>
+<script type="text/x-kendo-template" id="template2">
+    #if(typeof AgentID === 'undefined') {# #: modelName(1) # #} else {# #: modelName(AgentID) # #}#
+</script>
+<script type="text/x-kendo-template" id="template3">
+    #if(typeof LevelID === 'undefined') {# #: modelName1(1) # #} else {# #: modelName1(LevelID) # #}#
+</script>

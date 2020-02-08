@@ -183,5 +183,41 @@ namespace DataLayer
                 return false;
             }
         }
+
+        public bool AddAgentProjectLevel(AgentProjectLevel a)
+        {
+            tblAgentProjectLevel agentLevelNew = new tblAgentProjectLevel();
+
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<AgentProjectLevel, tblAgentProjectLevel>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            });
+            IMapper mapper = config.CreateMapper();
+            //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
+            mapper.Map<AgentProjectLevel, tblAgentProjectLevel>(a, agentLevelNew);
+            dbEntity.tblAgentProjectLevels.Add(agentLevelNew);
+            dbEntity.SaveChanges();
+
+            return true;
+        }
+
+        public bool UpdateAgentProjectLevel(AgentProjectLevel a)
+        {
+            tblAgentProjectLevel agentLevelOld = dbEntity.tblAgentProjectLevels.Where(x => x.AgentID == a.AgentID && x.ProjectID == a.ProjectID).FirstOrDefault();
+
+            if (agentLevelOld != null)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<AgentProjectLevel, tblAgentProjectLevel>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
+                mapper.Map<AgentProjectLevel, tblAgentProjectLevel>(a, agentLevelOld);
+                dbEntity.SaveChanges();
+            }
+            return true;
+        }
     }
 }

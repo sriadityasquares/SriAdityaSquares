@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace LoginApp.Controllers
 {
+    [Authorize]
     public class ReportController : Controller
     {
         BookingBL booking = new BookingBL();

@@ -443,6 +443,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Admin\AgentController.cs" />
+    <Compile Include="Controllers\Admin\AgentProjectController.cs" />
     <Compile Include="Controllers\Admin\FlatController.cs" />
     <Compile Include="Controllers\Admin\ProjectController.cs" />
     <Compile Include="Controllers\Admin\TowerController.cs" />
@@ -1644,6 +1645,8 @@
     <Content Include="Views\Dashboard\Agent.cshtml" />
     <Content Include="Views\Dashboard\Agents.cshtml" />
     <Content Include="Views\Flat\Index.cshtml" />
+    <Content Include="Views\Dashboard\FlatLifeCycle.cshtml" />
+    <Content Include="Views\AgentProject\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

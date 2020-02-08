@@ -5460,6 +5460,9 @@ a.active {
     .mobname2 {
         display: none;
     }
+    #timelinePosition{
+        padding-left:0px;
+    }
 }
 
 /* On screens that are less than 400px, display the bar vertically, instead of horizontally */
@@ -5487,6 +5490,9 @@ a.active {
     #bookingDashboard{
         padding-left : 10px;
     }
+    #timelinePosition {
+        padding-left: 0px;
+    }
 }
 
 @media screen and (min-width: 701px) {
@@ -5513,7 +5519,9 @@ a.active {
     #bookingDashboard {
         padding-left: 250px;
     }
-
+    #timelinePosition {
+        padding-left: 250px;
+    }
     .theatre {
         display: flex;
         position: absolute;
