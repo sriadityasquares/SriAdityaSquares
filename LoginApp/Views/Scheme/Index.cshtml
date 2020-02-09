@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Title = "Schemes";
+    ViewBag.Admin = "active";
+    ViewBag.Schemes = "active";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">SCHEMES</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Scheme/Details",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Scheme/Update",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                destroy: {
+                    url: "/Sample/Destroy",
+                    dataType: "jsonp"
+                },
+                create: {
+                    url: "/Scheme/Create",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Added Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Adding');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "SchemeID",
+                    fields: {
+                        TowerID: { editable: false, nullable: true },
+                        ProjectName: { validation: { required: true } },
+                        SchemeName: { validation: { required: true } },
+                        Status: { validation: { required: true } },
+                        
+                    }
+                }
+            },
+
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 550,
+            toolbar: ["create"],
+            save: function (e) {
+                if (e.model.isNew()) {
+                    e.model.ProjectID = e.model.ProjectID.ProjectID;
+                    e.model.BookingStatus = e.model.BookingStatus.ID;
+                }
+            },
+            edit: function (e) {
+                if (e.model.isNew()) {
+                    //var fieldName = e.container.find("input").attr("name");
+                    //$("#ProjectName").attr("readonly", true);
+                    $(e.container).find('input[name="ProjectName"]').attr("readonly", false);
+                    //$(e.container).find('input[name="TowerName"]').attr("readonly", false);
+                    //$('[name="ProjectName"]').attr("editable", true);
+                    //$("#TowerName").attr("readonly", true);
+                    // Disable the editor of the "id" column when editing data items
+                    //var numeric = e.container.find("input[name=id]").data("kendoNumericTextBox");
+                    //numeric.enable(false);
+                }
+                else {
+                    $(e.container).find('input[name="ProjectName"]').attr("readonly", true);
+                    $(e.container).find('input[name="TowerName"]').attr("readonly", true);
+                    //$("select[name=ProjectName]").prop("disabled", "disabled");
+                    //$("#ProjectName").data("kendoDropDownList").enable(false);
+
+                    var dropDown = e.container.find("[data-role='dropdownlist']").data("kendoDropDownList");
+                    dropDown.value(e.model.ProjectID);
+                    dropDown.readonly();
+                }
+            },
+            columns: [
+                //{ field: "Project", title: "Project", width: "250px", editor: projectDropDownEditor, template: "#=Project.ProjectName#" },
+                //{
+                //    field: "ProjectID",
+
+                //    //template: '#=ProjectID?ProjectName.ProjectName:""#',
+                //    title: "Project", width: "250px",
+                //    editor: function projectDropDownEditor(container, options) {
+                //        $('<input required name="' + options.field + '"/>')
+                //            .appendTo(container)
+                //            .kendoDropDownList({
+                //                autoBind: false,
+                //                dataTextField: "ProjectName",
+                //                dataValueField: "ProjectID",
+
+                //                dataSource: {
+                //                    type: "json",
+                //                    transport: {
+                //                        read: "/Cascade/GetProjects",
+
+                //                    }
+                //                }
+                //            });
+                //    }
+                //},
+                {
+                    // the brandId column
+                    title: "Project",
+                    width: "150px",
+                    field: "ProjectID", // bound to the brandId field
+                    //template : "#if(ProjectID !=null){# #: DeviceLabel # #}",
+                    //template: "#= brandName(ProjectID) #", // the template shows the name corresponding to the brandId field
+                    //template: "#if(data.isNew()){# #: brandName(0) # #}else {# #: brandName(ProjectID) # #}#",
+                    template: $("#template1").html(),
+                    editor: function (container) { // use a dropdownlist as an editor
+                        //create an input element with id and name set as the bound field (brandId)
+                        var input = $('<input id="ProjectID" name="ProjectID">');
+                        // append to the editor container
+                        input.appendTo(container);
+
+                        // initialize a dropdownlist
+                        input.kendoDropDownList({
+                            dataTextField: "ProjectName",
+                            dataValueField: "ProjectID",
+                            dataSource: projects // bind it to the brands array
+                        }).appendTo(container);
+                    }
+                },
+                { field: "SchemeName", title: "Scheme", width: "80px" },
+                { field: "SqFtCost", title: "SFt Cost", width: "60px" },
+                { field: "PaymentTimePeriod", title: "Pay Time", width: "60px" },
+                { field: "PaymentPercentage", title: "Pay Percentage", width: "90px" },
+                { field: "DownPayment", title: "DownPayment", width: "90px" },
+                { field: "DownPaymentTimePeriod", title: "DownPayment Time", width: "120px" },
+                { field: "BookingStatus", title: "Status", width: "90px", editor: statusDropDownEditor },
+                
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "70px"
+                }],
+            editable: "inline",
+        });
+
+
+
+        function statusDropDownEditor(container, options) {
+            $('<input id="status" name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: true,
+                    dataTextField: "BookingStatus",
+                    dataValueField: "ID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetStatus2",
+
+                        }
+                    }
+                });
+        }
+        function projectDropDownEditor(container, options) {
+            $('<input required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoMultiSelect({
+                    autoBind: false,
+                    dataTextField: "ProjectName",
+                    dataValueField: "ProjectID",
+
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetProjects",
+
+                        }
+                    }
+                });
+
+        }
+
+    });
+    var projects = [];
+    $.getJSON('/Cascade/GetProjects', function (response) {
+        if (response != null) {
+            projects = response;
+        }
+    });
+    function brandName(brandId) {
+        if (brandId != '' || brandId != null) {
+            for (var i = 0; i < projects.length; i++) {
+
+                if (projects[i].ProjectID == brandId) {
+                    return projects[i].ProjectName;
+                }
+            }
+        }
+    }
+</script>
+<script type="text/x-kendo-template" id="template1">
+    #if(typeof ProjectID === 'undefined') {# #: brandName(0) # #} else {# #: brandName(ProjectID) # #}#
+</script>

@@ -708,6 +708,25 @@ namespace DataLayer
             return lstTowers;
         }
 
+        public List<Schemes> BindSchemeDetails()
+        {
+            List<Schemes> lstSchemes = new List<Schemes>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblSchemeMaster, Schemes>().ForMember(dest => dest.BookingStatus, opt => opt.MapFrom(src => src.SchemeStatus));
+                });
+                IMapper mapper = config.CreateMapper();
+                lstSchemes = mapper.Map<List<tblSchemeMaster>, List<Schemes>>(dbEntity.tblSchemeMasters.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstSchemes;
+        }
         public List<AgentMaster> BindAgents()
         {
             List<AgentMaster> lstAgents = new List<AgentMaster>();
@@ -845,6 +864,26 @@ namespace DataLayer
             {
                 log.Error("Error :" + ex);
                 return new List<AgentProjectLevel>();
+            }
+        }
+
+        public List<LevelsMaster> BindLevelsMasters()
+        {
+            try
+            {
+                List<LevelsMaster> lstLevels = new List<LevelsMaster>();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblLevelsMaster, LevelsMaster>().ForMember(dest => dest.BookingStatus, opt => opt.MapFrom(src => src.Status));
+                });
+                IMapper mapper = config.CreateMapper();
+                lstLevels = mapper.Map<List<tblLevelsMaster>, List<LevelsMaster>>(dbEntity.tblLevelsMasters.ToList()).ToList();
+                return lstLevels;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return new List<LevelsMaster>();
             }
         }
     }

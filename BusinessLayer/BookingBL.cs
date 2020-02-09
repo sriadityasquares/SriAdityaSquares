@@ -104,6 +104,10 @@ namespace BusinessLayer
             return db.BindTowerDetails();
         }
 
+        public List<Schemes> BindSchemeDetails()
+        {
+            return db.BindSchemeDetails();
+        }
         public List<AgentMaster> BindAgents()
         {
             return db.BindAgents();
@@ -131,6 +135,11 @@ namespace BusinessLayer
         public List<AgentProjectLevel> BindAgentProjectLevels()
         {
             return db.BindAgentProjectLevels();
+        }
+
+        public List<LevelsMaster> BindLevelsMasters()
+        {
+            return db.BindLevelsMasters();
         }
     }
 }

@@ -61,7 +61,7 @@ namespace DataLayer
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Error :" + ex);
                 return false;
@@ -93,7 +93,7 @@ namespace DataLayer
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Error :" + ex);
                 return false;
@@ -111,7 +111,7 @@ namespace DataLayer
                     towerOld.BookingStatus = p.BookingStatus;
                     towerOld.FlatCount = p.FlatCount;
                     dbEntity.SaveChanges();
-                    
+
                 }
                 return true;
             }
@@ -139,7 +139,7 @@ namespace DataLayer
                     //towerOld.BookingStatus = p.BookingStatus;
                     //towerOld.FlatCount = p.FlatCount;
                     dbEntity.SaveChanges();
-                    
+
                 }
                 return true;
             }
@@ -177,7 +177,7 @@ namespace DataLayer
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Error :" + ex);
                 return false;
@@ -186,20 +186,28 @@ namespace DataLayer
 
         public bool AddAgentProjectLevel(AgentProjectLevel a)
         {
-            tblAgentProjectLevel agentLevelNew = new tblAgentProjectLevel();
-
-
-            var config = new MapperConfiguration(cfg =>
+            try
             {
-                cfg.CreateMap<AgentProjectLevel, tblAgentProjectLevel>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-            });
-            IMapper mapper = config.CreateMapper();
-            //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
-            mapper.Map<AgentProjectLevel, tblAgentProjectLevel>(a, agentLevelNew);
-            dbEntity.tblAgentProjectLevels.Add(agentLevelNew);
-            dbEntity.SaveChanges();
+                tblAgentProjectLevel agentLevelNew = new tblAgentProjectLevel();
 
-            return true;
+
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<AgentProjectLevel, tblAgentProjectLevel>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
+                mapper.Map<AgentProjectLevel, tblAgentProjectLevel>(a, agentLevelNew);
+                dbEntity.tblAgentProjectLevels.Add(agentLevelNew);
+                dbEntity.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
         }
 
         public bool UpdateAgentProjectLevel(AgentProjectLevel a)
@@ -218,6 +226,112 @@ namespace DataLayer
                 dbEntity.SaveChanges();
             }
             return true;
+        }
+
+
+        public bool AddLevel(LevelsMaster a)
+        {
+            try
+            {
+                tblLevelsMaster levelNew = new tblLevelsMaster();
+                levelNew.LevelName = a.LevelName;
+                levelNew.Percentage = a.Percentage;
+                levelNew.Status = a.BookingStatus;
+                levelNew.CreatedBy = a.CreatedBy;
+                levelNew.CreatedDate = a.CreatedDate;
+                dbEntity.tblLevelsMasters.Add(levelNew);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+
+        }
+
+
+        public bool UpdateLevel(LevelsMaster p)
+        {
+            try
+            {
+                //p.BookingStatusName = null;
+                tblLevelsMaster levelsOld = dbEntity.tblLevelsMasters.Where(x => x.LevelID == p.LevelID).FirstOrDefault();
+                if (levelsOld != null)
+                {
+                    levelsOld.LevelID = p.LevelID;
+                    levelsOld.LevelName = p.LevelName;
+                    levelsOld.Percentage = p.Percentage;
+                    levelsOld.Status = p.BookingStatus;
+                    levelsOld.UpdatedBy = p.UpdatedBy;
+                    levelsOld.UpdatedDate = p.UpdatedDate;
+                    dbEntity.SaveChanges();
+
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+        public bool UpdateScheme(Schemes p)
+        {
+            try
+            {
+                //p.BookingStatusName = null;
+                tblSchemeMaster schemesOld = dbEntity.tblSchemeMasters.Where(x => x.SchemeID == p.SchemeID).FirstOrDefault();
+                if (schemesOld != null)
+                {
+                    schemesOld.SchemeID = p.SchemeID;
+                    schemesOld.SchemeName = p.SchemeName;
+                    schemesOld.SqFtCost = p.SqFtCost;
+                    schemesOld.SchemeStatus = p.BookingStatus;
+                    schemesOld.UpdatedBy = p.UpdatedBy;
+                    schemesOld.UpdatedDate = p.UpdatedDate;
+                    schemesOld.PaymentTimePeriod = p.PaymentTimePeriod;
+                    schemesOld.PaymentPercentage = p.PaymentPercentage;
+                    schemesOld.DownPaymentTimePeriod = p.DownPaymentTimePeriod;
+                    schemesOld.DownPayment = p.DownPayment;
+                    dbEntity.SaveChanges();
+
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+        public bool AddScheme(Schemes p)
+        {
+            try
+            {
+                tblSchemeMaster schemesNew = new tblSchemeMaster();
+                schemesNew.SchemeName = p.SchemeName;
+                schemesNew.SqFtCost = p.SqFtCost;
+                schemesNew.SchemeStatus = p.BookingStatus;
+                schemesNew.CreatedBy = p.CreatedBy;
+                schemesNew.CreatedDate = p.CreatedDate;
+                schemesNew.PaymentTimePeriod = p.PaymentTimePeriod;
+                schemesNew.PaymentPercentage = p.PaymentPercentage;
+                schemesNew.DownPaymentTimePeriod = p.DownPaymentTimePeriod;
+                schemesNew.DownPayment = p.DownPayment;
+                dbEntity.tblSchemeMasters.Add(schemesNew);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+
         }
     }
 }

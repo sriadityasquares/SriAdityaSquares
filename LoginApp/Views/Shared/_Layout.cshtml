@@ -14,11 +14,14 @@
     @*<link href="~/Content/kendo/2014.1.318/kendo.default.min.css" rel="stylesheet" />*@
     <link href="~/Content/kendo/2019.3.917/kendo.default.min.css" rel="stylesheet" />
     <link href="~/Content/css/select2.css" rel="stylesheet" />
-    @Styles.Render("~/Content/css")
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @*@Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    @*<link href="~/Content/font-awesome.min.css" rel="stylesheet" />*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @*<script src="~/Scripts/kendo/jszip.js"></script>*@
     <script src="~/Scripts/jszip.js"></script>
     <script src="~/Scripts/kendo.all.min.js"></script>
@@ -55,7 +58,7 @@
                                     <a class="@(ViewBag.AgentDashboard)" href="@Url.Action("Agents", "Dashboard")">AGENT HIERARCHY</a>
                                 </li>
                                 <li>
-                                    <a class="@(ViewBag.FlatLifeCycle)" href="@Url.Action("FlatLifeCycle", "Dashboard")">FLAT LIFE CYCLE</a>
+                                    <a class="@(ViewBag.FlatLifeCycle)" href="@Url.Action("FlatLifeCycle", "Dashboard")">FLAT LIFECYCLE</a>
                                 </li>
                             }
                         </ul>
@@ -78,10 +81,16 @@
                                     <a class="@(ViewBag.Flat)" href="@Url.Action("Index", "Flat")">FLATS</a>
                                 </li>
                                 <li>
+                                    <a class="@(ViewBag.Levels)" href="@Url.Action("Index", "Level")">LEVELS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.Schemes)" href="@Url.Action("Index", "Scheme")">SCHEMES</a>
+                                </li>
+                                <li>
                                     <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">AGENTS</a>
                                 </li>
                                 <li>
-                                    <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">AGENT PAYMENTS</a>
+                                    <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">AGENT PROJECT LEVEL</a>
                                 </li>
                                 <li>
                                     <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeAgentPayment", "Booking")">AGENT PAYMENTS</a>
@@ -265,7 +274,7 @@
                                     <a class="@(ViewBag.AgentDashboard)" href="@Url.Action("Agents", "Dashboard")">AGENT HIERARCHY</a>
                                 </li>
                                 <li>
-                                    <a class="@(ViewBag.FlatLifeCycle)" href="@Url.Action("FlatLifeCycle", "Dashboard")">FLAT LIFE CYCLE</a>
+                                    <a class="@(ViewBag.FlatLifeCycle)" href="@Url.Action("FlatLifeCycle", "Dashboard")">FLAT LIFECYCLE</a>
                                 </li>
                             }
                         </ul>
@@ -287,6 +296,12 @@
                                 </li>
                                 <li>
                                     <a class="@(ViewBag.Flat)" href="@Url.Action("Index", "Flat")">FLATS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.Levels)" href="@Url.Action("Index", "Level")">LEVELS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.Schemes)" href="@Url.Action("Index", "Scheme")">SCHEMES</a>
                                 </li>
                                 <li>
                                     <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">AGENTS</a>

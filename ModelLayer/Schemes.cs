@@ -11,7 +11,7 @@ namespace ModelLayer
         public int SchemeID { get; set; }
         public int ProjectID { get; set; }
         public string SchemeName { get; set; }
-        public string SchemeStatus { get; set; }
+        public string BookingStatus { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }

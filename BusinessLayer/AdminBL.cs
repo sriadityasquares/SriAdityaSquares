@@ -50,5 +50,25 @@ namespace BusinessLayer
         {
             return admin.UpdateAgentProjectLevel(a);
         }
+
+        public bool UpdateLevel(LevelsMaster a)
+        {
+            return admin.UpdateLevel(a);
+        }
+
+        public bool AddLevel(LevelsMaster a)
+        {
+            return admin.AddLevel(a);
+        }
+
+        public bool UpdateScheme(Schemes a)
+        {
+            return admin.UpdateScheme(a);
+        }
+
+        public bool AddScheme(Schemes a)
+        {
+            return admin.AddScheme(a);
+        }
     }
 }
