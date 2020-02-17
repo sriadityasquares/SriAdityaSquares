@@ -287,6 +287,7 @@ namespace DataLayer
                 if (schemesOld != null)
                 {
                     schemesOld.SchemeID = p.SchemeID;
+                    schemesOld.ProjectID = p.ProjectID;
                     schemesOld.SchemeName = p.SchemeName;
                     schemesOld.SqFtCost = p.SqFtCost;
                     schemesOld.SchemeStatus = p.BookingStatus;
@@ -314,6 +315,7 @@ namespace DataLayer
             {
                 tblSchemeMaster schemesNew = new tblSchemeMaster();
                 schemesNew.SchemeName = p.SchemeName;
+                schemesNew.ProjectID = p.ProjectID;
                 schemesNew.SqFtCost = p.SqFtCost;
                 schemesNew.SchemeStatus = p.BookingStatus;
                 schemesNew.CreatedBy = p.CreatedBy;

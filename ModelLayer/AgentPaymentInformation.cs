@@ -48,5 +48,8 @@ namespace ModelLayer
         public Nullable<int> Year { get; set; }
         public Nullable<int> Month { get; set; }
         public Nullable<int> Day { get; set; }
+
+        [Display(Name ="Payment Date")]
+        public string AgentPaymentDate { get; set; }
     }
 }

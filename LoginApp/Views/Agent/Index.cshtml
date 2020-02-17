@@ -16,7 +16,13 @@
     </div>
     <div id="grid"></div>
 </div>
-
+@*<script type="text/x-kendo-template" id="searchtemplate">
+    <div class="toolbar">
+        <div>
+            <a data-toggle="tooltip" title="Export to Excel" class="k-button k-button-icontext k-grid-excel" href="\#"><i class="fa fa-file-excel-o fa-lg"></i></a>
+        </div>
+    </div>
+</script>*@
 <script>
 
     $(document).ready(function () {
@@ -67,7 +73,7 @@
                 }
             },
             batch: true,
-            pageSize: 20,
+            pageSize: 25,
             schema: {
                 model: {
                     id: "AgentID",
@@ -97,7 +103,7 @@
         $("#grid").kendoGrid({
             dataSource: dataSource,
             pageable: true,
-            height: 550,
+            height: 700,
             save: function (e) {
                 var x = $("#parent").data("kendoMultiSelect").value();
                 var y = $("#child").data("kendoMultiSelect").value();
@@ -109,7 +115,37 @@
                     e.model.AgentChild = '';
                 }
             },
-            toolbar: ["create"],
+            toolbar: ["create", "search", "excel"],
+            excel: {
+                fileName: "AgentMaster.xlsx",
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true
+            },
+            //excelExport: function(e){
+            //  var sheet = e.workbook.sheets[0];
+            //  var data = grid.dataSource.data();
+            //  var gridColumns = grid.columns;
+            //  var columns = gridColumns.map(function(col){
+            //      return {
+            //        value: col.title ? col.title : col.field,
+            //        autoWidth:true,
+            //        background: "#7a7a7a",
+            //        color: "#fff"
+            //      };
+            //  });
+
+            //  var rows = [{cells:columns, type: "header"}];
+
+            //  for (var i = 0; i < data.length; i++){
+            //    var rowCells = [];
+            //    for(var j=0;j < gridColumns.length;j++){
+            //      var cellValue = data[i][gridColumns[j].field];
+            //      rowCells.push({value: cellValue});
+            //    }
+            //    rows.push({cells: rowCells, type: "data"});
+            //  }
+            //  sheet.rows = rows;
+            //},
             columns: [
                 { field: "AgentCode", title: "Code", width: "100px" },
                 { field: "AgentName", title: "Name", width: "200px" },

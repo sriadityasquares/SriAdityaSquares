@@ -299,10 +299,10 @@ namespace DataLayer
                 bookingInfo.AgentNet = bookingInfo.AgentComm - bookingInfo.AgentTDS;
                 bookingInfo.BookingID = Guid.NewGuid();
                 //bookingInfo.CreatedBy = "";
-                bookingInfo.CreatedDate = System.DateTime.Now.Date;
-                bookingInfo.Day = System.DateTime.Now.Day;
-                bookingInfo.Month = System.DateTime.Now.Month;
-                bookingInfo.Year = System.DateTime.Now.Year;
+                //bookingInfo.CreatedDate = System.DateTime.Now.Date;
+                bookingInfo.Day = Convert.ToDateTime(bookingInfo.CreatedDate).Day;
+                bookingInfo.Month = Convert.ToDateTime(bookingInfo.CreatedDate).Month;
+                bookingInfo.Year = Convert.ToDateTime(bookingInfo.CreatedDate).Year;
                 int noOfDays = Convert.ToInt32(bookingInfo.PaymentTimePeriod);
                 bookingInfo.DueDate = DateTime.Now.AddDays(noOfDays);
 
@@ -443,10 +443,10 @@ namespace DataLayer
                 bookingInfo.AgentNet = bookingInfo.AgentComm - bookingInfo.AgentTDS;
                 //bookingInfo.BookingID = Guid.NewGuid();
                 //bookingInfo.CreatedBy = "";
-                bookingInfo.CreatedDate = System.DateTime.Now.Date;
-                bookingInfo.Day = System.DateTime.Now.Day;
-                bookingInfo.Month = System.DateTime.Now.Month;
-                bookingInfo.Year = System.DateTime.Now.Year;
+                //bookingInfo.CreatedDate = System.DateTime.Now.Date;
+                bookingInfo.Day = Convert.ToDateTime(bookingInfo.CreatedDate).Day;
+                bookingInfo.Month = Convert.ToDateTime(bookingInfo.CreatedDate).Month;
+                bookingInfo.Year = Convert.ToDateTime(bookingInfo.CreatedDate).Year;
                 int noOfDays = Convert.ToInt32(bookingInfo.PaymentTimePeriod);
                 bookingInfo.DueDate = DateTime.Now.AddDays(noOfDays);
 
@@ -485,7 +485,10 @@ namespace DataLayer
                     {
                         paymentListOld[i].BookingAmount = bookingInfo.BookingAmount;
                         paymentListOld[i].BalanceAmount = bookingInfo.BalanceAmount;
-                        
+                        paymentListOld[i].CreatedDate = bookingInfo.CreatedDate;
+                        paymentListOld[i].Day = Convert.ToDateTime(bookingInfo.CreatedDate).Day;
+                        paymentListOld[i].Month = Convert.ToDateTime(bookingInfo.CreatedDate).Month;
+                        paymentListOld[i].Year = Convert.ToDateTime(bookingInfo.CreatedDate).Year;
                     }
                     else
                     {
@@ -507,7 +510,10 @@ namespace DataLayer
                         agentPaymentListOld[j].SASNetBalance = bookingInfo.SASNetBalance;
                         agentPaymentListOld[j].AgentNetPaid = bookingInfo.AgentNetPaid;
                         agentPaymentListOld[j].AgentNetBalance = bookingInfo.AgentNetBalance;
-
+                        agentPaymentListOld[j].CreatedDate = bookingInfo.CreatedDate;
+                        agentPaymentListOld[j].Day = Convert.ToDateTime(bookingInfo.CreatedDate).Day;
+                        agentPaymentListOld[j].Month = Convert.ToDateTime(bookingInfo.CreatedDate).Month;
+                        agentPaymentListOld[j].Year = Convert.ToDateTime(bookingInfo.CreatedDate).Year;
                     }
                     else
                     {
@@ -635,11 +641,12 @@ namespace DataLayer
         {
             try
             {
-                payInfo.CreatedBy = "";
-                payInfo.CreatedDate = System.DateTime.Now.Date;
-                payInfo.Day = System.DateTime.Now.Day;
-                payInfo.Month = System.DateTime.Now.Month;
-                payInfo.Year = System.DateTime.Now.Year;
+                //payInfo.CreatedBy = "";
+                //payInfo.CreatedDate = System.DateTime.Now.Date;
+                payInfo.CreatedDate = Convert.ToDateTime(payInfo.PaymentDate);
+                payInfo.Day = Convert.ToDateTime(payInfo.CreatedDate).Day;
+                payInfo.Month = Convert.ToDateTime(payInfo.CreatedDate).Month;
+                payInfo.Year = Convert.ToDateTime(payInfo.CreatedDate).Year;
                 var config2 = new MapperConfiguration(cfg =>
                 {
                     cfg.CreateMap<PaymentInformation, tblPaymentInfo>();
@@ -667,10 +674,10 @@ namespace DataLayer
         {
             try
             {
-                payInfo.CreatedDate = System.DateTime.Now.Date;
-                payInfo.Day = System.DateTime.Now.Day;
-                payInfo.Month = System.DateTime.Now.Month;
-                payInfo.Year = System.DateTime.Now.Year;
+                //payInfo.CreatedDate = payInfo.;
+                payInfo.Day = Convert.ToDateTime(payInfo.CreatedDate).Day;
+                payInfo.Month = Convert.ToDateTime(payInfo.CreatedDate).Month;
+                payInfo.Year = Convert.ToDateTime(payInfo.CreatedDate).Year;
                 var config2 = new MapperConfiguration(cfg =>
                 {
                     cfg.CreateMap<AgentPaymentInformation, tblAgentPaymentInfo>();

@@ -24,6 +24,7 @@
         </div>
       
         @Html.HiddenFor(m => m.BookingID)
+        @Html.HiddenFor(m=>m.AgentPaymentDate)
         <div class="row" style="padding-top:10px">
             @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
             @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectListAgentPayments"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
@@ -105,6 +106,12 @@
             @Html.TextBoxFor(m => m.ReferenceNo, new { @class = "textbox-control col-md-3 col-xs" })
         </div>*@
             <div id="paydetails5" style="padding-top:5px" class="row">
+                @Html.LabelFor(m => m.AgentPaymentDate, new { @class = "col-md-2" })
+                <div class="col-md-1" style="padding-left:0px">
+                    <input id="datepicker1" title="datepicker" />
+                </div>
+            </div>
+            <div id="paydetails5" style="padding-top:5px" class="row">
                 <br />
                 <div class="col-md-6 no-pad">
                     <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>PAY</button>
@@ -115,7 +122,7 @@
 }
 <script>
 
-
+    $("#datepicker1").kendoDatePicker();
     HideDiv();
     $("#ProjectID").change(function () {
         $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
@@ -184,6 +191,8 @@
     });
     $("#submitbtn").submit(function () {
         Validations();
+        var payDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'dd-MMM-yyyy');
+        $("#AgentPaymentDate").val(payDate);
     });
 
     function SetSASBalanceAmount() {

@@ -22,14 +22,14 @@
             @Html.DropDownListFor(m => m.Project, ViewBag.ProjectList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
         </div>
         @Html.LabelFor(m => m.From, new { @class = "col-md-1" })
-        
+
         <div class="col-md-2">
-            <input id="datepicker1" value="10/01/2019" title="datepicker" />
+            <input id="datepicker1" title="datepicker" />
         </div>
-        
+
         @Html.LabelFor(m => m.To, new { @class = "col-md-1" })
         <div class="col-md-2">
-            <input id="datepicker2" value="10/31/2019" title="datepicker" />
+            <input id="datepicker2" title="datepicker" />
         </div>
 
         @*@Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })*@
@@ -71,6 +71,9 @@
 
         $("#datepicker1").kendoDatePicker();
         $("#datepicker2").kendoDatePicker();
+        var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
+        $("#datepicker1").data("kendoDatePicker").value(todayDate);
+        $("#datepicker2").data("kendoDatePicker").value(todayDate+1);
         $(document).ready(function () {
             $("#grid").hide();
             $("#grid").kendoGrid({
@@ -119,7 +122,7 @@
         });
 
 
-       
+
 
 
     $("#submitbtn").click(function () {

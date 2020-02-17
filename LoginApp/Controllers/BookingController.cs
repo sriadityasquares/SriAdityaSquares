@@ -8,6 +8,7 @@ using ModelLayer;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -59,6 +60,7 @@ namespace LoginApp.Controllers
             ViewBag.ScreenName = "New Booking";
             TempData["CountryList"] = new SelectList(countryList, "CountryID", "CountryName");
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData["BookingDate"] = null;
             TempData.Keep("ProjectList");
             TempData.Keep("CountryList");
             if (BookingStatus != "" && BookingStatus != "O")
@@ -75,6 +77,12 @@ namespace LoginApp.Controllers
                     TempData["City"] = b.City;
                     TempData["BookingStatus"] = "H";
                     TempData["BookingID"] = b.BookingID;
+                    var bookingDate = Convert.ToDateTime(b.CreatedDate).ToString("MM/dd/yyyy");
+                    //bookingDate
+                    //DateTime dt = DateTime.ParseExact(b.CreatedDate.ToString(), "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    ////s will be MM/dd/yyyy format string
+                    //string s = dt.ToString("MM/dd/yyyy");
+                    TempData["BookingDate"] = bookingDate;
                     ViewBag.ScreenName = "Edit Booking";
                 }
                 return View(b);
@@ -90,6 +98,7 @@ namespace LoginApp.Controllers
             bool result = false;
             try
             {
+                b.CreatedDate = Convert.ToDateTime(b.BookingDate);
                 b.CreatedBy = User.Identity.Name;
                 if(b.BookingID == Guid.Empty)
                 {
@@ -195,6 +204,7 @@ namespace LoginApp.Controllers
         {
             try
             {
+                //payInfo.CreatedDate = DateTime.ParseExact(payInfo.PaymentDate, "dd/MM/yyyy", null);
                 payInfo.CreatedBy = User.Identity.Name;
                 var result = booking.SaveNewPayment(payInfo);
                 if (result)
@@ -289,6 +299,7 @@ namespace LoginApp.Controllers
                 {
                     payInfo.AgentNetBalance = 0;
                 }
+                payInfo.CreatedDate = Convert.ToDateTime(payInfo.AgentPaymentDate);
                 payInfo.CreatedBy = User.Identity.Name;
                 var result = booking.SaveNewAgentPayment(payInfo);
                 if (result)

@@ -159,7 +159,7 @@ namespace DataLayer
             List<GetPeriodWiseBookingDetails> lstBooking = new List<GetPeriodWiseBookingDetails>();
             try
             {
-                var list = dbEntity.sp_GetPeriodWiseBookingDetails(1, "1,2", "2018,2019", "", "", "");
+                //var list = dbEntity.sp_GetPeriodWiseBookingDetails(1, "1,2", "2018,2019", "", "", "");
 
                 //lstCountry = dbEntity.tblProjects.ToList();
                 var config = new MapperConfiguration(cfg =>

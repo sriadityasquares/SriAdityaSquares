@@ -101,7 +101,10 @@ namespace ModelLayer
         public int PaymentID { get; set; }
         public int AgentPaymentID { get; set; }
         public string CreatedBy { get; set; }
+        
         public Nullable<System.DateTime> CreatedDate { get; set; }
+        [Display(Name="Date")]
+        public string BookingDate { get; set; }
 
         public string ProjectName { get; set; }
         public string TowerName { get; set; }

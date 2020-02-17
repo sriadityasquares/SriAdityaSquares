@@ -30,6 +30,9 @@ namespace ModelLayer
         public Nullable<int> Aadhar { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+
+        [Display(Name ="Payment Date")]
+        public string PaymentDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
 
