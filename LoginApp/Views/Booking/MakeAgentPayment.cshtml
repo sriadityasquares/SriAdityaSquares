@@ -161,7 +161,8 @@
             var BookingID = "";
             //var Aadhar = "";
             var DueDate = "";
-
+            $('#table tbody tr').remove();
+            $('#table1 tbody tr').remove();
             $.each(data, function (index, row) {
                 $('#table tbody').append("<tr><td>" + row.SASNetPaid + "</td><td>" + row.FormattedDate + "</td></tr>");
                 TotalPaidSAS = TotalPaidSAS + Number(row.SASNetPaid);

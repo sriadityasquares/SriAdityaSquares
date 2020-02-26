@@ -132,7 +132,7 @@
             var BookingID = "";
             var Aadhar = "";
             var DueDate = "";
-
+            $('#table tbody tr').remove();
             $.each(data, function (index, row) {
                 $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td></tr>");
                 TotalPaid = TotalPaid + Number(row.BookingAmount);
