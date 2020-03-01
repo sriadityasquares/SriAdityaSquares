@@ -998,6 +998,9 @@
     <Content Include="Content\kendo\2019.3.917\kendo.silver.mobile.min.css.map" />
     <Content Include="Content\kendo\2019.3.917\kendo.uniform.min.css.map" />
     <Content Include="Content\kendo\2019.3.917\kendo.uniform.mobile.min.css.map" />
+    <None Include="Properties\PublishProfiles\flatbooking - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\flatsapp - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\LoginApp20200301112104 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
