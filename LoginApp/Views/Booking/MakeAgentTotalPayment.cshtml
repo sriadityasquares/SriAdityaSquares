@@ -1,0 +1,102 @@
+﻿@model ModelLayer.AgentTotalPayments
+@{
+    ViewBag.Title = "Agent Balances";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Booking = "active";
+    ViewBag.AgentBalance = "active";
+}
+
+@using (Html.BeginForm("MakeAgentTotalPayment", "Booking", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "submitbtn" }))
+{
+    //@(ViewContext.ClientValidationEnabled = false)
+
+    @Html.AntiForgeryToken()
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12 col-xs" style="margin-top:0px">
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">AGENT BALANCE CHECK</h3>
+                <div class="specialLine col-md-1"></div>
+            </div>
+
+        </div>
+        @Html.HiddenFor(m => m.PaidDate)
+        <div class="row" style="padding-top:10px">
+            @Html.LabelFor(m => m.AgentID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.AgentID, TempData["Agents"] as SelectList, "--Select Agent--", new { @class = "textbox-control col-md-3 col-xs" })
+
+        </div>
+        <div id="payDetails">
+            <div id="paydetails" style="padding-top:5px" class="row">
+                @Html.LabelFor(m => m.AgentCommission, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.AgentCommission, new { @class = "textbox-control col-md-2 col-xs", @readonly = true })
+                @Html.LabelFor(m => m.TotalPaid, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.TotalPaid, new { @class = "textbox-control col-md-2 col-xs", @readonly = true })
+                @Html.LabelFor(m => m.TotalBalance, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.TotalBalance, new { @class = "textbox-control col-md-2 col-xs", @readonly = true })
+            </div>
+            <div id="paydetails" style="padding-top:5px" class="row">
+                @Html.LabelFor(m => m.AmountPaid, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.AmountPaid, new { @class = "textbox-control col-md-2 col-xs" })
+                @Html.LabelFor(m => m.PaidDate, new { @class = "col-md-2" })
+                <div class="col-md-2" style="padding-left:0px">
+                    <input id="datepicker1" title="datepicker" />
+                </div>
+
+            </div>
+            <div id="paydetails" style="padding-top:5px" class="row">
+                <br />
+                <div class="col-md-6 no-pad">
+                    <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>PAY</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script>
+    $("#datepicker1").kendoDatePicker();
+    HideDiv();
+    $("#AgentID").change(function () {
+        $.get("/Booking/GetAgentTotalPayDetails", { AgentID: $("#AgentID").val() }, function (data) {
+            if (data.AgentCommission != '' && data.AgentCommission != null) {
+                ShowDiv();
+            }
+            else {
+                HideDiv();
+            }
+            $("#TotalPaid").val(data.TotalPaid);
+            $("#TotalBalance").val(data.TotalBalance);
+            $("#AgentCommission").val(data.AgentCommission);
+        });
+    });
+
+    function HideDiv() {
+        $("#payDetails").hide();
+    };
+
+    function ShowDiv() {
+        $("#payDetails").show();
+    };
+
+    $("#submitbtn").submit(function () {
+        var payDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'dd-MMM-yyyy');
+            //alert(fromDate);
+        $("#PaidDate").val(payDate);
+        
+    });
+</script>
+
+<script type="text/javascript">
+    $(window).load(function () {
+        var tempdataval = '@TempData["successmessage"]';
+        if (tempdataval != '') {
+            if (tempdataval == 'Payment Successfull')
+                toastr.success(tempdataval);
+            else {
+                toastr.error(tempdataval);
+            }
+        }
+
+    });
+</script>

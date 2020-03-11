@@ -317,5 +317,34 @@ namespace LoginApp.Controllers
             }
             return View();
         }
+
+        public ActionResult MakeAgentTotalPayment()
+        {
+
+            List<Agent> agentList = common.BindAgents();
+            TempData["Agents"] = new SelectList(agentList, "AgentID", "AgentName");
+            TempData.Keep("Agents");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult MakeAgentTotalPayment(AgentTotalPayments payInfo)
+        {
+            payInfo.CreatedBy = User.Identity.Name;
+            payInfo.CreatedDate = DateTime.Now.Date;
+            var result = booking.SaveNewAgentTotalPayment(payInfo);
+            if (result)
+                TempData["successmessage"] = "Payment Successfull";
+            else
+                TempData["successmessage"] = "Payment Failed";
+            ModelState.Clear();
+            TempData.Keep("Agents");
+            return View();
+        }
+        public JsonResult GetAgentTotalPayDetails(int AgentID)
+        {
+            AgentTotalPayments agentPay = booking.GetAgentTotalPay(AgentID);
+            return Json(agentPay, JsonRequestBehavior.AllowGet);
+        }
     }
 }

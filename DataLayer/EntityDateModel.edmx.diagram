@@ -33,6 +33,7 @@
         <AssociationConnector Association="salesDBModel.AspNetUserRoles" />
         <EntityTypeShape EntityType="salesDBModel.tblCustomerInfo" Width="1.5" PointX="7.375" PointY="8.75" />
         <EntityTypeShape EntityType="salesDBModel.tblBookingInformation" Width="1.5" PointX="14.375" PointY="0.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblAgentTotalPayment" Width="1.5" PointX="16.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

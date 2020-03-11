@@ -695,6 +695,29 @@ namespace DataLayer
                 return false;
             }
         }
+
+        public bool SaveNewAgentTotalPayment(AgentTotalPayments payInfo)
+        {
+            try
+            {
+               
+                var config2 = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<AgentTotalPayments, tblAgentTotalPayment>();
+                });
+                tblAgentTotalPayment paymentDetails = new tblAgentTotalPayment();
+                IMapper mapper2 = config2.CreateMapper();
+                mapper2.Map<AgentTotalPayments, tblAgentTotalPayment>(payInfo, paymentDetails);
+                dbEntity.tblAgentTotalPayments.Add(paymentDetails);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
         public List<GetTowerDetails> BindTowerDetails()
         {
             List<GetTowerDetails> lstTowers = new List<GetTowerDetails>();
@@ -892,6 +915,23 @@ namespace DataLayer
                 log.Error("Error :" + ex);
                 return new List<LevelsMaster>();
             }
+        }
+
+        public AgentTotalPayments GetAgentTotalPay(int AgentID)
+        {
+            AgentTotalPayments agentPayDetails = new AgentTotalPayments();
+            var list = dbEntity.sp_GetAgentPayBalance(AgentID).ToList();
+            if (list.Count > 1)
+            {
+                agentPayDetails.AgentCommission = list[1];
+                if(list[0] == null)
+                {
+                    list[0] = 0;
+                }
+                agentPayDetails.TotalPaid = list[0];
+                agentPayDetails.TotalBalance = list[1] - list[0];
+            }
+            return agentPayDetails;
         }
     }
 }

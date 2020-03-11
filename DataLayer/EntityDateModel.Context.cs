@@ -49,6 +49,7 @@ namespace DataLayer
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<tblCustomerInfo> tblCustomerInfoes { get; set; }
         public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
+        public virtual DbSet<tblAgentTotalPayment> tblAgentTotalPayments { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {
@@ -243,6 +244,15 @@ namespace DataLayer
         public virtual ObjectResult<sp_GetPercentages_Result> sp_GetPercentages()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetPercentages_Result>("sp_GetPercentages");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_GetAgentPayBalance(Nullable<int> agentID)
+        {
+            var agentIDParameter = agentID.HasValue ?
+                new ObjectParameter("AgentID", agentID) :
+                new ObjectParameter("AgentID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_GetAgentPayBalance", agentIDParameter);
         }
     }
 }

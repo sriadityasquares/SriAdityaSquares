@@ -99,6 +99,11 @@ namespace BusinessLayer
         {
             return db.SaveNewAgentPayment(payInfo);
         }
+
+        public bool SaveNewAgentTotalPayment(AgentTotalPayments payInfo)
+        {
+            return db.SaveNewAgentTotalPayment(payInfo);
+        }
         public List<GetTowerDetails> BindTowerDetails()
         {
             return db.BindTowerDetails();
@@ -140,6 +145,11 @@ namespace BusinessLayer
         public List<LevelsMaster> BindLevelsMasters()
         {
             return db.BindLevelsMasters();
+        }
+
+        public AgentTotalPayments GetAgentTotalPay(int AgentID)
+        {
+            return db.GetAgentTotalPay(AgentID);
         }
     }
 }

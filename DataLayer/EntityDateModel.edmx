@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="salesDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="salesDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -113,6 +113,17 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblAgentTotalPayments">
+          <Key>
+            <PropertyRef Name="AgentTotalPayID" />
+          </Key>
+          <Property Name="AgentTotalPayID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgentID" Type="int" />
+          <Property Name="AmountPaid" Type="int" />
+          <Property Name="PaidDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="tblBookingInformation">
           <Key>
@@ -458,6 +469,9 @@
         <Function Name="sp_GetAgentCommissionByAgentLogins" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AgentEmail" Type="nvarchar(max)" Mode="In" />
         </Function>
+        <Function Name="sp_GetAgentPayBalance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AgentID" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_GetAgentsByProjectID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
@@ -519,6 +533,7 @@
           <EntitySet Name="tblAgentMaster" EntityType="Self.tblAgentMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAgentPaymentInfo" EntityType="Self.tblAgentPaymentInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAgentProjectLevels" EntityType="Self.tblAgentProjectLevels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAgentTotalPayments" EntityType="Self.tblAgentTotalPayments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBookingInformation" EntityType="Self.tblBookingInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCity" EntityType="Self.tblCity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCountries" EntityType="Self.tblCountries" Schema="dbo" store:Type="Tables" />
@@ -672,6 +687,10 @@
           <Parameter Name="FlatID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetPercentages" ReturnType="Collection(salesDBModel.sp_GetPercentages_Result)" />
+          <EntitySet Name="tblAgentTotalPayments" EntityType="salesDBModel.tblAgentTotalPayment" />
+          <FunctionImport Name="sp_GetAgentPayBalance" ReturnType="Collection(Int32)">
+            <Parameter Name="AgentID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -1303,6 +1322,17 @@
           <Property Type="Int32" Name="LevelID" Nullable="false" />
           <Property Type="Double" Name="percentage" Nullable="true" />
         </ComplexType>
+        <EntityType Name="tblAgentTotalPayment">
+          <Key>
+            <PropertyRef Name="AgentTotalPayID" />
+          </Key>
+          <Property Name="AgentTotalPayID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentID" Type="Int32" />
+          <Property Name="AmountPaid" Type="Int32" />
+          <Property Name="PaidDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1945,6 +1975,19 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblAgentTotalPayments">
+            <EntityTypeMapping TypeName="salesDBModel.tblAgentTotalPayment">
+              <MappingFragment StoreEntitySet="tblAgentTotalPayments">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentTotalPayID" ColumnName="AgentTotalPayID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentPayBalance" FunctionName="salesDBModel.Store.sp_GetAgentPayBalance" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
