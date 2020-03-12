@@ -11,8 +11,10 @@ namespace LoginApp.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            //distance(17.7324687, 17.764513, 83.30409569999999, 83.357335);
             return View();
         }
+        
 
         [Authorize(Roles = "Admin")]
         public ActionResult Admin()

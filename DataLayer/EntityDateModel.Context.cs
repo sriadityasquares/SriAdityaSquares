@@ -37,7 +37,6 @@ namespace DataLayer
         public virtual DbSet<tblStatu> tblStatus { get; set; }
         public virtual DbSet<tblPaymentInfo> tblPaymentInfoes { get; set; }
         public virtual DbSet<tblLevelsMaster> tblLevelsMasters { get; set; }
-        public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
         public virtual DbSet<tblSchemeMaster> tblSchemeMasters { get; set; }
         public virtual DbSet<tblAgentProjectLevel> tblAgentProjectLevels { get; set; }
         public virtual DbSet<tblAgentPaymentInfo> tblAgentPaymentInfoes { get; set; }
@@ -50,6 +49,7 @@ namespace DataLayer
         public virtual DbSet<tblCustomerInfo> tblCustomerInfoes { get; set; }
         public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
         public virtual DbSet<tblAgentTotalPayment> tblAgentTotalPayments { get; set; }
+        public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {
@@ -253,6 +253,11 @@ namespace DataLayer
                 new ObjectParameter("AgentID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_GetAgentPayBalance", agentIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetAgentLocations_Result> sp_GetAgentLocations()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentLocations_Result>("sp_GetAgentLocations");
         }
     }
 }

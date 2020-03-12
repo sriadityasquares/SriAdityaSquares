@@ -151,5 +151,10 @@ namespace BusinessLayer
         {
             return db.GetAgentTotalPay(AgentID);
         }
+
+        public List<GetAgentLocations> GetAgentLocations()
+        {
+            return db.GetAgentLocations();
+        }
     }
 }

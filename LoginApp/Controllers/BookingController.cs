@@ -346,5 +346,7 @@ namespace LoginApp.Controllers
             AgentTotalPayments agentPay = booking.GetAgentTotalPay(AgentID);
             return Json(agentPay, JsonRequestBehavior.AllowGet);
         }
+
+       
     }
 }

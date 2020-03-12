@@ -933,5 +933,25 @@ namespace DataLayer
             }
             return agentPayDetails;
         }
+
+        public List<GetAgentLocations> GetAgentLocations()
+        {
+            List<GetAgentLocations> lstAgentLocations = new List<GetAgentLocations>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetAgentLocations_Result, GetAgentLocations>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgentLocations = mapper.Map<List<sp_GetAgentLocations_Result>, List<GetAgentLocations>>(dbEntity.sp_GetAgentLocations().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstAgentLocations;
+        }
     }
 }

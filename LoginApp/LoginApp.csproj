@@ -455,6 +455,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\CascadeController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -1658,6 +1659,7 @@
     <Content Include="Views\Level\Index.cshtml" />
     <Content Include="Views\Scheme\Index.cshtml" />
     <Content Include="Views\Booking\MakeAgentTotalPayment.cshtml" />
+    <Content Include="Views\Customer\Enquiry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

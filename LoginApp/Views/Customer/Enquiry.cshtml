@@ -1,0 +1,97 @@
+﻿@model ModelLayer.CustomerEnquiry
+@{
+    ViewBag.Title = "Enquiry";
+}
+
+@*<div class="jumbotron" style="width:800px;padding: 0px 0px 0px 0px">
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">CUSTOMER ENQUIRY</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <br />
+    @Html.HiddenFor(m => m.Latitude)
+    @Html.HiddenFor(m => m.Longitude)
+    <div class="row" style="padding-top:5px">
+        @Html.LabelFor(m => m.CustomerName, new { @class = "col-md-1 required" })
+        @Html.TextBoxFor(m => m.CustomerName, new { @class = "textbox-control col-md-4 col-xs" })
+        @Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })
+    </div>
+    <div class="row" style="padding-top:5px">
+        @Html.LabelFor(m => m.Mobile, new { @class = "col-md-1 required" })
+        @Html.TextBoxFor(m => m.Mobile, new { @class = "textbox-control col-md-4 col-xs" })
+        @Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })
+    </div>
+    <div class="row" style="padding-top:5px">
+        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-2 col-xs" })
+        @Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })
+    </div>
+</div>*@
+@using (Html.BeginForm("Enquiry", "Customer", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row" style="padding-top:50px">
+        <div class="col-xs-12 col-sm-12 col-md-12 div">
+            <div class="login-box">
+                <div class="row" style="padding-top:10px">
+                    <div class="col-md-2 col-xs">
+                        <h3 align="center" style="margin-bottom:2px">ENQUIRY</h3>
+                        <div class="specialLine col-md-5"></div>
+                    </div>
+                </div>
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                @Html.HiddenFor(m=>m.Latitude)
+                @Html.HiddenFor(m=>m.Longitude)
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.CustomerName, new { @class = "col-md-3 required" })
+                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "textbox-control col-md-7 col-xs" })
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.Mobile, new { @class = "col-md-3 required" })
+                    @Html.TextBoxFor(m => m.Mobile, new { @class = "textbox-control col-md-7 col-xs" })
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-3 required" })
+                    @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-7 col-xs" })
+                </div>
+                <div class="row marb15">
+                    @Html.LabelFor(m => m.Enquiry, new { @class = "col-md-3" })
+                    @Html.TextAreaFor(m => m.Enquiry, new { @class = "textbox-control col-md-7 col-xs",@style = "height:60px" })
+
+                </div>
+                @*<div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" class="btn btn-default" value="Register" />
+                        </div>
+                    </div>*@
+                <div class="row marb15">
+                    <div class="col-md-12 no-pad">
+                        <button type="submit" id="submitbtn" value="Register" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>ENQUIRE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    getLocation();
+    var x = document.getElementById("demo1");
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        //x.innerHTML = "Latitude: " + position.coords.latitude +
+        //    "<br>Longitude: " + position.coords.longitude;
+        $("#Latitude").val(position.coords.latitude);
+        $("#Longitude").val(position.coords.longitude);
+    }
+</script>

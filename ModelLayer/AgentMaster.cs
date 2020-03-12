@@ -33,5 +33,8 @@ namespace ModelLayer
         public string AgentChild { get; set; }
 
         public int[] arrayListParent { get; set; }
+
+        public Nullable<double> AgentLatitude { get; set; }
+        public Nullable<double> AgentLongitude { get; set; }
     }
 }

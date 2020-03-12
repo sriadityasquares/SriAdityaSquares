@@ -34,5 +34,7 @@ namespace DataLayer
         public string AgentSuperSponserCode { get; set; }
         public string AgentParent { get; set; }
         public string AgentChild { get; set; }
+        public Nullable<double> AgentLatitude { get; set; }
+        public Nullable<double> AgentLongitude { get; set; }
     }
 }

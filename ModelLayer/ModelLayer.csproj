@@ -55,10 +55,12 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="CreateFlat.cs" />
+    <Compile Include="CustomerEnquiry.cs" />
     <Compile Include="Dashboard.cs" />
     <Compile Include="FlatDetails.cs" />
     <Compile Include="Flats.cs" />
     <Compile Include="FlatWiseAgentCommission.cs" />
+    <Compile Include="GetAgentLocations.cs" />
     <Compile Include="GetAgentWiseBookingDetails.cs" />
     <Compile Include="GetBhkWiseBookingDetails.cs" />
     <Compile Include="GetBookingInfoByDate.cs" />
