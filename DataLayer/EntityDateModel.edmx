@@ -471,6 +471,9 @@
         <Function Name="sp_GetAgentCommissionByAgentLogins" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AgentEmail" Type="nvarchar(max)" Mode="In" />
         </Function>
+        <Function Name="sp_GetAgentCommissionNdBalanceByAgentLogins" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AgentEmail" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="sp_GetAgentLocations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetAgentPayBalance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AgentID" Type="int" Mode="In" />
@@ -695,6 +698,9 @@
           </FunctionImport>
           <EntitySet Name="tblAgentMasters" EntityType="salesDBModel.tblAgentMaster" />
           <FunctionImport Name="sp_GetAgentLocations" ReturnType="Collection(salesDBModel.sp_GetAgentLocations_Result)" />
+          <FunctionImport Name="sp_GetAgentCommissionNdBalanceByAgentLogins" ReturnType="Collection(salesDBModel.sp_GetAgentCommissionNdBalanceByAgentLogins_Result)">
+            <Parameter Name="AgentEmail" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -1345,6 +1351,14 @@
           <Property Type="Int64" Name="AgentMobileNo" Nullable="true" />
           <Property Type="Double" Name="AgentLatitude" Nullable="true" />
           <Property Type="Double" Name="AgentLongitude" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetAgentCommissionNdBalanceByAgentLogins_Result">
+          <Property Type="Int32" Name="AgentID" Nullable="false" />
+          <Property Type="String" Name="AgentName" Nullable="true" />
+          <Property Type="String" Name="AgentCode" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="AgentCommission" Nullable="true" />
+          <Property Type="String" Name="AgentSponserCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="AmountPaid" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2011,6 +2025,18 @@
                 <ScalarProperty Name="AgentMobileNo" ColumnName="AgentMobileNo" />
                 <ScalarProperty Name="AgentLatitude" ColumnName="AgentLatitude" />
                 <ScalarProperty Name="AgentLongitude" ColumnName="AgentLongitude" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentCommissionNdBalanceByAgentLogins" FunctionName="salesDBModel.Store.sp_GetAgentCommissionNdBalanceByAgentLogins">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentCommissionNdBalanceByAgentLogins_Result">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentCode" ColumnName="AgentCode" />
+                <ScalarProperty Name="AgentCommission" ColumnName="AgentCommission" />
+                <ScalarProperty Name="AgentSponserCode" ColumnName="AgentSponserCode" />
+                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

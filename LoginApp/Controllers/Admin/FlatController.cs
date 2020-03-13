@@ -54,6 +54,8 @@ namespace LoginApp.Controllers.Admin
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
                 List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
+                data[0].CreatedBy = User.Identity.Name;
+                data[0].CreatedDate = DateTime.Now.Date;
                 result = flat.AddFlat(data[0]);
             }
             catch (Exception ex)
@@ -77,6 +79,8 @@ namespace LoginApp.Controllers.Admin
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
                 List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
+                data[0].UpdatedBy = User.Identity.Name;
+                data[0].UpdatedDate = DateTime.Now.Date;
                 result = flat.UpdateFlat(data[0]);
             }
             catch (Exception ex)

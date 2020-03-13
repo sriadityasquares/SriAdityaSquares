@@ -5646,6 +5646,52 @@ a.active {
             transform: skew(2deg);
         }
 
+
+    .left .row-11 {
+        transform: skew(-4deg);
+    }
+
+        .left .row-11 .seat {
+            transform: skew(0deg);
+        }
+
+    .left .row-12 {
+        transform: skew(-3deg);
+    }
+
+        .left .row-12 .seat {
+            transform: skew(-2deg);
+        }
+
+
+    .left .row-13 {
+        transform: skew(-2deg);
+    }
+
+        .left .row-13 .seat {
+            transform: skew(-4deg);
+        }
+    .left .row-14 {
+        transform: skew(-1deg);
+    }
+
+        .left .row-14 .seat {
+            transform: skew(-6deg);
+        }
+    .left .row-15 {
+        transform: skew(0deg);
+    }
+
+        .left .row-15 .seat {
+            transform: skew(-8deg);
+        }
+    .left .row-16 {
+        transform: skew(1deg);
+    }
+
+        .left .row-16 .seat {
+            transform: skew(-10deg);
+        }
     .right {
         margin-left: 70px;
     }

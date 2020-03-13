@@ -135,7 +135,7 @@ namespace DataLayer
                     cfg.CreateMap<tblFlat, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID).ToList()).ToList();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID).OrderBy(x=> new { x.Floor,x.FlatName}).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -841,14 +841,22 @@ namespace DataLayer
             List<FlatWiseAgentCommission> lstAgents = new List<FlatWiseAgentCommission>();
             try
             {
-                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
-                //lstCountry = dbEntity.tblProjects.ToList();
                 var config = new MapperConfiguration(cfg =>
                 {
-                    cfg.CreateMap<sp_GetAgentCommissionByAgentLogins_Result, FlatWiseAgentCommission>();
+                    cfg.CreateMap<sp_GetAgentCommissionNdBalanceByAgentLogins_Result, FlatWiseAgentCommission>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstAgents = mapper.Map<List<sp_GetAgentCommissionByAgentLogins_Result>, List<FlatWiseAgentCommission>>(dbEntity.sp_GetAgentCommissionByAgentLogins(email).ToList()).ToList();
+                lstAgents = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<FlatWiseAgentCommission>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).ToList()).ToList();
+                foreach(var agent in lstAgents)
+                {
+                    agent.NetBalance = Convert.ToInt32(agent.AgentCommission - agent.AmountPaid);
+                }
+                //var config = new MapperConfiguration(cfg =>
+                //{
+                //    cfg.CreateMap<sp_GetAgentCommissionByAgentLogins_Result, FlatWiseAgentCommission>();
+                //});
+                //IMapper mapper = config.CreateMapper();
+                //lstAgents = mapper.Map<List<sp_GetAgentCommissionByAgentLogins_Result>, List<FlatWiseAgentCommission>>(dbEntity.sp_GetAgentCommissionByAgentLogins(email).ToList()).ToList();
             }
             catch (Exception ex)
             {
