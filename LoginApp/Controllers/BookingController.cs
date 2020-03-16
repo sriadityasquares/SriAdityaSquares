@@ -347,6 +347,30 @@ namespace LoginApp.Controllers
             return Json(agentPay, JsonRequestBehavior.AllowGet);
         }
 
-       
+        public ActionResult MakeFlatWiseAgentPayments()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            return View();
+        }
+
+        public JsonResult GetFlatWiseAgentCommission(int flatID)
+        {
+            //if(flatID == 0)
+            //{
+            //    flatID = 13;
+            //}
+            List<FlatWiseAgentCommission> fwac = booking.BindFlatWiseAgentCommission(flatID);
+            return Json(fwac, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult UpdateAgentFlatWisePayments(string models)
+        {
+            List<FlatWiseAgentCommission> data = JsonConvert.DeserializeObject<List<FlatWiseAgentCommission>>(models);
+            var result = booking.UpdateAgentPayment(data[0]);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

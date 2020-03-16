@@ -19,5 +19,6 @@ namespace DataLayer
         public Nullable<int> AgentCommission { get; set; }
         public string AgentSponserCode { get; set; }
         public Nullable<int> AmountPaid { get; set; }
+        public Nullable<int> NetBalance { get; set; }
     }
 }

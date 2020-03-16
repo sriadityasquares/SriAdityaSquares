@@ -1660,6 +1660,7 @@
     <Content Include="Views\Scheme\Index.cshtml" />
     <Content Include="Views\Booking\MakeAgentTotalPayment.cshtml" />
     <Content Include="Views\Customer\Enquiry.cshtml" />
+    <Content Include="Views\Booking\MakeFlatWiseAgentPayments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

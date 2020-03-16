@@ -41,7 +41,6 @@ namespace DataLayer
         public virtual DbSet<tblAgentProjectLevel> tblAgentProjectLevels { get; set; }
         public virtual DbSet<tblAgentPaymentInfo> tblAgentPaymentInfoes { get; set; }
         public virtual DbSet<tblFlat> tblFlats { get; set; }
-        public virtual DbSet<tblFlatWiseAgentCommission> tblFlatWiseAgentCommissions { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
@@ -50,6 +49,7 @@ namespace DataLayer
         public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
         public virtual DbSet<tblAgentTotalPayment> tblAgentTotalPayments { get; set; }
         public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
+        public virtual DbSet<tblFlatWiseAgentCommission> tblFlatWiseAgentCommissions { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {

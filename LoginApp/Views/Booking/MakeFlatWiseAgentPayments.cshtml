@@ -1,0 +1,229 @@
+﻿@model ModelLayer.PaymentInformation
+@{
+    ViewBag.Title = "MakeFlatWiseAgentPayments";
+    ViewBag.MakeAgentPayment = "active";
+    ViewBag.Admin = "active";
+}
+
+<div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
+
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">FLAT WISE AGENT PAYMENTS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+    <hr />
+    <br />
+    <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
+        <div id="grid"></div>
+    </div>
+</div>
+
+
+<script>
+    var html = '';
+
+    $("#ProjectID").change(function () {
+        $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+            //HideDiv();
+            $("#TowerID").empty();
+            $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+            });
+        });
+    });
+
+    $("#TowerID").change(function () {
+
+        $.get("/Booking/GetFlatsExceptOpen", { TowerID: $("#TowerID").val() }, function (data) {
+            //$("#TowerID").empty();
+            //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            //HideDiv();
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
+            });
+        });
+    });
+
+    $("#FlatID").change(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Booking/GetFlatWiseAgentCommission/?flatID=" + $("#FlatID").val(),
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Booking/UpdateAgentFlatWisePayments",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                    
+                }
+            },
+            batch: true,
+            //pageSize: 20,
+            schema: {
+                model: {
+                    id: "FlatID",
+                    fields: {
+                        FlatName: { editable: false },
+                        AgentName: { editable: false, nullable: true },
+                        AgentCommission: { editable: false, nullable: true },
+                        NetBalance: { editable: false,nullable: true },
+                        AmountPaid: { nullable: true }
+                        
+                    }
+                }
+            }
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            height: 550,
+            edit: function (e) {
+                //$('[name="FlatName"]').attr("readonly", true);
+                //$('[name="AgentName"]').attr("readonly", true);
+                //$('[name="AgentCommission"]').attr("readonly", true);
+            },
+            //toolbar: ["create"],
+            columns: [
+                { field: "FlatName", title: "FLAT", width: "50px" },
+                { field: "AgentName", title: "AGENT", width: "200px" },
+                { field: "AgentCommission", title: "NET COMMISSION", width: "200px" },
+                { field: "NetBalance", title: "NET BALANCE", width: "200px" },
+                { field: "AmountPaid", title: "NET PAID", width: "200px" },
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "60px"
+                }],
+            editable: "inline",
+        });
+
+    });
+
+        //$("#grid").hide();
+
+
+        //$('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        //$("#grid").kendoGrid({
+        //    toolbar: kendo.template($("#searchtemplate").html()),
+        //    excel: {
+        //        fileName: "AgentBookingInfoReport.xlsx",
+
+        //        //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+        //        filterable: true
+        //    },
+
+        //    dataSource: new kendo.data.DataSource({
+        //    transport: {
+        //        read: {
+        //            url: "/Project/Details",
+        //            contentType: "application/json",
+        //            dataType: "json",
+        //            type: "POST"
+        //        },
+        //        update: {
+        //            url: "/Project/UpdateProject",
+        //            dataType: "json",
+        //            complete: function (jqXhr, textStatus) {
+        //                if (textStatus == 'success') {
+        //                    toastr.success('Update Successfull');
+        //                    $("#grid").data("kendoGrid").dataSource.read();
+        //                }
+        //                else {
+        //                    toastr.error('Error in Updating');
+        //                    $("#grid").data("kendoGrid").dataSource.read();
+        //                }
+        //            }
+        //        },
+
+
+        //        parameterMap: function (options, operation) {
+        //            if (operation !== "read" && options.models) {
+        //                return { models: kendo.stringify(options.models) };
+        //            }
+        //        }
+        //    },
+        //    batch: true,
+        //    pageSize: 20,
+        //    schema: {
+        //        model: {
+        //            id: "FlatID",
+        //            fields: {
+        //                //FlatID: { editable: false, nullable: true },
+        //                FlatName: {  editable: false},
+        //                AgentName: {  editable: false, nullable: true },
+        //                AgentCommission: { editable: false, nullable: true },
+        //                AmountPaid : { nullable: true }
+
+
+        //            }
+        //        }
+        //    }
+        //}),
+        //    height: 550,
+        //    columns: [
+        //        { field: "FlatName", title: "FLAT", width: "50px" },
+        //        { field: "AgentName", title: "AGENT", width: "200px" },
+        //        { field: "AgentCommission", title: "NET COMMISSION", width: "200px" },
+        //        { field: "AmountPaid", title: "NET PAID", width: "200px" },
+        //        {
+        //            command: [
+        //                { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+        //                //{ name: "destroy", text: " " }
+        //            ], title: "&nbsp;", width: "60px"
+        //        }],
+        //    editable: "inline",
+        //});
+
+
+</script>
+<script>
+    $(document).ready(function () {
+        
+
+    });
+</script>
+<script type="text/x-kendo-template" id="searchtemplate">
+    <div class="toolbar">
+
+        <div>
+            <a data-toggle="tooltip" title="Export to Excel" class="k-button k-button-icontext k-grid-excel" href="\#"><i class="fa fa-file-excel-o fa-lg"></i></a>
+        </div>
+
+    </div>
+
+</script>

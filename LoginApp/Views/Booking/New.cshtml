@@ -211,7 +211,7 @@
             $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
                 $("#TowerID").empty();
                 $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
-                $("#FlatID").empty();
+                //$("#FlatID").empty();
                 $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
                 ClearTextFiels();
                 $.each(data, function (index, row) {
@@ -256,7 +256,7 @@
             $.get("/Booking/GetFlats", { TowerId: towerID }, function (data) {
                 //$("#TowerID").empty();
                 //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
-                $("#FlatID").empty();
+                //$("#FlatID").empty();
                 $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
                 ClearTextFiels();
                 $.each(data, function (index, row) {

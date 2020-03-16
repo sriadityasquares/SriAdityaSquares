@@ -378,6 +378,7 @@ namespace DataLayer
                         fwac.FlatName = bookingInfo.FlatName;
                         fwac.AgentID = currentAgent.AgentID;
                         fwac.AgentName = currentAgent.AgentName;
+                        fwac.AmountPaid = 0;
                         fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == currentAgent.LevelID).Select(y => y.Percentage).FirstOrDefault();
                         lstFwac.Add(fwac);
                     }
@@ -387,9 +388,12 @@ namespace DataLayer
                     {
                         var difference = item.Percentage - oldPercentage;
                         item.AgentCommission = Convert.ToInt32((bookingInfo.FinalRate * difference) / 100);
+                        item.AgentCommission = Convert.ToInt32(item.AgentCommission - (0.05 * item.AgentCommission));
+                        item.NetBalance = item.AgentCommission;
                         oldPercentage = Convert.ToDouble(item.Percentage);
                         dbEntity.tblFlatWiseAgentCommissions.Add(item);
                     }
+                    
                 }
                 else
                 {
@@ -401,11 +405,28 @@ namespace DataLayer
                     fwac.AgentName = bookingInfo.AgentName;
                     fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == bookingInfo.Level).Select(y => y.Percentage).FirstOrDefault();
                     fwac.AgentCommission = Convert.ToInt32((bookingInfo.FinalRate * fwac.Percentage) / 100);
+                    fwac.AgentCommission = Convert.ToInt32(fwac.AgentCommission - (0.05 * fwac.AgentCommission));
+                    fwac.AmountPaid = 0;
+                    fwac.NetBalance = fwac.AgentCommission;
                     dbEntity.tblFlatWiseAgentCommissions.Add(fwac);
                     //lstFwac.Add(fwac);
                 }
-
-
+                // SAS Commission to be added 
+                if(bookingInfo.AgentComm !=0)
+                {
+                    tblFlatWiseAgentCommission fwac = new tblFlatWiseAgentCommission();
+                    //var currentAgent = allAgentList.Where(x => x.AgentID == Convert.ToInt32(agent)).FirstOrDefault();
+                    fwac.FlatID = Convert.ToInt32(bookingInfo.FlatID);
+                    fwac.FlatName = bookingInfo.FlatName;
+                    fwac.AgentID = 1;
+                    fwac.AgentName = "SAS";
+                    fwac.Percentage = highestPercentage;
+                    fwac.AmountPaid = 0;
+                    //fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == bookingInfo.Level).Select(y => y.Percentage).FirstOrDefault();
+                    fwac.AgentCommission = Convert.ToInt32(bookingInfo.SASNet);
+                    fwac.NetBalance = fwac.AgentCommission;
+                    dbEntity.tblFlatWiseAgentCommissions.Add(fwac);
+                }
 
                 dbEntity.SaveChanges();
 
@@ -555,6 +576,7 @@ namespace DataLayer
                         fwac.FlatName = bookingInfo.FlatName;
                         fwac.AgentID = currentAgent.AgentID;
                         fwac.AgentName = currentAgent.AgentName;
+                        fwac.AmountPaid = 0;
                         fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == currentAgent.LevelID).Select(y => y.Percentage).FirstOrDefault();
                         lstFwac.Add(fwac);
                     }
@@ -564,6 +586,8 @@ namespace DataLayer
                     {
                         var difference = item.Percentage - oldPercentage;
                         item.AgentCommission = Convert.ToInt32((bookingInfo.FinalRate * difference) / 100);
+                        item.AgentCommission = Convert.ToInt32(item.AgentCommission - (0.05 * item.AgentCommission));
+                        item.NetBalance = item.AgentCommission;
                         oldPercentage = Convert.ToDouble(item.Percentage);
                         dbEntity.tblFlatWiseAgentCommissions.Add(item);
                     }
@@ -578,8 +602,28 @@ namespace DataLayer
                     fwac.AgentName = bookingInfo.AgentName;
                     fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == bookingInfo.Level).Select(y => y.Percentage).FirstOrDefault();
                     fwac.AgentCommission = Convert.ToInt32((bookingInfo.FinalRate * fwac.Percentage) / 100);
+                    fwac.AgentCommission = Convert.ToInt32(fwac.AgentCommission - (0.05 * fwac.AgentCommission));
+                    fwac.AmountPaid = 0;
+                    fwac.NetBalance = fwac.AgentCommission;
                     dbEntity.tblFlatWiseAgentCommissions.Add(fwac);
                     //lstFwac.Add(fwac);
+                }
+
+                // SAS Commission to be added 
+                if (bookingInfo.AgentComm != 0)
+                {
+                    tblFlatWiseAgentCommission fwac = new tblFlatWiseAgentCommission();
+                    //var currentAgent = allAgentList.Where(x => x.AgentID == Convert.ToInt32(agent)).FirstOrDefault();
+                    fwac.FlatID = Convert.ToInt32(bookingInfo.FlatID);
+                    fwac.FlatName = bookingInfo.FlatName;
+                    fwac.AgentID = 1;
+                    fwac.AgentName = "SAS";
+                    fwac.Percentage = highestPercentage;
+                    fwac.AmountPaid = 0;
+                    //fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == bookingInfo.Level).Select(y => y.Percentage).FirstOrDefault();
+                    fwac.AgentCommission = Convert.ToInt32(bookingInfo.SASNet);
+                    fwac.NetBalance = fwac.AgentCommission;
+                    dbEntity.tblFlatWiseAgentCommissions.Add(fwac);
                 }
                 dbEntity.SaveChanges();
                 return true;
@@ -847,10 +891,10 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstAgents = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<FlatWiseAgentCommission>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).ToList()).ToList();
-                foreach(var agent in lstAgents)
-                {
-                    agent.NetBalance = Convert.ToInt32(agent.AgentCommission - agent.AmountPaid);
-                }
+                //foreach(var agent in lstAgents)
+                //{
+                //    agent.NetBalance = Convert.ToInt32(agent.AgentCommission - agent.AmountPaid);
+                //}
                 //var config = new MapperConfiguration(cfg =>
                 //{
                 //    cfg.CreateMap<sp_GetAgentCommissionByAgentLogins_Result, FlatWiseAgentCommission>();
@@ -960,6 +1004,44 @@ namespace DataLayer
                 log.Error("Error :" + ex);
             }
             return lstAgentLocations;
+        }
+
+        public List<FlatWiseAgentCommission> BindFlatWiseAgentCommission(int flatID)
+        {
+            List<FlatWiseAgentCommission> fwac = new List<FlatWiseAgentCommission>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblFlatWiseAgentCommission, FlatWiseAgentCommission>();
+                });
+                IMapper mapper = config.CreateMapper();
+                fwac = mapper.Map<List<tblFlatWiseAgentCommission>, List<FlatWiseAgentCommission>>(dbEntity.tblFlatWiseAgentCommissions.Where(x=>x.FlatID == flatID).ToList()).ToList();
+            }
+            catch(Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return fwac;
+        }
+
+
+        public bool UpdateAgentPayment(FlatWiseAgentCommission fwac)
+        {
+            try
+            {
+                tblFlatWiseAgentCommission fwacOld = dbEntity.tblFlatWiseAgentCommissions.Where(x => x.AgentID == fwac.AgentID && x.FlatID == fwac.FlatID).FirstOrDefault();
+                fwacOld.AmountPaid = fwac.AmountPaid;
+                fwacOld.NetBalance = fwac.AgentCommission - fwac.AmountPaid;
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+
         }
     }
 }

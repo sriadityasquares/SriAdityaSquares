@@ -20,5 +20,7 @@ namespace DataLayer
         public string AgentName { get; set; }
         public Nullable<int> AgentCommission { get; set; }
         public Nullable<double> Percentage { get; set; }
+        public Nullable<int> AmountPaid { get; set; }
+        public Nullable<int> NetBalance { get; set; }
     }
 }

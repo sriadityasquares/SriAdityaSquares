@@ -257,6 +257,8 @@
           <Property Name="AgentName" Type="nvarchar(max)" />
           <Property Name="AgentCommission" Type="int" />
           <Property Name="Percentage" Type="float" />
+          <Property Name="AmountPaid" Type="int" />
+          <Property Name="NetBalance" Type="int" />
         </EntityType>
         <EntityType Name="tblLevelsMaster">
           <Key>
@@ -656,7 +658,6 @@
           <FunctionImport Name="sp_GetAgentsByProjectID" ReturnType="Collection(salesDBModel.sp_GetAgentsByProjectID_Result)">
           <Parameter Name="ProjectID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="tblFlatWiseAgentCommissions" EntityType="salesDBModel.tblFlatWiseAgentCommission" />
           <FunctionImport Name="sp_GetFlatWiseTotalAgentCommission" ReturnType="Collection(salesDBModel.sp_GetFlatWiseTotalAgentCommission_Result)">
             <Parameter Name="ProjectID" Mode="In" Type="Int32" />
             <Parameter Name="TowerID" Mode="In" Type="Int32" />
@@ -698,6 +699,7 @@
           </FunctionImport>
           <EntitySet Name="tblAgentMasters" EntityType="salesDBModel.tblAgentMaster" />
           <FunctionImport Name="sp_GetAgentLocations" ReturnType="Collection(salesDBModel.sp_GetAgentLocations_Result)" />
+          <EntitySet Name="tblFlatWiseAgentCommissions" EntityType="salesDBModel.tblFlatWiseAgentCommission" />
           <FunctionImport Name="sp_GetAgentCommissionNdBalanceByAgentLogins" ReturnType="Collection(salesDBModel.sp_GetAgentCommissionNdBalanceByAgentLogins_Result)">
             <Parameter Name="AgentEmail" Mode="In" Type="String" />
           </FunctionImport>
@@ -1048,18 +1050,6 @@
           <Property Type="String" Name="AgentParent" Nullable="true" />
           <Property Type="String" Name="AgentChild" Nullable="true" />
         </ComplexType>
-        <EntityType Name="tblFlatWiseAgentCommission">
-          <Key>
-            <PropertyRef Name="FlatID" />
-            <PropertyRef Name="AgentID" />
-          </Key>
-          <Property Name="FlatID" Type="Int32" Nullable="false" />
-          <Property Name="FlatName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AgentID" Type="Int32" Nullable="false" />
-          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AgentCommission" Type="Int32" />
-          <Property Name="Percentage" Type="Double" />
-        </EntityType>
         <ComplexType Name="sp_GetFlatWiseTotalAgentCommission_Result">
           <Property Type="Int32" Name="FlatID" Nullable="true" />
           <Property Type="String" Name="FlatName" Nullable="true" MaxLength="250" />
@@ -1352,6 +1342,20 @@
           <Property Type="Double" Name="AgentLatitude" Nullable="true" />
           <Property Type="Double" Name="AgentLongitude" Nullable="true" />
         </ComplexType>
+        <EntityType Name="tblFlatWiseAgentCommission">
+          <Key>
+            <PropertyRef Name="FlatID" />
+            <PropertyRef Name="AgentID" />
+          </Key>
+          <Property Name="FlatID" Type="Int32" Nullable="false" />
+          <Property Name="FlatName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentID" Type="Int32" Nullable="false" />
+          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentCommission" Type="Int32" />
+          <Property Name="Percentage" Type="Double" />
+          <Property Name="AmountPaid" Type="Int32" />
+          <Property Name="NetBalance" Type="Int32" />
+        </EntityType>
         <ComplexType Name="sp_GetAgentCommissionNdBalanceByAgentLogins_Result">
           <Property Type="Int32" Name="AgentID" Nullable="false" />
           <Property Type="String" Name="AgentName" Nullable="true" />
@@ -1359,6 +1363,7 @@
           <Property Type="Int32" Name="AgentCommission" Nullable="true" />
           <Property Type="String" Name="AgentSponserCode" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="AmountPaid" Nullable="true" />
+          <Property Type="Int32" Name="NetBalance" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1719,18 +1724,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="tblFlatWiseAgentCommissions">
-            <EntityTypeMapping TypeName="salesDBModel.tblFlatWiseAgentCommission">
-              <MappingFragment StoreEntitySet="tblFlatWiseAgentCommissions">
-                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
-                <ScalarProperty Name="AgentCommission" ColumnName="AgentCommission" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
-                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_GetFlatWiseTotalAgentCommission" FunctionName="salesDBModel.Store.sp_GetFlatWiseTotalAgentCommission">
             <ResultMapping>
               <ComplexTypeMapping TypeName="salesDBModel.sp_GetFlatWiseTotalAgentCommission_Result">
@@ -2028,6 +2021,20 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblFlatWiseAgentCommissions">
+            <EntityTypeMapping TypeName="salesDBModel.tblFlatWiseAgentCommission">
+              <MappingFragment StoreEntitySet="tblFlatWiseAgentCommissions">
+                <ScalarProperty Name="NetBalance" ColumnName="NetBalance" />
+                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="AgentCommission" ColumnName="AgentCommission" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_GetAgentCommissionNdBalanceByAgentLogins" FunctionName="salesDBModel.Store.sp_GetAgentCommissionNdBalanceByAgentLogins">
             <ResultMapping>
               <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentCommissionNdBalanceByAgentLogins_Result">
@@ -2037,6 +2044,7 @@
                 <ScalarProperty Name="AgentCommission" ColumnName="AgentCommission" />
                 <ScalarProperty Name="AgentSponserCode" ColumnName="AgentSponserCode" />
                 <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+                <ScalarProperty Name="NetBalance" ColumnName="NetBalance" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

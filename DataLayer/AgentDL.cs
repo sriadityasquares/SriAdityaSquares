@@ -57,7 +57,10 @@ namespace DataLayer
                 //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
                 mapper.Map<AgentMaster, tblAgentMaster>(a, agentNew);
                 dbEntity.tblAgentMasters.Add(agentNew);
+                
                 dbEntity.SaveChanges();
+               
+                //tblAgentTotalPayment
 
                 return true;
             }

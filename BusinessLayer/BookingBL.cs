@@ -156,5 +156,15 @@ namespace BusinessLayer
         {
             return db.GetAgentLocations();
         }
+
+        public List<FlatWiseAgentCommission> BindFlatWiseAgentCommission(int flatID)
+        {
+            return db.BindFlatWiseAgentCommission(flatID);
+        }
+
+        public bool UpdateAgentPayment(FlatWiseAgentCommission fwac)
+        {
+            return db.UpdateAgentPayment(fwac);
+        }
     }
 }

@@ -93,11 +93,11 @@
                                     <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">AGENT PROJECT LEVEL</a>
                                 </li>
                                 <li>
-                                    <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeAgentPayment", "Booking")">AGENT PAYMENTS</a>
+                                    <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeFlatWiseAgentPayments", "Booking")">AGENT PAYMENTS</a>
                                 </li>
-                                <li>
+                                @*<li>
                                     <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                                </li>
+                                </li>*@
                             </ul>
                         </li>
                     }
@@ -312,11 +312,11 @@
                                     <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">AGENT PROJECT LEVELS</a>
                                 </li>
                                 <li>
-                                    <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeAgentPayment", "Booking")">AGENT PAYMENTS</a>
+                                    <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeFlatWiseAgentPayments", "Booking")">AGENT PAYMENTS</a>
                                 </li>
-                                <li>
+                                @*<li>
                                     <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                                </li>
+                                </li>*@
                             </ul>
                         </li>
                     }
