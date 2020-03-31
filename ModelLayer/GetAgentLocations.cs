@@ -14,6 +14,8 @@ namespace ModelLayer
             public Nullable<long> AgentMobileNo { get; set; }
             public Nullable<double> AgentLatitude { get; set; }
             public Nullable<double> AgentLongitude { get; set; }
+
+            public double? Distance { get; set; }
         
     }
 }

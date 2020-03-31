@@ -1,5 +1,6 @@
 ﻿using BusinessLayer;
 using ModelLayer;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,20 +27,26 @@ namespace LoginApp.Controllers
         {
             List<GetAgentLocations> agentLocations = booking.GetAgentLocations();
             GetAgentLocations agent = new GetAgentLocations();
-            double minDistance = 9999;
+            //double minDistance = 9999;
+            string customerLocation = "https://www.google.com/maps/place/"+customerEnquiry.Latitude+","+customerEnquiry.Longitude+"/@"+customerEnquiry.Latitude+','+customerEnquiry.Longitude;
             foreach(var item in agentLocations)
             {
                 if(item.AgentLatitude != null && item.AgentLongitude !=null)
                 {
-                    var dist = distance(customerEnquiry.Latitude, Convert.ToDouble(item.AgentLatitude), customerEnquiry.Longitude, Convert.ToDouble(item.AgentLongitude));
-                    if(dist < minDistance)
-                    {
-                        agent = item;
-                        minDistance = dist;
-                    }
-
+                    item.Distance = distance(customerEnquiry.Latitude, Convert.ToDouble(item.AgentLatitude), customerEnquiry.Longitude, Convert.ToDouble(item.AgentLongitude));
                 }
                 //22bd272c6ec1a7de6af16ae3818ab
+            }
+            var agents =  agentLocations.Where(x=>x.Distance != null).OrderBy(x => x.Distance).Take(5);
+            var message = "";
+            foreach (var currentAgent in agents)
+            {
+
+                message = "Customer Name :" + customerEnquiry.CustomerName + Environment.NewLine + "Mobile no :" + customerEnquiry.Mobile + Environment.NewLine + "Location :" + customerLocation + Environment.NewLine + "Requirement :" + customerEnquiry.Enquiry;
+                var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=a39d36115c841484ea31ddc31936ee4&message=" + message + "&senderId=SIGNUP&routeId=8&mobileNos=" + currentAgent.AgentMobileNo + "&smsContentType=english");
+                var request = new RestRequest(Method.GET);
+                request.AddHeader("Cache-Control", "no-cache");
+                IRestResponse response = client.Execute(request);
             }
             
             return View();
