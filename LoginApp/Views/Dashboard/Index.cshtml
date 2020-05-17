@@ -21,7 +21,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button onclick="GoToBooking()" type="button" class="btn btn-default orangebg pull-right" data-dismiss="modal">BOOK/MODIFY</button>
+                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry"))
+                {
+                    <button onclick="GoToBooking()" type="button" class="btn btn-default orangebg pull-right" data-dismiss="modal">BOOK/MODIFY</button>
+                }
             </div>
         </div>
 
