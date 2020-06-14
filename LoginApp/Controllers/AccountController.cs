@@ -11,6 +11,10 @@ using Microsoft.Owin.Security;
 using LoginApp.Models;
 using DataLayer;
 using log4net;
+using BusinessLayer;
+using System.Text;
+using Microsoft.AspNet.Identity.EntityFramework;
+using RestSharp;
 
 namespace LoginApp.Controllers
 {
@@ -19,6 +23,7 @@ namespace LoginApp.Controllers
     
     public class AccountController : Controller
     {
+        CommonBL common = new CommonBL();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private static readonly ILog log =
@@ -88,6 +93,7 @@ namespace LoginApp.Controllers
                     case SignInStatus.Success:
                         {
                             var _user = UserManager.FindByEmail(model.Email);
+                            common.UpdateAgentLocation(model.Latitude, model.Longitude, model.Email);
                             return RedirectToLocal(_user.Id, returnUrl);
                         }
                     case SignInStatus.LockedOut:
@@ -144,7 +150,7 @@ namespace LoginApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email,PhoneNumber = model.PhoneNumber };
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
@@ -208,9 +214,17 @@ namespace LoginApp.Controllers
                 var user = await UserManager.FindByNameAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
-
-                    return View("ForgotPasswordConfirmation");
+                    var password = CreatePassword(6);
+                    UserManager<IdentityUser> userManager =
+    new UserManager<IdentityUser>(new UserStore<IdentityUser>());
+                    userManager.RemovePassword(user.Id);
+                    userManager.AddPassword(user.Id, password);
+                    var message = "Hello User. Here is you new password :" + password + "\n Please Reset once logged in. :)";
+                    var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=a39d36115c841484ea31ddc31936ee4&message=" + message + "&senderId=SIGNUP&routeId=8&mobileNos=" + user.PhoneNumber + "&smsContentType=english");
+                    var request = new RestRequest(Method.GET);
+                    request.AddHeader("Cache-Control", "no-cache");
+                    IRestResponse response = client.Execute(request);
+                    
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -218,7 +232,7 @@ namespace LoginApp.Controllers
                 // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -233,6 +247,17 @@ namespace LoginApp.Controllers
             return View();
         }
 
+        public string CreatePassword(int length)
+        {
+            const string valid = "abcdefghijklmnopqrstuvwxyz";
+            StringBuilder res = new StringBuilder();
+            Random rnd = new Random();
+            while (0 < length--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+            return res.ToString();
+        }
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]

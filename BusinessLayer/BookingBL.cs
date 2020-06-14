@@ -55,6 +55,8 @@ namespace BusinessLayer
             return db.BindFlatsExceptOpen(towerID);
         }
 
+        
+
         public List<AgentProjectLevel> BindProjectAgents(int projectID)
         {
             return db.BindProjectAgents(projectID);
@@ -130,6 +132,11 @@ namespace BusinessLayer
         public List<FlatWiseAgentCommission> BindAgentsDashboard(string email)
         {
             return db.BindAgentsDashboard(email);
+        }
+
+        public List<GetAgentFlatWiseCommissionByLogin> BindFlatWiseAgentsCommissionByLogins(string email)
+        {
+            return db.BindFlatWiseAgentsCommissionByLogins(email);
         }
 
         public BookingInformation GetBookingInformation(int FlatID)

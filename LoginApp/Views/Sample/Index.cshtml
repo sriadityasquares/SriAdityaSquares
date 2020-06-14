@@ -4,83 +4,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="jumbotron">
-    <div class="row">
-        <div class="col-md-1 col-xs">
-            <h3 align="center" style="margin-bottom:2px">PROJECTS</h3>
-            <div class="specialLine"></div>
-        </div>
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
 
-    </div>
-    <div id="grid"></div>
-</div>
+
+</style>
+
+<body>
+
+    <h2>How To Create A Loader</h2>
+
+    <div style="display:none" class="loader"></div>
+    <button onclick="Show()"> Show </button>
+    <button onclick="Hide()"> Hide </button>
+</body>
+
 
 <script>
-
-    $(document).ready(function () {
-        dataSource = new kendo.data.DataSource({
-            transport: {
-                read: {
-                    url: "@Url.Action("Details", "Sample")",
-                    contentType: "application/json",
-                    dataType: "json",
-                    type: "POST"
-                },
-                update: {
-                    url: "/Project/Edit",
-                    dataType: "json"
-                },
-                destroy: {
-                    url: "/Sample/Destroy",
-                    dataType: "jsonp"
-                },
-                create: {
-                    url: "/Sample/Create",
-                    dataType: "jsonp"
-                },
-                parameterMap: function (options, operation) {
-                    if (operation !== "read" && options.models) {
-                        return { models: kendo.stringify(options.models) };
-                    }
-                }
-            },
-            batch: true,
-            pageSize: 20,
-            schema: {
-                model: {
-                    id: "ProjectID",
-                    fields: {
-                        ProjectID: { editable: false, nullable: true },
-                        ProjectName: { validation: { required: true } },
-                        ProjectLocation: { validation: { required: true } },
-                        BookingStatus: { validation: { required: true } },
-                        ClubHouseCharges: { type: "number", validation: { min: 0, required: true } }
-                    }
-                }
-            }
-        });
-
-        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
-        $("#grid").kendoGrid({
-            dataSource: dataSource,
-            pageable: true,
-            height: 550,
-            toolbar: ["create"],
-            columns: [
-                { field: "ProjectName", title: "PROJECT", width: "250px" },
-                { field: "ProjectLocation", title: "Location", width: "200px" },
-                { field: "BookingStatus", title: "Status", width: "100px" },
-                { field: "ClubHouseCharges", title: "Club House Charges", width: "120px" },
-                {
-                    command: [
-                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
-                        { name: "destroy", text: " " }
-                    ], title: "&nbsp;", width: "130px"
-                }],
-                    editable: "inline",
-        });
-
-
-    });
+    $('.loader').hide();
+    function Show() {
+        $('.loader').show();
+    }
+    function Hide() {
+        $('.loader').hide();
+    }
 </script>
-

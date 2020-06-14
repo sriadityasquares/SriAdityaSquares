@@ -5328,8 +5328,10 @@ button, input, select, textarea {
 
 /*Navigation CSS*/
 body {
+    
     font-family: 'Open Sans', sans-serif;
     background-image: url('../../Content/Images/blur-blurred-background-colors-754082.jpg');
+    /*background-image: url('../../Content/Images/building.jpg');*/
     padding: 0;
     margin: 0;
     text-rendering: optimizeLegibility;
@@ -6012,4 +6014,11 @@ a.active {
 
 .marker-outline .timeline-item:hover .timeline-marker:before {
     background: #FF6B6B;
+}
+
+
+.k-filter-row th, .k-grid-header th.k-header {
+    
+    color: red !important;
+   
 }

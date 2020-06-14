@@ -3,6 +3,7 @@ using log4net;
 using ModelLayer;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -135,7 +136,7 @@ namespace DataLayer
                     cfg.CreateMap<tblFlat, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID).OrderBy(x=> new { x.Floor,x.FlatName}).ToList()).ToList();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID).OrderBy(x => new { x.Floor, x.FlatName }).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -195,6 +196,7 @@ namespace DataLayer
             List<Flats> lstFlats = new List<Flats>();
             try
             {
+                //dbEntity.tblAgentMasters.Where(x=>x.AgenteMail == )
                 //lstCountry = dbEntity.tblProjects.ToList();
                 var config = new MapperConfiguration(cfg =>
                 {
@@ -202,6 +204,8 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && (a.BookingStatus == "H" || a.BookingStatus == "S" || a.BookingStatus == "C")).ToList()).ToList();
+
+
             }
             catch (Exception ex)
             {
@@ -210,6 +214,7 @@ namespace DataLayer
             return lstFlats;
         }
 
+        
         public List<AgentProjectLevel> BindProjectAgents(int projectID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -243,7 +248,7 @@ namespace DataLayer
                     cfg.CreateMap<tblSchemeMaster, Schemes>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstSchemes = mapper.Map<List<tblSchemeMaster>, List<Schemes>>(dbEntity.tblSchemeMasters.Where(z=> z.ProjectID == projectID).ToList()).ToList();
+                lstSchemes = mapper.Map<List<tblSchemeMaster>, List<Schemes>>(dbEntity.tblSchemeMasters.Where(z => z.ProjectID == projectID).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -393,7 +398,7 @@ namespace DataLayer
                         oldPercentage = Convert.ToDouble(item.Percentage);
                         dbEntity.tblFlatWiseAgentCommissions.Add(item);
                     }
-                    
+
                 }
                 else
                 {
@@ -412,7 +417,7 @@ namespace DataLayer
                     //lstFwac.Add(fwac);
                 }
                 // SAS Commission to be added 
-                if(bookingInfo.AgentComm !=0)
+                if (bookingInfo.AgentComm != 0)
                 {
                     tblFlatWiseAgentCommission fwac = new tblFlatWiseAgentCommission();
                     //var currentAgent = allAgentList.Where(x => x.AgentID == Convert.ToInt32(agent)).FirstOrDefault();
@@ -499,10 +504,10 @@ namespace DataLayer
                 }
                 //int? sum = 0;
                 //Update Payment Info
-                List<tblPaymentInfo> paymentListOld = dbEntity.tblPaymentInfoes.Where(x => x.BookingID == bookingInfo.BookingID).OrderBy(x=>x.PaymentID).ToList();
-                for(int i=0;i<paymentListOld.Count;i++)
+                List<tblPaymentInfo> paymentListOld = dbEntity.tblPaymentInfoes.Where(x => x.BookingID == bookingInfo.BookingID).OrderBy(x => x.PaymentID).ToList();
+                for (int i = 0; i < paymentListOld.Count; i++)
                 {
-                    if(i == 0)
+                    if (i == 0)
                     {
                         paymentListOld[i].BookingAmount = bookingInfo.BookingAmount;
                         paymentListOld[i].BalanceAmount = bookingInfo.BalanceAmount;
@@ -513,7 +518,7 @@ namespace DataLayer
                     }
                     else
                     {
-                        paymentListOld[i].BalanceAmount = paymentListOld[i-1].BalanceAmount - paymentListOld[i].BookingAmount;
+                        paymentListOld[i].BalanceAmount = paymentListOld[i - 1].BalanceAmount - paymentListOld[i].BookingAmount;
                     }
                 }
 
@@ -523,7 +528,7 @@ namespace DataLayer
                 bookingInfo.SASNetPaid = 0;
                 bookingInfo.AgentNetPaid = 0;
                 List<tblAgentPaymentInfo> agentPaymentListOld = dbEntity.tblAgentPaymentInfoes.Where(x => x.BookingID == bookingInfo.BookingID).OrderBy(x => x.AgentPaymentID).ToList();
-                for(int j=0;j<agentPaymentListOld.Count;j++)
+                for (int j = 0; j < agentPaymentListOld.Count; j++)
                 {
                     if (j == 0)
                     {
@@ -538,7 +543,7 @@ namespace DataLayer
                     }
                     else
                     {
-                        agentPaymentListOld[j].SASNetBalance = agentPaymentListOld[j-1].SASNetBalance - agentPaymentListOld[j].SASNetPaid;
+                        agentPaymentListOld[j].SASNetBalance = agentPaymentListOld[j - 1].SASNetBalance - agentPaymentListOld[j].SASNetPaid;
                         agentPaymentListOld[j].AgentNetBalance = agentPaymentListOld[j - 1].AgentNetBalance - agentPaymentListOld[j].AgentNetPaid;
                     }
                 }
@@ -744,7 +749,7 @@ namespace DataLayer
         {
             try
             {
-               
+
                 var config2 = new MapperConfiguration(cfg =>
                 {
                     cfg.CreateMap<AgentTotalPayments, tblAgentTotalPayment>();
@@ -854,15 +859,15 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstFlatLifeCycle = mapper.Map<List<sp_GetFlatLifeCycle_Result>, List<GetFlatLifeCycle>>(dbEntity.sp_GetFlatLifeCycle(flatID).ToList()).ToList();
-                for(int i =0;i<lstFlatLifeCycle.Count;i++ )
+                for (int i = 0; i < lstFlatLifeCycle.Count; i++)
                 {
-                    if(i ==0)
+                    if (i == 0)
                     {
                         lstFlatLifeCycle[i].FlatEvent = "START";
                     }
                     else
                     {
-                        if(lstFlatLifeCycle[i].BalanceAmount == 0)
+                        if (lstFlatLifeCycle[i].BalanceAmount == 0)
                         {
                             lstFlatLifeCycle[i].FlatEvent = "END";
                         }
@@ -910,6 +915,27 @@ namespace DataLayer
             return lstAgents;
         }
 
+        public List<GetAgentFlatWiseCommissionByLogin> BindFlatWiseAgentsCommissionByLogins(string email)
+        {
+            List<GetAgentFlatWiseCommissionByLogin> lstAgents = new List<GetAgentFlatWiseCommissionByLogin>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetAgentFlatWiseCommissionByLogin_Result, GetAgentFlatWiseCommissionByLogin>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgents = mapper.Map<List<sp_GetAgentFlatWiseCommissionByLogin_Result>, List<GetAgentFlatWiseCommissionByLogin>>(dbEntity.sp_GetAgentFlatWiseCommissionByLogin(email).ToList()).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                ex.ToString();
+            }
+            return lstAgents;
+        }
+
         public BookingInformation GetBookingInformation(int FlatID)
         {
             try
@@ -923,7 +949,7 @@ namespace DataLayer
                 IMapper mapper = config.CreateMapper();
                 return mapper.Map<sp_GetBookingDetails_Result, BookingInformation>(dbEntity.sp_GetBookingDetails(FlatID).FirstOrDefault());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new BookingInformation();
             }
@@ -942,7 +968,7 @@ namespace DataLayer
                 lstAgents = mapper.Map<List<tblAgentProjectLevel>, List<AgentProjectLevel>>(dbEntity.tblAgentProjectLevels.ToList()).ToList();
                 return lstAgents;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Error :" + ex);
                 return new List<AgentProjectLevel>();
@@ -976,7 +1002,7 @@ namespace DataLayer
             if (list.Count > 1)
             {
                 agentPayDetails.AgentCommission = list[1];
-                if(list[0] == null)
+                if (list[0] == null)
                 {
                     list[0] = 0;
                 }
@@ -1016,9 +1042,9 @@ namespace DataLayer
                     cfg.CreateMap<tblFlatWiseAgentCommission, FlatWiseAgentCommission>();
                 });
                 IMapper mapper = config.CreateMapper();
-                fwac = mapper.Map<List<tblFlatWiseAgentCommission>, List<FlatWiseAgentCommission>>(dbEntity.tblFlatWiseAgentCommissions.Where(x=>x.FlatID == flatID).ToList()).ToList();
+                fwac = mapper.Map<List<tblFlatWiseAgentCommission>, List<FlatWiseAgentCommission>>(dbEntity.tblFlatWiseAgentCommissions.Where(x => x.FlatID == flatID).ToList()).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Error :" + ex);
             }
@@ -1036,7 +1062,7 @@ namespace DataLayer
                 dbEntity.SaveChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Error :" + ex);
                 return false;

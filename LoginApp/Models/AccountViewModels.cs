@@ -59,6 +59,10 @@ namespace LoginApp.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public double Latitude { get; set; }
+
+        public double Longitude { get; set; }
     }
 
     public class RegisterViewModel
@@ -80,6 +84,7 @@ namespace LoginApp.Models
 
         [Display(Name = "Role")]
         public string Role { get; set; }
+        public string PhoneNumber { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -109,5 +114,6 @@ namespace LoginApp.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        
     }
 }

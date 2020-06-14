@@ -95,3 +95,34 @@
         $("#Longitude").val(position.coords.longitude);
     }
 </script>
+
+<div class="row input-container">
+    <div class="col-xs-12">
+        <div class="styled-input wide">
+            @Html.TextBoxFor(m => m.CustomerName, new { @class = "text", type = "text", required = "required" })
+            <label>Name</label>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div class="styled-input">
+            @*@Html.TextBoxFor(m => m.ProjectID, new { @class = "text", type = "text", required = "required" })*@
+            @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "text", type = "text" })
+            <label>Project</label>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div class="styled-input" style="float:right;">
+            @Html.TextBoxFor(m => m.Mobile, new { @class = "text", type = "text", required = "required" })
+            <label>Phone Number</label>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="styled-input wide">
+            @Html.TextAreaFor(m => m.Enquiry, new { @class = "text", type = "text", required = "required" })
+            <label>Enquiry</label>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <button type="submit" id="submitbtn" value="Register" class="btn-lrg submit-btn"><i class="fa fa-check"></i>ENQUIRE</button>
+    </div>
+</div>

@@ -86,6 +86,9 @@
     <Compile Include="sp_GetAgentCommissionNdBalanceByAgentLogins_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetAgentFlatWiseCommissionByLogin_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_GetAgentLocations_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>

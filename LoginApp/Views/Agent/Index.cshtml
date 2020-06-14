@@ -121,31 +121,7 @@
                 //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
                 filterable: true
             },
-            //excelExport: function(e){
-            //  var sheet = e.workbook.sheets[0];
-            //  var data = grid.dataSource.data();
-            //  var gridColumns = grid.columns;
-            //  var columns = gridColumns.map(function(col){
-            //      return {
-            //        value: col.title ? col.title : col.field,
-            //        autoWidth:true,
-            //        background: "#7a7a7a",
-            //        color: "#fff"
-            //      };
-            //  });
-
-            //  var rows = [{cells:columns, type: "header"}];
-
-            //  for (var i = 0; i < data.length; i++){
-            //    var rowCells = [];
-            //    for(var j=0;j < gridColumns.length;j++){
-            //      var cellValue = data[i][gridColumns[j].field];
-            //      rowCells.push({value: cellValue});
-            //    }
-            //    rows.push({cells: rowCells, type: "data"});
-            //  }
-            //  sheet.rows = rows;
-            //},
+            
             columns: [
                 { field: "AgentCode", title: "Code", width: "100px" },
                 { field: "AgentName", title: "Name", width: "200px" },

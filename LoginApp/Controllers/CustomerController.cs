@@ -37,6 +37,7 @@ namespace LoginApp.Controllers
                 }
                 //22bd272c6ec1a7de6af16ae3818ab
             }
+            TempData.Keep("ProjectList");
             var agents =  agentLocations.Where(x=>x.Distance != null).OrderBy(x => x.Distance).Take(5);
             var message = "";
             foreach (var currentAgent in agents)
@@ -48,8 +49,8 @@ namespace LoginApp.Controllers
                 request.AddHeader("Cache-Control", "no-cache");
                 IRestResponse response = client.Execute(request);
             }
-            
-            return View();
+
+            return RedirectToAction("Index", "Home");
         }
 
         static double toRadians(

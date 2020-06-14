@@ -58,5 +58,10 @@ namespace BusinessLayer
         {
             return db.BindMonth();
         }
+
+        public void UpdateAgentLocation(double lalitude, double longitude, string email)
+        {
+            db.UpdateAgentLocation(lalitude, longitude, email);
+        }
     }
 }

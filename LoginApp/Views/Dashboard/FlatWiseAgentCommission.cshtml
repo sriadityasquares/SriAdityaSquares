@@ -1,0 +1,81 @@
+﻿@model ModelLayer.GetAgentFlatWiseCommissionByLogin
+@{
+    ViewBag.Title = "MyCommission";
+    ViewBag.MyCommission = "active";
+    ViewBag.Dashboard = "active";
+}
+
+<div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
+
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">MY FLAT WISE COMMISSION</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+        <br />
+        <hr />
+        <br />
+        <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
+            <div id="grid"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Dashboard/GetAgentFlatWiseCommissionByAgentLogins",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 30
+            //schema: {
+            //    model: {
+            //        id: "FlatID",
+            //        fields: {
+            //            FlatID: { editable: false, nullable: true, visible: false },
+            //            FlatName: { validation: { required: true } },
+            //            AgentName: { validation: { required: true } },
+            //            AgentCommission: { validation: { required: true } },
+            //            AmountPaid :
+            //            NetBalance: { type: "number", validation: { min: 0, required: true } }
+            //        }
+            //    }
+            //}
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 550,
+            toolbar: ["search", "excel"],
+            columns: [
+                { field: "ProjectName", title: "PROJECT", width: "100px" },
+                { field: "TowerName", title: "TOWER", width: "100px" },
+                { field: "FlatName", title: "FLAT", width: "50px" },
+
+                { field: "AgentName", title: "AGENT", width: "130px" },
+                { field: "AgentCommission", title: "FLAT COMMISSION", width: "100px" },
+                { field: "AmountPaid", title: "COMMISSION PAID", width: "100px" },
+                { field: "NetBalance", title: "NET BALANCE", width: "100px" }]
+            //editable: "inline",
+        });
+
+
+
+
+
+    });
+</script>

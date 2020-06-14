@@ -268,5 +268,14 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>("sp_GetAgentCommissionNdBalanceByAgentLogins", agentEmailParameter);
         }
+    
+        public virtual ObjectResult<sp_GetAgentFlatWiseCommissionByLogin_Result> sp_GetAgentFlatWiseCommissionByLogin(string agentEmail)
+        {
+            var agentEmailParameter = agentEmail != null ?
+                new ObjectParameter("AgentEmail", agentEmail) :
+                new ObjectParameter("AgentEmail", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentFlatWiseCommissionByLogin_Result>("sp_GetAgentFlatWiseCommissionByLogin", agentEmailParameter);
+        }
     }
 }

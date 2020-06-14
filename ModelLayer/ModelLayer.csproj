@@ -60,6 +60,7 @@
     <Compile Include="FlatDetails.cs" />
     <Compile Include="Flats.cs" />
     <Compile Include="FlatWiseAgentCommission.cs" />
+    <Compile Include="GetAgentFlatWiseCommissionByLogin.cs" />
     <Compile Include="GetAgentLocations.cs" />
     <Compile Include="GetAgentWiseBookingDetails.cs" />
     <Compile Include="GetBhkWiseBookingDetails.cs" />

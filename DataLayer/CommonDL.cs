@@ -209,6 +209,24 @@ namespace DataLayer
             return lstMonth;
         }
 
+        public void UpdateAgentLocation(double lalitude,double longitude,string email)
+        {
+            try
+            {
+                var agent = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == email).FirstOrDefault();
+                if (agent != null)
+                {
+                    agent.AgentLatitude = lalitude;
+                    agent.AgentLongitude = longitude;
+                    dbEntity.SaveChanges();
+                }
+            }
+            catch
+            {
+                
+            }
+        }
+
 
     }
 }

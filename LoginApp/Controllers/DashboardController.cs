@@ -95,6 +95,11 @@ namespace LoginApp.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult FlatWiseAgentCommission()
+        {
+            return View();
+        }
+
         public JsonResult GetAgentCommissionByAgentLogins()
         {
             var email = "";
@@ -110,6 +115,24 @@ namespace LoginApp.Controllers
             List<FlatWiseAgentCommission> list = booking.BindAgentsDashboard(email);
                     
             if(list.Count > 0) list[0].AgentSponserCode = null;
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetAgentFlatWiseCommissionByAgentLogins()
+        {
+            var email = "";
+            var _user = UserManager.FindByEmail(User.Identity.Name);
+            if (UserManager.IsInRole(_user.Id, "Admin"))
+            {
+                email = "nsrinivas78@gmail.com";
+            }
+            else
+            {
+                email = User.Identity.Name;
+            }
+            List<GetAgentFlatWiseCommissionByLogin> list = booking.BindFlatWiseAgentsCommissionByLogins(email);
+
+            //if (list.Count > 0) list[0].AgentSponserCode = null;
             return Json(list, JsonRequestBehavior.AllowGet);
         }
     }
