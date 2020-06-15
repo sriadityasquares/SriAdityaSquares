@@ -70,5 +70,10 @@ namespace BusinessLayer
         {
             return admin.AddScheme(a);
         }
+
+        public List<GetUsersWithRoles> GetUsersWithRoles()
+        {
+            return admin.GetUsersWithRoles();
+        }
     }
 }

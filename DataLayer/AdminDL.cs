@@ -335,5 +335,26 @@ namespace DataLayer
             }
 
         }
+
+        public List<GetUsersWithRoles> GetUsersWithRoles()
+        {
+            List<GetUsersWithRoles> lstUsers = new List<GetUsersWithRoles>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetUsersWithRoles_Result, GetUsersWithRoles>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstUsers = mapper.Map<List<sp_GetUsersWithRoles_Result>, List<GetUsersWithRoles>>(dbEntity.sp_GetUsersWithRoles().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+
+            }
+            return lstUsers;
+        }
     }
 }

@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Users";
+    ViewBag.Admin = "active";
+    ViewBag.Users = "active";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">USERS</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/User/Details",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "UserName",
+                    fields: {
+                        Username: { editable: false, nullable: true },
+                        Role: { validation: { required: true } },
+
+
+                    }
+                }
+            },
+
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 550,
+            toolbar: ["search"],
+            columns: [
+                { field: "UserName", title: "UserName", width: "200px" },
+                { field: "Role", title: "Role", width: "100px" },
+            ],
+        });
+
+
+    });
+
+</script>

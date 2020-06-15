@@ -92,8 +92,8 @@
                         AgentSponserCode: { validation: { required: false } },
                         AgentSuperSponserCode: { validation: { required: false } },
                         AgentStatus: { validation: { required: false } },
-                        AgentParent: { defaultValue: { AgentID: 0, AgentName: "None" } },
-                        AgentChild: { defaultValue: { AgentID: 0, AgentName: "None" } }
+                        AgentParent: { validation: { required: false } },
+                        AgentChild: { validation: { required: false } }
                     }
                 }
             }
@@ -109,12 +109,14 @@
                 var y = $("#child").data("kendoMultiSelect").value();
                 $("#child").data("kendoMultiSelect").value(["1"]);
                 $("#parent").data("kendoMultiSelect").value(["1"]);
+                
                 if (x.length > 0) { e.model.AgentParent = x.join(","); }
                 else { e.model.AgentParent = ''; }
                 if (y.length > 0) { e.model.AgentChild = y.join(","); } else {
                     e.model.AgentChild = '';
                 }
             },
+            
             toolbar: ["create", "search", "excel"],
             excel: {
                 fileName: "AgentMaster.xlsx",
@@ -259,7 +261,6 @@
 
 <script type="text/kendo" id="territoriesTemplate">
     <ul>
-        
         # for(var i = 0; i< AgentParent.length; i++){ #
         <li>#: AgentParent[i].AgentName #</li>
         # } #

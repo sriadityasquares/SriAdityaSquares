@@ -455,6 +455,7 @@
     <Compile Include="Controllers\Admin\ProjectController.cs" />
     <Compile Include="Controllers\Admin\SchemeController.cs" />
     <Compile Include="Controllers\Admin\TowerController.cs" />
+    <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\CascadeController.cs" />
@@ -547,6 +548,7 @@
     <Content Include="Content\Images\pawel-czerwinski-SlBmEVU2y-A-unsplash.jpg" />
     <Content Include="Content\Images\pexels-photo.jpg" />
     <Content Include="Content\Images\phone.jpg" />
+    <Content Include="Content\Images\redTelephone.jpg" />
     <Content Include="Content\Images\r_-r-2_BZuGgkP4k-unsplash.jpg" />
     <Content Include="Content\Images\sasImage.jpeg" />
     <Content Include="Content\Images\sdd.jpg" />
@@ -1728,6 +1730,7 @@
     <Content Include="Views\Booking\MakeFlatWiseAgentPayments.cshtml" />
     <Content Include="Views\Dashboard\FlatWiseAgentCommission.cshtml" />
     <Content Include="Views\Home\Portfolio.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

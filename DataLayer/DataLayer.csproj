@@ -131,6 +131,9 @@
     <Compile Include="sp_GetTowerDetails_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetUsersWithRoles_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblAgentMaster.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>

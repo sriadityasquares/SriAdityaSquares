@@ -535,6 +535,7 @@
           <Parameter Name="todate" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_GetTowerDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetUsersWithRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="salesDBModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -707,8 +708,9 @@
           <Parameter Name="AgentEmail" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetAgentFlatWiseCommissionByLogin" ReturnType="Collection(salesDBModel.sp_GetAgentFlatWiseCommissionByLogin_Result)">
-            <Parameter Name="AgentEmail" Mode="In" Type="String" />
+          <Parameter Name="AgentEmail" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_GetUsersWithRoles" ReturnType="Collection(salesDBModel.sp_GetUsersWithRoles_Result)" />
         </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -1382,6 +1384,10 @@
           <Property Type="Int32" Name="NetBalance" Nullable="true" />
           <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
           <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="sp_GetUsersWithRoles_Result">
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" />
+          <Property Type="String" Name="Role" Nullable="false" MaxLength="256" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2079,6 +2085,14 @@
                 <ScalarProperty Name="NetBalance" ColumnName="NetBalance" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
                 <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetUsersWithRoles" FunctionName="salesDBModel.Store.sp_GetUsersWithRoles">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetUsersWithRoles_Result">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

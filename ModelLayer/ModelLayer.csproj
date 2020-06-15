@@ -72,6 +72,7 @@
     <Compile Include="GetPercentages.cs" />
     <Compile Include="GetPeriodWiseBookingDetails.cs" />
     <Compile Include="GetTowerDetails.cs" />
+    <Compile Include="GetUsersWithRoles.cs" />
     <Compile Include="LevelsMaster.cs" />
     <Compile Include="Month.cs" />
     <Compile Include="PaymentInformation.cs" />

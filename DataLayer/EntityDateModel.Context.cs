@@ -277,5 +277,10 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentFlatWiseCommissionByLogin_Result>("sp_GetAgentFlatWiseCommissionByLogin", agentEmailParameter);
         }
+    
+        public virtual ObjectResult<sp_GetUsersWithRoles_Result> sp_GetUsersWithRoles()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsersWithRoles_Result>("sp_GetUsersWithRoles");
+        }
     }
 }

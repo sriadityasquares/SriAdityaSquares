@@ -102,9 +102,12 @@
                                 <li>
                                     <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeFlatWiseAgentPayments", "Booking")">AGENT PAYMENTS</a>
                                 </li>
+                                <li>
+                                    <a class="@(ViewBag.Users)" href="@Url.Action("Index", "User")">USERS</a>
+                                </li>
                                 @*<li>
-                                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                                    </li>*@
+            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+        </li>*@
                             </ul>
                         </li>
                     }
@@ -244,15 +247,19 @@
                                 <li>
                                     <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">AGENTS</a>
                                 </li>
+
                                 <li>
                                     <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">AGENT PROJECT LEVELS</a>
                                 </li>
                                 <li>
                                     <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeFlatWiseAgentPayments", "Booking")">AGENT PAYMENTS</a>
                                 </li>
+                                <li>
+                                    <a class="@(ViewBag.Users)" href="@Url.Action("Index", "User")">USERS</a>
+                                </li>
                                 @*<li>
-                                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                                    </li>*@
+            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+        </li>*@
                             </ul>
                         </li>
                     }
