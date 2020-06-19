@@ -427,6 +427,7 @@ namespace DataLayer
                     fwac.AgentName = "SAS";
                     fwac.Percentage = highestPercentage;
                     fwac.AmountPaid = 0;
+                    fwac.Discount = 0;
                     //fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == bookingInfo.Level).Select(y => y.Percentage).FirstOrDefault();
                     fwac.AgentCommission = Convert.ToInt32(bookingInfo.SASNet);
                     fwac.NetBalance = fwac.AgentCommission;
@@ -582,6 +583,7 @@ namespace DataLayer
                         fwac.AgentID = currentAgent.AgentID;
                         fwac.AgentName = currentAgent.AgentName;
                         fwac.AmountPaid = 0;
+                        fwac.Discount = 0;
                         fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == currentAgent.LevelID).Select(y => y.Percentage).FirstOrDefault();
                         lstFwac.Add(fwac);
                     }
@@ -1058,7 +1060,8 @@ namespace DataLayer
             {
                 tblFlatWiseAgentCommission fwacOld = dbEntity.tblFlatWiseAgentCommissions.Where(x => x.AgentID == fwac.AgentID && x.FlatID == fwac.FlatID).FirstOrDefault();
                 fwacOld.AmountPaid = fwac.AmountPaid;
-                fwacOld.NetBalance = fwac.AgentCommission - fwac.AmountPaid;
+                fwacOld.Discount = fwac.Discount;
+                fwacOld.NetBalance = fwac.AgentCommission - fwac.AmountPaid-fwac.Discount;
                 dbEntity.SaveChanges();
                 return true;
             }

@@ -21,7 +21,7 @@ namespace ModelLayer
         public string AgentSponserCode { get; set; }
 
         public int AmountPaid { get; set; }
-
+        public Nullable<int> Discount { get; set; }
         public int NetBalance { get; set; }
     }
 }

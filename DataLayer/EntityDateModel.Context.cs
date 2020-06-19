@@ -269,6 +269,11 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>("sp_GetAgentCommissionNdBalanceByAgentLogins", agentEmailParameter);
         }
     
+        public virtual ObjectResult<sp_GetUsersWithRoles_Result> sp_GetUsersWithRoles()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsersWithRoles_Result>("sp_GetUsersWithRoles");
+        }
+    
         public virtual ObjectResult<sp_GetAgentFlatWiseCommissionByLogin_Result> sp_GetAgentFlatWiseCommissionByLogin(string agentEmail)
         {
             var agentEmailParameter = agentEmail != null ?
@@ -276,11 +281,6 @@ namespace DataLayer
                 new ObjectParameter("AgentEmail", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentFlatWiseCommissionByLogin_Result>("sp_GetAgentFlatWiseCommissionByLogin", agentEmailParameter);
-        }
-    
-        public virtual ObjectResult<sp_GetUsersWithRoles_Result> sp_GetUsersWithRoles()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsersWithRoles_Result>("sp_GetUsersWithRoles");
         }
     }
 }

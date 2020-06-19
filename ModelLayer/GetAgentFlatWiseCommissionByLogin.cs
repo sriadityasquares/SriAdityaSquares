@@ -16,7 +16,7 @@ namespace ModelLayer
         public Nullable<double> Percentage { get; set; }
         public Nullable<int> AmountPaid { get; set; }
         public Nullable<int> NetBalance { get; set; }
-
+        public Nullable<int> Discount { get; set; }
         public string ProjectName { get; set; }
         public string TowerName { get; set; }
     }

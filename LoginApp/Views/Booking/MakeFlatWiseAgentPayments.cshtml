@@ -100,8 +100,8 @@
                         AgentName: { editable: false, nullable: true },
                         AgentCommission: { editable: false, nullable: true },
                         NetBalance: { editable: false,nullable: true },
-                        AmountPaid: { nullable: true }
-                        
+                        AmountPaid: { nullable: true },
+                        Discount: { nullable: true }
                     }
                 }
             }
@@ -123,6 +123,7 @@
                 { field: "AgentCommission", title: "NET COMMISSION", width: "200px" },
                 { field: "NetBalance", title: "NET BALANCE", width: "200px" },
                 { field: "AmountPaid", title: "NET PAID", width: "200px" },
+                { field: "Discount", title: "DISCOUNT", width: "200px" },
                 {
                     command: [
                         { name: "edit", text: { edit: " ", update: " ", cancel: " " } },

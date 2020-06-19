@@ -259,6 +259,7 @@
           <Property Name="Percentage" Type="float" />
           <Property Name="AmountPaid" Type="int" />
           <Property Name="NetBalance" Type="int" />
+          <Property Name="Discount" Type="int" />
         </EntityType>
         <EntityType Name="tblLevelsMaster">
           <Key>
@@ -707,10 +708,10 @@
           <FunctionImport Name="sp_GetAgentCommissionNdBalanceByAgentLogins" ReturnType="Collection(salesDBModel.sp_GetAgentCommissionNdBalanceByAgentLogins_Result)">
           <Parameter Name="AgentEmail" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_GetAgentFlatWiseCommissionByLogin" ReturnType="Collection(salesDBModel.sp_GetAgentFlatWiseCommissionByLogin_Result)">
-          <Parameter Name="AgentEmail" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_GetUsersWithRoles" ReturnType="Collection(salesDBModel.sp_GetUsersWithRoles_Result)" />
+          <FunctionImport Name="sp_GetAgentFlatWiseCommissionByLogin" ReturnType="Collection(salesDBModel.sp_GetAgentFlatWiseCommissionByLogin_Result)">
+            <Parameter Name="AgentEmail" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -1363,6 +1364,7 @@
           <Property Name="Percentage" Type="Double" />
           <Property Name="AmountPaid" Type="Int32" />
           <Property Name="NetBalance" Type="Int32" />
+          <Property Name="Discount" Type="Int32" />
         </EntityType>
         <ComplexType Name="sp_GetAgentCommissionNdBalanceByAgentLogins_Result">
           <Property Type="Int32" Name="AgentID" Nullable="false" />
@@ -1373,6 +1375,10 @@
           <Property Type="Int32" Name="AmountPaid" Nullable="true" />
           <Property Type="Int32" Name="NetBalance" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="sp_GetUsersWithRoles_Result">
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" />
+          <Property Type="String" Name="Role" Nullable="false" MaxLength="256" />
+        </ComplexType>
         <ComplexType Name="sp_GetAgentFlatWiseCommissionByLogin_Result">
           <Property Type="Int32" Name="FlatID" Nullable="false" />
           <Property Type="String" Name="FlatName" Nullable="true" MaxLength="50" />
@@ -1382,12 +1388,9 @@
           <Property Type="Double" Name="Percentage" Nullable="true" />
           <Property Type="Int32" Name="AmountPaid" Nullable="true" />
           <Property Type="Int32" Name="NetBalance" Nullable="true" />
+          <Property Type="Int32" Name="Discount" Nullable="true" />
           <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
           <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
-        </ComplexType>
-        <ComplexType Name="sp_GetUsersWithRoles_Result">
-          <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" />
-          <Property Type="String" Name="Role" Nullable="false" MaxLength="256" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2048,6 +2051,7 @@
           <EntitySetMapping Name="tblFlatWiseAgentCommissions">
             <EntityTypeMapping TypeName="salesDBModel.tblFlatWiseAgentCommission">
               <MappingFragment StoreEntitySet="tblFlatWiseAgentCommissions">
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="NetBalance" ColumnName="NetBalance" />
                 <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
                 <ScalarProperty Name="Percentage" ColumnName="Percentage" />
@@ -2072,6 +2076,14 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetUsersWithRoles" FunctionName="salesDBModel.Store.sp_GetUsersWithRoles">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetUsersWithRoles_Result">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_GetAgentFlatWiseCommissionByLogin" FunctionName="salesDBModel.Store.sp_GetAgentFlatWiseCommissionByLogin">
             <ResultMapping>
               <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentFlatWiseCommissionByLogin_Result">
@@ -2083,16 +2095,9 @@
                 <ScalarProperty Name="Percentage" ColumnName="Percentage" />
                 <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
                 <ScalarProperty Name="NetBalance" ColumnName="NetBalance" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
                 <ScalarProperty Name="TowerName" ColumnName="TowerName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetUsersWithRoles" FunctionName="salesDBModel.Store.sp_GetUsersWithRoles">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="salesDBModel.sp_GetUsersWithRoles_Result">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Role" ColumnName="Role" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
