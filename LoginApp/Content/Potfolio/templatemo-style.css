@@ -94,8 +94,8 @@ a:focus {
 }
 
 .nav-item {
-  list-style: none;
-  
+    list-style: none;
+    padding-right: 10px;
 }
 
 .tm-nav-link {
@@ -220,7 +220,11 @@ a:focus {
 }
 
 /* Introduction */
-
+#introduction {
+    /*background-color:mintcream;*/
+    /*background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('../Images/conus.jpg');
+    background-size: cover;*/
+}
 .tm-section-title {
   font-size: 2.6rem;
   font-weight: normal;
@@ -415,20 +419,27 @@ figure.effect-honey:hover h2 i {
 }
 
 /* Contact */
-
+#work {
+    background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+}
 #contact {
     color: white;
     /*background-image: url('../Images/footerImage.jpg');*/
-    /*background-image: url('../Images/Jumbtron.PNG');*/
+   
     /*background-image: url('../Images/pexels-photo.jpg');*/
     /*background-image: url('../Images/contact.jpg');*/
     /*background-image: url('../Images/phone.jpg');*/
-    background-image: url('../Images/joanna-kosinska-RE-8WswW95o-unsplash.jpg');
+    /*background: #d3cce3;
+    background: -webkit-linear-gradient(to right, #d3cce3, #e9e4f0);
+    background: linear-gradient(to right, #d3cce3, #e9e4f0);*/
+    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('../Images/joanna-kosinska-RE-8WswW95o-unsplash.jpg');
     /*background-image: url('../Images/conus.jpg');*/
-    background-position: center;
+    /*background-position: center;*/
     background-repeat: no-repeat;
-    min-height: 850px;
+    background-size: cover;
+    /*min-height: 850px;*/
     position: relative;
+    background-position: unset !important;
     padding-bottom: 50px;
     padding-top: 160px;
 }
@@ -708,7 +719,7 @@ label {
 }
 
 input[type=submit] {
-    background-color: #4CAF50;
+    background-color: #3496d8;
     color: black;
     padding: 12px 20px;
     border: none;
