@@ -27,6 +27,7 @@
 </head>
 <body>
     <!-- Hero section -->
+
     <section id="hero" class="text-white tm-font-big tm-parallax">
         <!-- Navigation -->
         <nav class="navbar navbar-expand-md tm-navbar" id="tmNav">
@@ -50,21 +51,24 @@
                         <li class="nav-item">
                             <a class="nav-link tm-nav-link" href="#contact">Contact Us</a>
                         </li>
+
                     </ul>
 
                 </div>
 
-            </div>
 
+
+            </div>
+            <a style="color:#b91524" class="nav-link tm-nav-link" id="WebApp" href="https://sasflatsapp.azurewebsites.net">Go to Web App <span><i class="fa fa-forward" aria-hidden="true"></i></span></a>
         </nav>
 
-        <div class="text-center tm-hero-text-container">
+        @*<div class="text-center tm-hero-text-container">
 
-            @*<div class="tm-hero-text-container-inner">
+                <div class="tm-hero-text-container-inner">
                     <h2 style="color:beige" class="tm-hero-title">SAS INFRA</h2>
                     <a style="color:black" href="https://sasflatsapp.azurewebsites.net">Visit Web App!</a>
-                </div>*@
-        </div>
+                </div>
+            </div>*@
 
         <div class="tm-next tm-intro-next">
             <a href="#introduction" class="text-center tm-down-arrow-link">
@@ -128,7 +132,7 @@
             </div>
 
     </section>
-    
+
     <section id="work" class="tm-section-pad-top">
         <div class="container tm-container-gallery">
             <div class="row">
@@ -295,7 +299,9 @@
     <script src="~/Content/Potfolio/jquery.singlePageNav.min.js"></script>
     <script src="~/Content/Potfolio/bootstrap.min.js"></script>
     <script>
-
+        document.getElementById("WebApp").onclick = function () {
+            location.href = "https://sasflatsapp.azurewebsites.net/Account/Login";
+        };
         function getOffSet() {
             var _offset = 450;
             var windowHeight = window.innerHeight;

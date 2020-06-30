@@ -115,6 +115,7 @@
     //var Sqft;
     //var Bhk;
     $("#Tower").change(function () {
+        $('#bookingstatus').html('');
         $.get("/Booking/GetAllFlats", { TowerId: $("#Tower").val() }, function (data) {
             $.each(data, function (index, row) {
 

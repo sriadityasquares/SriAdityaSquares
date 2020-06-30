@@ -221,9 +221,9 @@ a:focus {
 
 /* Introduction */
 #introduction {
-    /*background-color:mintcream;*/
-    /*background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('../Images/conus.jpg');
-    background-size: cover;*/
+    /*background-image: url('../Images/fantasy-2543658.jpg');*/
+    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('../Images/joana.jpg');
+    background-size: cover;
 }
 .tm-section-title {
   font-size: 2.6rem;
@@ -246,7 +246,8 @@ a:focus {
 .tm-work-description {
   max-width: 650px;
   width: 100%;
-  font-size: 0.9rem;
+  
+  font-size: 1rem;
 }
 
 .tm-gallery-container {
@@ -421,7 +422,12 @@ figure.effect-honey:hover h2 i {
 /* Contact */
 #work {
     background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+ 
+    /*background-image: url('../Images/fantasy-2543658.jpg');*/
+    /*background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('../Images/joana1.jpg');
+    background-size: cover;*/
 }
+
 #contact {
     color: white;
     /*background-image: url('../Images/footerImage.jpg');*/
