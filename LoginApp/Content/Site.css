@@ -5519,7 +5519,8 @@ a.active {
     }
     /*DASHBOARD */
     #bookingDashboard {
-        padding-left: 250px;
+        padding-left: 100px;
+        /*text-align:center;*/
     }
     #timelinePosition {
         padding-left: 250px;
@@ -5561,7 +5562,7 @@ a.active {
             }
 
     .left .cinema-row {
-        transform: skew(-15deg);
+        transform: skew(-14deg);
         margin: 0 6px;
     }
 
@@ -5580,9 +5581,9 @@ a.active {
         transform: skew(-13deg);
     }
 
-        .left .row-2 .seat {
+        /*.left .row-2 .seat {
             transform: skew(18deg);
-        }
+        }*/
 
     .left .row-3 {
         transform: skew(-12deg);
@@ -5693,6 +5694,36 @@ a.active {
 
         .left .row-16 .seat {
             transform: skew(-10deg);
+        }
+    .left .row-17 {
+        transform: skew(2deg);
+    }
+
+        .left .row-17 .seat {
+            transform: skew(-12deg);
+        }
+
+    .left .row-18 {
+        transform: skew(3deg);
+    }
+
+        .left .row-18 .seat {
+            transform: skew(-14deg);
+        }
+
+    .left .row-19 {
+        transform: skew(4deg);
+    }
+
+        .left .row-19 .seat {
+            transform: skew(-16deg);
+        }
+    .left .row-20 {
+        transform: skew(5deg);
+    }
+
+        .left .row-20 .seat {
+            transform: skew(-16deg);
         }
     .right {
         margin-left: 70px;

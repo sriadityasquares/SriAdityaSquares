@@ -59,17 +59,8 @@
 
 
             </div>
-            <a style="color:#b91524" class="nav-link tm-nav-link" id="WebApp" href="https://sasflatsapp.azurewebsites.net">Go to Web App <span><i class="fa fa-forward" aria-hidden="true"></i></span></a>
+            <a style="color:#b91524" class="nav-link tm-nav-link" id="WebApp" href="http:www.google.com">Go to Web App <span><i class="fa fa-forward" aria-hidden="true"></i></span></a>
         </nav>
-
-        @*<div class="text-center tm-hero-text-container">
-
-                <div class="tm-hero-text-container-inner">
-                    <h2 style="color:beige" class="tm-hero-title">SAS INFRA</h2>
-                    <a style="color:black" href="https://sasflatsapp.azurewebsites.net">Visit Web App!</a>
-                </div>
-            </div>*@
-
         <div class="tm-next tm-intro-next">
             <a href="#introduction" class="text-center tm-down-arrow-link">
                 <i class="fa fa-3x fa-caret-down tm-down-arrow"></i>
@@ -161,6 +152,22 @@
                                     <img style="height:200px;width:400px" src="~/Content/Images/JewelCounty2.jpg" alt="Image" class="img-fluid">
                                     <figcaption>
                                         <h2><i>Jewel <span style="font-weight:400">County</span></i></h2>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                            @*<a href="~/Content/Images/PVR Anmol2.jpg">
+                                <figure class="effect-honey tm-gallery-item">
+                                    <img style="height:200px;width:400px" src="~/Content/Images/PVR Anmol2.jpg" alt="Image" class="img-fluid">
+                                    <figcaption>
+                                        <h2><i>PVR <span style="font-weight:400">Anmol</span></i></h2>
+                                    </figcaption>
+                                </figure>
+                            </a>*@
+                            <a href="~/Content/Images/PVR Anmol.jpg">
+                                <figure class="effect-honey tm-gallery-item">
+                                    <img style="height:200px;width:400px" src="~/Content/Images/PVR Anmol1.jpg" alt="Image" class="img-fluid">
+                                    <figcaption>
+                                        <h2><i>PVR <span style="font-weight:400">Anmol</span></i></h2>
                                     </figcaption>
                                 </figure>
                             </a>
@@ -300,7 +307,7 @@
     <script src="~/Content/Potfolio/bootstrap.min.js"></script>
     <script>
         document.getElementById("WebApp").onclick = function () {
-            location.href = "https://sasflatsapp.azurewebsites.net/Account/Login";
+            location.href = "https://sasinfra.in/Account/Login";
         };
         function getOffSet() {
             var _offset = 450;
@@ -464,9 +471,9 @@
             $("#Longitude").val(position.coords.longitude);
         }
 
-        //document.addEventListener('contextmenu', function (e) {
-        //    e.preventDefault();
-        //});
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
 
         document.onkeydown = function (e) {
             if (event.keyCode == 123) {

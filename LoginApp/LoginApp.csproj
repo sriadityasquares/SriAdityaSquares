@@ -522,6 +522,9 @@
     <Content Include="Content\Images\joana1.jpg" />
     <Content Include="Content\Images\Jumbtron1.png" />
     <Content Include="Content\Images\LotusResidency.JPG" />
+    <Content Include="Content\Images\PVR Anmol.jpg" />
+    <Content Include="Content\Images\PVR Anmol1.JPG" />
+    <Content Include="Content\Images\PVR Anmol2.JPG" />
     <Content Include="Content\Images\Sahiti.jpg" />
     <Content Include="Content\Images\JewelCounty2.jpg" />
     <Content Include="Content\Images\JewelCounty.jpg" />
@@ -1080,7 +1083,9 @@
     <None Include="Properties\PublishProfiles\LoginApp20200302122745 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\LoginApp20200517051204 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\sasflat - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\sasflatapp - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\sasflatsapp - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\sasinfra - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
