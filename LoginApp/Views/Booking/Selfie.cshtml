@@ -1,0 +1,162 @@
+﻿@model ModelLayer.CustomerVisitInfo
+@{
+    ViewBag.Selfie = "active";
+    ViewBag.Selfie = "active";
+    ViewBag.Title = "Selfie";
+    var message = TempData["successmessage"] ?? string.Empty;
+}
+
+@using (Html.BeginForm("Selfie", "Booking", FormMethod.Post, new
+{
+    enctype = "multipart/form-data",
+    role = "form",
+    id = "submitbtn"
+
+}))
+{
+    //@(ViewContext.ClientValidationEnabled = false)
+    @Html.HiddenFor(m => m.ProjectName)
+    @Html.HiddenFor(m => m.AgentName)
+    @Html.AntiForgeryToken()
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12 col-xs" style="margin-top:0px">
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">UPLOAD SELFIE</h3>
+                <div class="specialLine col-md-1"></div>
+            </div>
+
+        </div>
+
+        @Html.HiddenFor(m => m.SelfieFile)
+        <div class="row" style="padding-top:35px">
+            @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-4 col-xs" })
+
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.AgentID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.AgentID, new SelectList(" "), "--Select Agent--", new { @class = "textbox-control col-md-4 col-xs" })
+
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.CustomerName, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.CustomerName, new { @class = "textbox-control col-md-4 col-xs" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.CustomerMobile, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.CustomerMobile, new { @class = "textbox-control col-md-4 col-xs" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Selfie, new { @class = "col-md-2" })
+            @*@Html.TextBoxFor(m => m.SelfieFile, new { type = "file" })*@
+            <input id="selfie1" type="file" name="SelfieFile" required />
+            @*<div class="file-upload btn btn-primary">
+                    <span>UPLOAD</span>
+                    <input type="file" name="FileAttachment" id="FileAttachment" class="upload" />
+                </div>
+                <input type="text" id="fileuploadurl" readonly placeholder="Maximum file size is 1MB">*@
+        </div>
+        <div class="row">
+
+
+
+
+            <div class="row">
+                <div class="col-sm-3 no-pad">
+                    <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-upload"></i>Upload</button>
+                </div>
+            </div>
+
+        </div>
+        <div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<script>
+
+    var validationsFlag = false;
+    $("#ProjectID").change(function () {
+
+        $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
+            $("#AgentID").empty();
+            AgentList = data;
+            //$("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+            });
+        });
+
+    });
+
+    //document.getElementById("FileAttachment").onchange = function () {
+    //    document.getElementById("fileuploadurl").value = this.files[0].name;
+    //    //$('#SelfieFile').val(this.files);
+    //}
+    //var reader = new FileReader();
+    //var fileByteArray = [];
+    //reader.readAsArrayBuffer(this.files[0]);
+    //reader.onloadend = function (evt) {
+    //if (evt.target.readyState == FileReader.DONE) {
+    //    var arrayBuffer = evt.target.result,
+    //   array = new Uint8Array(arrayBuffer);
+    //    for (var i = 0; i < array.length; i++) {
+    //   fileByteArray.push(array[i]);
+    //}
+    //    }
+    //    $('#SelfieByte').val(fileByteArray);
+    //}
+
+    $("#submitbtn").submit(function () {
+        Validations();
+        if (validationsFlag) {
+        SetHiddenFields();
+        }
+        if (!$('#submitbtn').valid()) {
+           $('#ValidationSummaryModal').modal('show');
+        }
+    });
+
+    function SetHiddenFields() {
+        $("#ProjectName").val($("#ProjectID option:selected").text());
+        $("#AgentName").val($("#AgentID option:selected").text());
+    }
+
+    function Validations() {
+
+
+        if ($("#ProjectID").val() == '0' || $("#ProjectID").val() =='') {
+                toastr.error("Please Select the project"); return;
+        }
+         if ($("#AgentID").val() == '0' || $("#AgentID").val() =='') {
+                 swal("Please Select the agent", "", "warning")
+                 //$("#AgentID").val() = null;
+                return;
+            }
+       if ($("#CustomerName").val() == '') {
+                toastr.error("Customer Name is Required"); return;
+            }
+            if ($("#CustomerMobile").val() == '') {
+                toastr.error("Customer Mobile is Required"); return;
+        }
+        if ($("#selfie1").val() == '') {
+                toastr.error("Please Upload Selfie!"); return;
+        }
+         validationsFlag = true;
+    }
+    $(window).load(function () {
+        var tempdataval = '@TempData["successmessage"]';
+        if (tempdataval != '') {
+            if (tempdataval == 'Selfie Uploaded Successfully')
+                toastr.success(tempdataval);
+            else {
+                toastr.error(tempdataval);
+            }
+        }
+
+    });
+</script>

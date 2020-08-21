@@ -227,6 +227,21 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="BookingID" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="tblCustomerVisitInfo">
+          <Key>
+            <PropertyRef Name="VisitID" />
+          </Key>
+          <Property Name="VisitID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AgentID" Type="int" />
+          <Property Name="AgentName" Type="nvarchar(max)" />
+          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="CustomerMobile" Type="varchar" MaxLength="50" />
+          <Property Name="SelfieURL" Type="nvarchar(max)" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="ProjectName" Type="nvarchar(max)" />
+          <Property Name="DateAdded" Type="datetime" />
+          <Property Name="AddedBy" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="tblFlats">
           <Key>
             <PropertyRef Name="FlatID" />
@@ -551,6 +566,7 @@
           <EntitySet Name="tblCity" EntityType="Self.tblCity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCountries" EntityType="Self.tblCountries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCustomerInfo" EntityType="Self.tblCustomerInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCustomerVisitInfo" EntityType="Self.tblCustomerVisitInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlats" EntityType="Self.tblFlats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlatWiseAgentCommissions" EntityType="Self.tblFlatWiseAgentCommissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLevelsMaster" EntityType="Self.tblLevelsMaster" Schema="dbo" store:Type="Tables" />
@@ -710,8 +726,9 @@
           </FunctionImport>
           <FunctionImport Name="sp_GetUsersWithRoles" ReturnType="Collection(salesDBModel.sp_GetUsersWithRoles_Result)" />
           <FunctionImport Name="sp_GetAgentFlatWiseCommissionByLogin" ReturnType="Collection(salesDBModel.sp_GetAgentFlatWiseCommissionByLogin_Result)">
-            <Parameter Name="AgentEmail" Mode="In" Type="String" />
+          <Parameter Name="AgentEmail" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="tblCustomerVisitInfoes" EntityType="salesDBModel.tblCustomerVisitInfo" />
         </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -1392,6 +1409,21 @@
           <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
           <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
         </ComplexType>
+        <EntityType Name="tblCustomerVisitInfo">
+          <Key>
+            <PropertyRef Name="VisitID" />
+          </Key>
+          <Property Name="VisitID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentID" Type="Int32" />
+          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SelfieURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateAdded" Type="DateTime" Precision="3" />
+          <Property Name="AddedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2101,6 +2133,22 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblCustomerVisitInfoes">
+            <EntityTypeMapping TypeName="salesDBModel.tblCustomerVisitInfo">
+              <MappingFragment StoreEntitySet="tblCustomerVisitInfo">
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="SelfieURL" ColumnName="SelfieURL" />
+                <ScalarProperty Name="CustomerMobile" ColumnName="CustomerMobile" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="VisitID" ColumnName="VisitID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

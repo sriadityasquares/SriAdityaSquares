@@ -50,6 +50,7 @@ namespace DataLayer
         public virtual DbSet<tblAgentTotalPayment> tblAgentTotalPayments { get; set; }
         public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
         public virtual DbSet<tblFlatWiseAgentCommission> tblFlatWiseAgentCommissions { get; set; }
+        public virtual DbSet<tblCustomerVisitInfo> tblCustomerVisitInfoes { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {

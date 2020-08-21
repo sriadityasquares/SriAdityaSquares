@@ -1077,5 +1077,54 @@ namespace DataLayer
             }
 
         }
+
+        public bool UploadSelfie(CustomerVisitInfo cvi)
+        {
+            try
+            {
+                tblCustomerVisitInfo cvInfo = new tblCustomerVisitInfo();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<CustomerVisitInfo, tblCustomerVisitInfo>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<CustomerVisitInfo, tblCustomerVisitInfo>(cvi, cvInfo);
+                dbEntity.tblCustomerVisitInfoes.Add(cvInfo);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+        public List<CustomerVisitInfo> GetSelfies(int projectID)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<CustomerVisitInfo> lstSelfies = new List<CustomerVisitInfo>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblCustomerVisitInfo, CustomerVisitInfo>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstSelfies = mapper.Map<List<tblCustomerVisitInfo>, List<CustomerVisitInfo>>(dbEntity.tblCustomerVisitInfoes.Where(a => a.ProjectID == projectID).ToList()).ToList();
+                foreach(var item in lstSelfies)
+                {
+                    string base64String = Convert.ToBase64String(item.Selfie, 0, item.Selfie.Length);
+                    item.SelfieURL = "data:image/png;base64," + base64String;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstSelfies;
+        }
     }
 }

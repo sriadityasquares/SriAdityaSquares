@@ -55,7 +55,7 @@ namespace BusinessLayer
             return db.BindFlatsExceptOpen(towerID);
         }
 
-        
+
 
         public List<AgentProjectLevel> BindProjectAgents(int projectID)
         {
@@ -172,6 +172,16 @@ namespace BusinessLayer
         public bool UpdateAgentPayment(FlatWiseAgentCommission fwac)
         {
             return db.UpdateAgentPayment(fwac);
+        }
+
+        public bool UploadSelfie(CustomerVisitInfo cvi)
+        {
+            return db.UploadSelfie(cvi);
+        }
+
+        public List<CustomerVisitInfo> GetSelfies(int projectID)
+        {
+            return db.GetSelfies(projectID);
         }
     }
 }

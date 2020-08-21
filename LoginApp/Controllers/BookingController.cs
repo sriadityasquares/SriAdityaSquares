@@ -47,11 +47,11 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        public ActionResult New(int ProjectID = 0, int TowerID = 0, int FlatID = 0,string BookingStatus = "")
+        public ActionResult New(int ProjectID = 0, int TowerID = 0, int FlatID = 0, string BookingStatus = "")
         {
             List<Country> countryList = common.BindCountry();
             List<Projects> projectList = booking.BindProjects();
-            
+
             TempData["ProjectID"] = ProjectID;
             TempData["TowerID"] = TowerID;
             TempData["FlatID"] = FlatID;
@@ -100,7 +100,7 @@ namespace LoginApp.Controllers
             {
                 b.CreatedDate = Convert.ToDateTime(b.BookingDate);
                 b.CreatedBy = User.Identity.Name;
-                if(b.BookingID == Guid.Empty)
+                if (b.BookingID == Guid.Empty)
                 {
                     result = booking.SaveNewBooking(b);
                 }
@@ -275,7 +275,7 @@ namespace LoginApp.Controllers
 
         }
 
-        
+
 
         public ActionResult MakeAgentPayment()
         {
@@ -293,7 +293,7 @@ namespace LoginApp.Controllers
         {
             try
             {
-                if(payInfo.AgentNetPaid ==null)
+                if (payInfo.AgentNetPaid == null)
                 {
                     payInfo.AgentNetPaid = 0;
                 }
@@ -374,5 +374,99 @@ namespace LoginApp.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Selfie()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Selfie(ModelLayer.CustomerVisitInfo cv)
+        {
+            ////byte[] image;
+            //using (Stream inputStream = cv.SelfieFile.InputStream)
+            //{
+            //    MemoryStream memoryStream = inputStream as MemoryStream;
+            //    if (memoryStream == null)
+            //    {
+            //        memoryStream = new MemoryStream();
+            //        inputStream.CopyTo(memoryStream);
+            //    }
+            //    cv.Selfie = memoryStream.ToArray();
+            //}
+            //string base64String = Convert.ToBase64String(image, 0, image.Length);
+            //cv.se = "data:image/png;base64," + base64String;
+            //Use Namespace called :  System.IO  
+            string FileName = Path.GetFileNameWithoutExtension(cv.SelfieFile.FileName);
+
+            //To Get File Extension  
+            string FileExtension = Path.GetExtension(cv.SelfieFile.FileName);
+
+            //Add Current Date To Attached File Name  
+            FileName = DateTime.Now.ToString("yyyyMMdd") + "-" + FileName.Trim() + FileExtension;
+            if (!Directory.Exists(Server.MapPath("~/Content/Images/Selfies")))
+            {
+                Directory.CreateDirectory(Server.MapPath("~/Content/Images/Selfies"));
+            }
+            string path = "~/Content/Images/Selfies/";
+            string UploadPath = Server.MapPath(path);
+            //Get Upload path from Web.Config file AppSettings.  
+            //string UploadPath = "~/Content/Images/";
+
+            //Its Create complete path to store in server.  
+            string savePath = UploadPath + FileName;
+
+            //To copy and save file into server.  
+            cv.SelfieFile.SaveAs(savePath);
+            cv.SelfieURL = path.Remove(0, 1) + FileName;
+            cv.AddedBy = User.Identity.Name;
+            TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            cv.DateAdded = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+            var result = booking.UploadSelfie(cv);
+            if (result)
+            {
+                TempData["successmessage"] = "Selfie Uploaded Successfully";
+            }
+            else
+            {
+                TempData["successmessage"] = "Selfie Uploaded Failed";
+            }
+            ModelState.Clear();
+            TempData.Keep("ProjectList");
+            return View();
+        }
+
+        public ActionResult SelfiePoint()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
+            return View();
+        }
+
+
+        public JsonResult GetSelfies(int projectId)
+        {
+            var customerVisits = booking.GetSelfies(projectId);
+            string html = "";
+            int j = 0;
+            for (int i = 0; i < customerVisits.Count; i = i + 3)
+            {
+                html = html + "<div class=\"row\">";
+                for (j = 0; (i + j) < customerVisits.Count && j < 3; j++)
+                {
+                    html = html + "<div class=\"col-sm-4\"><div class=\"card bg-info text-white\"><img src = \"" + customerVisits[i + j].SelfieURL + "\" style =\"width:100%\" /><div class=\"containercard\"><h4><b>" + customerVisits[i + j].AgentName + "</b></h4><h6><b>CUSTOMER :" + customerVisits[i + j].CustomerName + "</b></h6><h6><b>PROJECT  :" + customerVisits[i + j].ProjectName + "</b></h6><h6><b>DATE     : " + customerVisits[i + j].DateAdded.ToString() + "</b></h6></div></div></div>";
+                    //html.Replace("#url", customerVisits[i + j].SelfieURL);
+                    //html.Replace("#AgentName", customerVisits[i + j].AgentName);
+                    //html.Replace("#Customer", customerVisits[i + j].CustomerName);
+                    //html.Replace("#Project", customerVisits[i + j].ProjectName);
+                    //html.Replace("#Date", customerVisits[i + j].DateAdded.ToString());
+                }
+                html = html + "</div><br/>";
+            }
+            return Json(html, JsonRequestBehavior.AllowGet);
+        }
     }
 }

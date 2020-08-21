@@ -158,6 +158,9 @@
     <Compile Include="tblCustomerInfo.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblCustomerVisitInfo.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblFlat.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>

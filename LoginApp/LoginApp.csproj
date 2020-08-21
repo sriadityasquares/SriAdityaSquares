@@ -1748,9 +1748,12 @@
     <Content Include="Views\Dashboard\FlatWiseAgentCommission.cshtml" />
     <Content Include="Views\Home\Portfolio.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Booking\Selfie.cshtml" />
+    <Content Include="Views\Booking\SelfiePoint.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\Selfies\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
