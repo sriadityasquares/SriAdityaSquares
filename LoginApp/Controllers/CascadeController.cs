@@ -110,5 +110,23 @@ namespace LoginApp.Controllers
             List<GetPercentages> percentageList = objCasc.BindPercentages();
             return Json(percentageList, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetApprovalType()
+        {
+            List<StatusApprove> statusList = new List<StatusApprove>();
+            StatusApprove s = new StatusApprove();
+            s.ID = "Approved";
+            s.Status = "Approved";
+            statusList.Add(s);
+            StatusApprove s1 = new StatusApprove();
+            s1.ID = "Rejected";
+            s1.Status = "Rejected";
+            statusList.Add(s1);
+            StatusApprove s2 = new StatusApprove();
+            s2.ID = "Pending";
+            s2.Status = "Pending";
+            statusList.Add(s2);
+            return Json(statusList, JsonRequestBehavior.AllowGet);
+        }
     }
 }

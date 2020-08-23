@@ -183,5 +183,27 @@ namespace BusinessLayer
         {
             return db.GetSelfies(projectID);
         }
+
+        public bool AddSiteVisit(SiteVisitInfo svi)
+        {
+            return db.AddSiteVisit(svi);
+        }
+
+        public List<GetMySiteVisits> GetMySiteVisits(string username)
+        {
+            return db.GetMySiteVisits(username);
+        }
+
+        public List<SiteVisitInfo> GetSiteVisitsForApproval()
+        {
+            return db.GetSiteVisitsForApproval();
+        }
+
+        public bool UpdateSiteVisitApproval(SiteVisitInfo svi)
+        {
+            return db.UpdateSiteVisitApproval(svi);
+        }
+
+         
     }
 }

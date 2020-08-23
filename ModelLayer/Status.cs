@@ -12,4 +12,10 @@ namespace ModelLayer
         public string BookingStatus { get; set; }
         public Nullable<int> StatusType { get; set; }
     }
+
+    public partial class StatusApprove
+    {
+        public string ID { get; set; }
+        public string Status { get; set; }
+    }
 }

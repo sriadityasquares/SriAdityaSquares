@@ -35,6 +35,7 @@
         <EntityTypeShape EntityType="salesDBModel.tblAgentMaster" Width="1.5" PointX="11.375" PointY="13.75" />
         <EntityTypeShape EntityType="salesDBModel.tblFlatWiseAgentCommission" Width="1.5" PointX="16.375" PointY="3.75" />
         <EntityTypeShape EntityType="salesDBModel.tblCustomerVisitInfo" Width="1.5" PointX="3.375" PointY="16.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblSiteVisitInfo" Width="1.5" PointX="13.375" PointY="16.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

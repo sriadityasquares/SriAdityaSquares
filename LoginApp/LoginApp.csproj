@@ -1750,6 +1750,8 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Booking\Selfie.cshtml" />
     <Content Include="Views\Booking\SelfiePoint.cshtml" />
+    <Content Include="Views\Booking\AddSiteVist.cshtml" />
+    <Content Include="Views\Booking\SiteVisitApproval.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

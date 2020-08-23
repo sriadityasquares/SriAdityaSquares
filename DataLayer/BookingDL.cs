@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using log4net;
 using ModelLayer;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -214,7 +215,7 @@ namespace DataLayer
             return lstFlats;
         }
 
-        
+
         public List<AgentProjectLevel> BindProjectAgents(int projectID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -1066,7 +1067,7 @@ namespace DataLayer
                 tblFlatWiseAgentCommission fwacOld = dbEntity.tblFlatWiseAgentCommissions.Where(x => x.AgentID == fwac.AgentID && x.FlatID == fwac.FlatID).FirstOrDefault();
                 fwacOld.AmountPaid = fwac.AmountPaid;
                 fwacOld.Discount = fwac.Discount;
-                fwacOld.NetBalance = fwac.AgentCommission - fwac.AmountPaid-fwac.Discount;
+                fwacOld.NetBalance = fwac.AgentCommission - fwac.AmountPaid - fwac.Discount;
                 dbEntity.SaveChanges();
                 return true;
             }
@@ -1114,7 +1115,7 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstSelfies = mapper.Map<List<tblCustomerVisitInfo>, List<CustomerVisitInfo>>(dbEntity.tblCustomerVisitInfoes.Where(a => a.ProjectID == projectID).ToList()).ToList();
-                foreach(var item in lstSelfies)
+                foreach (var item in lstSelfies)
                 {
                     string base64String = Convert.ToBase64String(item.Selfie, 0, item.Selfie.Length);
                     item.SelfieURL = "data:image/png;base64," + base64String;
@@ -1125,6 +1126,119 @@ namespace DataLayer
                 log.Error("Error :" + ex);
             }
             return lstSelfies;
+        }
+
+        public bool AddSiteVisit(SiteVisitInfo svi)
+        {
+            try
+            {
+                tblSiteVisitInfo svInfo = new tblSiteVisitInfo();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<SiteVisitInfo, tblSiteVisitInfo>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<SiteVisitInfo, tblSiteVisitInfo>(svi, svInfo);
+                dbEntity.tblSiteVisitInfoes.Add(svInfo);
+                dbEntity.SaveChanges();
+                string agentIDS = "1," + svi.AgentID + "," + svi.ImmediateSeniorID;
+                var agentNumbers = dbEntity.sp_GetAgentNumbers(agentIDS).ToArray();
+                var message = "New Site Visit Request"+Environment.NewLine;
+                message = message +"Project Name : #Project" + Environment.NewLine + "Agent Name : #Agent" + Environment.NewLine + "Sr. Agent Name : #SrAgent" + Environment.NewLine + "Customer Name : #Customer" + Environment.NewLine + "Customer Mobile : #Mobile" + Environment.NewLine + "Visit Date : #Date" + Environment.NewLine + "From Address : #From" + Environment.NewLine + "To Address : #To" + Environment.NewLine+"Status : #Status";
+                message = message.Replace("#Project", svi.ProjectName).Replace("#Agent", svi.AgentName).Replace("#SrAgent", svi.ImmediateSeniorName).Replace("#Customer", svi.CustomerName).Replace("#Mobile", svi.CustomerMobile).Replace("#Date", svi.DateOfVisit).Replace("#From", svi.FromAddress).Replace("#To", svi.ToAddress).Replace("#Status",svi.Status);
+                foreach (var agent in agentNumbers)
+                {
+                    var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=a39d36115c841484ea31ddc31936ee4&message=" + message + "&senderId=SIGNUP&routeId=8&mobileNos=" + agent + "&smsContentType=english");
+                    var request = new RestRequest(Method.GET);
+                    request.AddHeader("Cache-Control", "no-cache");
+                    IRestResponse response = client.Execute(request);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+
+
+        public List<GetMySiteVisits> GetMySiteVisits(string username)
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetMySiteVisits_Result, GetMySiteVisits>();
+                });
+                IMapper mapper = config.CreateMapper();
+                return mapper.Map<List<sp_GetMySiteVisits_Result>, List<GetMySiteVisits>>(dbEntity.sp_GetMySiteVisits(username).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<GetMySiteVisits>();
+            }
+        }
+
+        public List<SiteVisitInfo> GetSiteVisitsForApproval()
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblSiteVisitInfo, SiteVisitInfo>();
+                });
+                IMapper mapper = config.CreateMapper();
+                return mapper.Map<List<tblSiteVisitInfo>, List<SiteVisitInfo>>(dbEntity.tblSiteVisitInfoes.Where(x => x.Status == "Pending").ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<SiteVisitInfo>();
+            }
+        }
+
+        public bool UpdateSiteVisitApproval(SiteVisitInfo svi)
+        {
+            try
+            {
+                //p.BookingStatusName = null;
+                tblSiteVisitInfo old = dbEntity.tblSiteVisitInfoes.Where(x => x.ID == svi.ID).FirstOrDefault();
+                if (old != null)
+                {
+                    var config = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<SiteVisitInfo, tblSiteVisitInfo>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                    });
+                    IMapper mapper = config.CreateMapper();
+                    //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
+                    mapper.Map<SiteVisitInfo, tblSiteVisitInfo>(svi, old);
+                    dbEntity.SaveChanges();
+                    string agentIDS = "1," + svi.AgentID + "," + svi.ImmediateSeniorID;
+                    var agentNumbers = dbEntity.sp_GetAgentNumbers(agentIDS).ToArray();
+                    var message = "Site Visit Request Status" + Environment.NewLine;
+                    message = message + "Project Name : #Project" + Environment.NewLine + "Agent Name : #Agent" + Environment.NewLine + "Sr. Agent Name : #SrAgent" + Environment.NewLine + "Customer Name : #Customer" + Environment.NewLine + "Customer Mobile : #Mobile" + Environment.NewLine + "Visit Date : #Date" + Environment.NewLine + "From Address : #From" + Environment.NewLine + "To Address : #To" + Environment.NewLine + "Status : #Status";
+                    message = message.Replace("#Project", svi.ProjectName).Replace("#Agent", svi.AgentName).Replace("#SrAgent", svi.ImmediateSeniorName).Replace("#Customer", svi.CustomerName).Replace("#Mobile", svi.CustomerMobile).Replace("#Date", svi.DateOfVisit).Replace("#From", svi.FromAddress).Replace("#To", svi.ToAddress).Replace("#Status", svi.Status);
+                    foreach (var agent in agentNumbers)
+                    {
+                        var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=a39d36115c841484ea31ddc31936ee4&message=" + message + "&senderId=SIGNUP&routeId=8&mobileNos=" + agent + "&smsContentType=english");
+                        var request = new RestRequest(Method.GET);
+                        request.AddHeader("Cache-Control", "no-cache");
+                        IRestResponse response = client.Execute(request);
+                    }
+                }
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
         }
     }
 }

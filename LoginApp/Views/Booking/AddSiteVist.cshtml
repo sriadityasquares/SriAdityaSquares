@@ -1,0 +1,236 @@
+﻿@model ModelLayer.SiteVisitInfo
+@{
+    ViewBag.Title = "AddSiteVist";
+    var message = TempData["successmessage"] ?? string.Empty;
+    ViewBag.Transport = "active";
+    ViewBag.SiteVisits = "active";
+}
+
+
+@using (Html.BeginForm("AddSiteVist", "Booking", FormMethod.Post, new
+{
+
+    role = "form",
+    id = "submitbtn"
+
+}))
+{
+    //@(ViewContext.ClientValidationEnabled = false)
+    @Html.HiddenFor(m => m.ProjectName)
+    @Html.HiddenFor(m => m.AgentName)
+    @Html.HiddenFor(m => m.ImmediateSeniorName)
+    @Html.HiddenFor(m => m.Status)
+    @Html.HiddenFor(m => m.DateOfVisit)
+    @Html.HiddenFor(m => m.TermsAccepted)
+    @Html.AntiForgeryToken()
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12 col-xs" style="margin-top:0px">
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">ADD SITE VISIT INFO</h3>
+                <div class="specialLine col-md-1"></div>
+            </div>
+
+        </div>
+
+
+        <div class="row" style="padding-top:35px">
+            @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.AgentID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.AgentID, new SelectList(" "), "--Select Agent--", new { @class = "textbox-control col-md-3 col-xs" })
+        </div>
+        @*<div class="row">
+            @Html.LabelFor(m => m.AgentID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.AgentID, new SelectList(" "), "--Select Agent--", new { @class = "textbox-control col-md-4 col-xs" })
+
+        </div>*@
+        <div class="row">
+            @Html.LabelFor(m => m.ImmediateSeniorID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.ImmediateSeniorID, new SelectList(" "), "--Select Sr. Agent--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.CustomerName, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.CustomerName, new { @class = "textbox-control col-md-3 col-xs" })
+
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.CustomerMobile, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.CustomerMobile, new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.NoOfCustomers, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.NoOfCustomers, new { @class = "textbox-control col-md-3 col-xs", @type = "number", @Value = 1 })
+        </div>
+        <div class="row">
+
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.FromAddress, new { @class = "col-md-2" })
+            @Html.TextAreaFor(m => m.FromAddress, new { @class = "textboxarea-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.ToAddress, new { @class = "col-md-2" })
+            @Html.TextAreaFor(m => m.ToAddress, new { @class = "textboxarea-control col-md-3 col-xs" })
+        </div>
+        <div class="row" style="padding-top:5px">
+            @Html.LabelFor(m => m.DateOfVisit, new { @class = "col-md-2" })
+
+            <div class="col-md-4" style="padding-left:0px">
+                <input id="datepicker1" title="datepicker" />
+            </div>
+        </div>
+        <div class="row" style="padding-top:5px">
+            <div class="col-md-offset-2 col-md-12">
+                @*<div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                    <label class="custom-control-label" for="customCheck1">I accept to deduct Rs.3000/- on every site visit made by me through company transport from my commission.</label>
+                </div>*@
+                @Html.CheckBoxFor(m => m.TermsAccepted, new { @id = "customCheck1" })
+                I accept to deduct Rs.3000/- on every site visit made by me through company transport from my commission.
+            </div>
+
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-3 no-pad">
+                <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-book"></i>ADD</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs" style="margin-top:0px">
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">MY SITE VISITS</h3>
+                <div class="specialLine col-md-1"></div>
+            </div>
+
+        </div>
+        <div id="grid"></div>
+    </div>
+
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<script>
+
+    $("#datepicker1").kendoDatePicker();
+    var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
+    $("#datepicker1").val(todayDate);
+    var validationsFlag = false;
+    $("#ProjectID").change(function () {
+
+        $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
+            $("#AgentID").empty();
+            $("#ImmediateSeniorID").empty();
+            AgentList = data;
+            //$("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+            });
+            $("#ImmediateSeniorID").append("<option value='" + 0 + "'>" + "None" + "</option>")
+            $.each(data, function (index, row) {
+                $("#ImmediateSeniorID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+            });
+        });
+
+    });
+
+
+
+    $("#submitbtn").submit(function () {
+        Validations();
+        if (validationsFlag) {
+        SetHiddenFields();
+        }
+        //if (!$('#submitbtn').valid()) {
+        //   $('#ValidationSummaryModal').modal('show');
+        //}
+    });
+
+    function SetHiddenFields() {
+        $("#ProjectName").val($("#ProjectID option:selected").text());
+        $("#AgentName").val($("#AgentID option:selected").text());
+        $("#ImmediateSeniorName").val($("#ImmediateSeniorID option:selected").text());
+        $("#DateOfVisit").val($("#datepicker1").val());
+        $("#Status").val('Pending');
+        
+
+    }
+
+    function Validations() {
+
+
+        if ($("#ProjectID").val() == '0' || $("#ProjectID").val() =='') {
+                toastr.error("Please Select the project"); return;
+        }
+         if ($("#AgentID").val() == '0' || $("#AgentID").val() =='') {
+                 swal("Please Select the agent", "", "warning")
+                 //$("#AgentID").val() = null;
+                return;
+        }
+
+       if ($("#CustomerName").val() == '') {
+                toastr.error("Customer Name is Required"); return;
+            }
+            if ($("#CustomerMobile").val() == '') {
+                toastr.error("Customer Mobile is Required"); return;
+        }
+        if (!$('#customCheck1').is(':checked')) {
+             toastr.error("Terms and conditions must be accepted."); return;
+        }
+
+         validationsFlag = true;
+    }
+    $(window).load(function () {
+        var tempdataval = '@TempData["successmessage"]';
+        if (tempdataval != '') {
+            if (tempdataval == 'Site Visit Added Successfully')
+                toastr.success(tempdataval);
+            else {
+                toastr.error(tempdataval);
+            }
+        }
+
+    });
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Booking/GetMySiteVisits",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 5,
+
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 350,
+            toolbar: ["search"],
+            columns: [
+                { field: "ProjectName", title: "Project Name", width: "140px" },
+                { field: "AgentName", title: "Agent Name", width: "150px" },
+                { field: "ImmediateSeniorName", title: "Sr. Agent Name", width: "150px" },
+                { field: "CustomerName", title: "Customer Name", width: "150px" },
+                { field: "NoOfCustomers", title: "No of Customers", width: "120px" },
+                { field: "CustomerMobile", title: "Customer Mobile", width: "115px" },
+                { field: "Status", title: "Status", width: "90px" },
+                { field: "DateOfVisit", title: "Visit Date", width: "90px" },
+                { field: "FromAddress", title: "From Address", width: "150px" },
+                { field: "ToAddress", title: "To Address", width: "150px" },
+            ],
+        });
+
+
+    });
+</script>
+

@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using ModelLayer;
 using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -468,5 +469,73 @@ namespace LoginApp.Controllers
             }
             return Json(html, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult AddSiteVist()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddSiteVist(SiteVisitInfo siteVisitInfo)
+        {
+
+            siteVisitInfo.TermsAccepted = true;
+            siteVisitInfo.CreatedBy = User.Identity.Name;
+            siteVisitInfo.CreatedDate = DateTime.Now;
+            var result = booking.AddSiteVisit(siteVisitInfo);
+            if (result)
+            {
+                TempData["successmessage"] = "Site Visit Added Successfully";
+                
+
+            }
+            else
+            {
+                TempData["successmessage"] = "Site Visit Adding Failed";
+            }
+            ModelState.Clear();
+
+
+            TempData.Keep("ProjectList");
+            return View();
+
+        }
+
+        public JsonResult GetMySiteVisits()
+        {
+            string username = User.IsInRole("Admin") || User.Identity.Name == "nsrinivas78@gmail.com" ? null : User.Identity.Name;
+            var result = booking.GetMySiteVisits(username);
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+        
+        public ActionResult SiteVisitApproval()
+        {
+            return View();
+        }
+
+        public JsonResult GetSiteVisitsForApproval()
+        {
+
+            var result = booking.GetSiteVisitsForApproval();
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult UpdateSiteVisitApproval(string models)
+        {
+            List<SiteVisitInfo> data = JsonConvert.DeserializeObject<List<SiteVisitInfo>>(models);
+            data[0].isApproved = data[0].Status == "Approved" ? true : false;
+            data[0].ModifiedBy = User.Identity.Name;
+            data[0].ModifiedDate = DateTime.Now;
+            data[0].ApprovedOrRejectedBy = User.Identity.Name;
+            var result = booking.UpdateSiteVisitApproval(data[0]);
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
     }
 }

@@ -119,6 +119,9 @@
     <Compile Include="sp_GetFlatWiseTotalAgentCommission_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetMySiteVisits_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_getPaymentInfoByDates_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
@@ -182,6 +185,9 @@
     <Compile Include="tblSchemeMaster.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblSiteVisitInfo.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblState.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
@@ -204,6 +210,9 @@
     </PackageReference>
     <PackageReference Include="log4net">
       <Version>2.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="RestSharp">
+      <Version>106.10.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

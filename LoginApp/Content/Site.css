@@ -508,6 +508,18 @@ label {
     /**/
 }
 
+
+.textboxarea-control {
+    border: 0px;
+    border-radius: 5px;
+    border: 1px solid #c3b9b6;
+    padding-left: 10px;
+    padding-right: 10px;
+    outline: none;
+    height: 60px;
+    font-size: small;
+    /**/
+}
 .login-box .form-group, .login-box .form-group .btn {
     text-transform: uppercase;
     font-size: 12px;
@@ -4596,7 +4608,7 @@ Media queries- START
     font-weight: 500;
 }
 
-input[type=checkbox] {
+/*input[type=checkbox] {
     -webkit-appearance: none;
     position: relative;
     float: left;
@@ -4635,7 +4647,7 @@ input[type=checkbox]:checked:before {
     margin-right: 20px;
     line-height: 14px;
     color: #333;
-}
+}*/
 
 .singleline-checkbox {
     text-transform: capitalize;

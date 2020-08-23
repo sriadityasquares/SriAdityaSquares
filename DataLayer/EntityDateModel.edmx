@@ -349,6 +349,32 @@
           <Property Name="DownPayment" Type="int" />
           <Property Name="DownPaymentTimePeriod" Type="int" />
         </EntityType>
+        <EntityType Name="tblSiteVisitInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="ProjectName" Type="nvarchar(max)" />
+          <Property Name="AgentID" Type="int" />
+          <Property Name="AgentName" Type="varchar(max)" />
+          <Property Name="ImmediateSeniorID" Type="int" />
+          <Property Name="ImmediateSeniorName" Type="nvarchar(max)" />
+          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="NoOfCustomers" Type="int" />
+          <Property Name="CustomerMobile" Type="nvarchar(max)" />
+          <Property Name="FromAddress" Type="nvarchar(max)" />
+          <Property Name="ToAddress" Type="nvarchar(max)" />
+          <Property Name="DateOfVisit" Type="nvarchar(max)" />
+          <Property Name="TermsAccepted" Type="bit" />
+          <Property Name="Status" Type="nvarchar(max)" />
+          <Property Name="isApproved" Type="bit" />
+          <Property Name="ApprovedOrRejectedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="tblStates">
           <Key>
             <PropertyRef Name="StateID" />
@@ -496,6 +522,9 @@
           <Parameter Name="AgentEmail" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="sp_GetAgentLocations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetAgentNumbers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AgentID" Type="varchar(max)" Mode="In" />
+        </Function>
         <Function Name="sp_GetAgentPayBalance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AgentID" Type="int" Mode="In" />
         </Function>
@@ -536,6 +565,9 @@
           <Parameter Name="ProjectID" Type="int" Mode="In" />
           <Parameter Name="TowerID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_GetMySiteVisits" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar(max)" Mode="In" />
+        </Function>
         <Function Name="sp_getPaymentInfoByDates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fromdate" Type="varchar" Mode="In" />
           <Parameter Name="todate" Type="varchar" Mode="In" />
@@ -574,6 +606,7 @@
           <EntitySet Name="tblPaymentInfo" EntityType="Self.tblPaymentInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProjects" EntityType="Self.tblProjects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSchemeMaster" EntityType="Self.tblSchemeMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSiteVisitInfo" EntityType="Self.tblSiteVisitInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblStates" EntityType="Self.tblStates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblStatus" EntityType="Self.tblStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTowers" EntityType="Self.tblTowers" Schema="dbo" store:Type="Tables" />
@@ -729,6 +762,13 @@
           <Parameter Name="AgentEmail" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="tblCustomerVisitInfoes" EntityType="salesDBModel.tblCustomerVisitInfo" />
+          <EntitySet Name="tblSiteVisitInfoes" EntityType="salesDBModel.tblSiteVisitInfo" />
+          <FunctionImport Name="sp_GetMySiteVisits" ReturnType="Collection(salesDBModel.sp_GetMySiteVisits_Result)">
+          <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetAgentNumbers" ReturnType="Collection(Int64)">
+            <Parameter Name="AgentID" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -1424,6 +1464,45 @@
           <Property Name="DateAdded" Type="DateTime" Precision="3" />
           <Property Name="AddedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="tblSiteVisitInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentID" Type="Int32" />
+          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ImmediateSeniorID" Type="Int32" />
+          <Property Name="ImmediateSeniorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NoOfCustomers" Type="Int32" />
+          <Property Name="CustomerMobile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ToAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfVisit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TermsAccepted" Type="Boolean" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="isApproved" Type="Boolean" />
+          <Property Name="ApprovedOrRejectedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="sp_GetMySiteVisits_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="true" />
+          <Property Type="String" Name="AgentName" Nullable="true" />
+          <Property Type="String" Name="ImmediateSeniorName" Nullable="true" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="Int32" Name="NoOfCustomers" Nullable="true" />
+          <Property Type="String" Name="CustomerMobile" Nullable="true" />
+          <Property Type="String" Name="FromAddress" Nullable="true" />
+          <Property Type="String" Name="ToAddress" Nullable="true" />
+          <Property Type="String" Name="DateOfVisit" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2149,6 +2228,51 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblSiteVisitInfoes">
+            <EntityTypeMapping TypeName="salesDBModel.tblSiteVisitInfo">
+              <MappingFragment StoreEntitySet="tblSiteVisitInfo">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ApprovedOrRejectedBy" ColumnName="ApprovedOrRejectedBy" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TermsAccepted" ColumnName="TermsAccepted" />
+                <ScalarProperty Name="DateOfVisit" ColumnName="DateOfVisit" />
+                <ScalarProperty Name="ToAddress" ColumnName="ToAddress" />
+                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+                <ScalarProperty Name="CustomerMobile" ColumnName="CustomerMobile" />
+                <ScalarProperty Name="NoOfCustomers" ColumnName="NoOfCustomers" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="ImmediateSeniorName" ColumnName="ImmediateSeniorName" />
+                <ScalarProperty Name="ImmediateSeniorID" ColumnName="ImmediateSeniorID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetMySiteVisits" FunctionName="salesDBModel.Store.sp_GetMySiteVisits">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetMySiteVisits_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="ImmediateSeniorName" ColumnName="ImmediateSeniorName" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="NoOfCustomers" ColumnName="NoOfCustomers" />
+                <ScalarProperty Name="CustomerMobile" ColumnName="CustomerMobile" />
+                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+                <ScalarProperty Name="ToAddress" ColumnName="ToAddress" />
+                <ScalarProperty Name="DateOfVisit" ColumnName="DateOfVisit" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentNumbers" FunctionName="salesDBModel.Store.sp_GetAgentNumbers" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
