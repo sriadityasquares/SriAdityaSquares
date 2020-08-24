@@ -179,9 +179,13 @@ namespace BusinessLayer
             return db.UploadSelfie(cvi);
         }
 
-        public List<CustomerVisitInfo> GetSelfies(int projectID)
+        public bool CheckDuplicateMobile(CustomerVisitInfo cvi)
         {
-            return db.GetSelfies(projectID);
+            return db.CheckDuplicateMobile(cvi);
+        }
+        public List<CustomerVisitInfo> GetSelfies(int projectID, string mobile)
+        {
+            return db.GetSelfies(projectID, mobile);
         }
 
         public bool AddSiteVisit(SiteVisitInfo svi)
@@ -204,6 +208,6 @@ namespace BusinessLayer
             return db.UpdateSiteVisitApproval(svi);
         }
 
-         
+
     }
 }

@@ -6,59 +6,65 @@
 }
 
 
-<div class="jumbotron" >
-    <div class="row">
-        <div class="col-md-12 col-xs" style="margin-top:0px">
-            <h3 style="margin-top:0px;margin-bottom:4px" align="left">SELFIE POINT</h3>
-            <div class="specialLine col-md-1"></div>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12 col-xs" style="margin-top:0px">
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">SELFIE POINT</h3>
+                <div class="specialLine col-md-1"></div>
+            </div>
+
         </div>
 
-    </div>
+
+        <div class="row" style="padding-top:15px">
+            @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.CustomerMobile, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.CustomerMobile, new { @class = "textbox-control col-md-3 col-xs" })
+        </div>
+        <div class="row" style="padding-top:0px">
+            <div class="col-md-12 col-xs">
+                <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
+            </div>
+        </div>
+            
+        <hr />
+            <br />
+            <div id="selfie" style="overflow:auto;height:700px;">
+
+            </div>
+        </div>
+        <style>
+            .card {
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2) !important;
+                transition: 0.3s !important;
+                width: 100%;
+                border-radius: 5px !important;
+                border-color: #17a2b8 !important;
+                border: 1px solid rgba(0,0,0,.125);
+            }
+
+                .card:hover {
+                    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+                    border-color: darkgreen !important;
+                    border: 2px solid rgba(0,0,0,.125);
+                }
+
+            .containercard {
+                padding: 2px 16px;
+                border-color: #17a2b8 !important;
+                /*background-color: #17a2b8*/
+            }
+        </style>
+        <script>
+            $("#submitbtn").click(function () {
 
 
-    <div class="row" style="padding-top:15px">
-        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-2" })
-        @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-4 col-xs" })
+                $.get("/Booking/GetSelfies", { ProjectId: $("#ProjectID").val() , Mobile: $("#CustomerMobile").val() }, function (data) {
 
-    </div>
+                    $("#selfie").html(data);
 
-    <hr />
-    <br />
-    <div id="selfie" style="overflow:auto;height:700px;">
+                });
 
-    </div>
-</div>
-<style>
-    .card {
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2) !important;
-        transition: 0.3s !important;
-        width: 100%;
-        border-radius: 5px !important;
-        border-color: #17a2b8 !important;
-        border: 1px solid rgba(0,0,0,.125);
-    }
-
-        .card:hover {
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-            border-color: darkgreen !important;
-            border: 2px solid rgba(0,0,0,.125);
-        }
-
-    .containercard {
-        padding: 2px 16px;
-         border-color: #17a2b8 !important;
-        /*background-color: #17a2b8*/
-    }
-</style>
-<script>
-    $("#ProjectID").change(function () {
-
-       
-        $.get("/Booking/GetSelfies", { ProjectId: $("#ProjectID").val() }, function (data) {
-
-            $("#selfie").html(data);
-           
-        });
-
-    });
-</script>
+            });
+        </script>

@@ -400,39 +400,47 @@ namespace LoginApp.Controllers
             //string base64String = Convert.ToBase64String(image, 0, image.Length);
             //cv.se = "data:image/png;base64," + base64String;
             //Use Namespace called :  System.IO  
-            string FileName = Path.GetFileNameWithoutExtension(cv.SelfieFile.FileName);
-
-            //To Get File Extension  
-            string FileExtension = Path.GetExtension(cv.SelfieFile.FileName);
-
-            //Add Current Date To Attached File Name  
-            FileName = DateTime.Now.ToString("yyyyMMdd") + "-" + FileName.Trim() + FileExtension;
-            if (!Directory.Exists(Server.MapPath("~/Content/Images/Selfies")))
+            var isValid = booking.CheckDuplicateMobile(cv);
+            if (isValid)
             {
-                Directory.CreateDirectory(Server.MapPath("~/Content/Images/Selfies"));
-            }
-            string path = "~/Content/Images/Selfies/";
-            string UploadPath = Server.MapPath(path);
-            //Get Upload path from Web.Config file AppSettings.  
-            //string UploadPath = "~/Content/Images/";
+                string FileName = Path.GetFileNameWithoutExtension(cv.SelfieFile.FileName);
 
-            //Its Create complete path to store in server.  
-            string savePath = UploadPath + FileName;
+                //To Get File Extension  
+                string FileExtension = Path.GetExtension(cv.SelfieFile.FileName);
 
-            //To copy and save file into server.  
-            cv.SelfieFile.SaveAs(savePath);
-            cv.SelfieURL = path.Remove(0, 1) + FileName;
-            cv.AddedBy = User.Identity.Name;
-            TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
-            cv.DateAdded = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
-            var result = booking.UploadSelfie(cv);
-            if (result)
-            {
-                TempData["successmessage"] = "Selfie Uploaded Successfully";
+                //Add Current Date To Attached File Name  
+                FileName = DateTime.Now.ToString("yyyyMMdd") + "-" + FileName.Trim() + FileExtension;
+                if (!Directory.Exists(Server.MapPath("~/Content/Images/Selfies")))
+                {
+                    Directory.CreateDirectory(Server.MapPath("~/Content/Images/Selfies"));
+                }
+                string path = "~/Content/Images/Selfies/";
+                string UploadPath = Server.MapPath(path);
+                //Get Upload path from Web.Config file AppSettings.  
+                //string UploadPath = "~/Content/Images/";
+
+                //Its Create complete path to store in server.  
+                string savePath = UploadPath + FileName;
+
+                //To copy and save file into server.  
+                cv.SelfieFile.SaveAs(savePath);
+                cv.SelfieURL = path.Remove(0, 1) + FileName;
+                cv.AddedBy = User.Identity.Name;
+                TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+                cv.DateAdded = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+                var result = booking.UploadSelfie(cv);
+                if (result)
+                {
+                    TempData["successmessage"] = "Selfie Uploaded Successfully";
+                }
+                else
+                {
+                    TempData["successmessage"] = "Selfie Uploaded Failed";
+                }
             }
             else
             {
-                TempData["successmessage"] = "Selfie Uploaded Failed";
+                TempData["successmessage"] = "Selfie with customer already exists!";
             }
             ModelState.Clear();
             TempData.Keep("ProjectList");
@@ -448,9 +456,9 @@ namespace LoginApp.Controllers
         }
 
 
-        public JsonResult GetSelfies(int projectId)
+        public JsonResult GetSelfies(int projectId,string Mobile)
         {
-            var customerVisits = booking.GetSelfies(projectId);
+            var customerVisits = booking.GetSelfies(projectId, Mobile);
             string html = "";
             int j = 0;
             for (int i = 0; i < customerVisits.Count; i = i + 3)
@@ -466,6 +474,10 @@ namespace LoginApp.Controllers
                     //html.Replace("#Date", customerVisits[i + j].DateAdded.ToString());
                 }
                 html = html + "</div><br/>";
+            }
+            if(html == "")
+            {
+                html = "<span> No Records Found </span>";
             }
             return Json(html, JsonRequestBehavior.AllowGet);
         }

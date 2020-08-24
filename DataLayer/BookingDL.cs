@@ -1101,7 +1101,18 @@ namespace DataLayer
             }
         }
 
-        public List<CustomerVisitInfo> GetSelfies(int projectID)
+        public bool CheckDuplicateMobile(CustomerVisitInfo cvi)
+        {
+            int projectid = Convert.ToInt32(cvi.ProjectID);
+            var result =  dbEntity.tblCustomerVisitInfoes.Where(x => x.ProjectID == projectid && x.CustomerMobile == cvi.CustomerMobile).FirstOrDefault();
+            if (result == null)
+                return true;
+            else
+                return false;
+
+        }
+
+        public List<CustomerVisitInfo> GetSelfies(int projectID, string mobile)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
 
@@ -1114,7 +1125,10 @@ namespace DataLayer
                     cfg.CreateMap<tblCustomerVisitInfo, CustomerVisitInfo>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstSelfies = mapper.Map<List<tblCustomerVisitInfo>, List<CustomerVisitInfo>>(dbEntity.tblCustomerVisitInfoes.Where(a => a.ProjectID == projectID).ToList()).ToList();
+                if (mobile == "")
+                    lstSelfies = mapper.Map<List<tblCustomerVisitInfo>, List<CustomerVisitInfo>>(dbEntity.tblCustomerVisitInfoes.Where(a => a.ProjectID == projectID).ToList()).ToList();
+                else
+                    lstSelfies = mapper.Map<List<tblCustomerVisitInfo>, List<CustomerVisitInfo>>(dbEntity.tblCustomerVisitInfoes.Where(a => a.ProjectID == projectID && a.CustomerMobile == mobile).ToList()).ToList();
                 foreach (var item in lstSelfies)
                 {
                     string base64String = Convert.ToBase64String(item.Selfie, 0, item.Selfie.Length);
@@ -1143,9 +1157,9 @@ namespace DataLayer
                 dbEntity.SaveChanges();
                 string agentIDS = "1," + svi.AgentID + "," + svi.ImmediateSeniorID;
                 var agentNumbers = dbEntity.sp_GetAgentNumbers(agentIDS).ToArray();
-                var message = "New Site Visit Request"+Environment.NewLine;
-                message = message +"Project Name : #Project" + Environment.NewLine + "Agent Name : #Agent" + Environment.NewLine + "Sr. Agent Name : #SrAgent" + Environment.NewLine + "Customer Name : #Customer" + Environment.NewLine + "Customer Mobile : #Mobile" + Environment.NewLine + "Visit Date : #Date" + Environment.NewLine + "From Address : #From" + Environment.NewLine + "To Address : #To" + Environment.NewLine+"Status : #Status";
-                message = message.Replace("#Project", svi.ProjectName).Replace("#Agent", svi.AgentName).Replace("#SrAgent", svi.ImmediateSeniorName).Replace("#Customer", svi.CustomerName).Replace("#Mobile", svi.CustomerMobile).Replace("#Date", svi.DateOfVisit).Replace("#From", svi.FromAddress).Replace("#To", svi.ToAddress).Replace("#Status",svi.Status);
+                var message = "New Site Visit Request" + Environment.NewLine;
+                message = message + "Project Name : #Project" + Environment.NewLine + "Agent Name : #Agent" + Environment.NewLine + "Sr. Agent Name : #SrAgent" + Environment.NewLine + "Customer Name : #Customer" + Environment.NewLine + "Customer Mobile : #Mobile" + Environment.NewLine + "Visit Date : #Date" + Environment.NewLine + "From Address : #From" + Environment.NewLine + "To Address : #To" + Environment.NewLine + "Status : #Status";
+                message = message.Replace("#Project", svi.ProjectName).Replace("#Agent", svi.AgentName).Replace("#SrAgent", svi.ImmediateSeniorName).Replace("#Customer", svi.CustomerName).Replace("#Mobile", svi.CustomerMobile).Replace("#Date", svi.DateOfVisit).Replace("#From", svi.FromAddress).Replace("#To", svi.ToAddress).Replace("#Status", svi.Status);
                 foreach (var agent in agentNumbers)
                 {
                     var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=a39d36115c841484ea31ddc31936ee4&message=" + message + "&senderId=SIGNUP&routeId=8&mobileNos=" + agent + "&smsContentType=english");
@@ -1219,6 +1233,8 @@ namespace DataLayer
                     mapper.Map<SiteVisitInfo, tblSiteVisitInfo>(svi, old);
                     dbEntity.SaveChanges();
                     string agentIDS = "1," + svi.AgentID + "," + svi.ImmediateSeniorID;
+                    if (svi.isApproved == true)
+                        agentIDS = agentIDS + "," + svi.CustomerMobile;
                     var agentNumbers = dbEntity.sp_GetAgentNumbers(agentIDS).ToArray();
                     var message = "Site Visit Request Status" + Environment.NewLine;
                     message = message + "Project Name : #Project" + Environment.NewLine + "Agent Name : #Agent" + Environment.NewLine + "Sr. Agent Name : #SrAgent" + Environment.NewLine + "Customer Name : #Customer" + Environment.NewLine + "Customer Mobile : #Mobile" + Environment.NewLine + "Visit Date : #Date" + Environment.NewLine + "From Address : #From" + Environment.NewLine + "To Address : #To" + Environment.NewLine + "Status : #Status";

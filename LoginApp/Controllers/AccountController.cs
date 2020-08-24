@@ -417,7 +417,7 @@ namespace LoginApp.Controllers
         private ActionResult RedirectToLocal(string UserID, string returnUrl)
         {
             if (UserManager.IsInRole(UserID, "Admin"))
-                return RedirectToAction("Register", "Account");
+                return RedirectToAction("Index", "Dashboard");
             else if (UserManager.IsInRole(UserID, "DataEntry"))
                 return RedirectToAction("Index", "Dashboard");
             else if (UserManager.IsInRole(UserID, "Agent"))
