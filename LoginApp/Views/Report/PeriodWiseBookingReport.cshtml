@@ -224,12 +224,12 @@
 
     $("#grid").hide();
     $("#grid").kendoGrid({
-        toolbar: kendo.template($("#searchtemplate").html()),
+        toolbar: ["search", "excel"],
         excel: {
-            fileName: "Kendo UI Grid Export.xlsx",
-
+            fileName: "PeriodWiseBooking.xlsx",
+            filterable: true,
             //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
-            filterable: true
+            allPages: true
         },
         dataSource: {
             data: null,

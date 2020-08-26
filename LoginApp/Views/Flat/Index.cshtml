@@ -95,7 +95,7 @@
 
         $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
 
-        $.getJSON('/Cascade/GetProjects', function (response) {
+        $.getJSON('/Cascade/GetAllProjects', function (response) {
             if (response != null) {
                 projects = response;
             }
@@ -127,7 +127,13 @@
             height: 550,
             //navigation: true,
             pageable: true,
-            toolbar: ["create","search"],
+            toolbar: ["create", "search", "excel"],
+            excel: {
+                fileName: "Flats.xlsx",
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
             edit: function (e) {
                 if (!e.model.isNew()) {
                     $("#ProjectID").data("kendoDropDownList").readonly();

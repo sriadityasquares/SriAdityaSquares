@@ -74,12 +74,13 @@
         $(document).ready(function () {
             $("#grid").hide();
             $("#grid").kendoGrid({
-                toolbar: kendo.template($("#searchtemplate").html()),
+                toolbar: ["search", "excel"],
                 excel: {
                     fileName: "AgentInfoReport.xlsx",
 
                 //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
-                filterable: true
+                    filterable: true,
+                    allPages: true
             },
                 dataSource: {
                     data: null,

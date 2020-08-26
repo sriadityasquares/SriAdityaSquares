@@ -1125,10 +1125,11 @@ namespace DataLayer
                     cfg.CreateMap<tblCustomerVisitInfo, CustomerVisitInfo>();
                 });
                 IMapper mapper = config.CreateMapper();
+                var date = DateTime.Now.Date.AddDays(-30);
                 if (mobile == "")
-                    lstSelfies = mapper.Map<List<tblCustomerVisitInfo>, List<CustomerVisitInfo>>(dbEntity.tblCustomerVisitInfoes.Where(a => a.ProjectID == projectID).ToList()).ToList();
+                    lstSelfies = mapper.Map<List<tblCustomerVisitInfo>, List<CustomerVisitInfo>>(dbEntity.tblCustomerVisitInfoes.Where(a => a.ProjectID == projectID && a.DateAdded >= date).ToList()).ToList();
                 else
-                    lstSelfies = mapper.Map<List<tblCustomerVisitInfo>, List<CustomerVisitInfo>>(dbEntity.tblCustomerVisitInfoes.Where(a => a.ProjectID == projectID && a.CustomerMobile == mobile).ToList()).ToList();
+                    lstSelfies = mapper.Map<List<tblCustomerVisitInfo>, List<CustomerVisitInfo>>(dbEntity.tblCustomerVisitInfoes.Where(a => a.ProjectID == projectID && a.CustomerMobile == mobile && a.DateAdded >= date).ToList()).ToList();
                 foreach (var item in lstSelfies)
                 {
                     string base64String = Convert.ToBase64String(item.Selfie, 0, item.Selfie.Length);

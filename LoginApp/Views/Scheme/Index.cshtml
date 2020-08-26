@@ -211,7 +211,7 @@
                     dataSource: {
                         type: "json",
                         transport: {
-                            read: "/Cascade/GetProjects",
+                            read: "/Cascade/GetAllProjects",
 
                         }
                     }
@@ -221,7 +221,7 @@
 
     });
     var projects = [];
-    $.getJSON('/Cascade/GetProjects', function (response) {
+    $.getJSON('/Cascade/GetAllProjects', function (response) {
         if (response != null) {
             projects = response;
         }

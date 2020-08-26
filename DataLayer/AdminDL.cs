@@ -23,13 +23,11 @@ namespace DataLayer
 
                 if (projectOld != null)
                 {
-                    var config = new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<Projects, tblProject>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-                    });
-                    IMapper mapper = config.CreateMapper();
-                    //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
-                    mapper.Map<Projects, tblProject>(p, projectOld);
+                    projectOld.ProjectName = p.ProjectName;
+                    projectOld.ProjectLocation = p.ProjectLocation;
+                    projectOld.BookingStatus = p.BookingStatus;
+                    projectOld.ClubHouseCharges = p.ClubHouseCharges;
+                    projectOld.UpdatedDate = DateTime.Now;
                     dbEntity.SaveChanges();
                 }
                 return true;
@@ -46,6 +44,7 @@ namespace DataLayer
             try
             {
                 p.BookingStatusName = null;
+                p.CreatedDate = DateTime.Now;
                 tblProject projectNew = new tblProject();
 
 
@@ -79,15 +78,8 @@ namespace DataLayer
                 towerNew.ProjectID = p.ProjectID;
                 towerNew.FlatCount = p.FlatCount;
                 towerNew.BookingStatus = p.BookingStatus;
+                towerNew.CreatedBy = p.CreatedBy;
                 towerNew.CreatedDate = DateTime.Now;
-
-                //var config = new MapperConfiguration(cfg =>
-                //{
-                //    cfg.CreateMap<Towers, tblTower>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-                //});
-                //IMapper mapper = config.CreateMapper();
-                ////mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
-                //mapper.Map<Towers, tblTower>(p, towerNew);
                 dbEntity.tblTowers.Add(towerNew);
                 dbEntity.SaveChanges();
 
@@ -110,6 +102,8 @@ namespace DataLayer
                 {
                     towerOld.BookingStatus = p.BookingStatus;
                     towerOld.FlatCount = p.FlatCount;
+                    towerOld.UpdatedBy = p.CreatedBy;
+                    towerOld.UpdatedDate = DateTime.Now;
                     dbEntity.SaveChanges();
 
                 }
@@ -130,12 +124,14 @@ namespace DataLayer
                 tblFlat flatOld = dbEntity.tblFlats.Where(x => x.FlatID == p.FlatID).FirstOrDefault();
                 if (flatOld != null)
                 {
+                    flatOld.FlatName = p.FlatName;
                     flatOld.Floor = p.Floor;
                     flatOld.Bhk = p.Bhk;
                     flatOld.Sft = p.Sft;
                     flatOld.Facing = p.Facing.ToUpper();
                     flatOld.BookingStatus = p.BookingStatus;
-
+                    flatOld.UpdatedBy = p.UpdatedBy;
+                    flatOld.UpdatedDate = p.UpdatedDate;
                     //towerOld.BookingStatus = p.BookingStatus;
                     //towerOld.FlatCount = p.FlatCount;
                     dbEntity.SaveChanges();
@@ -164,7 +160,8 @@ namespace DataLayer
                 flatNew.Sft = p.Sft;
                 flatNew.Facing = p.Facing.ToUpper();
                 flatNew.BookingStatus = p.BookingStatus;
-
+                flatNew.CreatedBy = p.CreatedBy;
+                flatNew.CreatedDate = p.CreatedDate;
                 //var config = new MapperConfiguration(cfg =>
                 //{
                 //    cfg.CreateMap<Towers, tblTower>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));

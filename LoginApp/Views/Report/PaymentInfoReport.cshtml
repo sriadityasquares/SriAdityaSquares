@@ -74,13 +74,13 @@
         $(document).ready(function () {
             $("#grid").hide();
             $("#grid").kendoGrid({
-                toolbar: kendo.template($("#searchtemplate").html()),
-                excel: {
-                    fileName: "BookingInfoReport.xlsx",
-
-                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
-                filterable: true
-            },
+                 toolbar: ["search", "excel"],
+        excel: {
+            fileName: "PaymentInformation.xlsx",
+            filterable: true,
+            //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+            allPages: true
+        },
                 dataSource: {
                     data: null,
                     //schema: {

@@ -44,6 +44,7 @@ namespace LoginApp.Controllers.Admin
                 };
                 List<Towers> data = JsonConvert.DeserializeObject<List<Towers>>(models, settings);
                 data[0].ProjectID = Convert.ToInt32(data[0].ProjectName);
+                data[0].CreatedBy = User.Identity.Name;
                 var result = towers.AddTower(data[0]);
             }
             catch (Exception ex)
@@ -65,6 +66,7 @@ namespace LoginApp.Controllers.Admin
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
                 List<Towers> data = JsonConvert.DeserializeObject<List<Towers>>(models, settings);
+                data[0].UpdatedBy = User.Identity.Name;
                 var result = towers.UpdateTower(data[0]);
             }
             catch (Exception ex)

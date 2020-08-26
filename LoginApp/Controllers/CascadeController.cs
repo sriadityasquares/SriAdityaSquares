@@ -65,6 +65,11 @@ namespace LoginApp.Controllers
             return Json(projectList, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetAllProjects()
+        {
+            List<Projects> projectList = objBooking.BindAllProjects();
+            return Json(projectList, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetCityList(int StateId)
         {
             List<City> CityList = objCasc.BindCity(StateId);

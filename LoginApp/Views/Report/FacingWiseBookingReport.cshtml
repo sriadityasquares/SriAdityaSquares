@@ -6,46 +6,46 @@
     ViewBag.FacingWiseBookingReport = "active";
 }
 
-    <div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
+<div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
 
-        <div class="row">
-            <div class="col-md-12 col-xs" style="margin-top:0px">
-                <h3 style="margin-top:0px;margin-bottom:4px" align="left">FACING WISE BOOKING INFORMATION</h3>
-                <div class="specialLine col-md-1"></div>
-            </div>
-
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">FACING WISE BOOKING INFORMATION</h3>
+            <div class="specialLine col-md-1"></div>
         </div>
-
-        <div class="row" style="margin-top:20px">
-            @Html.LabelFor(m => m.Project, new { @class = "col-md-1" })
-            <div class="col-md-3 col-xs">
-                @Html.DropDownListFor(m => m.Project, ViewBag.ProjectList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
-            </div>
-            @Html.LabelFor(m => m.From, new { @class = "col-md-1" })
-
-            <div class="col-md-2">
-                <input id="datepicker1" value="10/01/2019" title="datepicker" />
-            </div>
-
-            @Html.LabelFor(m => m.To, new { @class = "col-md-1" })
-            <div class="col-md-2">
-                <input id="datepicker2" value="10/31/2019" title="datepicker" />
-            </div>
-
-            @*@Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })*@
-
-        </div>
-        <div class="col-md-12 col-xs">
-            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
-        </div>
-        <hr />
-        <br />
-        <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
-            <div id="grid"></div>
-        </div>
-
 
     </div>
+
+    <div class="row" style="margin-top:20px">
+        @Html.LabelFor(m => m.Project, new { @class = "col-md-1" })
+        <div class="col-md-3 col-xs">
+            @Html.DropDownListFor(m => m.Project, ViewBag.ProjectList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
+        </div>
+        @Html.LabelFor(m => m.From, new { @class = "col-md-1" })
+
+        <div class="col-md-2">
+            <input id="datepicker1" value="10/01/2019" title="datepicker" />
+        </div>
+
+        @Html.LabelFor(m => m.To, new { @class = "col-md-1" })
+        <div class="col-md-2">
+            <input id="datepicker2" value="10/31/2019" title="datepicker" />
+        </div>
+
+        @*@Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })*@
+
+    </div>
+    <div class="col-md-12 col-xs">
+        <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
+    </div>
+    <hr />
+    <br />
+    <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
+        <div id="grid"></div>
+    </div>
+
+
+</div>
 <script type="text/x-kendo-template" id="searchtemplate">
     <div class="toolbar">
 
@@ -75,13 +75,13 @@
         $(document).ready(function () {
             $("#grid").hide();
             $("#grid").kendoGrid({
-                toolbar: kendo.template($("#searchtemplate").html()),
-                excel: {
-                    fileName: "FacingBookingInfoReport.xlsx",
-
-                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
-                filterable: true
-            },
+                toolbar: ["search", "excel"],
+        excel: {
+            fileName: "FacingWiseBookingInformation.xlsx",
+            filterable: true,
+            //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+            allPages: true
+        },
                 dataSource: {
                     data: null,
                     //schema: {

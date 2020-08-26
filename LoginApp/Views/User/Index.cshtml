@@ -54,7 +54,13 @@
             dataSource: dataSource,
             pageable: true,
             height: 550,
-            toolbar: ["search"],
+            toolbar: ["search", "excel"],
+        excel: {
+            fileName: "UserMaster.xlsx",
+            filterable: true,
+            //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+            allPages: true
+        },
             columns: [
                 { field: "UserName", title: "UserName", width: "200px" },
                 { field: "Role", title: "Role", width: "100px" },

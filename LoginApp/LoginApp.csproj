@@ -512,7 +512,9 @@
     <Content Include="Content\Images\1.4.9.png" />
     <Content Include="Content\Images\147.jpg" />
     <Content Include="Content\Images\14Avenue.JPG" />
+    <Content Include="Content\Images\AlpineVistas.jpg" />
     <Content Include="Content\Images\building1.jpeg" />
+    <Content Include="Content\Images\club top angle.jpg" />
     <Content Include="Content\Images\contact.jpg" />
     <Content Include="Content\Images\conus.jpg" />
     <Content Include="Content\Images\eyeOfView.jpg" />
@@ -522,6 +524,7 @@
     <Content Include="Content\Images\joana1.jpg" />
     <Content Include="Content\Images\Jumbtron1.png" />
     <Content Include="Content\Images\LotusResidency.JPG" />
+    <Content Include="Content\Images\AlpineSqaures.jpg" />
     <Content Include="Content\Images\PVR Anmol.jpg" />
     <Content Include="Content\Images\PVR Anmol1.JPG" />
     <Content Include="Content\Images\PVR Anmol2.JPG" />

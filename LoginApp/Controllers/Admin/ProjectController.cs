@@ -68,6 +68,7 @@ namespace LoginApp.Controllers.Admin
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
                 List<Projects> data = JsonConvert.DeserializeObject<List<Projects>>(models,settings);
+                data[0].CreatedBy = User.Identity.Name;
                 var result = project.AddProject(data[0]);
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
@@ -86,9 +87,8 @@ namespace LoginApp.Controllers.Admin
             try
             {
                 List<Projects> data = JsonConvert.DeserializeObject<List<Projects>>(models);
+                data[0].UpdatedBy = User.Identity.Name;
                 var result = project.UpdateProject(data[0]);
-                
-
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch(Exception ex)
