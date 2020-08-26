@@ -549,5 +549,23 @@ namespace LoginApp.Controllers
 
         }
 
+        public ActionResult Invoice()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
+            return View();
+        }
+
+        public JsonResult GetReceiptDetails(int flatID)
+        {
+            var result = booking.GetBookingInformation(flatID);
+            var bookingDate = Convert.ToDateTime(result.CreatedDate).ToString("MM/dd/yyyy");
+            var html = "<article><address></address><table class=\"meta\"><tr><th><span>Receipt  #</span></th><td><span contenteditable></span></td> </tr><tr><th><span>Date</span></th><td><span contenteditable>#BookingDate</span></td></tr><tr></tr></table><table class=\"inventory\"><tr><th><span>PROJECT :</span></th><td><span contenteditable>#Project</span></td><th><span>TOWER :</span></th><td><span contenteditable>#Tower</span></td></tr><tr><th><span>NAME:</span></th><td><span contenteditable>#CName</span></td><th><span>MOBILE :</span></th><td><span contenteditable>#CMobile</span></td></tr><tr><th><span>AMOUNT PAID:</span></th><td><span contenteditable>#BookingAmount</span></td><th><span>FLAT/PLOT NO :</span></th><td><span contenteditable>#Flat</span></td></tr><tr><th><span>SFT:</span></th><td><span contenteditable>#SFT</span></td><th><span>MODE :</span></th><td><span contenteditable>#Cheque</span></td></tr><tr><th><span>Ref No:</span></th><td><span contenteditable>#RefNo</span></td></tr></table></article>";
+            html = html.Replace("#BookingDate", bookingDate).Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile.ToString()).Replace("#BookingAmount","Rs. " +result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo",result.ReferenceNo);
+            return Json(html, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

@@ -42,6 +42,7 @@
                         if (textStatus == 'success') {
                             toastr.success('Update Successfull');
                             $("#grid").data("kendoGrid").dataSource.read();
+                            
                         }
                         else {
                             toastr.error('Error in Updating');
@@ -59,9 +60,11 @@
                     complete: function (jqXhr, textStatus) {
                         if (textStatus == 'success') {
                             toastr.success('Added Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
                         }
                         else {
                             toastr.error('Error in Adding');
+                            $("#grid").data("kendoGrid").dataSource.read();
                         }
                     }
                 },

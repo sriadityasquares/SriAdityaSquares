@@ -1,29 +1,11 @@
-﻿
+﻿@model ModelLayer.BookingInformation
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Receipt";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Admin = "active";
-    ViewBag.Schemes = "active";
+    ViewBag.Booking = "active";
+    ViewBag.Receipt = "active";
 }
 <style>
-    /* reset */
-
-    /**
-    {
-        border: 0;
-        box-sizing: content-box;
-        color: inherit;
-        font-family: inherit;
-        font-size: inherit;
-        font-style: inherit;
-        font-weight: inherit;
-        line-height: inherit;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        text-decoration: none;
-        vertical-align: top;
-    }*/
 
     /* content editable */
 
@@ -321,91 +303,120 @@
     }
 </style>
 <div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">GENERATE RECEIPTS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+    </div>
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
     <div id="example">
-        <div class="box wide hidden-on-narrow">
-            <div class="box-col">
+
+            <div class="row">
+
+                @Html.Label("Select Page size", new { @class = "col-md-4" })
+                <div class="col-md-3">
+                    <select id="paper" style="width: 100px;">
+                        <option value="size-a4" selected>A4</option>
+                        <option value="size-letter">Letter</option>
+                        <option value="size-executive">Executive</option>
+                    </select>
+                </div>
+
+                <button class="btn-success" onclick="getPDF('.pdf-page')">Download Receipt</button>
+
+            @*<div class="box-col">
                 <h4>Select Page size</h4>
                 <select id="paper" style="width: 100px;">
                     <option value="size-a4" selected>A4</option>
                     <option value="size-letter">Letter</option>
                     <option value="size-executive">Executive</option>
                 </select>
-            </div>
-            <div class="box-col">
+            </div>*@
+            @*<div class="box-col">
                 <h4>Get PDF</h4>
                 <button class="export-pdf k-button" onclick="getPDF('.pdf-page')">Export</button>
-            </div>
+            </div>*@
         </div>
 
-        <div  class="page-container hidden-on-narrow">
-            <div style="background-image: url('../../Content/Images/letterhead2.JPG');background-size: cover;"  class="pdf-page size-a4">
-                <div  class="inner-page">
+        <div class="page-container hidden-on-narrow">
+            <div style="background-image: url('../../Content/Images/letterhead2.JPG');background-size: cover;" class="pdf-page size-a4">
+                <div class="inner-page">
                     <div class="pdf-header">
                         <span class="company-logo">
                             <img style="width:50px;height:50px" src="~/Content/Images/SASLOGO.jpg" />SRI ADITHYA SQUARES
                         </span>
-                        
+
                     </div>
+                    <br />
+                    <br />
                     @*<div class="pdf-footer">
-                        <p>
-                            
-                        </p>
-                    </div>*@
+                            <p>
+
+                            </p>
+                        </div>*@
                     <div id="content">
-                        <article>
+                        @*<article>
 
-                            <address>
-                                
-                            </address>
-                            <table class="meta">
-                                <tr>
-                                    <th><span>Receipt  #</span></th>
-                                    <td><span contenteditable></span></td>
-                                </tr>
-                                <tr>
-                                    <th><span>Date</span></th>
-                                    <td><span contenteditable></span></td>
-                                </tr>
-                                <tr>
-                                </tr>
-                            </table>
-                            <table class="inventory">
-                                <tr>
-                                    <th><span>PROJECT :</span></th>
-                                    <td><span contenteditable>#Project</span></td>
-                                    <th><span>TOWER :</span></th>
-                                    <td><span contenteditable>#Tower</span></td>
-                                </tr>
-                                <tr>
-                                    <th><span>NAME:</span></th>
-                                    <td><span contenteditable>#CName</span></td>
-                                    <th><span>MOBILE :</span></th>
-                                    <td><span contenteditable>#CMobile</span></td>
-                                </tr>
+                                <address>
 
-                                <tr>
-                                    <th><span>AMOUNT PAID:</span></th>
-                                    <td><span contenteditable>#CName</span></td>
-                                    <th><span>FLAT/PLOT NO :</span></th>
-                                    <td><span contenteditable>#Flat</span></td>
-                                </tr>
-                                <tr>
-                                    <th><span>SFT:</span></th>
-                                    <td><span contenteditable>#SFT</span></td>
-                                    <th><span>MODE :</span></th>
-                                    <td><span contenteditable>#Cheque</span></td>
-                                </tr>
-                                <tr>
-                                    <th><span>BANK:</span></th>
-                                    <td><span contenteditable>#BANK</span></td>
-                                    
-                                </tr>
-                               
-                                
-                            </table>
+                                </address>
+                                <table class="meta">
+                                    <tr>
+                                        <th><span>Receipt  #</span></th>
+                                        <td><span contenteditable></span></td>
+                                    </tr>
+                                    <tr>
+                                        <th><span>Date</span></th>
+                                        <td><span contenteditable></span></td>
+                                    </tr>
+                                    <tr>
+                                    </tr>
+                                </table>
+                                <table class="inventory">
+                                    <tr>
+                                        <th><span>PROJECT :</span></th>
+                                        <td><span contenteditable>#Project</span></td>
+                                        <th><span>TOWER :</span></th>
+                                        <td><span contenteditable>#Tower</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th><span>NAME:</span></th>
+                                        <td><span contenteditable>#CName</span></td>
+                                        <th><span>MOBILE :</span></th>
+                                        <td><span contenteditable>#CMobile</span></td>
+                                    </tr>
 
-                            
-                        </article>
+                                    <tr>
+                                        <th><span>AMOUNT PAID:</span></th>
+                                        <td><span contenteditable>#CName</span></td>
+                                        <th><span>FLAT/PLOT NO :</span></th>
+                                        <td><span contenteditable>#Flat</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th><span>SFT:</span></th>
+                                        <td><span contenteditable>#SFT</span></td>
+                                        <th><span>MODE :</span></th>
+                                        <td><span contenteditable>#Cheque</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th><span>BANK:</span></th>
+                                        <td><span contenteditable>#BANK</span></td>
+
+                                    </tr>
+
+
+                                </table>
+
+
+                            </article>*@
                         @*<aside>
                                 <h1><span contenteditable>Additional Notes</span></h1>
                                 <div contenteditable>
@@ -439,7 +450,7 @@
                             </div>
                         </div>*@
                     <div class="pdf-body">
-                        
+
                         <p class="signature">
                             Signature: ________________ <br /><br />
                             Date: ___________
@@ -484,58 +495,58 @@
                     kendo.drawing.pdf.saveAs(group, "Invoice.pdf");
                 });
             }
+            $('#example').hide();
+            //$(document).ready(function () {
+            //    var data = [
+            //        { productName: "QUESO CABRALES", unitPrice: 21, qty: 5 },
+            //        { productName: "ALICE MUTTON", unitPrice: 39, qty: 7 },
+            //        { productName: "GENEN SHOUYU", unitPrice: 15.50, qty: 3 },
+            //        { productName: "CHARTREUSE VERTE", unitPrice: 18, qty: 1 }
+            //    ];
+            //    var schema = {
+            //        model: {
+            //            productName: { type: "string" },
+            //            unitPrice: { type: "number", editable: false },
+            //            qty: { type: "number" }
+            //        },
+            //        parse: function (data) {
+            //            $.each(data, function () {
+            //                this.total = this.qty * this.unitPrice;
+            //            });
+            //            return data;
+            //        }
+            //    };
+            //    var aggregate = [
+            //        { field: "qty", aggregate: "sum" },
+            //        { field: "total", aggregate: "sum" }
+            //    ];
+            //    var columns = [
+            //        { field: "productName", title: "Product", footerTemplate: "Total" },
+            //        { field: "unitPrice", title: "Price", width: 90 },
+            //        { field: "qty", title: "Pcs.", width: 90, aggregates: ["sum"], footerTemplate: "#=sum#" },
+            //        { field: "total", title: "Total", width: 100, aggregates: ["sum"], footerTemplate: "#=sum#" }
+            //    ];
+            //    var grid = $("#grid").kendoGrid({
+            //        editable: false,
+            //        sortable: true,
+            //        dataSource: {
+            //            data: data,
+            //            aggregate: aggregate,
+            //            schema: schema,
+            //        },
+            //        columns: columns
+            //    });
 
-            $(document).ready(function () {
-                var data = [
-                    { productName: "QUESO CABRALES", unitPrice: 21, qty: 5 },
-                    { productName: "ALICE MUTTON", unitPrice: 39, qty: 7 },
-                    { productName: "GENEN SHOUYU", unitPrice: 15.50, qty: 3 },
-                    { productName: "CHARTREUSE VERTE", unitPrice: 18, qty: 1 }
-                ];
-                var schema = {
-                    model: {
-                        productName: { type: "string" },
-                        unitPrice: { type: "number", editable: false },
-                        qty: { type: "number" }
-                    },
-                    parse: function (data) {
-                        $.each(data, function () {
-                            this.total = this.qty * this.unitPrice;
-                        });
-                        return data;
-                    }
-                };
-                var aggregate = [
-                    { field: "qty", aggregate: "sum" },
-                    { field: "total", aggregate: "sum" }
-                ];
-                var columns = [
-                    { field: "productName", title: "Product", footerTemplate: "Total" },
-                    { field: "unitPrice", title: "Price", width: 90 },
-                    { field: "qty", title: "Pcs.", width: 90, aggregates: ["sum"], footerTemplate: "#=sum#" },
-                    { field: "total", title: "Total", width: 100, aggregates: ["sum"], footerTemplate: "#=sum#" }
-                ];
-                var grid = $("#grid").kendoGrid({
-                    editable: false,
-                    sortable: true,
-                    dataSource: {
-                        data: data,
-                        aggregate: aggregate,
-                        schema: schema,
-                    },
-                    columns: columns
-                });
-
-                $("#paper").kendoDropDownList({
-                    change: function () {
-                        $(".pdf-page")
-                            .removeClass("size-a4")
-                            .removeClass("size-letter")
-                            .removeClass("size-executive")
-                            .addClass(this.value());
-                    }
-                });
+            $("#paper").kendoDropDownList({
+                change: function () {
+                    $(".pdf-page")
+                        .removeClass("size-a4")
+                        .removeClass("size-letter")
+                        .removeClass("size-executive")
+                        .addClass(this.value());
+                }
             });
+
         </script>
         <style>
             .pdf-page {
@@ -551,7 +562,7 @@
             .pdf-header {
                 padding-bottom: .2in;
                 margin-bottom: .3in;
-                border-bottom: 1px solid #e5e5e5;
+                /*border-bottom: 1px solid #e5e5e5;*/
             }
 
             .invoice-number {
@@ -639,3 +650,40 @@
 </div>
 
 
+<script>
+    var html = '';
+
+    $("#ProjectID").change(function () {
+        $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+            //HideDiv();
+            $("#TowerID").empty();
+            $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+            });
+        });
+    });
+
+    $("#TowerID").change(function () {
+
+        $.get("/Booking/GetFlatsExceptOpen", { TowerID: $("#TowerID").val() }, function (data) {
+            //$("#TowerID").empty();
+            //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            //HideDiv();
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
+            });
+        });
+    });
+    $("#FlatID").change(function () {
+        $.get("/Booking/GetReceiptDetails", { flatID: $("#FlatID").val() }, function (data) {
+            $("#content").empty();
+            $("#content").append(data);
+            $('#example').show();
+        });
+    });
+</script>

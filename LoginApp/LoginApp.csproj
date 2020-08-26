@@ -517,12 +517,14 @@
     <Content Include="Content\Images\club top angle.jpg" />
     <Content Include="Content\Images\contact.jpg" />
     <Content Include="Content\Images\conus.jpg" />
+    <Content Include="Content\Images\letterhead2.jpg" />
     <Content Include="Content\Images\eyeOfView.jpg" />
     <Content Include="Content\Images\fantasy-2543658.jpg" />
     <Content Include="Content\Images\footerImage.jpg" />
     <Content Include="Content\Images\joana.jpg" />
     <Content Include="Content\Images\joana1.jpg" />
     <Content Include="Content\Images\Jumbtron1.png" />
+    <Content Include="Content\Images\letterhead.JPG" />
     <Content Include="Content\Images\LotusResidency.JPG" />
     <Content Include="Content\Images\AlpineSqaures.jpg" />
     <Content Include="Content\Images\PVR Anmol.jpg" />
@@ -566,6 +568,7 @@
     <Content Include="Content\Images\redTelephone.jpg" />
     <Content Include="Content\Images\r_-r-2_BZuGgkP4k-unsplash.jpg" />
     <Content Include="Content\Images\sasImage.jpeg" />
+    <Content Include="Content\Images\SASLOGO.jpg" />
     <Content Include="Content\Images\sdd.jpg" />
     <Content Include="Content\Images\select.gif" />
     <Content Include="Content\Images\smallSize.jpg" />
@@ -1755,6 +1758,7 @@
     <Content Include="Views\Booking\SelfiePoint.cshtml" />
     <Content Include="Views\Booking\AddSiteVist.cshtml" />
     <Content Include="Views\Booking\SiteVisitApproval.cshtml" />
+    <Content Include="Views\Booking\Invoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

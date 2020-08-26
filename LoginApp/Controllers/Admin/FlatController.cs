@@ -79,6 +79,7 @@ namespace LoginApp.Controllers.Admin
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
                 List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
+                
                 data[0].UpdatedBy = User.Identity.Name;
                 data[0].UpdatedDate = DateTime.Now.Date;
                 result = flat.UpdateFlat(data[0]);
