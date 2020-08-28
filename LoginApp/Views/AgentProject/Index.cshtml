@@ -74,7 +74,7 @@
                     fields: {
                         //AgentID: { editable: false, nullable: true },
                         //ProjectID: { editable: false, nullable: true },
-                        LevelID: { validation: { required: true } },
+                        //LevelID: { validation: { required: true } },
                         Status: { validation: { required: true } },
                         //FlatCount: { type: "number", validation: { min: 0, required: true } }
                     }
@@ -110,7 +110,16 @@
                 if (e.model.isNew()) {
                     //e.model.AgentID = e.model.AgentID.AgentID
                     e.model.ProjectID = e.model.ProjectID.ProjectID
+
+                }
+                else {
                     
+                    //if (e.model.LevelID.LevelID === 'undefined') {
+                    //    e.model.LevelID = e.model.LevelID
+                    //}
+                    //else {
+                    //    e.model.LevelID = e.model.LevelID.LevelID
+                    //}
                 }
             },
             //edit: function (e) {

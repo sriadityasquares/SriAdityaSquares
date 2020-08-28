@@ -220,7 +220,7 @@ namespace LoginApp.Controllers
                     userManager.RemovePassword(user.Id);
                     userManager.AddPassword(user.Id, password);
                     var message = "Hello User. Here is you new password :" + password + "\n Please Reset once logged in. :)";
-                    var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=a39d36115c841484ea31ddc31936ee4&message=" + message + "&senderId=SIGNUP&routeId=8&mobileNos=" + user.PhoneNumber + "&smsContentType=english");
+                    var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + user.PhoneNumber + "&smsContentType=english");
                     var request = new RestRequest(Method.GET);
                     request.AddHeader("Cache-Control", "no-cache");
                     IRestResponse response = client.Execute(request);

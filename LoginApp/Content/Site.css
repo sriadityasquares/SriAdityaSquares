@@ -5735,7 +5735,14 @@ a.active {
     }
 
         .left .row-20 .seat {
-            transform: skew(-16deg);
+            transform: skew(-18deg);
+        }
+    .left .row-21 {
+        transform: skew(6deg);
+    }
+
+        .left .row-21 .seat {
+            transform: skew(-20deg);
         }
     .right {
         margin-left: 70px;

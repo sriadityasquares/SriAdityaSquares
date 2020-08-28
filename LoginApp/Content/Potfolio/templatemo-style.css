@@ -68,7 +68,7 @@ a:focus {
   position: fixed;
   width: 100%;
   z-index: 1000;
-  background-color: whitesmoke;
+  background-color: white;
   transition: all 0.3s ease;
 }
 
@@ -119,16 +119,16 @@ a:focus {
 }
 
 .navbar-toggler-icon {
-  color: white;
-  padding-top: 6px;
+    color: #dc3545;
+    padding-top: 6px;
 }
 
 .tm-navbar.scroll .navbar-toggler {
-  border: 1px solid #8f8f8f;
+    border: 1px solid #3496d8;
 }
 
 .tm-navbar.scroll .navbar-toggler-icon {
-  color: #8f8f8f;
+    color: #3496d8;
 }
 
 /* Hero */

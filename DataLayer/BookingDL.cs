@@ -1163,7 +1163,7 @@ namespace DataLayer
                 message = message.Replace("#Project", svi.ProjectName).Replace("#Agent", svi.AgentName).Replace("#SrAgent", svi.ImmediateSeniorName).Replace("#Customer", svi.CustomerName).Replace("#Mobile", svi.CustomerMobile).Replace("#Date", svi.DateOfVisit).Replace("#From", svi.FromAddress).Replace("#To", svi.ToAddress).Replace("#Status", svi.Status);
                 foreach (var agent in agentNumbers)
                 {
-                    var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=a39d36115c841484ea31ddc31936ee4&message=" + message + "&senderId=SIGNUP&routeId=8&mobileNos=" + agent + "&smsContentType=english");
+                    var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + agent + "&smsContentType=english");
                     var request = new RestRequest(Method.GET);
                     request.AddHeader("Cache-Control", "no-cache");
                     IRestResponse response = client.Execute(request);
@@ -1242,7 +1242,7 @@ namespace DataLayer
                     message = message.Replace("#Project", svi.ProjectName).Replace("#Agent", svi.AgentName).Replace("#SrAgent", svi.ImmediateSeniorName).Replace("#Customer", svi.CustomerName).Replace("#Mobile", svi.CustomerMobile).Replace("#Date", svi.DateOfVisit).Replace("#From", svi.FromAddress).Replace("#To", svi.ToAddress).Replace("#Status", svi.Status);
                     foreach (var agent in agentNumbers)
                     {
-                        var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=a39d36115c841484ea31ddc31936ee4&message=" + message + "&senderId=SIGNUP&routeId=8&mobileNos=" + agent + "&smsContentType=english");
+                        var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + agent + "&smsContentType=english");
                         var request = new RestRequest(Method.GET);
                         request.AddHeader("Cache-Control", "no-cache");
                         IRestResponse response = client.Execute(request);

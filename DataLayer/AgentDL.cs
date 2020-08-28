@@ -59,9 +59,21 @@ namespace DataLayer
                 dbEntity.tblAgentMasters.Add(agentNew);
                 
                 dbEntity.SaveChanges();
-               
+                var agentID = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == a.AgenteMail).Select(x=>x.AgentID).FirstOrDefault();
+                var Projects = dbEntity.tblProjects.Where(x => x.BookingStatus == "O").ToList();
+                foreach(var project in Projects)
+                {
+                    tblAgentProjectLevel agentProjectLevel = new tblAgentProjectLevel();
+                    agentProjectLevel.AgentID = agentID;
+                    agentProjectLevel.ProjectID = project.ProjectID;
+                    agentProjectLevel.LevelID = 27;
+                    agentProjectLevel.Status = "I";
+                    agentProjectLevel.CreatedBy = a.CreatedBy;
+                    agentProjectLevel.CreatedDate = a.CreatedDate;
+                    dbEntity.tblAgentProjectLevels.Add(agentProjectLevel);
+                }
                 //tblAgentTotalPayment
-
+                dbEntity.SaveChanges();
                 return true;
             }
             catch(Exception ex)

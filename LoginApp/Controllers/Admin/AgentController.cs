@@ -98,7 +98,7 @@ namespace LoginApp.Controllers.Admin
                         var roleadd = await UserManager.AddToRoleAsync(user.Id, "Agent");
                     }
                     var message = "Username :" + data[0].AgenteMail + Environment.NewLine + "Password :" + "Welcome@123";
-                    var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=a39d36115c841484ea31ddc31936ee4&message=" + message + "&senderId=SIGNUP&routeId=8&mobileNos=" + data[0].AgentMobileNo + "&smsContentType=english");
+                    var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + data[0].AgentMobileNo + "&smsContentType=english");
                     var request = new RestRequest(Method.GET);
                     request.AddHeader("Cache-Control", "no-cache");
                     IRestResponse response = client.Execute(request);
