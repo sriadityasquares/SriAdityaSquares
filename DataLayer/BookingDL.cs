@@ -37,7 +37,48 @@ namespace DataLayer
             }
             return lstProjects;
         }
+        public List<Projects> BindProjectsBasedOnLocation(string locationName)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
 
+            List<Projects> lstProjects = new List<Projects>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblProject, Projects>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstProjects = mapper.Map<List<tblProject>, List<Projects>>(dbEntity.tblProjects.Where(a => a.ProjectLocation == locationName).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstProjects;
+        }
+        public Projects BindProjectDetails(string projectName)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            Projects Projects = new Projects();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblProject, Projects>();
+                });
+                IMapper mapper = config.CreateMapper();
+                Projects = mapper.Map<tblProject, Projects>(dbEntity.tblProjects.Where(a => a.ProjectName == projectName).FirstOrDefault());
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return Projects;
+        }
         public List<Projects> BindAllProjects()
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -284,10 +325,11 @@ namespace DataLayer
         {
             try
             {
-                var highestLevel = dbEntity.tblAgentProjectLevels.OrderByDescending(e => e.LevelID).Where(z => z.ProjectID == bookingInfo.ProjectID).Select(z => z.LevelID).FirstOrDefault();
-                var highestPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == highestLevel).Select(z => z.Percentage).FirstOrDefault();
+                //var highestLevel = dbEntity.tblAgentProjectLevels.OrderByDescending(e => e.LevelID).Where(z => z.ProjectID == bookingInfo.ProjectID).Select(z => z.LevelID).FirstOrDefault();
+                //var highestPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == highestLevel).Select(z => z.Percentage).FirstOrDefault();
+                var highestPercentage = dbEntity.sp_GetHighestPercetageInProject(bookingInfo.ProjectID).FirstOrDefault();
                 var levelPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == bookingInfo.Level).Select(z => z.Percentage).FirstOrDefault();
-                var TotalComm = (bookingInfo.FinalRate * highestPercentage) / 100;
+                var TotalComm = (bookingInfo.FinalRate * Convert.ToDouble(highestPercentage)) / 100;
                 bookingInfo.TotalComm = TotalComm;
                 if (Convert.ToDouble(levelPercentage) == Convert.ToDouble(highestPercentage))
                 {
@@ -428,7 +470,7 @@ namespace DataLayer
                     fwac.FlatName = bookingInfo.FlatName;
                     fwac.AgentID = 1;
                     fwac.AgentName = "SAS";
-                    fwac.Percentage = highestPercentage;
+                    fwac.Percentage = Convert.ToDouble(highestPercentage);
                     fwac.AmountPaid = 0;
                     fwac.Discount = 0;
                     //fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == bookingInfo.Level).Select(y => y.Percentage).FirstOrDefault();
@@ -452,10 +494,12 @@ namespace DataLayer
         {
             try
             {
-                var highestLevel = dbEntity.tblAgentProjectLevels.OrderByDescending(e => e.LevelID).Where(z => z.ProjectID == bookingInfo.ProjectID).Select(z => z.LevelID).FirstOrDefault();
-                var highestPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == highestLevel).Select(z => z.Percentage).FirstOrDefault();
+                //var highestLevel = dbEntity.tblAgentProjectLevels.OrderByDescending(e => e.LevelID).Where(z => z.ProjectID == bookingInfo.ProjectID).Select(z => z.LevelID).FirstOrDefault();
+                //var highestPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == highestLevel).Select(z => z.Percentage).FirstOrDefault();
+                var highestPercentage = dbEntity.sp_GetHighestPercetageInProject(bookingInfo.ProjectID).FirstOrDefault();
+
                 var levelPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == bookingInfo.Level).Select(z => z.Percentage).FirstOrDefault();
-                var TotalComm = (bookingInfo.FinalRate * highestPercentage) / 100;
+                var TotalComm = (bookingInfo.FinalRate * Convert.ToDouble(highestPercentage)) / 100;
                 bookingInfo.TotalComm = TotalComm;
                 if (Convert.ToDouble(levelPercentage) == Convert.ToDouble(highestPercentage))
                 {
@@ -630,7 +674,7 @@ namespace DataLayer
                     fwac.FlatName = bookingInfo.FlatName;
                     fwac.AgentID = 1;
                     fwac.AgentName = "SAS";
-                    fwac.Percentage = highestPercentage;
+                    fwac.Percentage = Convert.ToDouble(highestPercentage);
                     fwac.AmountPaid = 0;
                     fwac.Discount = 0;
                     //fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == bookingInfo.Level).Select(y => y.Percentage).FirstOrDefault();
@@ -1256,6 +1300,28 @@ namespace DataLayer
                 log.Error("Error :" + ex);
                 return false;
             }
+        }
+
+        public List<GetBookingStatistics> BindBookingStatistics(int towerID)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<GetBookingStatistics> lstBookingStats = new List<GetBookingStatistics>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetBookingStatistics_Result, GetBookingStatistics>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBookingStats = mapper.Map<List<sp_GetBookingStatistics_Result>, List<GetBookingStatistics>>(dbEntity.sp_GetBookingStatistics(towerID).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstBookingStats;
         }
     }
 }

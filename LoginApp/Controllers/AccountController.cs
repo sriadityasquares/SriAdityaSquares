@@ -421,8 +421,12 @@ namespace LoginApp.Controllers
             else if (UserManager.IsInRole(UserID, "DataEntry"))
                 return RedirectToAction("Index", "Dashboard");
             else if (UserManager.IsInRole(UserID, "Agent"))
-                return RedirectToAction("Agents", "Dashboard");
-                return null;
+                return RedirectToAction("Index", "Dashboard");
+            else if (UserManager.IsInRole(UserID, "Agent"))
+                return RedirectToAction("Index", "Dashboard");
+            else if (UserManager.IsInRole(UserID, "Agent"))
+                return RedirectToAction("Index", "Dashboard");
+            return null;
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

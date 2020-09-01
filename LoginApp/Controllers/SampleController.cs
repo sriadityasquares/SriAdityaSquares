@@ -18,7 +18,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
-
+        
         public ActionResult Details()
         {
             projectList = booking.BindProjects();

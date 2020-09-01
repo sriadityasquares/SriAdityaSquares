@@ -15,7 +15,14 @@ namespace BusinessLayer
         {
             return db.BindProjects();
         }
-
+        public List<Projects> BindProjectsBasedOnLocation(string locationName)
+        {
+            return db.BindProjectsBasedOnLocation(locationName);
+        }
+        public Projects BindProjectDetails(string ProjectName)
+        {
+            return db.BindProjectDetails(ProjectName);
+        }
         public List<Projects> BindAllProjects()
         {
             return db.BindAllProjects();
@@ -208,6 +215,9 @@ namespace BusinessLayer
             return db.UpdateSiteVisitApproval(svi);
         }
 
-
+        public List<GetBookingStatistics> BindBookingStatistics(int towerID)
+        {
+            return db.BindBookingStatistics(towerID);
+        }
     }
 }

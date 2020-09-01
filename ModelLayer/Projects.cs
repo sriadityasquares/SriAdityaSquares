@@ -31,5 +31,7 @@ namespace ModelLayer
         public virtual ICollection<Towers> tblTowers { get; set; }
 
         public string BookingStatusName { get; set; }
+
+        public string projectImageURL { get; set; }
     }
 }

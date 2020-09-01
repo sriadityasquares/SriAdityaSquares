@@ -14,6 +14,8 @@
     @*<link rel="stylesheet" href="fontawesome-5.5/css/all.min.css" />*@
     @*<link rel="stylesheet" href="slick/slick.css">
         <link rel="stylesheet" href="slick/slick-theme.css">*@
+    <link href="~/Content/kendo/2019.3.917/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2019.3.917/kendo.default.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/Potfolio/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -22,7 +24,14 @@
     <link href="~/Content/Potfolio/magnific-popup.css" rel="stylesheet" />
     <link href="~/Content/Potfolio/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/Potfolio/templatemo-style.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/kendo.all.min.js"></script>
 
+    <script src="~/Content/Potfolio/slick.min.js"></script>
+    <script src="~/Content/Potfolio/jquery.magnific-popup.min.js"></script>
+    <script src="~/Content/Potfolio/jquery.singlePageNav.min.js"></script>
+    <script src="~/Content/Potfolio/bootstrap.min.js"></script>
 
 </head>
 <body>
@@ -34,7 +43,7 @@
             <div class="container">
                 <div class="tm-next">
                     @*<span></span>
-                    <a href="#hero" class="navbar-brand">SAS INFRA</a>*@
+                        <a href="#hero" class="navbar-brand">SAS INFRA</a>*@
                     <img style="height:80px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
                 </div>
 
@@ -141,30 +150,30 @@
                         <div class="grid tm-gallery">
 
                             @*<a href="~/Content/Images/JewelCounty2.jpg">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img style="height:200px;width:400px" src="~/Content/Images/JewelCounty2.jpg" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i>Jewel <span style="font-weight:400">County</span></i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                            <a href="~/Content/Images/Lotus.jpg">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img style="height:200px;width:400px" src="~/Content/Images/Lotus.jpg" alt="Image" class="img-fluid">
+                                    <figure class="effect-honey tm-gallery-item">
+                                        <img style="height:200px;width:400px" src="~/Content/Images/JewelCounty2.jpg" alt="Image" class="img-fluid">
+                                        <figcaption>
+                                            <h2><i>Jewel <span style="font-weight:400">County</span></i></h2>
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                                <a href="~/Content/Images/Lotus.jpg">
+                                    <figure class="effect-honey tm-gallery-item">
+                                        <img style="height:200px;width:400px" src="~/Content/Images/Lotus.jpg" alt="Image" class="img-fluid">
 
-                                    <figcaption>
-                                        <h2><i>Lotus <span style="font-weight:400">Apt</span></i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>*@
+                                        <figcaption>
+                                            <h2><i>Lotus <span style="font-weight:400">Apt</span></i></h2>
+                                        </figcaption>
+                                    </figure>
+                                </a>*@
                             @*<a href="~/Content/Images/PVR Anmol2.jpg">
-            <figure class="effect-honey tm-gallery-item">
-                <img style="height:200px;width:400px" src="~/Content/Images/PVR Anmol2.jpg" alt="Image" class="img-fluid">
-                <figcaption>
-                    <h2><i>PVR <span style="font-weight:400">Anmol</span></i></h2>
-                </figcaption>
-            </figure>
-        </a>*@
+                                    <figure class="effect-honey tm-gallery-item">
+                                        <img style="height:200px;width:400px" src="~/Content/Images/PVR Anmol2.jpg" alt="Image" class="img-fluid">
+                                        <figcaption>
+                                            <h2><i>PVR <span style="font-weight:400">Anmol</span></i></h2>
+                                        </figcaption>
+                                    </figure>
+                                </a>*@
                             <a href="~/Content/Images/PVR Anmol.jpg">
                                 <figure class="effect-honey tm-gallery-item">
                                     <img style="height:200px;width:400px" src="~/Content/Images/PVR Anmol1.jpg" alt="Image" class="img-fluid">
@@ -296,12 +305,408 @@
         </footer>
 
     </section>
+    <div style="display: none;
+        position: fixed;
+        bottom: 60px;
+        right: 40px;
+        width:350px;
+        background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('/Content/Images/joana.jpg');
+        background-size: cover;" id="chat"></div>
+    <div class="message-icon">
+        <i class="fa fa-comments"></i>
+    </div>
+    <style>
+        .message-icon {
+            width: 40px;
+            height: 40px;
+            background: #4085F6;
+            line-height: 40px;
+            text-align: center;
+            color: #fff;
+            font-size: 20px;
+            border-radius: 50%;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            cursor: pointer;
+        }
 
-    <script src="~/Content/Potfolio/jquery-1.9.1.min.js"></script>
-    <script src="~/Content/Potfolio/slick.min.js"></script>
-    <script src="~/Content/Potfolio/jquery.magnific-popup.min.js"></script>
-    <script src="~/Content/Potfolio/jquery.singlePageNav.min.js"></script>
-    <script src="~/Content/Potfolio/bootstrap.min.js"></script>
+        .k-quick-replies1 {
+            display: block;
+            max-width: 100%;
+        }
+
+        .k-chat .k-quick-reply1 {
+            border-color: #f35800;
+            color: #f35800;
+            background-color: transparent;
+        }
+
+        .k-quick-reply1 {
+            border-radius: 100px;
+            margin-right: 8px;
+            margin-bottom: 4px;
+            padding: 8px 12px;
+            border-width: 1px;
+            border-style: solid;
+            line-height: 18px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            display: inline-block;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            transition-property: color,background-color,border-color;
+            transition-duration: .2s;
+            transition-timing-function: ease-in-out;
+        }
+    </style>
+    <script>
+
+        $(document).ready(function () {
+
+            $('.message-icon').click(function () {
+                var x = document.getElementById("chat");
+                if (x.style.display === "none") {
+                    x.style.display = "flex";
+                } else {
+                    x.style.display = "none";
+                }
+            });
+
+
+        });
+    </script>
+    <script id="quote-template" type="text/x-kendo-template">
+        <div id="quote1" class="#=styles.card# #=styles.cardRich#">
+            <div class="#=styles.cardBody#">
+                <div>
+                    <strong>Project Name:</strong>
+                    <span>#:project#</span>
+                </div>
+                <div>
+                    <strong>Location:</strong>
+                    <span>#:location#</span>
+                </div>
+                <div>
+                    <strong>Club House:</strong>
+                    <span>#:chouse#</span>
+                </div>
+
+            </div>
+        </div>
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Initialize the Chat
+            var QUOTE_CARD_TEMPLATE = kendo.template($('#quote-template').html());
+            kendo.chat.registerTemplate("quote", QUOTE_CARD_TEMPLATE);
+            var chat = $("#chat").kendoChat({
+                post: function (args) {
+                    agent.postMessage(args);
+                }
+            }).data("kendoChat");
+
+            // Create a new agent and pass the Chat widget.
+            var agent = new ChatAgent(chat);
+            var QUOTE_CARD_TEMPLATE = kendo.template(
+                '<div class="k-card k-card-type-rich">' +
+                '<p><strong>Project Details :</strong></p>' +
+                '<div> <img width=250 height=250 style="object-fit: cover;" src="#:projectImageURL#" />  </div>' +
+                '<div class="k-card-body quoteCard">' +
+                '<div><strong>Project Name:</strong>' +
+                '<span>#:project#</span></div>' +
+
+                '<div><strong>Location :</strong>' +
+                '<span>#:location#</span></div>' +
+
+                '<div><strong>ClubHouse:</strong>' +
+                '<span>#:chouse#</span></div>' +
+
+                //'<hr/><div><strong>Total:</strong>' +
+                //'<span>#=kendo.toString(chouse, "0.00")#</span></div>' +
+                '</div>' +
+                '</div>'
+            );
+            kendo.chat.registerTemplate("quote", QUOTE_CARD_TEMPLATE);
+
+            var PLAN_CARD_TEMPLATE = kendo.template(
+
+                '<div class="k-quick-replies">' +
+                '# for (var i = 0; i < rows.length; i++) { #' +
+                //'<div><strong>#:rows[i].text#: </strong>' +
+                //'<span>#= kendo.toString(rows[i].value, "0.00") #</span></div>' +
+                '<span class="k-quick-reply" data-value="#:rows[i].value#">#:rows[i].title#</span>' +
+                '# } #' +
+                '</div>'
+            );
+            kendo.chat.registerTemplate("payment_plan", PLAN_CARD_TEMPLATE);
+            // Initially render a hint message to the user.
+            agent.chat.renderMessage({
+                type: "text",
+                text: "Hello! Please choose your preferred location.",
+                timestamp: new Date()
+            }, {
+                name: "Bot",
+                iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
+            });
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: "/ChatBot/GetProjectLocationsForChatBot",
+                success: function (data) {
+                    //chat.renderSuggestedActions(data);
+                    chat.renderAttachments({
+                        attachments: [{
+                            contentType: "payment_plan",
+                            content: {
+                                rows: data
+                            }
+                        }]
+                        //,attachmentLayout: "carousel"
+                    }, "Venkat");
+                },
+                error: function (data) {
+
+                }
+            });
+
+        });
+    </script>
+
+    <script>
+
+        window.ChatAgent = kendo.Class.extend({
+            // Initialize the ChatAgent object.
+            init: function (chat) {
+                this.chat = chat;
+
+            },
+            // Implement the postMessage logic.
+            postMessage: function (args) {
+                var chat = this.chat;
+
+                if (args.text.includes("Project-")) {
+                    var projectName = args.text.split("-").pop();
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        url: "/ChatBot/GetProjectSuggestionForChatBot",
+                        data: { projectName: projectName },
+                        success: function (data) {
+                            chat.renderMessage({
+                                type: "text",
+                                text: "Select the below options to know more about :" + projectName,
+                                timestamp: new Date()
+                            }, {
+                                name: "Bot",
+                                iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
+                            });
+                            chat.renderSuggestedActions(data);
+
+                            //chat.renderAttachments({
+                            //    attachments: [{
+                            //        contentType: "quote",
+                            //        content: {
+                            //            "project": data.ProjectName,
+                            //            "location": data.ProjectLocation,
+                            //            "chouse": data.ClubHouseCharges,
+                            //        }
+                            //    }],
+                            //    attachmentLayout: "carousel"
+                            //},"Venkat");
+                        },
+                        error: function (data) {
+                        }
+                    });
+                    //chat.renderMessage({
+                    //    type: "text",
+                    //    text: "Select the below options to know about :" + projectName,
+                    //    timestamp: new Date()
+                    //}, {
+                    //    name: "Bot",
+                    //    iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
+                    //});
+
+
+                    //var json = [{
+                    //    title: "Project Details",
+                    //    value: projectName+"-Details"
+                    //}, {
+                    //    title: "Approvals",
+                    //    value: projectName + "-Approvals"
+                    //},
+                    //{
+                    //    title: "Pricing",
+                    //    value: projectName + "-Pricing"
+                    //    }];
+
+                    //chat.renderSuggestedActions(json);
+                    //$.ajax({
+                    //    type: "GET",
+                    //    contentType: "application/json; charset=utf-8",
+                    //    url: "/Booking/GetProjectDetailsForChatBot",
+                    //    data: { projectName: projectName },
+                    //    success: function (data) {
+
+                    //        //chat.renderAttachments({
+                    //        //    attachments: [{
+                    //        //        contentType: "heroCard",
+                    //        //        content: {
+                    //        //            title: "Project :" + data.ProjectName,
+                    //        //            subtitle: "Location :" + data.ProjectLocation,
+                    //        //            text: "Club House Charges :" + data.ClubHouseCharges,
+                    //        //        }
+                    //        //    }]
+                    //        //}, 'Venkat');
+                    //        //chat.renderSuggestedActions(json);
+                    //        chat.renderMessage({
+                    //            type: "text",
+                    //            text: "",
+                    //            timestamp: new Date()
+                    //        }, {
+                    //            name: "Bot",
+                    //            iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
+                    //        });
+                    //        chat.renderAttachments({
+                    //            attachments: [{
+                    //                contentType: "quote",
+                    //                content: {
+                    //                    "project": data.ProjectName,
+                    //                    "location": data.ProjectLocation,
+                    //                    "chouse": data.ClubHouseCharges,
+                    //                    "projectImageURL" : data.projectImageURL,
+                    //                }
+                    //            }]
+                    //            //,attachmentLayout: "carousel"
+                    //        },"Venkat");
+                    //    },
+                    //    error: function (data) {
+                    //    }
+                    //});
+
+                }
+                else if (args.text.includes("Location-")) {
+                    var locationName = args.text.split("-").pop();
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        url: "/ChatBot/GetProjectBasedOnLocationsForChatBot",
+                        data: { locationName: locationName },
+                        success: function (data) {
+                            chat.renderMessage({
+                                type: "text",
+                                text: "Please choose your preferred Project.",
+                                timestamp: new Date()
+                            }, {
+                                name: "Bot",
+                                iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
+                            });
+                            chat.renderSuggestedActions(data);
+
+                            //chat.renderAttachments({
+                            //    attachments: [{
+                            //        contentType: "quote",
+                            //        content: {
+                            //            "project": data.ProjectName,
+                            //            "location": data.ProjectLocation,
+                            //            "chouse": data.ClubHouseCharges,
+                            //        }
+                            //    }],
+                            //    attachmentLayout: "carousel"
+                            //},"Venkat");
+                        },
+                        error: function (data) {
+                        }
+                    });
+                }
+                else if (args.text.includes("-Details")) {
+                    var projectName = args.text.split("-");
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        url: "/ChatBot/GetProjectDetailsForChatBot",
+                        data: { projectName: projectName[0] },
+                        success: function (data) {
+                            chat.renderMessage({
+                                type: "text",
+                                text: "",
+                                timestamp: new Date()
+                            }, {
+                                name: "Bot",
+                                iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
+                            });
+                            chat.renderAttachments({
+                                attachments: [{
+                                    contentType: "quote",
+                                    content: {
+                                        "project": data.ProjectName,
+                                        "location": data.ProjectLocation,
+                                        "chouse": data.ClubHouseCharges,
+                                        "projectImageURL": data.projectImageURL,
+                                    }
+                                }]
+                                //,attachmentLayout: "carousel"
+                            }, "Venkat");
+                        },
+                        error: function (data) {
+                        }
+                    });
+                }
+                else if (args.text.includes("-Approvals")) {
+                    var projectName = args.text.split("-");
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        url: "/ChatBot/GetProjectDetailsForChatBot",
+                        data: { projectName: projectName[0] },
+                        success: function (data) {
+                            chat.renderMessage({
+                                type: "text",
+                                text: "Yet to implement Approvals Functionality",
+                                timestamp: new Date()
+                            }, {
+                                name: "Bot",
+                                iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
+                            });
+
+                        },
+                        error: function (data) {
+                        }
+                    });
+                }
+                else if (args.text.includes("-Pricing")) {
+                    var projectName = args.text.split("-");
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        url: "/ChatBot/GetProjectDetailsForChatBot",
+                        data: { projectName: projectName[0] },
+                        success: function (data) {
+                            chat.renderMessage({
+                                type: "text",
+                                text: "Yet to implement Pricing Functionality",
+                                timestamp: new Date()
+                            }, {
+                                name: "Bot",
+                                iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
+                            });
+
+                        },
+                        error: function (data) {
+                        }
+                    });
+                }
+
+
+            }
+        });
+    </script>
+    @*<script src="~/Content/Potfolio/jquery-1.9.1.min.js"></script>*@
+    
+
     <script>
         document.getElementById("WebApp").onclick = function () {
             location.href = "https://sasinfra.in/Account/Login";
@@ -468,27 +873,27 @@
             $("#Longitude").val(position.coords.longitude);
         }
 
-        document.addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-        });
+                document.addEventListener('contextmenu', function (e) {
+                    e.preventDefault();
+                });
 
-        document.onkeydown = function (e) {
-            if (event.keyCode == 123) {
-                return false;
-            }
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-                return false;
-            }
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
-                return false;
-            }
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-                return false;
-            }
-            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-                return false;
-            }
-        }
+                document.onkeydown = function (e) {
+                    if (event.keyCode == 123) {
+                        return false;
+                    }
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                        return false;
+                    }
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+                        return false;
+                    }
+                    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                        return false;
+                    }
+                    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                        return false;
+                    }
+                }
 
     </script>
 </body>

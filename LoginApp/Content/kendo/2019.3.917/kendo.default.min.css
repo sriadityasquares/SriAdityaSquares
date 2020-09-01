@@ -318,8 +318,9 @@
 
 .k-card {
     border-color: #d5d5d5;
-    color: #2e2e2e;
-    background-color: #fff
+    color: black;
+    background-color: whitesmoke;
+    width: 250px !important;
 }
 
     .k-card .k-card-callout {
@@ -383,12 +384,16 @@
     }
 
     .k-chat .k-bubble {
-        border-color: #e9e9e9;
-        color: #2e2e2e;
-        background-color: #e9e9e9;
+        border-color: #428bca;
+        color: black;
+        background-color: #428bca;
         transition: box-shadow .2s ease-in-out;
         -ms-flex-order: -1;
-        order: -1
+        order: -1;
+        margin-bottom: 5px;
+        font-family: 'OpenSans normal', sans-serif !important;
+        font-size: 13px !important;
+        font-weight: bold !important;
     }
 
     .k-chat .k-alt .k-bubble {
@@ -398,8 +403,8 @@
     }
 
     .k-chat .k-quick-reply {
-        border-color: #f35800;
-        color: #f35800;
+        border-color: #428bca;
+        color: #428bca;
         background-color: transparent
     }
 

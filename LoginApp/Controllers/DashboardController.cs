@@ -135,5 +135,18 @@ namespace LoginApp.Controllers
             //if (list.Count > 0) list[0].AgentSponserCode = null;
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult BookingStatistics()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            return View();
+        }
+
+        public JsonResult GetBookingStatistics(int TowerId)
+        {
+            var list = booking.BindBookingStatistics(TowerId);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
     }
 }

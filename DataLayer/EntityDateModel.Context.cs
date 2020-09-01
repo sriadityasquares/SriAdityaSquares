@@ -302,5 +302,23 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("sp_GetAgentNumbers", agentIDParameter);
         }
+    
+        public virtual ObjectResult<Nullable<double>> sp_GetHighestPercetageInProject(Nullable<int> projectID)
+        {
+            var projectIDParameter = projectID.HasValue ?
+                new ObjectParameter("ProjectID", projectID) :
+                new ObjectParameter("ProjectID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<double>>("sp_GetHighestPercetageInProject", projectIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetBookingStatistics_Result> sp_GetBookingStatistics(Nullable<int> towerID)
+        {
+            var towerIDParameter = towerID.HasValue ?
+                new ObjectParameter("TowerID", towerID) :
+                new ObjectParameter("TowerID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetBookingStatistics_Result>("sp_GetBookingStatistics", towerIDParameter);
+        }
     }
 }

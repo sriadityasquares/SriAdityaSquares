@@ -1,0 +1,119 @@
+﻿@model ModelLayer.Dashboard
+@{
+    
+    ViewBag.Dashboard = "active";
+    ViewBag.Title = "Booking Statistics";
+    ViewBag.BookingStatistics = "active";
+}
+
+
+<style>
+    @@media(max-width:768px) {
+        #chart{
+            align-items:flex-start;
+            align-content:flex-start;
+        }
+    }
+</style>
+<div style="background-color:white !important" class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">BOOKING STATISTICS</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+
+    @*<button id="myBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Launch demo modal</button>*@
+
+
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.Project, new { @class = "col-md-2" })
+        @Html.DropDownListFor(model => model.Project, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.Tower, new { @class = "col-md-2" })
+        @Html.DropDownListFor(model => model.Tower, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+
+    <hr />
+    <br />
+
+
+
+    @*<div id="chart" style="background: center no-repeat url('/Content/Images/chart3.png');background-size:cover;align-content:center;align-items:center"></div>*@
+    <div id="chart" style="background-size:cover;align-content:center;align-items:center"></div>
+
+    <script>
+
+        $("#Project").change(function () {
+            $.get("/Booking/GetTowers", { ProjectId: $("#Project").val() }, function (data) {
+                $("#Tower").empty();
+                $("#Tower").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+
+                $.each(data, function (index, row) {
+                    $("#Tower").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+                });
+            });
+        });
+        $("#Tower").change(function () {
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: "/Dashboard/GetBookingStatistics",
+                data: { TowerID: $("#Tower").val() },
+                success: function (data) {
+                    $(document).ready(createChart(data));
+                    $(document).bind("kendo:skinChange", createChart(data));
+                },
+                error: function (data) {
+
+                }
+            });
+
+
+        });
+
+
+        function createChart(data) {
+            $("#chart").kendoChart({
+                title: {
+                    position: "bottom",
+                    font: "bolder 16px Arial,Helvetica,sans-serif",
+                    color: "black",
+                    text: "Booking status of " + $("#Project option:selected").text() + " in " + $("#Tower option:selected").text()
+                },
+                legend: {
+                    visible: false
+                },
+                chartArea: {
+                    background: ""
+                },
+                seriesDefaults: {
+                    labels: {
+                        visible: true,
+                        background: "transparent",
+                        template: "#= category # \n #= value#",
+                        font: "bold 14px Arial,Helvetica,sans-serif",
+                    }
+                },
+                series: [{
+                    type: "pie",
+                    startAngle: 150,
+                    data: data
+                }],
+                tooltip: {
+                    visible: true,
+                    format: "{0}"
+                }
+            });
+        }
+
+
+
+
+
+
+    </script>
+
+
+

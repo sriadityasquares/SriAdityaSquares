@@ -107,6 +107,9 @@
     <Compile Include="sp_getBookingInfoByDates_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetBookingStatistics_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_GetFacingWiseBookingDetails_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
