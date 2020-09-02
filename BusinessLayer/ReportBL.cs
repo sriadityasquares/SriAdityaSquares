@@ -51,5 +51,10 @@ namespace BusinessLayer
         {
             return db.BindPeriodWiseBookingInfo(option, fromDate, toDate, projectID, years, month);
         }
+
+        public List<GetGraphicalPeriodWiseBooking> BindGraphicalPeriodWiseBookingInfo(int option, int projectID, string years, string month)
+        {
+            return db.BindGraphicalPeriodWiseBookingInfo(option, projectID, years, month);
+        }
     }
 }

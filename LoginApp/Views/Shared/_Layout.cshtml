@@ -54,8 +54,8 @@
 
                 <ul class="nano-content">
                     @*<li>
-                            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
-                        </li>*@
+            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+        </li>*@
                     <li class="sub-menu @(ViewBag.Dashboard)">
                         <a href="javascript:void(0);"><i class="fa fa-bar-chart"></i><span>DASHBOARD</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
@@ -122,8 +122,8 @@
                                     <a class="@(ViewBag.Users)" href="@Url.Action("Index", "User")">USERS</a>
                                 </li>
                                 @*<li>
-                                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                                    </li>*@
+                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+                    </li>*@
                             </ul>
                         </li>
                     }
@@ -176,37 +176,40 @@
                             </ul>
                         </li>
                     }
-                    <li class="sub-menu @(ViewBag.Selfie)">
-                        <a href="javascript:void(0);"><i class="fa fa-photo"></i><span>SELFIE</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                        <ul>
+                    @if (!this.User.IsInRole("Client"))
+                    {
+                        <li class="sub-menu @(ViewBag.Selfie)">
+                            <a href="javascript:void(0);"><i class="fa fa-photo"></i><span>SELFIE</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                            <ul>
 
-                            <li>
-                                <a class="@(ViewBag.UploadSelfie)" href="@Url.Action("Selfie", "Booking")">UPLOAD SELFIE</a>
-                            </li>
-                            <li>
-                                <a class="@(ViewBag.SelfiePoint)" href="@Url.Action("SelfiePoint", "Booking")">VIEW SELFIE</a>
-                            </li>
-
-
-                        </ul>
-                    </li>
-                    <li class="sub-menu @(ViewBag.Transport)">
-                        <a href="javascript:void(0);"><i class="fa fa-cab"></i><span>TRANSPORT</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                        <ul>
-                            @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry") || this.User.Identity.Name == "nsrinivas78@gmail.com")
-                            {
                                 <li>
-                                    <a class="@(ViewBag.SiteVisitApproval)" href="@Url.Action("SiteVisitApproval", "Booking")">APPROVE/REJECT SITE VISITS</a>
+                                    <a class="@(ViewBag.UploadSelfie)" href="@Url.Action("Selfie", "Booking")">UPLOAD SELFIE</a>
                                 </li>
-                            }
-                            <li>
-                                <a class="@(ViewBag.SiteVisits)" href="@Url.Action("AddSiteVist", "Booking")">ADD/VIEW SITE VISITS</a>
-                            </li>
+                                <li>
+                                    <a class="@(ViewBag.SelfiePoint)" href="@Url.Action("SelfiePoint", "Booking")">VIEW SELFIE</a>
+                                </li>
 
 
-                        </ul>
-                    </li>
-                </ul>
+                            </ul>
+                        </li>
+                        <li class="sub-menu @(ViewBag.Transport)">
+                            <a href="javascript:void(0);"><i class="fa fa-cab"></i><span>TRANSPORT</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                            <ul>
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry") || this.User.Identity.Name == "nsrinivas78@gmail.com")
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.SiteVisitApproval)" href="@Url.Action("SiteVisitApproval", "Booking")">APPROVE/REJECT SITE VISITS</a>
+                                    </li>
+                                }
+                                <li>
+                                    <a class="@(ViewBag.SiteVisits)" href="@Url.Action("AddSiteVist", "Booking")">ADD/VIEW SITE VISITS</a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+                    }
+                    </ul>
 
 
 
@@ -242,8 +245,8 @@
 
                 <ul class="nano-content">
                     @*<li>
-                            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
-                        </li>*@
+            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+        </li>*@
                     <li class="sub-menu @(ViewBag.Dashboard)">
                         <a href="javascript:void(0);"><i class="fa fa-bar-chart"></i><span>DASHBOARD</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
@@ -310,8 +313,8 @@
                                     <a class="@(ViewBag.Users)" href="@Url.Action("Index", "User")">USERS</a>
                                 </li>
                                 @*<li>
-                                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                                    </li>*@
+                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+                    </li>*@
                             </ul>
                         </li>
                     }
@@ -364,20 +367,23 @@
                             </ul>
                         </li>
                     }
-                    <li class="sub-menu @(ViewBag.Selfie)">
-                        <a href="javascript:void(0);"><i class="fa fa-photo"></i><span>SELFIE</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                        <ul>
+                    @if (!this.User.IsInRole("Client"))
+                    {
+                        <li class="sub-menu @(ViewBag.Selfie)">
+                            <a href="javascript:void(0);"><i class="fa fa-photo"></i><span>SELFIE</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                            <ul>
 
-                            <li>
-                                <a class="@(ViewBag.UploadSelfie)" href="@Url.Action("Selfie", "Booking")">UPLOAD SELFIE</a>
-                            </li>
-                            <li>
-                                <a class="@(ViewBag.SelfiePoint)" href="@Url.Action("SelfiePoint", "Booking")">VIEW SELFIE</a>
-                            </li>
+                                <li>
+                                    <a class="@(ViewBag.UploadSelfie)" href="@Url.Action("Selfie", "Booking")">UPLOAD SELFIE</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.SelfiePoint)" href="@Url.Action("SelfiePoint", "Booking")">VIEW SELFIE</a>
+                                </li>
 
 
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
+
                     <li class="sub-menu @(ViewBag.Transport)">
                         <a href="javascript:void(0);"><i class="fa fa-cab"></i><span>TRANSPORT</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
@@ -394,6 +400,7 @@
 
                         </ul>
                     </li>
+                    }
                 </ul>
 
 
@@ -456,12 +463,9 @@
 </style>
 <script type="text/javascript">
     function zoom() {
-        //alert($(window).height());
-        //alert($(window).width());
-        //alert($(document).height());
-        //alert($(document).width());
-        if ($(document).width() > 1900)
-            document.body.style.zoom = "100%";
+       
+        if ($(document).width() > 1700)
+            document.body.style.zoom = "90%";
         else
             document.body.style.zoom = "70%";
     }

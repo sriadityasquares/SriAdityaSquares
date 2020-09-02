@@ -556,6 +556,9 @@
         <Function Name="sp_GetBookingStatistics" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TowerID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_GetClientProjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Username" Type="varchar(max)" Mode="In" />
+        </Function>
         <Function Name="sp_GetFacingWiseBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Project" Type="varchar" Mode="In" />
           <Parameter Name="fromdate" Type="varchar" Mode="In" />
@@ -571,6 +574,12 @@
         <Function Name="sp_GetFlatWiseTotalAgentCommission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
           <Parameter Name="TowerID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetGraphicalPeriodWiseBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Option" Type="int" Mode="In" />
+          <Parameter Name="Project" Type="int" Mode="In" />
+          <Parameter Name="Year" Type="varchar" Mode="In" />
+          <Parameter Name="Month" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_GetHighestPercetageInProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
@@ -783,7 +792,16 @@
           <Parameter Name="ProjectID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetBookingStatistics" ReturnType="Collection(salesDBModel.sp_GetBookingStatistics_Result)">
-            <Parameter Name="TowerID" Mode="In" Type="Int32" />
+          <Parameter Name="TowerID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetGraphicalPeriodWiseBookingDetails" ReturnType="Collection(salesDBModel.sp_GetGraphicalPeriodWiseBookingDetails_Result)">
+            <Parameter Name="Option" Mode="In" Type="Int32" />
+            <Parameter Name="Project" Mode="In" Type="Int32" />
+            <Parameter Name="Year" Mode="In" Type="String" />
+            <Parameter Name="Month" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetClientProjects" ReturnType="Collection(salesDBModel.sp_GetClientProjects_Result)">
+            <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblCity">
@@ -1527,6 +1545,25 @@
           <Property Type="String" Name="category" Nullable="true" />
           <Property Type="String" Name="value" Nullable="true" />
           <Property Type="String" Name="color" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetGraphicalPeriodWiseBookingDetails_Result">
+          <Property Type="String" Name="xaxis" Nullable="true" />
+          <Property Type="String" Name="yaxis" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetClientProjects_Result">
+          <Property Type="Int32" Name="ProjectID" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ProjectLocation" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="BookingStatus" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ClubHouseCharges" Nullable="true" />
+          <Property Type="Boolean" Name="GHMC_Approval" Nullable="true" />
+          <Property Type="String" Name="GHMCApprovalDocument" Nullable="true" />
+          <Property Type="Boolean" Name="RERA_Approval" Nullable="true" />
+          <Property Type="String" Name="RERAApprovalDocument" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2309,6 +2346,33 @@
                 <ScalarProperty Name="category" ColumnName="category" />
                 <ScalarProperty Name="value" ColumnName="value" />
                 <ScalarProperty Name="color" ColumnName="color" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetGraphicalPeriodWiseBookingDetails" FunctionName="salesDBModel.Store.sp_GetGraphicalPeriodWiseBookingDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetGraphicalPeriodWiseBookingDetails_Result">
+                <ScalarProperty Name="xaxis" ColumnName="xaxis" />
+                <ScalarProperty Name="yaxis" ColumnName="yaxis" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetClientProjects" FunctionName="salesDBModel.Store.sp_GetClientProjects">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetClientProjects_Result">
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectLocation" ColumnName="ProjectLocation" />
+                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="ClubHouseCharges" ColumnName="ClubHouseCharges" />
+                <ScalarProperty Name="GHMC_Approval" ColumnName="GHMC_Approval" />
+                <ScalarProperty Name="GHMCApprovalDocument" ColumnName="GHMCApprovalDocument" />
+                <ScalarProperty Name="RERA_Approval" ColumnName="RERA_Approval" />
+                <ScalarProperty Name="RERAApprovalDocument" ColumnName="RERAApprovalDocument" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

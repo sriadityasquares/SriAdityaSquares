@@ -1,0 +1,224 @@
+﻿@model ModelLayer.Report
+@{
+    ViewBag.Title = "GraphicalPeriodWiseBookingReport";
+}
+
+<style>
+    
+    #Year option {
+        width: 160px
+    }
+
+    #Month option {
+        width: 160px
+    }
+
+
+
+    k-i-file-excel {
+        background-image: url('../../Content/Images/icons8-microsoft-excel-64.png');
+    }
+</style>
+
+<div style="background-color:white" class="jumbotron">
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">PERIOD WISE BOOKING</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <div class="row" style="margin-top:20px">
+        @Html.LabelFor(m => m.Project, new { @class = "col-md-1 col-xs" })
+        @Html.DropDownListFor(m => m.Project, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-2 col-xs" })
+        <div class="col-md-4 col-xs">
+            
+            <div class="radios">
+                <div class="radio" style="margin-top:0px">
+                    <input type="radio" id="radio1" value="1" name="radio" checked="checked">
+                    <label for="radio1">
+                        <div class="checker"></div>
+                        Year
+                    </label>
+                </div>
+
+                <div class="radio">
+                    <input type="radio" id="radio2" value="2" name="radio">
+                    <label for="radio2">
+                        <div class="checker"></div>
+                        Month
+                    </label>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+        @Html.LabelFor(z => z.Year, new { @class = "col-md-1" })
+        <div class="col-md-2 col-xs">
+            @Html.DropDownListFor(m => m.Year, ViewBag.YearList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
+        </div>
+        @Html.LabelFor(z => z.Month, new { @class = "col-md-1" })
+        <div class="col-md-2 col-xs">
+            @Html.DropDownListFor(m => m.Month, ViewBag.MonthList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
+        </div>
+       
+        <div class="col-md-2 col-xs">
+            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
+        </div>
+    </div>
+    @*<div class="row">
+        <div class="col-md-12 col-xs">
+            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
+        </div>
+    </div>*@
+    <hr />
+    <br />
+    <div class="demo-section k-content wide">
+        <div id="chart"></div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $(".js-select2").select2();
+        $(".js-select2-multi").select2();
+
+        $(".large").select2({
+            dropdownCssClass: "big-drop",
+        });
+    });
+    //$("#datepicker1").kendoDatePicker();
+    //$("#datepicker2").kendoDatePicker();
+    $("#Year").prop("disabled", false);
+    $("#Month").prop("disabled", true);
+    $('input[type=radio][name=radio]').change(function () {
+        if (this.value == 1) {
+            $("#Year").prop("disabled", false);
+            $("#Month").prop("disabled", true);
+            $("#Month").val('');
+            //$('#datepicker1').data('kendoDatePicker').enable(false);
+            //$('#datepicker2').data('kendoDatePicker').enable(false);
+        }
+        if (this.value == 2) {
+            $("#Year").prop("disabled", false);
+            $("#Month").prop("disabled", false);
+            //$('#datepicker1').data('kendoDatePicker').enable(false);
+            //$('#datepicker2').data('kendoDatePicker').enable(false);
+        }
+
+    });
+    //$('#datepicker1').data('kendoDatePicker').enable(false);
+    //$('#datepicker2').data('kendoDatePicker').enable(false);
+
+    $("#submitbtn").click(function () {
+        var project = '';
+        var year = '';
+        var option = '';
+        var month = '';
+        var fromDate = '';
+        var toDate = '';
+        if ($("#Project").val() == null) {
+            toastr.error("Please select a project");
+            return;
+        }
+        project = $("#Project").val();
+        option = $('input[type=radio][name=radio]:checked').val();
+        if (option == 1) {
+            year = $("#Year").val() == null ? '' : $("#Year").val();
+        }
+        if (option == 2) {
+            
+            year = $("#Year").val();
+            month = $("#Month").val() == null ? '' : $("#Month").val();
+        }
+        
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetGraphicalPeriodWiseBookingReport", "Report")',
+            contentType: "application/json; charset=utf-8",
+            data: { option: option, projects: project , years: year.toString(), months: month.toString() },
+            dataType: "json",
+            success: function (result) {
+                
+                $(document).ready(createChart(result[0].xaxis, result[0].yaxis));
+                $(document).bind("kendo:skinChange", createChart);
+               
+
+            },
+
+            });
+            });
+
+
+
+
+    function createChart(x, y) {
+        var b = x.split(',');
+        var a = y.split(',');
+        //alert(x);
+        //alert(y);
+        //x = [1, 12, 139, 21, 16, 47, 55, 41, 66, 13]
+        //y = ['2018-Aug', '2019-Jul', '2019-Aug', '2019-Sep', '2019-Oct', '2019-Nov', '2019-Dec', '2020-Jan', '2020-Feb', '2020-Mar']
+        //alert(x);
+        //alert(y);
+        var project = $("#Project option:selected").text() + ' Graphical Report for - ';
+
+        var reportType = '';
+        var peak = 0;
+        var option = $('input[type=radio][name=radio]:checked').val();
+        if (option == 1) {
+            reportType = 'Yearly Booking';
+            peak = 500;
+        }
+        if (option == 2) {
+
+            reportType = 'Monthly Booking';
+            peak = 200;
+        }
+        $("#chart").kendoChart({
+            title: {
+                text: project + reportType,
+                font: "bolder 16px Arial,Helvetica,sans-serif",
+                color: "black",
+            },
+            legend: {
+                visible: false
+            },
+            seriesDefaults: {
+                type: "column",
+                stack: true
+            },
+            series: [{
+                name: reportType,
+                data: a,
+                color: "#26aadd"
+            }],
+            valueAxis: {
+                max: peak,
+                line: {
+                    visible: false
+                },
+                minorGridLines: {
+                    visible: false
+                }
+            },
+            categoryAxis: {
+                categories: b,
+                majorGridLines: {
+                    visible: false
+                }
+            },
+            tooltip: {
+                visible: true,
+                template: "#= series.name #: #= value #"
+            }
+        });
+    }
+    
+    
+</script>

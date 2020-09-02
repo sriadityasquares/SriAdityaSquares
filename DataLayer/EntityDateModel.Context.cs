@@ -320,5 +320,35 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetBookingStatistics_Result>("sp_GetBookingStatistics", towerIDParameter);
         }
+    
+        public virtual ObjectResult<sp_GetGraphicalPeriodWiseBookingDetails_Result> sp_GetGraphicalPeriodWiseBookingDetails(Nullable<int> option, Nullable<int> project, string year, string month)
+        {
+            var optionParameter = option.HasValue ?
+                new ObjectParameter("Option", option) :
+                new ObjectParameter("Option", typeof(int));
+    
+            var projectParameter = project.HasValue ?
+                new ObjectParameter("Project", project) :
+                new ObjectParameter("Project", typeof(int));
+    
+            var yearParameter = year != null ?
+                new ObjectParameter("Year", year) :
+                new ObjectParameter("Year", typeof(string));
+    
+            var monthParameter = month != null ?
+                new ObjectParameter("Month", month) :
+                new ObjectParameter("Month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetGraphicalPeriodWiseBookingDetails_Result>("sp_GetGraphicalPeriodWiseBookingDetails", optionParameter, projectParameter, yearParameter, monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetClientProjects_Result> sp_GetClientProjects(string username)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("Username", username) :
+                new ObjectParameter("Username", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetClientProjects_Result>("sp_GetClientProjects", usernameParameter);
+        }
     }
 }

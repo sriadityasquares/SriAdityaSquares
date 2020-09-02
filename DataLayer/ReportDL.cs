@@ -176,5 +176,25 @@ namespace DataLayer
             }
             return lstBooking;
         }
+        public List<GetGraphicalPeriodWiseBooking> BindGraphicalPeriodWiseBookingInfo(int option, int projectID, string years, string month)
+        {
+            List<GetGraphicalPeriodWiseBooking> lstBooking = new List<GetGraphicalPeriodWiseBooking>();
+            try
+            {
+                
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetGraphicalPeriodWiseBookingDetails_Result, GetGraphicalPeriodWiseBooking>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<sp_GetGraphicalPeriodWiseBookingDetails_Result>, List<GetGraphicalPeriodWiseBooking>>(dbEntity.sp_GetGraphicalPeriodWiseBookingDetails(option, projectID, years, month).ToList()).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstBooking;
+        }
     }
 }

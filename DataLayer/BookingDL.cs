@@ -37,6 +37,29 @@ namespace DataLayer
             }
             return lstProjects;
         }
+
+
+        public List<Projects> BindClientProjects(string username)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<Projects> lstProjects = new List<Projects>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetClientProjects_Result, Projects>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstProjects = mapper.Map<List<sp_GetClientProjects_Result>, List<Projects>>(dbEntity.sp_GetClientProjects(username).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstProjects;
+        }
         public List<Projects> BindProjectsBasedOnLocation(string locationName)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -948,16 +971,7 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstAgents = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<FlatWiseAgentCommission>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).ToList()).ToList();
-                //foreach(var agent in lstAgents)
-                //{
-                //    agent.NetBalance = Convert.ToInt32(agent.AgentCommission - agent.AmountPaid);
-                //}
-                //var config = new MapperConfiguration(cfg =>
-                //{
-                //    cfg.CreateMap<sp_GetAgentCommissionByAgentLogins_Result, FlatWiseAgentCommission>();
-                //});
-                //IMapper mapper = config.CreateMapper();
-                //lstAgents = mapper.Map<List<sp_GetAgentCommissionByAgentLogins_Result>, List<FlatWiseAgentCommission>>(dbEntity.sp_GetAgentCommissionByAgentLogins(email).ToList()).ToList();
+                
             }
             catch (Exception ex)
             {

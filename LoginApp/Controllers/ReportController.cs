@@ -48,6 +48,16 @@ namespace LoginApp.Controllers
             List<GetPeriodWiseBookingDetails> list = rep.BindPeriodWiseBookingInfo(option, fromDate, toDate, projects, years, months);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
+
+        public ActionResult GetGraphicalPeriodWiseBookingReport(int option, int projects, string years, string months)
+        {
+            ReportBL rep = new ReportBL();
+            List<GetGraphicalPeriodWiseBooking> list = rep.BindGraphicalPeriodWiseBookingInfo(option, projects, years, months);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult BookingInfoReport()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -142,6 +152,19 @@ namespace LoginApp.Controllers
             //GetFlatWiseTotalAgentCommission datalist = JsonConvert.DeserializeObject<GetFlatWiseTotalAgentCommission>(data);
             List<FlatWiseAgentCommission> list =  rep.BindFlatAgentCommissionDetails();
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GraphicalPeriodWiseBookingReport()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            List<Year> years = common.BindYear();
+            List<Month> months = common.BindMonth();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
+            //ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
+            ViewBag.YearList = new SelectList(years, "YearName", "YearName");
+            ViewBag.MonthList = new SelectList(months, "ID", "MonthName");
+            return View();
         }
     }
 }

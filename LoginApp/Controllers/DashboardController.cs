@@ -59,14 +59,20 @@ namespace LoginApp.Controllers
 
         public ActionResult Index()
         {
-            List<Projects> projectList = booking.BindProjects();
+            List<Projects> projectList = new List<Projects>();
+            if (User.IsInRole("Client"))
+            {
+                projectList = booking.BindClientProjects(User.Identity.Name);
+            }
+            else
+                projectList = booking.BindProjects();
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             return View();
         }
 
         public ActionResult Agent()
         {
-           
+
             return View();
         }
 
@@ -77,7 +83,13 @@ namespace LoginApp.Controllers
 
         public ActionResult FlatLifeCycle()
         {
-            List<Projects> projectList = booking.BindProjects();
+            List<Projects> projectList = new List<Projects>();
+            if (User.IsInRole("Client"))
+            {
+                projectList = booking.BindClientProjects(User.Identity.Name);
+            }
+            else
+                projectList = booking.BindProjects();
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             return View();
         }
@@ -91,7 +103,7 @@ namespace LoginApp.Controllers
         {
             var email = User.Identity.Name;
             List<FlatWiseAgentCommission> list = booking.BindAgentDashboard(email);
-            
+
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
@@ -113,8 +125,8 @@ namespace LoginApp.Controllers
                 email = User.Identity.Name;
             }
             List<FlatWiseAgentCommission> list = booking.BindAgentsDashboard(email);
-                    
-            if(list.Count > 0) list[0].AgentSponserCode = null;
+
+            if (list.Count > 0) list[0].AgentSponserCode = null;
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
@@ -138,7 +150,13 @@ namespace LoginApp.Controllers
 
         public ActionResult BookingStatistics()
         {
-            List<Projects> projectList = booking.BindProjects();
+            List<Projects> projectList = new List<Projects>();
+            if (User.IsInRole("Client"))
+            {
+                projectList = booking.BindClientProjects(User.Identity.Name);
+            }
+            else
+                projectList = booking.BindProjects();
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             return View();
         }

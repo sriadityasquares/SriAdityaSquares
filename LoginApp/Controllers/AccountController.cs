@@ -422,9 +422,9 @@ namespace LoginApp.Controllers
                 return RedirectToAction("Index", "Dashboard");
             else if (UserManager.IsInRole(UserID, "Agent"))
                 return RedirectToAction("Index", "Dashboard");
-            else if (UserManager.IsInRole(UserID, "Agent"))
+            else if (UserManager.IsInRole(UserID, "Customer"))
                 return RedirectToAction("Index", "Dashboard");
-            else if (UserManager.IsInRole(UserID, "Agent"))
+            else if (UserManager.IsInRole(UserID, "Client"))
                 return RedirectToAction("Index", "Dashboard");
             return null;
         }

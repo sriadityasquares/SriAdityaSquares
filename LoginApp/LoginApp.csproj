@@ -1911,6 +1911,7 @@
     <Content Include="Views\Booking\SiteVisitApproval.cshtml" />
     <Content Include="Views\Booking\Invoice.cshtml" />
     <Content Include="Views\Dashboard\BookingStatistics.cshtml" />
+    <Content Include="Views\Report\GraphicalPeriodWiseBookingReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

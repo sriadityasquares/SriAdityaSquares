@@ -15,6 +15,12 @@ namespace BusinessLayer
         {
             return db.BindProjects();
         }
+
+
+        public List<Projects> BindClientProjects(string username)
+        {
+            return db.BindClientProjects(username);
+        }
         public List<Projects> BindProjectsBasedOnLocation(string locationName)
         {
             return db.BindProjectsBasedOnLocation(locationName);
