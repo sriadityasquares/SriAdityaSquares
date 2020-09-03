@@ -19,7 +19,7 @@ using RestSharp;
 namespace LoginApp.Controllers
 {
 
-    [Authorize]
+    
     
     public class AccountController : Controller
     {

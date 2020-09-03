@@ -41,6 +41,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult GetPeriodWiseBookingReport(int option,string fromDate,string toDate,string projects,string years,string months) 
         {
 
@@ -49,7 +50,7 @@ namespace LoginApp.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public ActionResult GetGraphicalPeriodWiseBookingReport(int option, int projects, string years, string months)
         {
             ReportBL rep = new ReportBL();
@@ -57,7 +58,7 @@ namespace LoginApp.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public ActionResult BookingInfoReport()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -65,6 +66,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult PaymentInfoReport()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -86,7 +88,7 @@ namespace LoginApp.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public ActionResult AgentWiseBookingReport()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -102,6 +104,7 @@ namespace LoginApp.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult BhkWiseBookingReport()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -109,6 +112,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult FacingWiseBookingReport()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -130,6 +134,7 @@ namespace LoginApp.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult FlatWiseAgentCommission()
         {
             List<Projects> projectList = booking.BindProjects();

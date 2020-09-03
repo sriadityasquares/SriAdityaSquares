@@ -147,7 +147,12 @@ namespace BusinessLayer
             return db.BindAgentsDashboard(email);
         }
 
-        public List<GetAgentFlatWiseCommissionByLogin> BindFlatWiseAgentsCommissionByLogins(string email)
+        public List<TreeObject> GetAgentGraphicalHierarchy(string email)
+        {
+            return db.GetAgentGraphicalHierarchy(email);
+        }
+
+            public List<GetAgentFlatWiseCommissionByLogin> BindFlatWiseAgentsCommissionByLogins(string email)
         {
             return db.BindFlatWiseAgentsCommissionByLogins(email);
         }

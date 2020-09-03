@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using log4net;
 using ModelLayer;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -223,7 +224,7 @@ namespace DataLayer
                     cfg.CreateMap<tblFlat, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.OrderByDescending(x=>x.FlatID).ToList()).ToList();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.OrderByDescending(x => x.FlatID).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -971,7 +972,20 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstAgents = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<FlatWiseAgentCommission>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).ToList()).ToList();
-                
+                //var lst = lstAgents.Take(50);
+                //List<TreeObject> lstTreeObject = new List<TreeObject>();
+                //foreach (var agent in lst)
+                //{
+                //    TreeObject TreeObject = new TreeObject();
+                //    TreeObject.AgentCode = agent.AgentCode;
+                //    TreeObject.AgentName = agent.AgentName;
+                //    TreeObject.AgentSponserCode = agent.AgentSponserCode;
+                //    TreeObject.colorScheme = "#1696d3";
+                //    lstTreeObject.Add(TreeObject);
+                //}
+                ////var x  = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<TreeObject>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).ToList()).ToList();
+                //var result = TreeObject.FlatToHierarchy(lstTreeObject);
+                //var json = JsonConvert.SerializeObject(result);
             }
             catch (Exception ex)
             {
@@ -981,6 +995,39 @@ namespace DataLayer
             return lstAgents;
         }
 
+
+        public List<TreeObject> GetAgentGraphicalHierarchy(string email)
+        {
+            List<AgentMaster> lstAgents = new List<AgentMaster>();
+            var result = new  List<TreeObject>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetAgentCommissionNdBalanceByAgentLogins_Result, AgentMaster>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgents = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<AgentMaster>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).OrderBy(x=>x.AgentID).ToList()).ToList();
+               
+                List<TreeObject> lstTreeObject = new List<TreeObject>();
+                foreach (var agent in lstAgents)
+                {
+                    TreeObject TreeObject = new TreeObject();
+                    TreeObject.AgentCode = agent.AgentCode;
+                    TreeObject.AgentName = agent.AgentName;
+                    TreeObject.AgentSponserCode = agent.AgentSponserCode;
+                    TreeObject.colorScheme = "#1696d3";
+                    lstTreeObject.Add(TreeObject);
+                }
+                //var x  = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<TreeObject>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).ToList()).ToList();
+                result = TreeObject.FlatToHierarchy(lstTreeObject).ToList();
+            }
+            catch
+            {
+
+            }
+            return result;
+        }
         public List<GetAgentFlatWiseCommissionByLogin> BindFlatWiseAgentsCommissionByLogins(string email)
         {
             List<GetAgentFlatWiseCommissionByLogin> lstAgents = new List<GetAgentFlatWiseCommissionByLogin>();
@@ -1162,7 +1209,7 @@ namespace DataLayer
         public bool CheckDuplicateMobile(CustomerVisitInfo cvi)
         {
             int projectid = Convert.ToInt32(cvi.ProjectID);
-            var result =  dbEntity.tblCustomerVisitInfoes.Where(x => x.ProjectID == projectid && x.CustomerMobile == cvi.CustomerMobile).FirstOrDefault();
+            var result = dbEntity.tblCustomerVisitInfoes.Where(x => x.ProjectID == projectid && x.CustomerMobile == cvi.CustomerMobile).FirstOrDefault();
             if (result == null)
                 return true;
             else

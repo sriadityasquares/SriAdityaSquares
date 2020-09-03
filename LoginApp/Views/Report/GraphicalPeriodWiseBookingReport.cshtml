@@ -13,7 +13,12 @@
         width: 160px
     }
 
-
+    @@media(max-width: 768px) {
+        #radiodiv {
+            margin-right: 250px;
+        }
+    }
+    
 
     k-i-file-excel {
         background-image: url('../../Content/Images/icons8-microsoft-excel-64.png');
@@ -23,15 +28,18 @@
 <div style="background-color:white" class="jumbotron">
     <div class="row">
         <div class="col-md-12 col-xs" style="margin-top:0px">
-            <h3 style="margin-top:0px;margin-bottom:4px" align="left">PERIOD WISE BOOKING</h3>
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">GRAPHICAL PERIOD WISE BOOKING</h3>
             <div class="specialLine col-md-1"></div>
         </div>
 
     </div>
     <div class="row" style="margin-top:20px">
         @Html.LabelFor(m => m.Project, new { @class = "col-md-1 col-xs" })
-        @Html.DropDownListFor(m => m.Project, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-2 col-xs" })
-        <div class="col-md-4 col-xs">
+        <div class="COL-MD-4">
+            @Html.DropDownListFor(m => m.Project, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-4 col-xs" })
+
+        </div>
+        <div id="radiodiv" class="col-md-4 col-xs">
             
             <div class="radios">
                 <div class="radio" style="margin-top:0px">
@@ -50,7 +58,13 @@
                     </label>
                 </div>
 
-
+                @*<div class="radio">
+                    <input type="radio" id="radio3" value="3" name="radio">
+                    <label for="radio3">
+                        <div class="checker"></div>
+                        Day
+                    </label>
+                </div>*@
             </div>
         </div>
 
@@ -92,6 +106,9 @@
             dropdownCssClass: "big-drop",
         });
     });
+
+
+
     //$("#datepicker1").kendoDatePicker();
     //$("#datepicker2").kendoDatePicker();
     $("#Year").prop("disabled", false);
@@ -219,6 +236,5 @@
             }
         });
     }
-    
     
 </script>

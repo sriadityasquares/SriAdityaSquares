@@ -37,6 +37,7 @@ namespace LoginApp.Controllers
             }
         }
         // GET: Booking
+
         public ActionResult Index()
         {
             List<Country> countryList = common.BindCountry();
@@ -48,6 +49,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,DataEntry")]
         public ActionResult New(int ProjectID = 0, int TowerID = 0, int FlatID = 0, string BookingStatus = "")
         {
             List<Country> countryList = common.BindCountry();
@@ -191,7 +193,7 @@ namespace LoginApp.Controllers
         }
 
 
-        
+        [Authorize(Roles = "Admin,DataEntry")]
         public ActionResult MakePayment()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -377,6 +379,7 @@ namespace LoginApp.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin,Agent,Customer,DataEntry")]
         public ActionResult Selfie()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -449,6 +452,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Agent,Customer,DataEntry")]
         public ActionResult SelfiePoint()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -469,11 +473,7 @@ namespace LoginApp.Controllers
                 for (j = 0; (i + j) < customerVisits.Count && j < 3; j++)
                 {
                     html = html + "<div class=\"col-sm-4\"><div class=\"card bg-info text-white\"><img  src = \"" + customerVisits[i + j].SelfieURL + "\" style =\"width:100%;height:400px;object-fit: contain;\" /><div class=\"containercard\"><h4><b>" + customerVisits[i + j].AgentName + "</b></h4><h6><b>CUSTOMER :" + customerVisits[i + j].CustomerName + "</b></h6><h6><b>PROJECT  :" + customerVisits[i + j].ProjectName + "</b></h6><h6><b>DATE     : " + customerVisits[i + j].DateAdded.ToString() + "</b></h6></div></div></div>";
-                    //html.Replace("#url", customerVisits[i + j].SelfieURL);
-                    //html.Replace("#AgentName", customerVisits[i + j].AgentName);
-                    //html.Replace("#Customer", customerVisits[i + j].CustomerName);
-                    //html.Replace("#Project", customerVisits[i + j].ProjectName);
-                    //html.Replace("#Date", customerVisits[i + j].DateAdded.ToString());
+                    
                 }
                 html = html + "</div><br/>";
             }
@@ -484,6 +484,7 @@ namespace LoginApp.Controllers
             return Json(html, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin,Client,Customer,DataEntry")]
         public ActionResult AddSiteVist()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -526,6 +527,7 @@ namespace LoginApp.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult SiteVisitApproval()
         {
             return View();
@@ -551,6 +553,7 @@ namespace LoginApp.Controllers
 
         }
 
+        [Authorize(Roles = "Admin,DataEntry")]
         public ActionResult Invoice()
         {
             List<Projects> projectList = booking.BindProjects();

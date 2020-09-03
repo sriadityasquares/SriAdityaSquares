@@ -15,7 +15,7 @@ using System.Web.Mvc;
 
 namespace LoginApp.Controllers.Admin
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AgentController : Controller
     {
         private static readonly ILog log =

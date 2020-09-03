@@ -71,10 +71,13 @@
                                 <li>
                                     <a class="@(ViewBag.AgentDashboard)" href="@Url.Action("Agents", "Dashboard")">AGENT HIERARCHY</a>
                                 </li>
-
+                                <li>
+                                    <a class="@(ViewBag.AgentGraphicalHierarchy)" href="@Url.Action("AgentGraphicalHierarchy", "Dashboard")">AGENT GRAPHICAL HIERARCHY</a>
+                                </li>
                                 <li>
                                     <a class="@(ViewBag.MyCommission)" href="@Url.Action("FlatWiseAgentCommission", "Dashboard")">MY COMMISSIONS</a>
                                 </li>
+
                             }
                             @if (this.User.IsInRole("Admin") || this.User.IsInRole("Customer") || this.User.IsInRole("Client"))
                             {
@@ -262,7 +265,9 @@
                                 <li>
                                     <a class="@(ViewBag.AgentDashboard)" href="@Url.Action("Agents", "Dashboard")">AGENT HIERARCHY</a>
                                 </li>
-
+                                <li>
+                                    <a class="@(ViewBag.AgentGraphicalHierarchy)" href="@Url.Action("AgentGraphicalHierarchy", "Dashboard")">AGENT GRAPHICAL HIERARCHY</a>
+                                </li>
                                 <li>
                                     <a class="@(ViewBag.MyCommission)" href="@Url.Action("FlatWiseAgentCommission", "Dashboard")">MY COMMISSIONS</a>
                                 </li>

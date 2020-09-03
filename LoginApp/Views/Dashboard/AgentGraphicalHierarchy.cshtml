@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewBag.Title = "AgentGraphicalHierarchy";
+    ViewBag.Dashboard = "active";
+    ViewBag.AgentGraphicalHierarchy = "active";
+}
+<style>
+
+   /*@@media(max-width:768px)
+    {
+       #diagramContainer{
+           width : 300px;
+       }
+    }*/
+
+</style>
+
+<div class="jumbotron" style="margin-top: 0px !important">
+    <div class="row" style="margin-top: 0px !important;padding-top:0px">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">AGENT GRAPHICAL HIERARCHY</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <hr />
+    <div class="box wide">
+        <div class="box-col">
+            <button class='export-pdf k-button'>Save as PDF</button>
+        </div>
+    </div>
+    
+    <div style="overflow:scroll;width:auto; height: auto;background-color:whitesmoke" id="diagramContainer" class="col-md-12 col-sm-12 col-xs-12 table-responsive">
+
+        <div style="background-color:whitesmoke;border: double;" id="diagram"></div>
+
+    </div>
+</div>
+
+<script>
+    $(".export-pdf").click(function () {
+        $("#diagram").getKendoDiagram().saveAsPDF({
+            fileName: "Hierarchy.pdf",
+        });
+    });
+    $(document).ready(function () {
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetAgentGraphicalHierarchy", "Dashboard")',
+            contentType: "application/json; charset=utf-8",
+
+            dataType: "json",
+            success: function (result) {
+
+                $(document).ready(createDiagram(result));
+
+
+            },
+
+            });
+
+
+    });
+
+    function visualTemplate(options) {
+        var dataviz = kendo.dataviz;
+        var g = new dataviz.diagram.Group({
+            //autoSize: true,
+            //zoom :0
+        });
+        var dataItem = options.dataItem;
+
+        g.append(new dataviz.diagram.Rectangle({
+            width: 200,
+            height: 75,
+            //zoom :10,
+            stroke: {
+                width: 0
+            },
+            fill: {
+                gradient: {
+                    type: "linear",
+                    stops: [{
+                        color: dataItem.colorScheme,
+                        offset: 0,
+                        opacity: 0.5
+                    }, {
+                        color: dataItem.colorScheme,
+                        offset: 1,
+                        opacity: 1
+                    }]
+                }
+            }
+        }));
+
+
+
+        g.append(new dataviz.diagram.TextBlock({
+            text: dataItem.AgentName,
+            x: 50,
+            y: 40,
+            fill: "black"
+        }));
+
+
+
+        return g;
+    }
+
+    function createDiagram(data) {
+        $("#diagram").kendoDiagram({
+            dataSource: new kendo.data.HierarchicalDataSource({
+                data: data,
+                schema: {
+                    model: {
+                        children: "Children"
+                    }
+                }
+            }),
+            layout: {
+                type: "layered",
+                //horizontalSeparation: 30,
+                //verticalSeparation: 20
+            },
+            shapeDefaults: {
+                visual: visualTemplate
+
+            },
+            
+            editable: false,
+            pannable: true,
+            zoomRate: 0,
+            dataBound: function () {
+                var bbox = this.boundingBox();
+                this.wrapper.width(bbox.width + bbox.x);
+                this.wrapper.height(bbox.height + bbox.y);
+                this.resize();
+            },
+            connectionDefaults: {
+                stroke: {
+                    color: "#979797",
+                    width: 2
+                }
+            }
+        });
+
+        var diagram = $("#diagram").getKendoDiagram();
+        diagram.bringIntoView(diagram.shapes);
+        var outerContent = $('#diagramContainer');
+        var innerContent = $('#diagramContainer > div');
+
+        outerContent.scrollLeft((innerContent.width() - outerContent.width()) / 2);
+    }
+
+
+
+
+    
+</script>

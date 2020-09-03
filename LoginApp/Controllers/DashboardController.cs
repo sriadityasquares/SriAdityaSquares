@@ -70,17 +70,13 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        public ActionResult Agent()
-        {
-
-            return View();
-        }
-
+        [Authorize(Roles ="Admin,Agent")]
         public ActionResult Agents()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin,Customer,Client")]
         public ActionResult FlatLifeCycle()
         {
             List<Projects> projectList = new List<Projects>();
@@ -99,6 +95,7 @@ namespace LoginApp.Controllers
             var flatLifeCycle = booking.BindFlatLifeCycle(flatID);
             return Json(flatLifeCycle, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult GetAgentCommissionByAgentLogin()
         {
             var email = User.Identity.Name;
@@ -107,11 +104,13 @@ namespace LoginApp.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin,Agent")]
         public ActionResult FlatWiseAgentCommission()
         {
             return View();
         }
 
+        
         public JsonResult GetAgentCommissionByAgentLogins()
         {
             var email = "";
@@ -129,6 +128,33 @@ namespace LoginApp.Controllers
             if (list.Count > 0) list[0].AgentSponserCode = null;
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
+
+
+        public ActionResult AgentGraphicalHierarchy()
+        {
+            return View();
+        }
+
+
+        public JsonResult GetAgentGraphicalHierarchy()
+        {
+            var email = "";
+            var _user = UserManager.FindByEmail(User.Identity.Name);
+            if (UserManager.IsInRole(_user.Id, "Admin"))
+            {
+                email = "nsrinivas78@gmail.com";
+            }
+            else
+            {
+                email = User.Identity.Name;
+            }
+            List<TreeObject> list = booking.GetAgentGraphicalHierarchy(email);
+
+            //if (list.Count > 0) list[0].AgentSponserCode = null;
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
 
         public JsonResult GetAgentFlatWiseCommissionByAgentLogins()
         {

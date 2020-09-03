@@ -1912,6 +1912,7 @@
     <Content Include="Views\Booking\Invoice.cshtml" />
     <Content Include="Views\Dashboard\BookingStatistics.cshtml" />
     <Content Include="Views\Report\GraphicalPeriodWiseBookingReport.cshtml" />
+    <Content Include="Views\Dashboard\AgentGraphicalHierarchy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

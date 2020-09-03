@@ -35,7 +35,7 @@
                     }
                 </select>*@
         </div>
-        <div class="col-md-4 col-xs">
+        <div id="radiodiv" class="col-md-4 col-xs">
             @*@Html.Label("YEAR");
                 @Html.RadioButtonFor(m => m.TimePeriod, "1",new { @class = "checker" })
                 MONTH
@@ -233,16 +233,7 @@
         },
         dataSource: {
             data: null,
-            //schema: {
-            //    model: {
-            //        fields: {
-            //            ProductName: { type: "string" },
-            //            UnitPrice: { type: "number" },
-            //            UnitsInStock: { type: "number" },
-            //            Discontinued: { type: "boolean" }
-            //        }
-            //    }
-            //},
+            
         },
         //height: 550,
         width: 'auto',
@@ -280,7 +271,12 @@
         width: 160px
     }
 
-
+    @@media(max-width:768px)
+    {
+        #radiodiv {
+            margin-right: 250px;
+        }
+    }
 
     k-i-file-excel {
         background-image: url('../../Content/Images/icons8-microsoft-excel-64.png');
