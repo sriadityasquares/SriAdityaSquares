@@ -6,7 +6,7 @@
     ViewBag.Reports = "active";
 }
 
-<div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
+<div class="jumbotron" style="background-color:white">
 
     <div class="row">
         <div class="col-md-12 col-xs" style="margin-top:0px">
@@ -209,13 +209,13 @@
             success: function (result) {
 
                 var grid = $("#grid").data("kendoGrid");
-                var dataSource = new kendo.data.DataSource({ data: result });
+                var dataSource = new kendo.data.DataSource({ pageSize: 10,data: result });
                 grid.setDataSource(dataSource);
                 grid.dataSource.read();
                 //$("#grid").height(400);
                 $('#grid .k-grid-content').height(300);
                 $("#grid").show();
-
+                
             },
 
             });
@@ -237,10 +237,13 @@
         },
         //height: 550,
         width: 'auto',
+        batch: true,
         sortable: true,
+        pageable: true,
+        serverPaging: true,
         //filterable: true,
         columns: [
-            { field: "projectname", title: "PROJECT", width: 120 },
+            { field: "projectname", title: "PROJECT", width: 120, },
             { field: "towername", title: "TOWER", width: 120 },
             { field: "totalbookingamount", title: "TOATL BOOKING AMOUNT", width: 160 },
             { field: "flatsbooked", title: "TOTAL FLATS BOOKED", width: 160 },
@@ -249,7 +252,7 @@
             { field: "DAY", title: "DAY", width: 75 }
 
         ],
-
+        
 
     });
 
@@ -271,14 +274,25 @@
         width: 160px
     }
 
-    @@media(max-width:768px)
-    {
+    @@media(max-width:768px) {
         #radiodiv {
             margin-right: 250px;
         }
-    }
 
+        #Year option {
+            width: 250px
+        }
+
+        #Month option {
+            width: 250px
+        }
+    }
     k-i-file-excel {
         background-image: url('../../Content/Images/icons8-microsoft-excel-64.png');
     }
+
+    .k-pager-wrap.k-pager-md .k-pager-info, .k-pager-wrap.k-pager-sm .k-pager-info {
+        display: block !important;
+    }
+    
 </style>

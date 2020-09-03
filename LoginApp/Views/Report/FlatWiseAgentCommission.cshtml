@@ -7,7 +7,7 @@
 }
 
 
-    <div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
+    <div class="jumbotron" style="background-color:white">
 
         <div class="row">
             <div class="col-md-12 col-xs" style="margin-top:0px">
@@ -73,11 +73,11 @@
             success: function (result) {
 
             var grid = $("#grid").data("kendoGrid");
-            var dataSource = new kendo.data.DataSource({ data: result });
+                var dataSource = new kendo.data.DataSource({ pageSize: 6,data: result });
             grid.setDataSource(dataSource);
             grid.dataSource.read();
             //$("#grid").height(400);
-            $('#grid .k-grid-content').height(500);
+            $('#grid .k-grid-content').height(400);
             $("#grid").show();
 
             },
@@ -90,10 +90,21 @@
                 var element = $("#grid").kendoGrid({
                     dataSource: {
                         data: null,
+                        
                     },
-                    height: 550,
+                    height: 'auto',
+                    toolbar: ["search", "excel"],
+                    excel: {
+                        fileName: "AgentBookingInfoReport.xlsx",
+
+                        //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                        filterable: true,
+                        allPages: true
+                    },
+                    batch: true,
                     sortable: true,
-                    pageable: false,
+                    pageable: true,
+                    
                     detailTemplate: kendo.template($("#template").html()),
                     detailInit: detailInit,
                     dataBound: function () {
@@ -155,9 +166,11 @@
                         transport: {
                             read: "/Report/GetFlatAgentCommissionDetails"
                         },
+                        pageSize: 5,
                         filter: { field: "FlatID", operator: "eq", value: e.data.FlatID }
                     },
                     scrollable: false,
+                    pageable: true,
                     columns: [
                     { field: "AgentID", title: "ID", width: "70px" },
                     { field: "AgentName", title: "AGENT NAME", width: "150px" },
@@ -169,6 +182,9 @@
             <style>
                 .k-detail-cell .k-tabstrip .k-content {
                     padding: 0.2em;
+                }
+                .k-pager-wrap.k-pager-md .k-pager-info, .k-pager-wrap.k-pager-sm .k-pager-info {
+                    display: block !important;
                 }
             </style>
 

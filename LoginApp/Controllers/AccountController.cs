@@ -18,9 +18,7 @@ using RestSharp;
 
 namespace LoginApp.Controllers
 {
-
-    
-    
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         CommonBL common = new CommonBL();

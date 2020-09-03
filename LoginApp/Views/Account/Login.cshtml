@@ -71,13 +71,17 @@ else
     });
 
     getLocation();
-    var x = document.getElementById("demo1");
+   
 
     function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
+        if (location.protocol == "https:") {
+
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
         }
     }
 

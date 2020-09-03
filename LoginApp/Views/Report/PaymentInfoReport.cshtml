@@ -6,7 +6,7 @@
     ViewBag.PaymentInfoReport = "active";
 }
 
-<div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
+<div class="jumbotron" style="background-color:white">
 
     <div class="row">
         <div class="col-md-12 col-xs" style="margin-top:0px">
@@ -97,6 +97,9 @@
                 //height: 550,
                 width: 'auto',
                 sortable: true,
+                batch: true,
+                sortable: true,
+                pageable: true,
                 //filterable: true,
                 columns: [
                     { field: "projectname", title: "PROJECT" ,width :120},
@@ -147,11 +150,11 @@
             success: function (result) {
 
             var grid = $("#grid").data("kendoGrid");
-            var dataSource = new kendo.data.DataSource({ data: result });
+                var dataSource = new kendo.data.DataSource({ pageSize: 10, data: result });
             grid.setDataSource(dataSource);
             grid.dataSource.read();
             //$("#grid").height(400);
-            $('#grid .k-grid-content').height(500);
+            $('#grid .k-grid-content').height(360);
             $("#grid").show();
 
             },
@@ -169,7 +172,9 @@
     #Project option {
         width: 250px
     }
-
+    .k-pager-wrap.k-pager-md .k-pager-info, .k-pager-wrap.k-pager-sm .k-pager-info {
+        display: block !important;
+    }
     /*.k-i-calendar {
         background-image: url('../../Content/Images/calendar.png');
         background-position: center !important;
