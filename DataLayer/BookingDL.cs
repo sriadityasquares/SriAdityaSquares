@@ -1014,7 +1014,7 @@ namespace DataLayer
                 {
                     TreeObject TreeObject = new TreeObject();
                     TreeObject.AgentCode = agent.AgentCode;
-                    TreeObject.AgentName = agent.AgentName;
+                    TreeObject.AgentName = agent.AgentName.Split(' ')[0].ToUpper();
                     TreeObject.AgentSponserCode = agent.AgentSponserCode;
                     TreeObject.colorScheme = "#1696d3";
                     lstTreeObject.Add(TreeObject);

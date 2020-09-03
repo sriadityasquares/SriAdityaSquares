@@ -44,7 +44,7 @@
                 <div class="tm-next">
                     @*<span></span>
                         <a href="#hero" class="navbar-brand">SAS INFRA</a>*@
-                    <img style="height:80px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+                    <img id="logoImagediv" style="object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
                 </div>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -305,17 +305,47 @@
         </footer>
 
     </section>
-    <div style="display: none;
-        position: fixed;
-        bottom: 60px;
-        right: 40px;
-        width:350px;
-        background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('/Content/Images/joana.jpg');
-        background-size: cover;" id="chat"></div>
+    <div class="demo-section k-content">
+        <div style="display: none;position: fixed;bottom: 30px;right: 30px;width:350px;background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('/Content/Images/joana.jpg');background-size: cover;" id="chat"></div>
+    </div>
     <div class="message-icon">
         <i class="fa fa-comments"></i>
     </div>
     <style>
+
+        @@media(max-width:768px) {
+            #chat {
+                
+                height: 500px;
+            }
+            #logoImagediv {
+                height: 50px;
+            }
+            .tm-nav-link {
+                padding: 0px;
+                margin:0px;
+               /* right: 2px;*/
+                margin-left: 180px;
+            }
+            .tm-navbar{
+                padding-bottom:0px;
+                padding-top:0px;
+            }
+            .navbar-nav {
+                max-width: 1000px;
+                text-align: right;
+            }
+        }
+
+        @@media(min-width:768px) {
+            #chat {
+                height: 400px;
+            }
+            #logoImagediv {
+                height: 70px;
+            }
+        }
+
         .message-icon {
             width: 40px;
             height: 40px;
@@ -326,7 +356,7 @@
             font-size: 20px;
             border-radius: 50%;
             position: fixed;
-            bottom: 30px;
+            bottom: 10px;
             right: 30px;
             cursor: pointer;
         }
@@ -705,7 +735,7 @@
         });
     </script>
     @*<script src="~/Content/Potfolio/jquery-1.9.1.min.js"></script>*@
-    
+
 
     <script>
         document.getElementById("WebApp").onclick = function () {
@@ -873,27 +903,27 @@
             $("#Longitude").val(position.coords.longitude);
         }
 
-                document.addEventListener('contextmenu', function (e) {
-                    e.preventDefault();
-                });
+                                        //document.addEventListener('contextmenu', function (e) {
+                                        //    e.preventDefault();
+                                        //});
 
-                document.onkeydown = function (e) {
-                    if (event.keyCode == 123) {
-                        return false;
-                    }
-                    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-                        return false;
-                    }
-                    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
-                        return false;
-                    }
-                    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-                        return false;
-                    }
-                    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-                        return false;
-                    }
-                }
+                                        //document.onkeydown = function (e) {
+                                        //    if (event.keyCode == 123) {
+                                        //        return false;
+                                        //    }
+                                        //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                                        //        return false;
+                                        //    }
+                                        //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+                                        //        return false;
+                                        //    }
+                                        //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                                        //        return false;
+                                        //    }
+                                        //    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                                        //        return false;
+                                        //    }
+                                        //}
 
     </script>
 </body>

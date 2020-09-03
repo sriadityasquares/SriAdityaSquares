@@ -72,7 +72,7 @@
         var dataItem = options.dataItem;
 
         g.append(new dataviz.diagram.Rectangle({
-            width: 200,
+            width: 250,
             height: 75,
             //zoom :10,
             stroke: {
@@ -98,9 +98,24 @@
 
         g.append(new dataviz.diagram.TextBlock({
             text: dataItem.AgentName,
-            x: 50,
-            y: 40,
+            x: 85,
+            y: 20,
             fill: "black"
+        }));
+
+        g.append(new dataviz.diagram.TextBlock({
+            text: dataItem.AgentCode,
+            x: 85,
+            y: 40,
+            fill: "white"
+        }));
+
+        g.append(new dataviz.diagram.Image({
+            source: "/Content/Images/realEstateMan.png",
+            x: 3,
+            y: 3,
+            width: 68,
+            height: 68
         }));
 
 

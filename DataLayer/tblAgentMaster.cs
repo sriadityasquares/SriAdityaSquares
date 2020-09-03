@@ -26,7 +26,7 @@ namespace DataLayer
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public string AgentAadhar { get; set; }
         public string AgentPAN { get; set; }
-        public Nullable<long> AgentBankAcctNo { get; set; }
+        public string AgentBankAcctNo { get; set; }
         public string AgentBankName { get; set; }
         public string AgentBankBranch { get; set; }
         public string AgentBankIFSC { get; set; }

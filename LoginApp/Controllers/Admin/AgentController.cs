@@ -92,16 +92,21 @@ namespace LoginApp.Controllers.Admin
                 {
                     var user = new ApplicationUser { UserName = data[0].AgenteMail, Email = data[0].AgenteMail, PhoneNumber = data[0].AgentMobileNo.ToString() };
                     var result1 = await UserManager.CreateAsync(user, "Welcome@123");
-                    
-                    if(result1.Succeeded)
+
+                    if (result1.Succeeded)
                     {
                         var roleadd = await UserManager.AddToRoleAsync(user.Id, "Agent");
+
+                        var message = "Username :" + data[0].AgenteMail + Environment.NewLine + "Password :" + "Welcome@123";
+                        var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + data[0].AgentMobileNo + "&smsContentType=english");
+                        var request = new RestRequest(Method.GET);
+                        request.AddHeader("Cache-Control", "no-cache");
+                        IRestResponse response = client.Execute(request);
                     }
-                    var message = "Username :" + data[0].AgenteMail + Environment.NewLine + "Password :" + "Welcome@123";
-                    var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + data[0].AgentMobileNo + "&smsContentType=english");
-                    var request = new RestRequest(Method.GET);
-                    request.AddHeader("Cache-Control", "no-cache");
-                    IRestResponse response = client.Execute(request);
+                    else
+                    {
+                        result = false;
+                    }
                 }
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
