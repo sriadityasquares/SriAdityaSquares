@@ -47,6 +47,7 @@ namespace LoginApp.Controllers.Admin
             try
             {
                 agentsList = booking.BindAgents();
+                ViewData["Exception"] = "Empty";
                 foreach (var item in agentsList)
                 {
                     switch (item.AgentStatus)
@@ -60,7 +61,7 @@ namespace LoginApp.Controllers.Admin
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Error :" + ex);
             }
@@ -79,16 +80,17 @@ namespace LoginApp.Controllers.Admin
         {
             try
             {
+                ViewData["Exception"] = "Empty";
                 var settings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
                     MissingMemberHandling = MissingMemberHandling.Ignore
                 };
-                List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models,settings);
+                List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models, settings);
                 data[0].CreatedBy = User.Identity.Name;
                 data[0].CreatedDate = DateTime.Now.Date;
                 var result = agent.AddAgent(data[0]);
-                if(result)
+                if (result)
                 {
                     var user = new ApplicationUser { UserName = data[0].AgenteMail, Email = data[0].AgenteMail, PhoneNumber = data[0].AgentMobileNo.ToString() };
                     var result1 = await UserManager.CreateAsync(user, "Welcome@123");
@@ -97,7 +99,8 @@ namespace LoginApp.Controllers.Admin
                     {
                         var roleadd = await UserManager.AddToRoleAsync(user.Id, "Agent");
 
-                        var message = "Username :" + data[0].AgenteMail + Environment.NewLine + "Password :" + "Welcome@123";
+                        var message = "Welcome to Sri Aditya Squares" + Environment.NewLine + "Below are your login credetials:" + Environment.NewLine + "Username :" + data[0].AgenteMail + Environment.NewLine + "Password :" + "Welcome@123" + Environment.NewLine + "Agent Code :" + data[0].AgentCode + Environment.NewLine + "Please use the link to login to the application :" + "https://sasinfra.in";
+                        //var message = "Hi";
                         var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + data[0].AgentMobileNo + "&smsContentType=english");
                         var request = new RestRequest(Method.GET);
                         request.AddHeader("Cache-Control", "no-cache");
@@ -106,6 +109,15 @@ namespace LoginApp.Controllers.Admin
                     else
                     {
                         result = false;
+                    }
+                    
+                }
+                else
+                {
+                    if (data[0].isDuplicateAgentCode)
+                    {
+                        ViewData["Exception"] = "Duplicate Agent Code";
+                        Convert.ToInt32("Duplicate Agent Code");
                     }
                 }
                 return Json(result, JsonRequestBehavior.AllowGet);
@@ -117,20 +129,22 @@ namespace LoginApp.Controllers.Admin
             }
         }
 
-       
+
         // POST: Project/Edit/5
         [HttpGet]
         public ActionResult UpdateAgent(string models)
         {
             try
             {
+               
+                ViewData["Exception"] = "Empty";
                 List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models);
                 data[0].UpdatedBy = User.Identity.Name;
                 data[0].UpdatedDate = DateTime.Now.Date;
                 var result = agent.UpdateAgent(data[0]);
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Error :" + ex);
                 return Json(false, JsonRequestBehavior.AllowGet);
@@ -143,7 +157,7 @@ namespace LoginApp.Controllers.Admin
             return View();
         }
 
-       
-        
+
+
     }
 }

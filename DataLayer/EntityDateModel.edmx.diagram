@@ -36,6 +36,9 @@
         <EntityTypeShape EntityType="salesDBModel.tblCustomerVisitInfo" Width="1.5" PointX="3.375" PointY="16.75" />
         <EntityTypeShape EntityType="salesDBModel.tblSiteVisitInfo" Width="1.5" PointX="13.375" PointY="16.75" />
         <EntityTypeShape EntityType="salesDBModel.tblAgentMaster" Width="1.5" PointX="9.375" PointY="13.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblAmenity" Width="1.5" PointX="11.375" PointY="13.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblBookingInformation_backup" Width="1.5" PointX="0.75" PointY="17.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblCustomerInfo_backup" Width="1.5" PointX="15.375" PointY="17.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

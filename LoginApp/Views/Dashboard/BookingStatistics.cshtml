@@ -83,7 +83,8 @@
                     text: "Booking status of " + $("#Project option:selected").text() + " in " + $("#Tower option:selected").text()
                 },
                 legend: {
-                    visible: false
+                    visible: true,
+                    position: "top"
                 },
                 chartArea: {
                     background: ""
@@ -92,7 +93,7 @@
                     labels: {
                         visible: true,
                         background: "transparent",
-                        template: "#= category # \n #= value#",
+                        template: "#= value#",
                         font: "bold 14px Arial,Helvetica,sans-serif",
                     }
                 },

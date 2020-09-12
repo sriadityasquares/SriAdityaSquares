@@ -33,5 +33,12 @@ namespace ModelLayer
         public string BookingStatusName { get; set; }
 
         public string projectImageURL { get; set; }
+
+        public Nullable<bool> GHMC_Approval { get; set; }
+        public string GHMCApprovalDocument { get; set; }
+        public Nullable<bool> RERA_Approval { get; set; }
+        public string RERAApprovalDocument { get; set; }
+        public string Description { get; set; }
+        public string LocationURL { get; set; }
     }
 }

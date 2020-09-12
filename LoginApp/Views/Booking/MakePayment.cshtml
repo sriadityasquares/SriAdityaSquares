@@ -42,6 +42,7 @@
                             <tr>
                                 <th>Amount Paid</th>
                                 <th>Date of Payment</th>
+                                @*<th>Print Receipt</th>*@
                             </tr>
 
                         </thead>
@@ -87,11 +88,13 @@
             <div id="paydetails4" style="padding-top:5px" class="row">
                 <br />
                 <div class="col-md-6 no-pad">
-                    <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>PAY</button>
+                    <button type="submit" id="submitbtn" name="submit" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>PAY</button>
                 </div>
             </div>
         </div>
     </div>
+
+    
 }
 <script>
 
@@ -135,6 +138,8 @@
             $('#table tbody tr').remove();
             $.each(data, function (index, row) {
                 $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td></tr>");
+                //$('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td>" + "</td><td><button type='submit'  name='GenerateReceipt' style='padding:3px;margin-bottom: 0px;' id='Generate' value='" + row.PaymentID + "' class='btn btn-default'><i class='fa fa-file-pdf-o'></i>GENERATE RECEIPT</button></td></tr>");
+
                 TotalPaid = TotalPaid + Number(row.BookingAmount);
                 BalanceAmount = parseInt(row.BalanceAmount);
                 BookingID = row.BookingID;
@@ -156,9 +161,9 @@
     $("#submitbtn").submit(function () {
         Validations();
         var payDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'dd-MMM-yyyy');
-            //alert(fromDate);
+        //alert(fromDate);
         $("#PaymentDate").val(payDate);
-        
+
     });
 
     function SetBalanceAmount() {

@@ -74,7 +74,7 @@ else
    
 
     function getLocation() {
-        if (location.protocol == "https:") {
+        //if (location.protocol == "https:") {
 
 
             if (navigator.geolocation) {
@@ -82,7 +82,7 @@ else
             } else {
                 x.innerHTML = "Geolocation is not supported by this browser.";
             }
-        }
+        //}
     }
 
     function showPosition(position) {

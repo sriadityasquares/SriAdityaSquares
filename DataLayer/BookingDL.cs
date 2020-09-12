@@ -61,6 +61,29 @@ namespace DataLayer
             }
             return lstProjects;
         }
+
+        public List<Projects> BindCustomerProjects(string username)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<Projects> lstProjects = new List<Projects>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetCustomerProjects_Result, Projects>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstProjects = mapper.Map<List<sp_GetCustomerProjects_Result>, List<Projects>>(dbEntity.sp_GetCustomerProjects(username).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstProjects;
+        }
+        
         public List<Projects> BindProjectsBasedOnLocation(string locationName)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -146,6 +169,50 @@ namespace DataLayer
             return lstTowers;
         }
 
+        public List<Towers> BindCustomerTowers(string username)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<Towers> lstTowers = new List<Towers>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetCustomerTowers_Result, Towers>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstTowers = mapper.Map<List<sp_GetCustomerTowers_Result>, List<Towers>>(dbEntity.sp_GetCustomerTowers(username).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstTowers;
+        }
+
+
+        public List<Flats> BindCustomerFlats(string username)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<Flats> lstFlats = new List<Flats>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetCustomerFlats_Result, Flats>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstFlats = mapper.Map<List<sp_GetCustomerFlats_Result>, List<Flats>>(dbEntity.sp_GetCustomerFlats(username).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstFlats;
+        }
         public List<Towers> BindTowersInProgress(int projectID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -180,7 +247,7 @@ namespace DataLayer
                     cfg.CreateMap<tblFlat, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && a.BookingStatus == "O").ToList()).ToList();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && a.BookingStatus == "O" || a.BookingStatus == "H" || a.BookingStatus == "P").ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -246,7 +313,7 @@ namespace DataLayer
                     cfg.CreateMap<tblFlat, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && (a.BookingStatus == "H" || a.BookingStatus == "S")).ToList()).ToList();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && (a.BookingStatus == "P" || a.BookingStatus == "S" || a.BookingStatus == "C")).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -269,7 +336,7 @@ namespace DataLayer
                     cfg.CreateMap<tblFlat, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && (a.BookingStatus == "H" || a.BookingStatus == "S" || a.BookingStatus == "C")).ToList()).ToList();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && (a.BookingStatus == "P" || a.BookingStatus == "S" || a.BookingStatus == "C")).ToList()).ToList();
 
 
             }
@@ -432,7 +499,7 @@ namespace DataLayer
                     bookingstatus = "S";
                 }
                 else
-                    bookingstatus = "H";
+                    bookingstatus = "P";
                 flat.BookingStatus = bookingstatus;
 
                 //Flat Wise Agent Commissions
@@ -549,9 +616,18 @@ namespace DataLayer
                 bookingInfo.DueDate = DateTime.Now.AddDays(noOfDays);
 
                 tblBookingInformation bookingOld = dbEntity.tblBookingInformations.Where(x => x.BookingID == bookingInfo.BookingID).FirstOrDefault();
+
                 //Update Booking Info
                 if (bookingOld != null)
                 {
+                    tblBookingInformation_backup bookingBackup = new tblBookingInformation_backup();
+                    var config99 = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<tblBookingInformation, tblBookingInformation_backup>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                    });
+                    IMapper mapper99 = config99.CreateMapper();
+                    mapper99.Map<tblBookingInformation, tblBookingInformation_backup>(bookingOld, bookingBackup);
+                    dbEntity.tblBookingInformation_backup.Add(bookingBackup);
                     var config = new MapperConfiguration(cfg =>
                     {
                         cfg.CreateMap<BookingInformation, tblBookingInformation>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
@@ -566,6 +642,15 @@ namespace DataLayer
                 //Update Customer Info
                 if (customerOld != null)
                 {
+                    tblCustomerInfo_backup customerBackup = new tblCustomerInfo_backup();
+                    var config33 = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<tblCustomerInfo, tblCustomerInfo_backup>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                    });
+                    IMapper mapper33 = config33.CreateMapper();
+                    mapper33.Map<tblCustomerInfo, tblCustomerInfo_backup>(customerOld, customerBackup);
+                    dbEntity.tblCustomerInfo_backup.Add(customerBackup);
+
                     var config1 = new MapperConfiguration(cfg =>
                     {
                         cfg.CreateMap<BookingInformation, tblCustomerInfo>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
@@ -628,7 +713,7 @@ namespace DataLayer
                     bookingstatus = "S";
                 }
                 else
-                    bookingstatus = "H";
+                    bookingstatus = "P";
                 flat.BookingStatus = bookingstatus;
 
                 //Flat Wise Agent Commissions
@@ -999,7 +1084,7 @@ namespace DataLayer
         public List<TreeObject> GetAgentGraphicalHierarchy(string email)
         {
             List<AgentMaster> lstAgents = new List<AgentMaster>();
-            var result = new  List<TreeObject>();
+            var result = new List<TreeObject>();
             try
             {
                 var config = new MapperConfiguration(cfg =>
@@ -1007,7 +1092,7 @@ namespace DataLayer
                     cfg.CreateMap<sp_GetAgentCommissionNdBalanceByAgentLogins_Result, AgentMaster>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstAgents = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<AgentMaster>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).OrderBy(x=>x.AgentID).ToList()).ToList();
+                lstAgents = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<AgentMaster>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).OrderBy(x => x.AgentID).ToList()).ToList();
                
                 List<TreeObject> lstTreeObject = new List<TreeObject>();
                 foreach (var agent in lstAgents)
@@ -1019,10 +1104,11 @@ namespace DataLayer
                     TreeObject.colorScheme = "#1696d3";
                     lstTreeObject.Add(TreeObject);
                 }
+                lstTreeObject = lstTreeObject.GroupBy(x=>x.AgentCode).Select(x => x.First()).ToList();
                 //var x  = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<TreeObject>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).ToList()).ToList();
                 result = TreeObject.FlatToHierarchy(lstTreeObject).ToList();
             }
-            catch
+            catch(Exception ex)
             {
 
             }
@@ -1068,6 +1154,24 @@ namespace DataLayer
             }
         }
 
+        public GetPaymentsDetails GetPaymentInformation(int paymentID)
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetPaymentsDetails_Result, GetPaymentsDetails>();
+                });
+                IMapper mapper = config.CreateMapper();
+                return mapper.Map<sp_GetPaymentsDetails_Result, GetPaymentsDetails>(dbEntity.sp_GetPaymentsDetails(paymentID).FirstOrDefault());
+            }
+            catch (Exception ex)
+            {
+                return new GetPaymentsDetails();
+            }
+        }
         public List<AgentProjectLevel> BindAgentProjectLevels()
         {
             try
@@ -1383,6 +1487,31 @@ namespace DataLayer
                 log.Error("Error :" + ex);
             }
             return lstBookingStats;
+        }
+
+
+        public List<Amenity> GetProjectAmenities(string projectName)
+        {
+            List<Amenity> lstAmenities = new List<Amenity>();
+            try
+            {
+                var projectID = dbEntity.tblProjects.Where(x => x.ProjectName == projectName).Select(x => x.ProjectID).FirstOrDefault();
+                
+
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAmenity, Amenity>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAmenities = mapper.Map<List<tblAmenity>, List<Amenity>>(dbEntity.tblAmenities.Where(x=>x.ProjectID == projectID).ToList()).ToList();
+            }
+
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstAmenities;
         }
     }
 }

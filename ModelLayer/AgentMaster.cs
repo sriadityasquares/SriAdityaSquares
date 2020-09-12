@@ -36,5 +36,7 @@ namespace ModelLayer
 
         public Nullable<double> AgentLatitude { get; set; }
         public Nullable<double> AgentLongitude { get; set; }
+
+        public bool isDuplicateAgentCode { get; set; }
     }
 }

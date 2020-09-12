@@ -56,7 +56,7 @@ namespace LoginApp.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin,Client,DataEntry,Agent")]
         public ActionResult Index()
         {
             List<Projects> projectList = new List<Projects>();
@@ -70,7 +70,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        [Authorize(Roles ="Admin,Agent")]
+        [Authorize(Roles = "Admin,Agent")]
         public ActionResult Agents()
         {
             return View();
@@ -83,6 +83,10 @@ namespace LoginApp.Controllers
             if (User.IsInRole("Client"))
             {
                 projectList = booking.BindClientProjects(User.Identity.Name);
+            }
+            else if (User.IsInRole("Customer"))
+            {
+                projectList = booking.BindCustomerProjects(User.Identity.Name);
             }
             else
                 projectList = booking.BindProjects();
@@ -110,7 +114,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        
+
         public JsonResult GetAgentCommissionByAgentLogins()
         {
             var email = "";
@@ -130,7 +134,7 @@ namespace LoginApp.Controllers
         }
 
 
-
+        [Authorize(Roles = "Admin,Agent")]
         public ActionResult AgentGraphicalHierarchy()
         {
             return View();
@@ -174,6 +178,7 @@ namespace LoginApp.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin,Client,DataEntry,Agent")]
         public ActionResult BookingStatistics()
         {
             List<Projects> projectList = new List<Projects>();

@@ -17,14 +17,15 @@
     <div id="grid"></div>
 </div>
 @*<script type="text/x-kendo-template" id="searchtemplate">
-    <div class="toolbar">
-        <div>
-            <a data-toggle="tooltip" title="Export to Excel" class="k-button k-button-icontext k-grid-excel" href="\#"><i class="fa fa-file-excel-o fa-lg"></i></a>
+        <div class="toolbar">
+            <div>
+                <a data-toggle="tooltip" title="Export to Excel" class="k-button k-button-icontext k-grid-excel" href="\#"><i class="fa fa-file-excel-o fa-lg"></i></a>
+            </div>
         </div>
-    </div>
-</script>*@
+    </script>*@
 <script>
-
+        var exception = '@ViewData["Exception"]';
+    /**/
     $(document).ready(function () {
         dataSource = new kendo.data.DataSource({
             transport: {
@@ -43,7 +44,9 @@
                             $("#grid").data("kendoGrid").dataSource.read();
                         }
                         else {
+
                             toastr.error('Error in Updating');
+
                             $("#grid").data("kendoGrid").dataSource.read();
                         }
                     }
@@ -56,13 +59,16 @@
                     url: "/Agent/CreateAgent",
                     dataType: "json",
                     complete: function (jqXhr, textStatus) {
-                        if (textStatus == 'success') {
+                       
+                        if (jqXhr.responseText == "true") {
                             toastr.success('Added Successfull');
-                            $("#grid").data("kendoGrid").dataSource.read(); 
+                            $("#grid").data("kendoGrid").dataSource.read();
                         }
                         else {
-                            toastr.error('Error in Adding agent or Creating Agent login');
-                            $("#grid").data("kendoGrid").dataSource.read();
+                            
+                            toastr.error('Error in Adding agent because of Duplicate Agent Code or while Creating Agent login');
+                                $("#grid").data("kendoGrid").dataSource.read();
+                            
                         }
                     }
                 },
@@ -109,14 +115,14 @@
                 var y = $("#child").data("kendoMultiSelect").value();
                 $("#child").data("kendoMultiSelect").value(["1"]);
                 $("#parent").data("kendoMultiSelect").value(["1"]);
-                
+
                 if (x.length > 0) { e.model.AgentParent = x.join(","); }
                 else { e.model.AgentParent = ''; }
                 if (y.length > 0) { e.model.AgentChild = y.join(","); } else {
                     e.model.AgentChild = '';
                 }
             },
-            
+
             toolbar: ["create", "search", "excel"],
             excel: {
                 fileName: "AgentMaster.xlsx",
@@ -124,7 +130,7 @@
                 filterable: true,
                 allPages: true
             },
-            
+
             columns: [
                 { field: "AgentCode", title: "Code", width: "100px" },
                 { field: "AgentName", title: "Name", width: "200px" },
@@ -228,7 +234,7 @@
                     autoBind: true,
                     autoClose: false,
                     tagMode: "single",
-                   
+
                     dataTextField: "AgentName",
                     dataValueField: "AgentID",
                     dataSource: {

@@ -90,8 +90,11 @@ namespace ModelLayer
         public string Dob { get; set; }
         public string Address { get; set; }
         public Nullable<int> Pincode { get; set; }
+
+        [Required]
         public Nullable<int> Mobile { get; set; }
 
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

@@ -449,7 +449,26 @@ figure.effect-honey:hover h2 i {
     padding-bottom: 50px;
     padding-top: 160px;
 }
-
+#enquiry {
+    color: white;
+    /*background-image: url('../Images/footerImage.jpg');*/
+    /*background-image: url('../Images/pexels-photo.jpg');*/
+    /*background-image: url('../Images/contact.jpg');*/
+    /*background-image: url('../Images/phone.jpg');*/
+    /*background: #d3cce3;
+    background: -webkit-linear-gradient(to right, #d3cce3, #e9e4f0);
+    background: linear-gradient(to right, #d3cce3, #e9e4f0);*/
+    background-image: linear-gradient(to right, #ddd6f3, #faaca8);
+    /*background-image: url('../Images/conus.jpg');*/
+    /*background-position: center;*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    /*min-height: 850px;*/
+    position: relative;
+    background-position: unset !important;
+    padding-bottom: 50px;
+    padding-top: 160px;
+}
 .tm-underline {
   border-top: 2px solid white;
   height: 8px;

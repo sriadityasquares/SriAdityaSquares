@@ -76,10 +76,18 @@ namespace LoginApp.Controllers
             suggestedActions2.value = projectName + "-Approvals";
             lstSuggestedActions.Add(suggestedActions2);
             SuggestedActions suggestedActions3 = new SuggestedActions();
-            suggestedActions3.title = "Pricing";
-            suggestedActions3.value = projectName + "-Pricing";
+            suggestedActions3.title = "Amenities";
+            suggestedActions3.value = projectName + "-Amenities";
             lstSuggestedActions.Add(suggestedActions3);
             return Json(lstSuggestedActions, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetProjectAmenitiesForChatBot(string projectName)
+        {
+            var amenities = booking.GetProjectAmenities(projectName);
+            //project.projectImageURL = @"/Content/Images/" + projectName + ".png";
+            return Json(amenities, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

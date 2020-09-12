@@ -61,20 +61,23 @@
 
     <div id="labels" class="row" style="display:none">
         <br />
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div style="background:linear-gradient(to bottom,ForestGreen, white)" class="seat"><label for="4C"> OPEN </label> </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
 
 
             @*<div style="background:linear-gradient(to bottom,#BD4F6C, white)" class="seat"><label for="4C"> SOLD </label> </div>*@
             <div style="background-color: #bd4f6c;background-image:linear-gradient(326deg, #bd4f6c 0%, #d7816a 74%);" class="seat"><label for="4C"> SOLD </label> </div>
         </div>
-        <div class="col-md-3">
-            <div style="background:linear-gradient(to bottom,#7AD7F0, white)" class="seat"><label for="4C"> MORTGAGE </label> </div>
+        <div class="col-md-2">
+            <div style="background: linear-gradient(to bottom,#7AD7F0, white); " class="seat"><label for="4C"> MORTGAGE </label> </div>
         </div>
-        <div class="col-md-3">
-            <div style="background:linear-gradient(to bottom,#FFD700, white)" class="seat"><label for="4C"> PROGRESS/HOLD </label> </div>
+        <div class="col-md-2">
+            <div style="background:linear-gradient(to bottom,#FFD700, white)" class="seat"><label for="4C"> PROGRESS</label> </div>
+        </div>
+        <div class="col-md-2">
+            <div style="background-color: blueviolet" class="seat"><label for="4C"> HOLD</label> </div>
         </div>
     </div>
 
@@ -149,8 +152,11 @@
                 if (row.BookingStatus == 'M') {
                     html = html + '<div style="background:linear-gradient(to bottom,#7AD7F0, white);"   class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }
-                if (row.BookingStatus == 'H' || row.BookingStatus =='P') {
+                if (row.BookingStatus =='P') {
                     html = html + '<div style="background:linear-gradient(to bottom,#FFD700, white);" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\''+')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                }
+                if (row.BookingStatus == 'H') {
+                    html = html + '<div style="background-color: blueviolet" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\'' + ')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 }
                 //html = html + '<div class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                 //if (index == 1) {

@@ -262,30 +262,38 @@
 </script>
 
 <style>
-    #Project option {
-        width: 250px
+    .select2 {
+        width: 100% !important;
     }
+    @@media(min-width:768px) {
+        /*#Project option {
+            width: 250px
+        }
 
-    #Year option {
-        width: 160px
+        #Year option {
+            width: 160px
+        }
+
+        #Month option {
+            width: 160px
+        }*/
     }
-
-    #Month option {
-        width: 160px
-    }
-
     @@media(max-width:768px) {
         #radiodiv {
             margin-right: 250px;
         }
 
+        /*#Project option {
+            width: auto
+        }
+
         #Year option {
-            width: 250px
+            width: auto
         }
 
         #Month option {
-            width: 250px
-        }
+            width: auto
+        }*/
     }
     k-i-file-excel {
         background-image: url('../../Content/Images/icons8-microsoft-excel-64.png');

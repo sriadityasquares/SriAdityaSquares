@@ -52,6 +52,9 @@ namespace DataLayer
         public virtual DbSet<tblCustomerVisitInfo> tblCustomerVisitInfoes { get; set; }
         public virtual DbSet<tblSiteVisitInfo> tblSiteVisitInfoes { get; set; }
         public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
+        public virtual DbSet<tblAmenity> tblAmenities { get; set; }
+        public virtual DbSet<tblBookingInformation_backup> tblBookingInformation_backup { get; set; }
+        public virtual DbSet<tblCustomerInfo_backup> tblCustomerInfo_backup { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {
@@ -349,6 +352,42 @@ namespace DataLayer
                 new ObjectParameter("Username", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetClientProjects_Result>("sp_GetClientProjects", usernameParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetCustomerFlats_Result> sp_GetCustomerFlats(string username)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("Username", username) :
+                new ObjectParameter("Username", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetCustomerFlats_Result>("sp_GetCustomerFlats", usernameParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetCustomerProjects_Result> sp_GetCustomerProjects(string username)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("Username", username) :
+                new ObjectParameter("Username", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetCustomerProjects_Result>("sp_GetCustomerProjects", usernameParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetCustomerTowers_Result> sp_GetCustomerTowers(string username)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("Username", username) :
+                new ObjectParameter("Username", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetCustomerTowers_Result>("sp_GetCustomerTowers", usernameParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetPaymentsDetails_Result> sp_GetPaymentsDetails(Nullable<int> paymentID)
+        {
+            var paymentIDParameter = paymentID.HasValue ?
+                new ObjectParameter("PaymentID", paymentID) :
+                new ObjectParameter("PaymentID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetPaymentsDetails_Result>("sp_GetPaymentsDetails", paymentIDParameter);
         }
     }
 }

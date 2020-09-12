@@ -1,10 +1,13 @@
 ﻿@model ModelLayer.Report
 @{
-    ViewBag.Title = "GraphicalPeriodWiseBookingReport";
+    ViewBag.Title = "Graphical Period Wise Booking";
+    ViewBag.GraphicalPeriodWiseBookingReport = "active";
+    ViewBag.GraphicalPeriodWiseBookingReport = "active";
+    ViewBag.Reports = "active";
 }
 
 <style>
-    
+
     #Year option {
         width: 160px
     }
@@ -18,7 +21,7 @@
             margin-right: 250px;
         }
     }
-    
+
 
     k-i-file-excel {
         background-image: url('../../Content/Images/icons8-microsoft-excel-64.png');
@@ -40,7 +43,7 @@
 
         </div>
         <div id="radiodiv" class="col-md-4 col-xs">
-            
+
             <div class="radios">
                 <div class="radio" style="margin-top:0px">
                     <input type="radio" id="radio1" value="1" name="radio" checked="checked">
@@ -59,12 +62,12 @@
                 </div>
 
                 @*<div class="radio">
-                    <input type="radio" id="radio3" value="3" name="radio">
-                    <label for="radio3">
-                        <div class="checker"></div>
-                        Day
-                    </label>
-                </div>*@
+                        <input type="radio" id="radio3" value="3" name="radio">
+                        <label for="radio3">
+                            <div class="checker"></div>
+                            Day
+                        </label>
+                    </div>*@
             </div>
         </div>
 
@@ -79,23 +82,27 @@
         <div class="col-md-2 col-xs">
             @Html.DropDownListFor(m => m.Month, ViewBag.MonthList as SelectList, new { multiple = "multiple", @class = "js-select2-multi" })
         </div>
-       
+
         <div class="col-md-2 col-xs">
             <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
         </div>
     </div>
     @*<div class="row">
-        <div class="col-md-12 col-xs">
-            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
-        </div>
-    </div>*@
+            <div class="col-md-12 col-xs">
+                <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
+            </div>
+        </div>*@
     <hr />
     <br />
-    <div class="demo-section k-content wide">
-        <div id="chart"></div>
-    </div>
-</div>
+    <button id="pdfButton" class='export-pdf k-button'>Save as PDF</button>
+    <div id="chart" style="background-size:cover;align-content:center;align-items:center"></div>
 
+</div>
+<style>
+    .select2 {
+        width: 100% !important;
+    }
+</style>
 <script>
     $(document).ready(function () {
 
@@ -108,7 +115,7 @@
     });
 
 
-
+    $("#pdfButton").hide();
     //$("#datepicker1").kendoDatePicker();
     //$("#datepicker2").kendoDatePicker();
     $("#Year").prop("disabled", false);
@@ -149,11 +156,11 @@
             year = $("#Year").val() == null ? '' : $("#Year").val();
         }
         if (option == 2) {
-            
+
             year = $("#Year").val();
             month = $("#Month").val() == null ? '' : $("#Month").val();
         }
-        
+
         $.ajax({
             type: "GET",
             url: '@Url.Action("GetGraphicalPeriodWiseBookingReport", "Report")',
@@ -161,17 +168,17 @@
             data: { option: option, projects: project , years: year.toString(), months: month.toString() },
             dataType: "json",
             success: function (result) {
-                
+                $("#pdfButton").show();
                 $(document).ready(createChart(result[0].xaxis, result[0].yaxis));
                 $(document).bind("kendo:skinChange", createChart);
-               
-
             },
 
             });
             });
 
-
+    $(".export-pdf").click(function () {
+        $("#chart").getKendoChart().saveAsPDF();
+    });
 
 
     function createChart(x, y) {
@@ -198,17 +205,33 @@
             peak = 200;
         }
         $("#chart").kendoChart({
+            pdf: {
+                fileName: "Period Wise booking Graph.pdf"
+            },
             title: {
                 text: project + reportType,
                 font: "bolder 16px Arial,Helvetica,sans-serif",
                 color: "black",
             },
             legend: {
-                visible: false
+                visible: true,
+                position: "bottom",
+                item: {
+                    visual: createLegendItem
+                }
             },
             seriesDefaults: {
                 type: "column",
-                stack: true
+                stack: true,
+                labels: {
+                    template: "#=stackValue#",
+                    visible: true,
+                    font: "bold 12px Arial,Helvetica,sans-serif",
+                    color: "black"
+                },
+                visual: function (e) {
+                    return createColumn(e.rect, e.options.color);
+                }
             },
             series: [{
                 name: reportType,
@@ -228,13 +251,117 @@
                 categories: b,
                 majorGridLines: {
                     visible: false
+                },
+                labels: {
+                    rotation: "auto"
+                }
+            },
+            pannable: {
+                lock: "y"
+            },
+            zoomable: {
+                mousewheel: {
+                    lock: "y"
+                },
+                selection: {
+                    lock: "y"
                 }
             },
             tooltip: {
                 visible: true,
-                template: "#= series.name #: #= value #"
+                template: "#= value #"
             }
         });
     }
-    
+    var drawing = kendo.drawing;
+    var geometry = kendo.geometry;
+    function createColumn(rect, color) {
+        var origin = rect.origin;
+        var center = rect.center();
+        var bottomRight = rect.bottomRight();
+        var radiusX = rect.width() / 2;
+        var radiusY = radiusX / 3;
+        var gradient = new drawing.LinearGradient({
+            stops: [{
+                offset: 0,
+                color: color
+            }, {
+                offset: 0.5,
+                color: color,
+                opacity: 0.9
+            }, {
+                offset: 0.5,
+                color: color,
+                opacity: 0.9
+            }, {
+                offset: 1,
+                color: color
+            }]
+        });
+
+        var path = new drawing.Path({
+            fill: gradient,
+            stroke: {
+                color: "none"
+            }
+        }).moveTo(origin.x, origin.y)
+            .lineTo(origin.x, bottomRight.y)
+            .arc(180, 0, radiusX, radiusY, true)
+            .lineTo(bottomRight.x, origin.y)
+            .arc(0, 180, radiusX, radiusY);
+
+        var topArcGeometry = new geometry.Arc([center.x, origin.y], {
+            startAngle: 0,
+            endAngle: 360,
+            radiusX: radiusX,
+            radiusY: radiusY
+        });
+
+        var topArc = new drawing.Arc(topArcGeometry, {
+            fill: {
+                color: color
+            },
+            stroke: {
+                color: "#ebebeb"
+            }
+        });
+        var group = new drawing.Group();
+        group.append(path, topArc);
+        return group;
+    }
+
+    function createLegendItem(e) {
+        var color = e.options.markers.background;
+        var labelColor = e.options.labels.color;
+        var rect = new geometry.Rect([0, 0], [120, 50]);
+        var layout = new drawing.Layout(rect, {
+            spacing: 5,
+            alignItems: "center"
+        });
+
+        var overlay = drawing.Path.fromRect(rect, {
+            fill: {
+                color: "#fff",
+                opacity: 0
+            },
+            stroke: {
+                color: "none"
+            },
+            cursor: "pointer"
+        });
+
+        var column = createColumn(new geometry.Rect([0, 0], [15, 10]), color);
+        var label = new drawing.Text(e.series.name, [0, 0], {
+            fill: {
+                color: labelColor
+            }
+        })
+
+        layout.append(column, label);
+        layout.reflow();
+
+        var group = new drawing.Group().append(layout, overlay);
+
+        return group;
+    }
 </script>

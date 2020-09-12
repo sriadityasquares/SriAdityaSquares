@@ -34,6 +34,8 @@ namespace DataLayer
         public string GHMCApprovalDocument { get; set; }
         public Nullable<bool> RERA_Approval { get; set; }
         public string RERAApprovalDocument { get; set; }
+        public string Description { get; set; }
+        public string LocationURL { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblTower> tblTowers { get; set; }

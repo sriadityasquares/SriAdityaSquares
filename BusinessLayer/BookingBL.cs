@@ -21,6 +21,11 @@ namespace BusinessLayer
         {
             return db.BindClientProjects(username);
         }
+
+        public List<Projects> BindCustomerProjects(string username)
+        {
+            return db.BindCustomerProjects(username);
+        }
         public List<Projects> BindProjectsBasedOnLocation(string locationName)
         {
             return db.BindProjectsBasedOnLocation(locationName);
@@ -38,7 +43,10 @@ namespace BusinessLayer
         {
             return db.BindTowers(projectID);
         }
-
+        public List<Towers> BindCustomerTowers(string username)
+        {
+            return db.BindCustomerTowers(username);
+        }
         public List<Flats> BindFlats(int towerID)
         {
             return db.BindFlats(towerID);
@@ -68,7 +76,10 @@ namespace BusinessLayer
             return db.BindFlatsExceptOpen(towerID);
         }
 
-
+        public List<Flats> BindCustomerFlats(string username)
+        {
+            return db.BindCustomerFlats(username);
+        }
 
         public List<AgentProjectLevel> BindProjectAgents(int projectID)
         {
@@ -152,7 +163,7 @@ namespace BusinessLayer
             return db.GetAgentGraphicalHierarchy(email);
         }
 
-            public List<GetAgentFlatWiseCommissionByLogin> BindFlatWiseAgentsCommissionByLogins(string email)
+        public List<GetAgentFlatWiseCommissionByLogin> BindFlatWiseAgentsCommissionByLogins(string email)
         {
             return db.BindFlatWiseAgentsCommissionByLogins(email);
         }
@@ -160,6 +171,11 @@ namespace BusinessLayer
         public BookingInformation GetBookingInformation(int FlatID)
         {
             return db.GetBookingInformation(FlatID);
+        }
+
+        public GetPaymentsDetails GetPaymentInformation(int paymentID)
+        {
+            return db.GetPaymentInformation(paymentID);
         }
 
         public List<AgentProjectLevel> BindAgentProjectLevels()
@@ -229,6 +245,11 @@ namespace BusinessLayer
         public List<GetBookingStatistics> BindBookingStatistics(int towerID)
         {
             return db.BindBookingStatistics(towerID);
+        }
+
+        public List<Amenity> GetProjectAmenities(string projectName)
+        {
+            return db.GetProjectAmenities(projectName);
         }
     }
 }

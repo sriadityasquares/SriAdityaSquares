@@ -51,6 +51,7 @@
     <Compile Include="AgentPaymentInformation.cs" />
     <Compile Include="AgentProjectLevel.cs" />
     <Compile Include="AgentTotalPayments.cs" />
+    <Compile Include="Amenity.cs" />
     <Compile Include="BookingInformation.cs" />
     <Compile Include="City.cs" />
     <Compile Include="Class1.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="GetGraphicalPeriodWiseBooking.cs" />
     <Compile Include="GetMySiteVisits.cs" />
     <Compile Include="GetPaymentInfoByDate.cs" />
+    <Compile Include="GetPaymentsDetails.cs" />
     <Compile Include="GetPercentages.cs" />
     <Compile Include="GetPeriodWiseBookingDetails.cs" />
     <Compile Include="GetTowerDetails.cs" />

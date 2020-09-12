@@ -17,6 +17,8 @@
 
 </div>
 <script>
+
+
     
 
     $(document).ready(function () {
@@ -88,17 +90,20 @@
 
         $("#grid").kendoGrid({
             dataSource: dataSource,
+            
             editable: "inline", // use inline mode so both dropdownlists are visible (required for cascading)
             pageable: {
                 alwaysVisible: true,
                 pageSizes: [5, 10, 20, 100]
             },
-
-            //serverFiltering: true,
+           
             height: 650,
             //navigation: true,
             pageable: true,
+            
+            filterable: true,
             toolbar: ["create"],
+            
             edit: function (e) {
                 if (!e.model.isNew()) {
                     $("#ProjectID").data("kendoDropDownList").readonly();
@@ -133,6 +138,11 @@
                     width: "200px",
                     field: "AgentID", // bound to the brandId field
                     
+                    //filterable: {
+                    //    multi: true,
+                    //    search: true
+                    //},
+                    filterable: { ui: agentFilterTemplate },
                     template: $("#template2").html(),
                     editor: function (container) { // use a dropdownlist as an editor
                         //create an input element with id and name set as the bound field (brandId)
@@ -142,6 +152,7 @@
 
                         // initialize a dropdownlist
                         input.kendoDropDownList({
+                            filter: "startswith",
                             dataTextField: "AgentName",
                             dataValueField: "AgentID",
                             dataSource: agents // bind it to the brands array
@@ -156,6 +167,7 @@
                     //template : "#if(ProjectID !=null){# #: DeviceLabel # #}",
                     //template: "#= brandName(ProjectID) #", // the template shows the name corresponding to the brandId field
                     //template: "#if(data.isNew()){# #: brandName(0) # #}else {# #: brandName(ProjectID) # #}#",
+                    filterable: { ui: projectFilterTemplate },
                     template: $("#template1").html(),
                     editor: function (container) { // use a dropdownlist as an editor
                         //create an input element with id and name set as the bound field (brandId)
@@ -165,6 +177,7 @@
 
                         // initialize a dropdownlist
                         input.kendoDropDownList({
+                            filter: "startswith",
                             dataTextField: "ProjectName",
                             dataValueField: "ProjectID",
                             dataSource: projects // bind it to the brands array
@@ -176,7 +189,7 @@
                     title: "Percentage",
                     width: "200px",
                     field: "LevelID", // bound to the brandId field
-                    
+                    filterable: { ui: percentageFilterTemplate },
                     template: $("#template3").html(),
                     editor: function (container) { // use a dropdownlist as an editor
                         //create an input element with id and name set as the bound field (brandId)
@@ -186,6 +199,7 @@
 
                         // initialize a dropdownlist
                         input.kendoDropDownList({
+                            filter: "startswith",
                             dataTextField: "percentage",
                             dataValueField: "LevelID",
                             dataSource: percentages // bind it to the brands array
@@ -193,7 +207,7 @@
                     }
                 },
                 {
-                    field: "Status", title: "Status", width: "130px", editor: statusDropDownEditor
+                    field: "Status", title: "Status", width: "130px", filterable: { ui: statusFilterTemplate },editor: statusDropDownEditor
                 },
                 {
                     command: [
@@ -230,6 +244,7 @@
             .appendTo(container)
             .kendoDropDownList({
                 autoBind: true,
+                filter: "startswith",
                 dataTextField: "BookingStatus",
                 dataValueField: "ID",
                 dataSource: {
@@ -272,6 +287,72 @@
             }
         }
     }
+
+    function agentFilterTemplate(input) {
+        input.kendoDropDownList({
+            dataSource: agents,
+            dataTextField: "AgentName",
+            dataValueField: "AgentID    ",
+            valuePrimitive: true,
+            optionLabel: "All"
+        });
+    }
+
+
+    function projectFilterTemplate(input) {
+        input.kendoDropDownList({
+            filter: "eq",
+            dataTextField: "ProjectName",
+            dataValueField: "ProjectID",
+            dataSource: projects,
+            optionLabel: "All"
+        });
+    }
+
+    function percentageFilterTemplate(input) {
+        input.kendoDropDownList({
+            filter: "eq",
+            dataTextField: "percentage",
+            dataValueField: "LevelID",
+            dataSource: percentages,
+            optionLabel: "All"
+        });
+    }
+
+
+    function statusFilterTemplate(input) {
+        input.kendoDropDownList({
+            filter: "eq",
+            dataTextField: "BookingStatus",
+            dataValueField: "ID",
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: "/Cascade/GetStatus2",
+
+                }
+            },
+            optionLabel: "All"
+        });
+    }
+    //function onFilter(e) {
+    //    if (e.field === "AgentID") {
+    //        var filter = e.filter;
+    //        if (filter && filter.filters && filter.filters.length > 0) {
+    //            var filters = filter.filters;
+    //            // convert the filter string value to a boolean one
+    //            filters[0].value = (filters[0].value === "true");
+    //        }
+    //    }
+    //}
+
+    //function onFilterMenuInit(e) {
+    //    if (e.field == "Discontinued") {
+    //        // replace default text in filter menu
+    //        e.container.find(".k-filter-help-text").text("Show items with value:");
+    //    }
+    //}
+      
 </script>
 @*<script type="text/x-kendo-template" id="template">
         #if(typeof ProjectID === 'undefined') {# #: brandName(0) # #} else {# #: brandName(ProjectID) # #}#

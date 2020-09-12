@@ -43,7 +43,7 @@ namespace LoginApp.Controllers
             foreach (var currentAgent in agents)
             {
                 //currentAgent.AgentMobileNo = 9505055755;
-                message = "Customer Name :" + customerEnquiry.CustomerName + Environment.NewLine + "Mobile no :" + customerEnquiry.Mobile + Environment.NewLine + "Location :" + customerLocation + Environment.NewLine + "Requirement :" + customerEnquiry.Enquiry;
+                message = "Hello, we got a new enquiry from the below Customer :\n  Customer Name :" + customerEnquiry.CustomerName + Environment.NewLine + "Mobile no :" + customerEnquiry.Mobile + Environment.NewLine + "Location :" + customerLocation + Environment.NewLine + "Requirement :" + customerEnquiry.Enquiry;
                 var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + currentAgent.AgentMobileNo + "&smsContentType=english");
                 var request = new RestRequest(Method.GET);
                 request.AddHeader("Cache-Control", "no-cache");

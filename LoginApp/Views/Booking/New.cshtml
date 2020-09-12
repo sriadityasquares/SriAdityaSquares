@@ -261,7 +261,7 @@
                 ClearTextFiels();
                 $.each(data, function (index, row) {
                     if (index == 0) {
-                        if (bookStatus == 'H') {
+                        if (bookStatus == 'P') {
                             $("#FlatID").append("<option selected='selected' value='" + flatID + "'>" + flatName + "</option>")
                             document.getElementById('PaymentModeID').value = payMode;
                             $("#BookingID").val(bookingID);
@@ -617,10 +617,12 @@
             //if ($("#Pincode").val() == '') {
             //    toastr.error("Pincode is Required"); return;
             //}
-            //if ($("#Mobile").val() == '') {
-            //    toastr.error("Mobile is Required"); return;
-            //}
-
+            if ($("#Mobile").val() == '') {
+                toastr.error("Mobile is Required"); return;
+            }
+            if ($("#Email").val() == '') {
+                toastr.error("Mobile is Required"); return;
+            }
             if ($("#ProjectID").val() == '0') {
                 toastr.error("Project is Required"); return;
             }

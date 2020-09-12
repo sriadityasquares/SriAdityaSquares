@@ -153,7 +153,12 @@ namespace LoginApp.Controllers
                     if (result.Succeeded)
                     {
                         var roleadd = await UserManager.AddToRoleAsync(user.Id, model.Role);
-
+                        var message = "Welcome to Sri Aditya Squares" + Environment.NewLine + "Below are your login credetials:" + Environment.NewLine + "Username :" + model.Email + Environment.NewLine + "Password :" + model.Password + Environment.NewLine + "Please use the link to login to the application :" + "https://sasinfra.in";
+                        //var message = "Hi";
+                        var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + model.PhoneNumber + "&smsContentType=english");
+                        var request = new RestRequest(Method.GET);
+                        request.AddHeader("Cache-Control", "no-cache");
+                        IRestResponse response = client.Execute(request);
                         // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                         // Send an email with this link
                         // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -217,7 +222,7 @@ namespace LoginApp.Controllers
     new UserManager<IdentityUser>(new UserStore<IdentityUser>());
                     userManager.RemovePassword(user.Id);
                     userManager.AddPassword(user.Id, password);
-                    var message = "Hello User. Here is you new password :" + password + "\n Please Reset once logged in. :)";
+                    var message = "Welcome to Sri Aditya Squares \n Here is you new password :" + password + "\n Please Reset once logged in. :)";
                     var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + user.PhoneNumber + "&smsContentType=english");
                     var request = new RestRequest(Method.GET);
                     request.AddHeader("Cache-Control", "no-cache");
@@ -421,7 +426,7 @@ namespace LoginApp.Controllers
             else if (UserManager.IsInRole(UserID, "Agent"))
                 return RedirectToAction("Index", "Dashboard");
             else if (UserManager.IsInRole(UserID, "Customer"))
-                return RedirectToAction("Index", "Dashboard");
+                return RedirectToAction("FlatLifeCycle", "Dashboard");
             else if (UserManager.IsInRole(UserID, "Client"))
                 return RedirectToAction("Index", "Dashboard");
             return null;
