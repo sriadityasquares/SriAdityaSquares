@@ -1150,6 +1150,7 @@
     <Content Include="Content\Potfolio\magnific-popup.css" />
     <Content Include="Content\Potfolio\slick-theme.css" />
     <Content Include="Content\Potfolio\slick.css" />
+    <Content Include="Content\Potfolio\kchat.js" />
     <Content Include="Content\Potfolio\slick.min.js" />
     <Content Include="Content\Potfolio\templatemo-style.css" />
     <Content Include="Content\Select2OverWrite.css" />

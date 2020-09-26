@@ -1086,3 +1086,342 @@ input[type=submit] {
         margin-left: 0;
     }
 }
+
+/*Home page extra css*/
+h1 {
+    font-size: 40px;
+    line-height: 0.8em;
+    color: rgba(255,255,255,0.2);
+}
+
+
+
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+}
+
+.tabs {
+    display: block;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0;
+    overflow: hidden;
+}
+
+    .tabs [class^="tab"] label,
+    .tabs [class*=" tab"] label {
+        color: #fd264f;
+        cursor: pointer;
+        display: block;
+        font-size: 1.2em;
+        font-weight: 400;
+        line-height: 1em;
+        padding: 2rem 0;
+        text-align: center;
+    }
+
+    .tabs [class^="tab"] [type="radio"],
+    .tabs [class*=" tab"] [type="radio"] {
+        border-bottom: 1px solid rgba(239, 237, 239, 0.5);
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        display: block;
+        width: 100%;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .tabs [class^="tab"] [type="radio"]:hover, .tabs [class^="tab"] [type="radio"]:focus,
+        .tabs [class*=" tab"] [type="radio"]:hover,
+        .tabs [class*=" tab"] [type="radio"]:focus {
+            border-bottom: 1px solid #fd264f;
+        }
+
+        .tabs [class^="tab"] [type="radio"]:checked,
+        .tabs [class*=" tab"] [type="radio"]:checked {
+            border-bottom: 2px solid #fd264f;
+        }
+
+            .tabs [class^="tab"] [type="radio"]:checked + div,
+            .tabs [class*=" tab"] [type="radio"]:checked + div {
+                opacity: 1;
+            }
+
+        .tabs [class^="tab"] [type="radio"] + div,
+        .tabs [class*=" tab"] [type="radio"] + div {
+            display: block;
+            opacity: 0;
+            padding: 2rem 0;
+            width: 90%;
+            -webkit-transition: all 0.3s ease-in-out;
+            -moz-transition: all 0.3s ease-in-out;
+            -o-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+        }
+
+    .tabs .tab-2 {
+        width: 50%;
+    }
+
+        .tabs .tab-2 [type="radio"] + div {
+            width: 200%;
+            margin-left: 200%;
+        }
+
+        .tabs .tab-2 [type="radio"]:checked + div {
+            margin-left: 0;
+        }
+
+        .tabs .tab-2:last-child [type="radio"] + div {
+            margin-left: 100%;
+        }
+
+        .tabs .tab-2:last-child [type="radio"]:checked + div {
+            margin-left: -100%;
+        }
+
+.main .container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.main .card {
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.24);
+    color: #333333;
+    border-radius: 2px;
+}
+
+.main .card-image {
+    background: #ffffff;
+    display: block;
+    padding-top: 70%;
+    position: relative;
+    width: 100%;
+}
+
+    .main .card-image img {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+@media only screen and (max-width: 600px) {
+    .main .container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 1rem;
+    }
+}
+
+
+@media(max-width:768px) {
+    #chat {
+        height: 500px;
+    }
+
+    #logoImagediv {
+        height: 50px;
+    }
+
+    .tm-nav-link {
+        padding: 0px;
+        margin: 0px;
+        /* right: 2px;*/
+        margin-left: 180px;
+    }
+
+    .tm-navbar {
+        padding-bottom: 0px;
+        padding-top: 0px;
+    }
+
+    .navbar-nav {
+        max-width: 1000px;
+        text-align: right;
+    }
+}
+
+@media(min-width:768px) {
+    #chat {
+        height: 500px;
+    }
+
+    #logoImagediv {
+        height: 70px;
+    }
+
+    #loginPosition {
+        right: 3px;
+        position: fixed;
+    }
+}
+
+.message-icon {
+    width: 40px;
+    height: 60px;
+    background-color: none;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 60px;
+    right: 50px;
+    cursor: pointer;
+}
+
+.k-quick-replies1 {
+    display: block;
+    max-width: 100%;
+}
+
+.k-chat .k-quick-reply1 {
+    border-color: #f35800;
+    color: #f35800;
+    background-color: transparent;
+}
+
+.k-quick-reply1 {
+    border-radius: 100px;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    padding: 8px 12px;
+    border-width: 1px;
+    border-style: solid;
+    line-height: 18px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: inline-block;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    transition-property: color,background-color,border-color;
+    transition-duration: .2s;
+    transition-timing-function: ease-in-out;
+}
+
+#body1 {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+}
+
+
+#example {
+    display: flex;
+    justify-content: center;
+}
+
+/*.k-card-deck-scrollwrap {
+            max-width: 728px;
+        }*/
+
+.k-card-deck {
+    box-sizing: border-box;
+    margin-left: -16px;
+    margin-right: -16px;
+    padding: 16px 16px 16px;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.overlay1 {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.overlay1:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup {
+    margin: 80px auto;
+    padding: 20px;
+    background: #fff;
+    margin-top: 100px;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 5s ease-in-out;
+}
+
+    .popup h2 {
+        margin-top: 0;
+        color: #333;
+        font-family: Tahoma, Arial, sans-serif;
+    }
+
+    .popup .close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        transition: all 200ms;
+        font-size: 30px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+    }
+
+        .popup .close:hover {
+            color: #06D85F;
+        }
+
+    .popup .content {
+        max-height: 30%;
+        overflow: auto;
+    }
+
+@media screen and (max-width: 700px) {
+
+    .popup {
+        width: 70%;
+    }
+}
+
+@font-face {
+    font-family: 'kilsonburg';
+    src: url('../../Content/kilsonburg.ttf') format('truetype');
+}
+
+.classname {
+    font-family: 'kilsonburg';
+}
+
