@@ -1,0 +1,158 @@
+﻿@model ModelLayer.BookingInformation
+@{
+    ViewBag.Title = "Cancel Booking";
+    ViewBag.CancelBooking = "active";
+    ViewBag.Booking = "active";
+}
+
+
+
+
+<div class="jumbotron" style="padding-bottom:0px;margin-bottom:0px;height:880px">
+    @*<div class="row">
+            <div class="col-md-1 col-xs">
+                <h3 align="center" style="margin-bottom:2px">FLAT LIFECYCLE</h3>
+                <div class="specialLine"></div>
+            </div>
+
+        </div>*@
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">CANCEL BOOKING</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+    <div class="row" style="padding-top:5px;">
+        <div class="col-md-12 col-xs">
+            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Cancel</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">CANCELLATIONS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+    </div>
+    <script>
+    $("#ProjectID").change(function () {
+        $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+            //HideDiv();
+            $("#TowerID").empty();
+            $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+            });
+        });
+    });
+
+    $("#TowerID").change(function () {
+
+        $.get("/Booking/GetFlatsExceptOpen", { TowerID: $("#TowerID").val() }, function (data) {
+            //$("#TowerID").empty();
+            //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            //HideDiv();
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
+            });
+        });
+    });
+    $("#submitbtn").click(function () {
+
+
+        if ($("#ProjectID").val() == '') {
+            toastr.error("Project is Required"); return;
+        }
+        if ($("#TowerID").val() == '' || $("#TowerID").val() == '0') {
+            toastr.error("Tower is Required"); return;
+        }
+        if ($("#FlatID").val() == '' || $("#FlatID").val() == '0') {
+            toastr.error("Flat is Required"); return;
+        }
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("BookingCancellation", "Booking")',
+                contentType: "application/json; charset=utf-8",
+            data: { flatID: $("#FlatID").val().toString() },
+            dataType: "json",
+            success: function (result) {
+
+                if (result) {
+                    toastr.success("Booking cancellation success");
+                }
+                else {
+                    toastr.success("Booking cancellation failed");
+                }
+                location.href = location.href;
+            },
+
+            });
+    });
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Booking/GetCancellations",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 5,
+
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 600,
+            toolbar: ["search", "excel"],
+            excel: {
+                fileName: "ClientPayments.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
+            columns: [
+                { field: "Project", title: "Project", width: "100px" },
+                { field: "Tower", title: "Tower", width: "80px" },
+                { field: "Flat", title: "Flat", width: "80px" },
+                { field: "CustomerName", title: "Customer", width: "150px" },
+                { field: "AgentName", title: "Agent", width: "150px" },
+                { field: "BookingAmount", title: "Booking Amount", width: "100px" },
+                { field: "BookingDate", title: "Booking Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(BookingDate), "MM/dd/yyyy")#' },
+                { field: "CancelDate", title: "Cancel Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(CancelDate), "MM/dd/yyyy")#' },
+            ],
+        });
+
+
+    });
+
+
+    </script>

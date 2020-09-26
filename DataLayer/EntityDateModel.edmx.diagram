@@ -29,7 +29,6 @@
         <AssociationConnector Association="salesDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="salesDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="salesDBModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="salesDBModel.tblCustomerInfo" Width="1.5" PointX="7.375" PointY="8.75" />
         <EntityTypeShape EntityType="salesDBModel.tblBookingInformation" Width="1.5" PointX="14.375" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblAgentTotalPayment" Width="1.5" PointX="16.375" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblFlatWiseAgentCommission" Width="1.5" PointX="16.375" PointY="3.75" />
@@ -37,8 +36,11 @@
         <EntityTypeShape EntityType="salesDBModel.tblSiteVisitInfo" Width="1.5" PointX="13.375" PointY="16.75" />
         <EntityTypeShape EntityType="salesDBModel.tblAgentMaster" Width="1.5" PointX="9.375" PointY="13.75" />
         <EntityTypeShape EntityType="salesDBModel.tblAmenity" Width="1.5" PointX="11.375" PointY="13.75" />
-        <EntityTypeShape EntityType="salesDBModel.tblBookingInformation_backup" Width="1.5" PointX="0.75" PointY="17.75" />
-        <EntityTypeShape EntityType="salesDBModel.tblCustomerInfo_backup" Width="1.5" PointX="15.375" PointY="17.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblClientPayment" Width="1.5" PointX="16.375" PointY="7.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblCustomerInfo" Width="1.5" PointX="15.375" PointY="17.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblCustomerInfo_backup" Width="1.5" PointX="17.375" PointY="17.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblDailyExpens" Width="1.5" PointX="7.375" PointY="8.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblCancellation" Width="1.5" PointX="18.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

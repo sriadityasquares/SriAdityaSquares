@@ -106,6 +106,17 @@ namespace BusinessLayer
             return db.UpdateBooking(b);
         }
 
+
+        public bool CancelBooking(int flatId)
+        {
+            return db.CancelBooking(flatId);
+        }
+
+        public List<Cancellation> GetCancellations()
+        {
+            return db.GetCancellations();
+        }
+
         public List<PaymentInformation> BindPaymentDetails(int FlatId)
         {
             return db.BindPaymentDetails(FlatId);
@@ -227,9 +238,30 @@ namespace BusinessLayer
             return db.AddSiteVisit(svi);
         }
 
+        public bool AddClientPayments(ClientPayments cp)
+        {
+            return db.AddClientPayments(cp);
+        }
+
+        public bool AddDailyExpense(DailyExpense de)
+        {
+            return db.AddDailyExpense(de);
+        }
+
         public List<GetMySiteVisits> GetMySiteVisits(string username)
         {
             return db.GetMySiteVisits(username);
+        }
+
+
+        public List<ClientPayments> GetClientPayments()
+        {
+            return db.GetClientPayments();
+        }
+
+        public List<DailyExpense> GetDailyExpenses()
+        {
+            return db.GetDailyExpenses();
         }
 
         public List<SiteVisitInfo> GetSiteVisitsForApproval()
@@ -250,6 +282,11 @@ namespace BusinessLayer
         public List<Amenity> GetProjectAmenities(string projectName)
         {
             return db.GetProjectAmenities(projectName);
+        }
+
+        public List<GetGraphicalPeriodWiseBooking> GetAgentBookingGraph(string username,string projectID, string fromDate, string toDate)
+        {
+            return db.GetAgentBookingGraph(username, projectID,fromDate, toDate);
         }
     }
 }

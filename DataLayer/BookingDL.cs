@@ -620,14 +620,14 @@ namespace DataLayer
                 //Update Booking Info
                 if (bookingOld != null)
                 {
-                    tblBookingInformation_backup bookingBackup = new tblBookingInformation_backup();
-                    var config99 = new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<tblBookingInformation, tblBookingInformation_backup>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-                    });
-                    IMapper mapper99 = config99.CreateMapper();
-                    mapper99.Map<tblBookingInformation, tblBookingInformation_backup>(bookingOld, bookingBackup);
-                    dbEntity.tblBookingInformation_backup.Add(bookingBackup);
+                    //tblBookingInformation_backup bookingBackup = new tblBookingInformation_backup();
+                    //var config99 = new MapperConfiguration(cfg =>
+                    //{
+                    //    cfg.CreateMap<tblBookingInformation, tblBookingInformation_backup>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                    //});
+                    //IMapper mapper99 = config99.CreateMapper();
+                    //mapper99.Map<tblBookingInformation, tblBookingInformation_backup>(bookingOld, bookingBackup);
+                    //dbEntity.tblBookingInformation_backup.Add(bookingBackup);
                     var config = new MapperConfiguration(cfg =>
                     {
                         cfg.CreateMap<BookingInformation, tblBookingInformation>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
@@ -642,14 +642,14 @@ namespace DataLayer
                 //Update Customer Info
                 if (customerOld != null)
                 {
-                    tblCustomerInfo_backup customerBackup = new tblCustomerInfo_backup();
-                    var config33 = new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<tblCustomerInfo, tblCustomerInfo_backup>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-                    });
-                    IMapper mapper33 = config33.CreateMapper();
-                    mapper33.Map<tblCustomerInfo, tblCustomerInfo_backup>(customerOld, customerBackup);
-                    dbEntity.tblCustomerInfo_backup.Add(customerBackup);
+                    //tblCustomerInfo_backup customerBackup = new tblCustomerInfo_backup();
+                    //var config33 = new MapperConfiguration(cfg =>
+                    //{
+                    //    cfg.CreateMap<tblCustomerInfo, tblCustomerInfo_backup>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                    //});
+                    //IMapper mapper33 = config33.CreateMapper();
+                    //mapper33.Map<tblCustomerInfo, tblCustomerInfo_backup>(customerOld, customerBackup);
+                    //dbEntity.tblCustomerInfo_backup.Add(customerBackup);
 
                     var config1 = new MapperConfiguration(cfg =>
                     {
@@ -801,6 +801,43 @@ namespace DataLayer
             }
         }
 
+        public bool CancelBooking(int flatID)
+        {
+            try
+            {
+                dbEntity.sp_Cancel_FlatBooking(flatID);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+        public List<Cancellation> GetCancellations()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<Cancellation> lstCancel = new List<Cancellation>();
+            try
+            {
+
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblCancellation, Cancellation>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstCancel = mapper.Map<List<tblCancellation>, List<Cancellation>>(dbEntity.tblCancellations.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstCancel;
+        }
         public List<PaymentInformation> BindPaymentDetails(int FlatId)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -1057,20 +1094,7 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstAgents = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<FlatWiseAgentCommission>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).ToList()).ToList();
-                //var lst = lstAgents.Take(50);
-                //List<TreeObject> lstTreeObject = new List<TreeObject>();
-                //foreach (var agent in lst)
-                //{
-                //    TreeObject TreeObject = new TreeObject();
-                //    TreeObject.AgentCode = agent.AgentCode;
-                //    TreeObject.AgentName = agent.AgentName;
-                //    TreeObject.AgentSponserCode = agent.AgentSponserCode;
-                //    TreeObject.colorScheme = "#1696d3";
-                //    lstTreeObject.Add(TreeObject);
-                //}
-                ////var x  = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<TreeObject>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).ToList()).ToList();
-                //var result = TreeObject.FlatToHierarchy(lstTreeObject);
-                //var json = JsonConvert.SerializeObject(result);
+                
             }
             catch (Exception ex)
             {
@@ -1387,6 +1411,88 @@ namespace DataLayer
         }
 
 
+        public bool AddClientPayments(ClientPayments cp)
+        {
+            try
+            {
+                tblClientPayment cpInfo = new tblClientPayment();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<ClientPayments, tblClientPayment>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<ClientPayments, tblClientPayment>(cp, cpInfo);
+                dbEntity.tblClientPayments.Add(cpInfo);
+                dbEntity.SaveChanges();
+                
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+        public bool AddDailyExpense(DailyExpense de)
+        {
+            try
+            {
+                tblDailyExpens deInfo = new tblDailyExpens();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<DailyExpense, tblDailyExpens>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<DailyExpense, tblDailyExpens>(de, deInfo);
+                dbEntity.tblDailyExpenses.Add(deInfo);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+        public List<ClientPayments> GetClientPayments()
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblClientPayment, ClientPayments>();
+                });
+                IMapper mapper = config.CreateMapper();
+                return mapper.Map<List<tblClientPayment>, List<ClientPayments>>(dbEntity.tblClientPayments.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<ClientPayments>();
+            }
+        }
+
+        public List<DailyExpense> GetDailyExpenses()
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblDailyExpens, DailyExpense>();
+                });
+                IMapper mapper = config.CreateMapper();
+                return mapper.Map<List<tblDailyExpens>, List<DailyExpense>>(dbEntity.tblDailyExpenses.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<DailyExpense>();
+            }
+        }
 
         public List<GetMySiteVisits> GetMySiteVisits(string username)
         {
@@ -1406,6 +1512,8 @@ namespace DataLayer
                 return new List<GetMySiteVisits>();
             }
         }
+
+
 
         public List<SiteVisitInfo> GetSiteVisitsForApproval()
         {
@@ -1512,6 +1620,25 @@ namespace DataLayer
                 log.Error("Error :" + ex);
             }
             return lstAmenities;
+        }
+
+        public List<GetGraphicalPeriodWiseBooking> GetAgentBookingGraph(string username,string projectid,string fromDate,string toDate)
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetAgentBookingGraphByAgentLogins_Result, GetGraphicalPeriodWiseBooking>();
+                });
+                IMapper mapper = config.CreateMapper();
+                return mapper.Map<List<sp_GetAgentBookingGraphByAgentLogins_Result>, List<GetGraphicalPeriodWiseBooking>>(dbEntity.sp_GetAgentBookingGraphByAgentLogins(username, projectid,fromDate, toDate).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<GetGraphicalPeriodWiseBooking>();
+            }
         }
     }
 }

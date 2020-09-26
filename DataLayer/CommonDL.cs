@@ -94,6 +94,24 @@ namespace DataLayer
             return lstAgent;
         }
 
+        public List<Agent> BindAgentsExceptSAS()
+        {
+            List<Agent> lstAgent = new List<Agent>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentMaster, Agent>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<Agent>>(dbEntity.tblAgentMasters.Where(x => x.AgentStatus == "A" && x.AgentID !=1).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstAgent;
+        }
         public List<AgentDropdown> BindAgents2()
         {
             List<AgentDropdown> lstAgent = new List<AgentDropdown>();

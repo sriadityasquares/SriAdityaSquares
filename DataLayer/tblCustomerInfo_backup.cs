@@ -24,7 +24,7 @@ namespace DataLayer
         public string Dob { get; set; }
         public string Address { get; set; }
         public Nullable<int> Pincode { get; set; }
-        public Nullable<int> Mobile { get; set; }
+        public string Mobile { get; set; }
         public string Email { get; set; }
         public Nullable<int> Country { get; set; }
         public Nullable<int> State { get; set; }

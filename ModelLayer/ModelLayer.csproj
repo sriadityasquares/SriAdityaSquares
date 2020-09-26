@@ -53,12 +53,15 @@
     <Compile Include="AgentTotalPayments.cs" />
     <Compile Include="Amenity.cs" />
     <Compile Include="BookingInformation.cs" />
+    <Compile Include="Cancellation.cs" />
     <Compile Include="City.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="ClientPayments.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="CreateFlat.cs" />
     <Compile Include="CustomerEnquiry.cs" />
     <Compile Include="CustomerVisitInfo.cs" />
+    <Compile Include="DailyExpense.cs" />
     <Compile Include="Dashboard.cs" />
     <Compile Include="FlatDetails.cs" />
     <Compile Include="Flats.cs" />

@@ -70,7 +70,7 @@ namespace DataLayer
         public string Relationship { get; set; }
         public string Dob { get; set; }
         public string Pan { get; set; }
-        public Nullable<int> Mobile { get; set; }
+        public string Mobile { get; set; }
         public string Email { get; set; }
     }
 }

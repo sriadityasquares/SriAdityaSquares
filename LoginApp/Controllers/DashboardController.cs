@@ -197,5 +197,35 @@ namespace LoginApp.Controllers
             var list = booking.BindBookingStatistics(TowerId);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
+        [Authorize(Roles = "Admin,Agent")]
+        public ActionResult AgentBookingStats()
+        {
+            List<Projects> projectList = new List<Projects>();
+            if (User.IsInRole("Client"))
+            {
+                projectList = booking.BindClientProjects(User.Identity.Name);
+            }
+            else
+                projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            return View();
+        }
+
+        public JsonResult GetAgentBookingStats(string projectID,string fromDate,string toDate)
+        {
+            var email = "";
+            var _user = UserManager.FindByEmail(User.Identity.Name);
+            if (UserManager.IsInRole(_user.Id, "Admin"))
+            {
+                email = "nsrinivas78@gmail.com";
+            }
+            else
+            {
+                email = User.Identity.Name;
+            }
+            var list = booking.GetAgentBookingGraph(email, projectID, fromDate, toDate);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
     }
 }

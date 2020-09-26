@@ -74,4 +74,22 @@
     function currency(data) {
         return '<b style="font-size:15px">&#8377;</b>'+'.' + data;
     }
+
+
+    window.onload = function () {
+        getLocation();
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        $.get("/Cascade/UpdateAgentLocation", { latitude: position.coords.latitude, longitude: position.coords.longitude }, function (data) {
+        });
+    }
 </script>

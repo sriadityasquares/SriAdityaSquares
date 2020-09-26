@@ -188,58 +188,22 @@
           <Property Name="TotalComm" Type="float" />
           <Property Name="PaymentModeID" Type="int" />
         </EntityType>
-        <EntityType Name="tblBookingInformation_backup">
+        <EntityType Name="tblCancellations">
           <Key>
-            <PropertyRef Name="Backupno" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Backupno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BookingID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProjectID" Type="int" />
+          <Property Name="Project" Type="varchar(max)" />
           <Property Name="TowerID" Type="int" />
+          <Property Name="Tower" Type="varchar(max)" />
           <Property Name="FlatID" Type="int" />
-          <Property Name="Floor" Type="int" />
-          <Property Name="Bhk" Type="int" />
-          <Property Name="Area" Type="int" />
-          <Property Name="Facing" Type="varchar" MaxLength="100" />
-          <Property Name="SftRate" Type="int" />
-          <Property Name="HighRiseCharges" Type="int" />
-          <Property Name="Discount" Type="int" />
-          <Property Name="TotalRate" Type="int" />
-          <Property Name="FinalRate" Type="int" />
-          <Property Name="ClubHouseCharges" Type="int" />
-          <Property Name="GrandRate" Type="int" />
-          <Property Name="PaymentMode" Type="varchar" MaxLength="50" />
-          <Property Name="ReferenceNo" Type="varchar" MaxLength="50" />
+          <Property Name="Flat" Type="nchar" MaxLength="10" />
+          <Property Name="CustomerName" Type="varchar(max)" />
+          <Property Name="AgentName" Type="nvarchar(max)" />
           <Property Name="BookingAmount" Type="int" />
-          <Property Name="BalanceAmount" Type="int" />
-          <Property Name="AgentID" Type="int" />
-          <Property Name="AgentComm" Type="float" />
-          <Property Name="SASComm" Type="float" />
-          <Property Name="SASTDS" Type="float" />
-          <Property Name="SASNet" Type="float" />
-          <Property Name="Aadhar" Type="int" />
-          <Property Name="Name" Type="varchar" MaxLength="250" />
-          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
-          <Property Name="CreatedDate" Type="datetime" />
-          <Property Name="ProjectName" Type="varchar" MaxLength="250" />
-          <Property Name="TowerName" Type="varchar" MaxLength="250" />
-          <Property Name="FlatName" Type="varchar" MaxLength="250" />
-          <Property Name="AgentName" Type="varchar" MaxLength="250" />
-          <Property Name="CountryName" Type="varchar" MaxLength="250" />
-          <Property Name="StateName" Type="varchar" MaxLength="250" />
-          <Property Name="CityName" Type="varchar" MaxLength="250" />
-          <Property Name="Year" Type="int" />
-          <Property Name="Month" Type="int" />
-          <Property Name="Day" Type="int" />
-          <Property Name="PaymentTimePeriod" Type="int" />
-          <Property Name="DownPaymentTimePeriod" Type="int" />
-          <Property Name="SchemeID" Type="int" />
-          <Property Name="SchemeName" Type="nvarchar" MaxLength="250" />
-          <Property Name="DueDate" Type="datetime" />
-          <Property Name="AgentTDS" Type="float" />
-          <Property Name="AgentNet" Type="float" />
-          <Property Name="TotalComm" Type="float" />
-          <Property Name="PaymentModeID" Type="int" />
+          <Property Name="BookingDate" Type="datetime" />
+          <Property Name="CancelDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tblCity">
           <Key>
@@ -253,6 +217,24 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblClientPayments">
+          <Key>
+            <PropertyRef Name="ClientPayID" />
+          </Key>
+          <Property Name="ClientPayID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientName" Type="nvarchar(max)" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="ProjectName" Type="nvarchar(max)" />
+          <Property Name="TowerID" Type="int" />
+          <Property Name="TowerName" Type="nvarchar(max)" />
+          <Property Name="FlatID" Type="int" />
+          <Property Name="FlatName" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="PaymentMode" Type="nvarchar(max)" />
+          <Property Name="PaymentDate" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="tblCountries">
           <Key>
@@ -280,7 +262,7 @@
           <Property Name="Dob" Type="varchar" MaxLength="50" />
           <Property Name="Address" Type="varchar" MaxLength="250" />
           <Property Name="Pincode" Type="int" />
-          <Property Name="Mobile" Type="int" />
+          <Property Name="Mobile" Type="varchar" MaxLength="50" />
           <Property Name="Email" Type="varchar" MaxLength="250" />
           <Property Name="Country" Type="int" />
           <Property Name="State" Type="int" />
@@ -289,11 +271,14 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="BookingID" Type="uniqueidentifier" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblCustomerInfo_backup">
           <Key>
             <PropertyRef Name="ID" />
+            
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Aadhar" Type="int" Nullable="false" />
           <Property Name="Pan" Type="varchar" MaxLength="150" />
           <Property Name="Name" Type="varchar" MaxLength="150" />
@@ -303,7 +288,7 @@
           <Property Name="Dob" Type="varchar" MaxLength="50" />
           <Property Name="Address" Type="varchar" MaxLength="250" />
           <Property Name="Pincode" Type="int" />
-          <Property Name="Mobile" Type="int" />
+          <Property Name="Mobile" Type="varchar" MaxLength="50" />
           <Property Name="Email" Type="varchar" MaxLength="250" />
           <Property Name="Country" Type="int" />
           <Property Name="State" Type="int" />
@@ -326,6 +311,21 @@
           <Property Name="ProjectName" Type="nvarchar(max)" />
           <Property Name="DateAdded" Type="datetime" />
           <Property Name="AddedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tblDailyExpenses">
+          <Key>
+            <PropertyRef Name="ExpenseID" />
+          </Key>
+          <Property Name="ExpenseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExpenseDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="Particulars" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="PaidTo" Type="nvarchar(max)" />
+          <Property Name="PaymentMode" Type="nvarchar(max)" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="TransactionType" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="tblFlats">
           <Key>
@@ -576,7 +576,55 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Flats1_bkp">
+          <End Role="tblProjects" Type="Self.tblProjects" Multiplicity="0..1" />
+          <End Role="tblFlats" Type="Self.tblFlats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProjects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="tblFlats">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Flats11_bkp">
+          <End Role="tblProjects" Type="Self.tblProjects" Multiplicity="0..1" />
+          <End Role="tblFlats" Type="Self.tblFlats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblProjects">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="tblFlats">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Flats2">
+          <End Role="tblTowers" Type="Self.tblTowers" Multiplicity="0..1" />
+          <End Role="tblFlats" Type="Self.tblFlats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTowers">
+              <PropertyRef Name="TowerID" />
+            </Principal>
+            <Dependent Role="tblFlats">
+              <PropertyRef Name="TowerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Flats2_bkp">
+          <End Role="tblTowers" Type="Self.tblTowers" Multiplicity="0..1" />
+          <End Role="tblFlats" Type="Self.tblFlats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblTowers">
+              <PropertyRef Name="TowerID" />
+            </Principal>
+            <Dependent Role="tblFlats">
+              <PropertyRef Name="TowerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Flats22_bkp">
           <End Role="tblTowers" Type="Self.tblTowers" Multiplicity="0..1" />
           <End Role="tblFlats" Type="Self.tblFlats" Multiplicity="*" />
           <ReferentialConstraint>
@@ -600,6 +648,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_Cancel_FlatBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FlatID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetAgentBookingGraphByAgentLogins" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AgentEmail" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="ProjectID" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="fromDate" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="toDate" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="sp_GetAgentCommissionByAgentLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AgentEmail" Type="nvarchar(max)" Mode="In" />
         </Function>
@@ -714,12 +771,13 @@
           <EntitySet Name="tblAgentTotalPayments" EntityType="Self.tblAgentTotalPayments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAmenities" EntityType="Self.tblAmenities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBookingInformation" EntityType="Self.tblBookingInformation" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblBookingInformation_backup" EntityType="Self.tblBookingInformation_backup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCancellations" EntityType="Self.tblCancellations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCity" EntityType="Self.tblCity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblClientPayments" EntityType="Self.tblClientPayments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCountries" EntityType="Self.tblCountries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCustomerInfo" EntityType="Self.tblCustomerInfo" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblCustomerInfo_backup" EntityType="Self.tblCustomerInfo_backup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCustomerVisitInfo" EntityType="Self.tblCustomerVisitInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDailyExpenses" EntityType="Self.tblDailyExpenses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlats" EntityType="Self.tblFlats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlatWiseAgentCommissions" EntityType="Self.tblFlatWiseAgentCommissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLevelsMaster" EntityType="Self.tblLevelsMaster" Schema="dbo" store:Type="Tables" />
@@ -732,6 +790,28 @@
           <EntitySet Name="tblStatus" EntityType="Self.tblStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTowers" EntityType="Self.tblTowers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblYear" EntityType="Self.tblYear" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCustomerInfo_backup" EntityType="Self.tblCustomerInfo_backup" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tblCustomerInfo_backup].[ID] AS [ID], 
+    [tblCustomerInfo_backup].[Aadhar] AS [Aadhar], 
+    [tblCustomerInfo_backup].[Pan] AS [Pan], 
+    [tblCustomerInfo_backup].[Name] AS [Name], 
+    [tblCustomerInfo_backup].[Nominee] AS [Nominee], 
+    [tblCustomerInfo_backup].[Relationship] AS [Relationship], 
+    [tblCustomerInfo_backup].[Age] AS [Age], 
+    [tblCustomerInfo_backup].[Dob] AS [Dob], 
+    [tblCustomerInfo_backup].[Address] AS [Address], 
+    [tblCustomerInfo_backup].[Pincode] AS [Pincode], 
+    [tblCustomerInfo_backup].[Mobile] AS [Mobile], 
+    [tblCustomerInfo_backup].[Email] AS [Email], 
+    [tblCustomerInfo_backup].[Country] AS [Country], 
+    [tblCustomerInfo_backup].[State] AS [State], 
+    [tblCustomerInfo_backup].[City] AS [City], 
+    [tblCustomerInfo_backup].[CreatedBy] AS [CreatedBy], 
+    [tblCustomerInfo_backup].[CreatedDate] AS [CreatedDate], 
+    [tblCustomerInfo_backup].[BookingID] AS [BookingID]
+    FROM [dbo].[tblCustomerInfo_backup] AS [tblCustomerInfo_backup]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -752,7 +832,23 @@
             <End Role="tblProjects" EntitySet="tblProjects" />
             <End Role="tblFlats" EntitySet="tblFlats" />
           </AssociationSet>
+          <AssociationSet Name="FK_Flats1_bkp" Association="Self.FK_Flats1_bkp">
+            <End Role="tblProjects" EntitySet="tblProjects" />
+            <End Role="tblFlats" EntitySet="tblFlats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flats11_bkp" Association="Self.FK_Flats11_bkp">
+            <End Role="tblProjects" EntitySet="tblProjects" />
+            <End Role="tblFlats" EntitySet="tblFlats" />
+          </AssociationSet>
           <AssociationSet Name="FK_Flats2" Association="Self.FK_Flats2">
+            <End Role="tblTowers" EntitySet="tblTowers" />
+            <End Role="tblFlats" EntitySet="tblFlats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flats2_bkp" Association="Self.FK_Flats2_bkp">
+            <End Role="tblTowers" EntitySet="tblTowers" />
+            <End Role="tblFlats" EntitySet="tblFlats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flats22_bkp" Association="Self.FK_Flats22_bkp">
             <End Role="tblTowers" EntitySet="tblTowers" />
             <End Role="tblFlats" EntitySet="tblFlats" />
           </AssociationSet>
@@ -859,11 +955,7 @@
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="tblCustomerInfoes" EntityType="salesDBModel.tblCustomerInfo" />
           <EntitySet Name="tblBookingInformations" EntityType="salesDBModel.tblBookingInformation" />
-          <FunctionImport Name="sp_GetBookingDetails" ReturnType="Collection(salesDBModel.sp_GetBookingDetails_Result)">
-          <Parameter Name="FlatID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="sp_GetFlatLifeCycle" ReturnType="Collection(salesDBModel.sp_GetFlatLifeCycle_Result)">
           <Parameter Name="FlatID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -915,11 +1007,26 @@
           <FunctionImport Name="sp_GetCustomerTowers" ReturnType="Collection(salesDBModel.sp_GetCustomerTowers_Result)">
           <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_GetAgentBookingGraphByAgentLogins" ReturnType="Collection(salesDBModel.sp_GetAgentBookingGraphByAgentLogins_Result)">
+            <Parameter Name="AgentEmail" Mode="In" Type="String" />
+            <Parameter Name="ProjectID" Mode="In" Type="String" />
+            <Parameter Name="fromDate" Mode="In" Type="String" />
+            <Parameter Name="toDate" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tblClientPayments" EntityType="salesDBModel.tblClientPayment" />
+          <EntitySet Name="tblCustomerInfoes" EntityType="salesDBModel.tblCustomerInfo" />
+          <EntitySet Name="tblCustomerInfo_backup" EntityType="salesDBModel.tblCustomerInfo_backup" />
+          <FunctionImport Name="sp_GetBookingDetails" ReturnType="Collection(salesDBModel.sp_GetBookingDetails_Result)">
+          <Parameter Name="FlatID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="sp_GetPaymentsDetails" ReturnType="Collection(salesDBModel.sp_GetPaymentsDetails_Result)">
           <Parameter Name="PaymentID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="tblBookingInformation_backup" EntityType="salesDBModel.tblBookingInformation_backup" />
-          <EntitySet Name="tblCustomerInfo_backup" EntityType="salesDBModel.tblCustomerInfo_backup" />
+          <EntitySet Name="tblDailyExpenses" EntityType="salesDBModel.tblDailyExpens" />
+          <EntitySet Name="tblCancellations" EntityType="salesDBModel.tblCancellation" />
+          <FunctionImport Name="sp_Cancel_FlatBooking">
+            <Parameter Name="FlatID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -1375,29 +1482,6 @@
           <End Type="salesDBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="salesDBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
-        <EntityType Name="tblCustomerInfo">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Aadhar" Type="Int32" Nullable="false" />
-          <Property Name="Pan" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Nominee" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Relationship" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Age" Type="Int32" />
-          <Property Name="Dob" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Pincode" Type="Int32" />
-          <Property Name="Mobile" Type="Int32" />
-          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="Int32" />
-          <Property Name="State" Type="Int32" />
-          <Property Name="City" Type="Int32" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="BookingID" Type="Guid" />
-        </EntityType>
         <EntityType Name="tblBookingInformation">
           <Key>
             <PropertyRef Name="BookingID" />
@@ -1450,67 +1534,6 @@
           <Property Name="TotalComm" Type="Double" />
           <Property Name="PaymentModeID" Type="Int32" />
         </EntityType>
-        <ComplexType Name="sp_GetBookingDetails_Result">
-          <Property Type="Guid" Name="BookingID" Nullable="false" />
-          <Property Type="Int32" Name="ProjectID" Nullable="true" />
-          <Property Type="Int32" Name="TowerID" Nullable="true" />
-          <Property Type="Int32" Name="FlatID" Nullable="true" />
-          <Property Type="Int32" Name="Floor" Nullable="true" />
-          <Property Type="Int32" Name="Bhk" Nullable="true" />
-          <Property Type="Int32" Name="Area" Nullable="true" />
-          <Property Type="String" Name="Facing" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="SftRate" Nullable="true" />
-          <Property Type="Int32" Name="HighRiseCharges" Nullable="true" />
-          <Property Type="Int32" Name="Discount" Nullable="true" />
-          <Property Type="Int32" Name="TotalRate" Nullable="true" />
-          <Property Type="Int32" Name="FinalRate" Nullable="true" />
-          <Property Type="Int32" Name="ClubHouseCharges" Nullable="true" />
-          <Property Type="Int32" Name="GrandRate" Nullable="true" />
-          <Property Type="String" Name="PaymentMode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ReferenceNo" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="BookingAmount" Nullable="true" />
-          <Property Type="Int32" Name="BalanceAmount" Nullable="true" />
-          <Property Type="Int32" Name="AgentID" Nullable="true" />
-          <Property Type="Double" Name="AgentComm" Nullable="true" />
-          <Property Type="Double" Name="SASComm" Nullable="true" />
-          <Property Type="Double" Name="SASTDS" Nullable="true" />
-          <Property Type="Double" Name="SASNet" Nullable="true" />
-          <Property Type="Int32" Name="Aadhar" Nullable="true" />
-          <Property Type="String" Name="Name" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="FlatName" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="CountryName" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="StateName" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="CityName" Nullable="true" MaxLength="250" />
-          <Property Type="Int32" Name="Year" Nullable="true" />
-          <Property Type="Int32" Name="Month" Nullable="true" />
-          <Property Type="Int32" Name="Day" Nullable="true" />
-          <Property Type="Int32" Name="PaymentTimePeriod" Nullable="true" />
-          <Property Type="Int32" Name="DownPaymentTimePeriod" Nullable="true" />
-          <Property Type="Int32" Name="SchemeID" Nullable="true" />
-          <Property Type="String" Name="SchemeName" Nullable="true" MaxLength="250" />
-          <Property Type="DateTime" Name="DueDate" Nullable="true" Precision="23" />
-          <Property Type="Double" Name="AgentTDS" Nullable="true" />
-          <Property Type="Double" Name="AgentNet" Nullable="true" />
-          <Property Type="Double" Name="TotalComm" Nullable="true" />
-          <Property Type="Int32" Name="PaymentModeID" Nullable="true" />
-          <Property Type="Int32" Name="Pincode" Nullable="true" />
-          <Property Type="String" Name="Address" Nullable="true" MaxLength="250" />
-          <Property Type="Int32" Name="Age" Nullable="true" />
-          <Property Type="Int32" Name="City" Nullable="true" />
-          <Property Type="Int32" Name="Country" Nullable="true" />
-          <Property Type="Int32" Name="State" Nullable="true" />
-          <Property Type="String" Name="Nominee" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Relationship" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Dob" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Pan" Nullable="true" MaxLength="150" />
-          <Property Type="Int32" Name="Mobile" Nullable="true" />
-          <Property Type="String" Name="Email" Nullable="true" MaxLength="250" />
-        </ComplexType>
         <ComplexType Name="sp_GetFlatLifeCycle_Result">
           <Property Type="Int32" Name="BookingAmount" Nullable="true" />
           <Property Type="Int32" Name="BalanceAmount" Nullable="true" />
@@ -1737,72 +1760,50 @@
           <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="128" />
           <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
         </ComplexType>
-        <ComplexType Name="sp_GetPaymentsDetails_Result">
-          <Property Type="Int32" Name="PaymentID" Nullable="false" />
-          <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
-          <Property Type="Int32" Name="Mobile" Nullable="true" />
-          <Property Type="String" Name="FlatName" Nullable="true" MaxLength="250" />
-          <Property Type="Int32" Name="BookingAmount" Nullable="true" />
-          <Property Type="Int32" Name="Bhk" Nullable="true" />
-          <Property Type="Int32" Name="Area" Nullable="true" />
-          <Property Type="String" Name="PaymentMode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ReferenceNo" Nullable="true" MaxLength="50" />
+        <ComplexType Name="sp_GetAgentBookingGraphByAgentLogins_Result">
+          <Property Type="String" Name="yaxis" Nullable="true" />
+          <Property Type="String" Name="xaxis" Nullable="true" />
         </ComplexType>
-        <EntityType Name="tblBookingInformation_backup">
+        <EntityType Name="tblClientPayment">
           <Key>
-            <PropertyRef Name="Backupno" />
+            <PropertyRef Name="ClientPayID" />
           </Key>
-          <Property Name="Backupno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookingID" Type="Guid" Nullable="false" />
+          <Property Name="ClientPayID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TowerID" Type="Int32" />
+          <Property Name="TowerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FlatID" Type="Int32" />
-          <Property Name="Floor" Type="Int32" />
-          <Property Name="Bhk" Type="Int32" />
-          <Property Name="Area" Type="Int32" />
-          <Property Name="Facing" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="SftRate" Type="Int32" />
-          <Property Name="HighRiseCharges" Type="Int32" />
-          <Property Name="Discount" Type="Int32" />
-          <Property Name="TotalRate" Type="Int32" />
-          <Property Name="FinalRate" Type="Int32" />
-          <Property Name="ClubHouseCharges" Type="Int32" />
-          <Property Name="GrandRate" Type="Int32" />
-          <Property Name="PaymentMode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ReferenceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="BookingAmount" Type="Int32" />
-          <Property Name="BalanceAmount" Type="Int32" />
-          <Property Name="AgentID" Type="Int32" />
-          <Property Name="AgentComm" Type="Double" />
-          <Property Name="SASComm" Type="Double" />
-          <Property Name="SASTDS" Type="Double" />
-          <Property Name="SASNet" Type="Double" />
-          <Property Name="Aadhar" Type="Int32" />
-          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FlatName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="PaymentMode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentDate" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblCustomerInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Aadhar" Type="Int32" Nullable="false" />
+          <Property Name="Pan" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Nominee" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Relationship" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Dob" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Pincode" Type="Int32" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="Int32" />
+          <Property Name="State" Type="Int32" />
+          <Property Name="City" Type="Int32" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="ProjectName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="TowerName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="FlatName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="AgentName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CountryName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="StateName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CityName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Year" Type="Int32" />
-          <Property Name="Month" Type="Int32" />
-          <Property Name="Day" Type="Int32" />
-          <Property Name="PaymentTimePeriod" Type="Int32" />
-          <Property Name="DownPaymentTimePeriod" Type="Int32" />
-          <Property Name="SchemeID" Type="Int32" />
-          <Property Name="SchemeName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="DueDate" Type="DateTime" Precision="3" />
-          <Property Name="AgentTDS" Type="Double" />
-          <Property Name="AgentNet" Type="Double" />
-          <Property Name="TotalComm" Type="Double" />
-          <Property Name="PaymentModeID" Type="Int32" />
+          <Property Name="BookingID" Type="Guid" />
         </EntityType>
         <EntityType Name="tblCustomerInfo_backup">
           <Key>
@@ -1818,7 +1819,7 @@
           <Property Name="Dob" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Pincode" Type="Int32" />
-          <Property Name="Mobile" Type="Int32" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Country" Type="Int32" />
           <Property Name="State" Type="Int32" />
@@ -1826,6 +1827,113 @@
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="BookingID" Type="Guid" />
+        </EntityType>
+        <ComplexType Name="sp_GetBookingDetails_Result">
+          <Property Type="Guid" Name="BookingID" Nullable="false" />
+          <Property Type="Int32" Name="ProjectID" Nullable="true" />
+          <Property Type="Int32" Name="TowerID" Nullable="true" />
+          <Property Type="Int32" Name="FlatID" Nullable="true" />
+          <Property Type="Int32" Name="Floor" Nullable="true" />
+          <Property Type="Int32" Name="Bhk" Nullable="true" />
+          <Property Type="Int32" Name="Area" Nullable="true" />
+          <Property Type="String" Name="Facing" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="SftRate" Nullable="true" />
+          <Property Type="Int32" Name="HighRiseCharges" Nullable="true" />
+          <Property Type="Int32" Name="Discount" Nullable="true" />
+          <Property Type="Int32" Name="TotalRate" Nullable="true" />
+          <Property Type="Int32" Name="FinalRate" Nullable="true" />
+          <Property Type="Int32" Name="ClubHouseCharges" Nullable="true" />
+          <Property Type="Int32" Name="GrandRate" Nullable="true" />
+          <Property Type="String" Name="PaymentMode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ReferenceNo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="BookingAmount" Nullable="true" />
+          <Property Type="Int32" Name="BalanceAmount" Nullable="true" />
+          <Property Type="Int32" Name="AgentID" Nullable="true" />
+          <Property Type="Double" Name="AgentComm" Nullable="true" />
+          <Property Type="Double" Name="SASComm" Nullable="true" />
+          <Property Type="Double" Name="SASTDS" Nullable="true" />
+          <Property Type="Double" Name="SASNet" Nullable="true" />
+          <Property Type="Int32" Name="Aadhar" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="FlatName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="CountryName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="StateName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="CityName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="Year" Nullable="true" />
+          <Property Type="Int32" Name="Month" Nullable="true" />
+          <Property Type="Int32" Name="Day" Nullable="true" />
+          <Property Type="Int32" Name="PaymentTimePeriod" Nullable="true" />
+          <Property Type="Int32" Name="DownPaymentTimePeriod" Nullable="true" />
+          <Property Type="Int32" Name="SchemeID" Nullable="true" />
+          <Property Type="String" Name="SchemeName" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="DueDate" Nullable="true" Precision="23" />
+          <Property Type="Double" Name="AgentTDS" Nullable="true" />
+          <Property Type="Double" Name="AgentNet" Nullable="true" />
+          <Property Type="Double" Name="TotalComm" Nullable="true" />
+          <Property Type="Int32" Name="PaymentModeID" Nullable="true" />
+          <Property Type="Int32" Name="Pincode" Nullable="true" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="Age" Nullable="true" />
+          <Property Type="Int32" Name="City" Nullable="true" />
+          <Property Type="Int32" Name="Country" Nullable="true" />
+          <Property Type="Int32" Name="State" Nullable="true" />
+          <Property Type="String" Name="Nominee" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Relationship" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Dob" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Pan" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="sp_GetPaymentsDetails_Result">
+          <Property Type="Int32" Name="PaymentID" Nullable="false" />
+          <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FlatName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="BookingAmount" Nullable="true" />
+          <Property Type="Int32" Name="Bhk" Nullable="true" />
+          <Property Type="Int32" Name="Area" Nullable="true" />
+          <Property Type="String" Name="PaymentMode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ReferenceNo" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="tblDailyExpens">
+          <Key>
+            <PropertyRef Name="ExpenseID" />
+          </Key>
+          <Property Name="ExpenseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExpenseDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Particulars" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="PaidTo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentMode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TransactionType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblCancellation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="Project" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TowerID" Type="Int32" />
+          <Property Name="Tower" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FlatID" Type="Int32" />
+          <Property Name="Flat" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BookingAmount" Type="Int32" />
+          <Property Name="BookingDate" Type="DateTime" Precision="3" />
+          <Property Name="CancelDate" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2278,30 +2386,6 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="tblCustomerInfoes">
-            <EntityTypeMapping TypeName="salesDBModel.tblCustomerInfo">
-              <MappingFragment StoreEntitySet="tblCustomerInfo">
-                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Dob" ColumnName="Dob" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="Relationship" ColumnName="Relationship" />
-                <ScalarProperty Name="Nominee" ColumnName="Nominee" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Pan" ColumnName="Pan" />
-                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tblBookingInformations">
             <EntityTypeMapping TypeName="salesDBModel.tblBookingInformation">
               <MappingFragment StoreEntitySet="tblBookingInformation">
@@ -2355,71 +2439,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetBookingDetails" FunctionName="salesDBModel.Store.sp_GetBookingDetails">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="salesDBModel.sp_GetBookingDetails_Result">
-                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="TowerID" ColumnName="TowerID" />
-                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
-                <ScalarProperty Name="Floor" ColumnName="Floor" />
-                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="Facing" ColumnName="Facing" />
-                <ScalarProperty Name="SftRate" ColumnName="SftRate" />
-                <ScalarProperty Name="HighRiseCharges" ColumnName="HighRiseCharges" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="TotalRate" ColumnName="TotalRate" />
-                <ScalarProperty Name="FinalRate" ColumnName="FinalRate" />
-                <ScalarProperty Name="ClubHouseCharges" ColumnName="ClubHouseCharges" />
-                <ScalarProperty Name="GrandRate" ColumnName="GrandRate" />
-                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
-                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
-                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
-                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="AgentComm" ColumnName="AgentComm" />
-                <ScalarProperty Name="SASComm" ColumnName="SASComm" />
-                <ScalarProperty Name="SASTDS" ColumnName="SASTDS" />
-                <ScalarProperty Name="SASNet" ColumnName="SASNet" />
-                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
-                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
-                <ScalarProperty Name="StateName" ColumnName="StateName" />
-                <ScalarProperty Name="CityName" ColumnName="CityName" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Day" ColumnName="Day" />
-                <ScalarProperty Name="PaymentTimePeriod" ColumnName="PaymentTimePeriod" />
-                <ScalarProperty Name="DownPaymentTimePeriod" ColumnName="DownPaymentTimePeriod" />
-                <ScalarProperty Name="SchemeID" ColumnName="SchemeID" />
-                <ScalarProperty Name="SchemeName" ColumnName="SchemeName" />
-                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
-                <ScalarProperty Name="AgentTDS" ColumnName="AgentTDS" />
-                <ScalarProperty Name="AgentNet" ColumnName="AgentNet" />
-                <ScalarProperty Name="TotalComm" ColumnName="TotalComm" />
-                <ScalarProperty Name="PaymentModeID" ColumnName="PaymentModeID" />
-                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Nominee" ColumnName="Nominee" />
-                <ScalarProperty Name="Relationship" ColumnName="Relationship" />
-                <ScalarProperty Name="Dob" ColumnName="Dob" />
-                <ScalarProperty Name="Pan" ColumnName="Pan" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_GetFlatLifeCycle" FunctionName="salesDBModel.Store.sp_GetFlatLifeCycle">
             <ResultMapping>
               <ComplexTypeMapping TypeName="salesDBModel.sp_GetFlatLifeCycle_Result">
@@ -2706,75 +2725,54 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetPaymentsDetails" FunctionName="salesDBModel.Store.sp_GetPaymentsDetails">
+          <FunctionImportMapping FunctionImportName="sp_GetAgentBookingGraphByAgentLogins" FunctionName="salesDBModel.Store.sp_GetAgentBookingGraphByAgentLogins">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="salesDBModel.sp_GetPaymentsDetails_Result">
-                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
-                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
-                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
-                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
-                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
-                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentBookingGraphByAgentLogins_Result">
+                <ScalarProperty Name="yaxis" ColumnName="yaxis" />
+                <ScalarProperty Name="xaxis" ColumnName="xaxis" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="tblBookingInformation_backup">
-            <EntityTypeMapping TypeName="salesDBModel.tblBookingInformation_backup">
-              <MappingFragment StoreEntitySet="tblBookingInformation_backup">
-                <ScalarProperty Name="PaymentModeID" ColumnName="PaymentModeID" />
-                <ScalarProperty Name="TotalComm" ColumnName="TotalComm" />
-                <ScalarProperty Name="AgentNet" ColumnName="AgentNet" />
-                <ScalarProperty Name="AgentTDS" ColumnName="AgentTDS" />
-                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
-                <ScalarProperty Name="SchemeName" ColumnName="SchemeName" />
-                <ScalarProperty Name="SchemeID" ColumnName="SchemeID" />
-                <ScalarProperty Name="DownPaymentTimePeriod" ColumnName="DownPaymentTimePeriod" />
-                <ScalarProperty Name="PaymentTimePeriod" ColumnName="PaymentTimePeriod" />
-                <ScalarProperty Name="Day" ColumnName="Day" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="CityName" ColumnName="CityName" />
-                <ScalarProperty Name="StateName" ColumnName="StateName" />
-                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+          <EntitySetMapping Name="tblClientPayments">
+            <EntityTypeMapping TypeName="salesDBModel.tblClientPayment">
+              <MappingFragment StoreEntitySet="tblClientPayments">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
                 <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+                <ScalarProperty Name="TowerID" ColumnName="TowerID" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="ClientPayID" ColumnName="ClientPayID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCustomerInfoes">
+            <EntityTypeMapping TypeName="salesDBModel.tblCustomerInfo">
+              <MappingFragment StoreEntitySet="tblCustomerInfo">
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Relationship" ColumnName="Relationship" />
+                <ScalarProperty Name="Nominee" ColumnName="Nominee" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Pan" ColumnName="Pan" />
                 <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
-                <ScalarProperty Name="SASNet" ColumnName="SASNet" />
-                <ScalarProperty Name="SASTDS" ColumnName="SASTDS" />
-                <ScalarProperty Name="SASComm" ColumnName="SASComm" />
-                <ScalarProperty Name="AgentComm" ColumnName="AgentComm" />
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
-                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
-                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
-                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
-                <ScalarProperty Name="GrandRate" ColumnName="GrandRate" />
-                <ScalarProperty Name="ClubHouseCharges" ColumnName="ClubHouseCharges" />
-                <ScalarProperty Name="FinalRate" ColumnName="FinalRate" />
-                <ScalarProperty Name="TotalRate" ColumnName="TotalRate" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="HighRiseCharges" ColumnName="HighRiseCharges" />
-                <ScalarProperty Name="SftRate" ColumnName="SftRate" />
-                <ScalarProperty Name="Facing" ColumnName="Facing" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
-                <ScalarProperty Name="Floor" ColumnName="Floor" />
-                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
-                <ScalarProperty Name="TowerID" ColumnName="TowerID" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-                <ScalarProperty Name="Backupno" ColumnName="Backupno" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2802,6 +2800,124 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetBookingDetails" FunctionName="salesDBModel.Store.sp_GetBookingDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetBookingDetails_Result">
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="TowerID" ColumnName="TowerID" />
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="Facing" ColumnName="Facing" />
+                <ScalarProperty Name="SftRate" ColumnName="SftRate" />
+                <ScalarProperty Name="HighRiseCharges" ColumnName="HighRiseCharges" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="TotalRate" ColumnName="TotalRate" />
+                <ScalarProperty Name="FinalRate" ColumnName="FinalRate" />
+                <ScalarProperty Name="ClubHouseCharges" ColumnName="ClubHouseCharges" />
+                <ScalarProperty Name="GrandRate" ColumnName="GrandRate" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentComm" ColumnName="AgentComm" />
+                <ScalarProperty Name="SASComm" ColumnName="SASComm" />
+                <ScalarProperty Name="SASTDS" ColumnName="SASTDS" />
+                <ScalarProperty Name="SASNet" ColumnName="SASNet" />
+                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="PaymentTimePeriod" ColumnName="PaymentTimePeriod" />
+                <ScalarProperty Name="DownPaymentTimePeriod" ColumnName="DownPaymentTimePeriod" />
+                <ScalarProperty Name="SchemeID" ColumnName="SchemeID" />
+                <ScalarProperty Name="SchemeName" ColumnName="SchemeName" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="AgentTDS" ColumnName="AgentTDS" />
+                <ScalarProperty Name="AgentNet" ColumnName="AgentNet" />
+                <ScalarProperty Name="TotalComm" ColumnName="TotalComm" />
+                <ScalarProperty Name="PaymentModeID" ColumnName="PaymentModeID" />
+                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Nominee" ColumnName="Nominee" />
+                <ScalarProperty Name="Relationship" ColumnName="Relationship" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+                <ScalarProperty Name="Pan" ColumnName="Pan" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetPaymentsDetails" FunctionName="salesDBModel.Store.sp_GetPaymentsDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetPaymentsDetails_Result">
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblDailyExpenses">
+            <EntityTypeMapping TypeName="salesDBModel.tblDailyExpens">
+              <MappingFragment StoreEntitySet="tblDailyExpenses">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="PaidTo" ColumnName="PaidTo" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Particulars" ColumnName="Particulars" />
+                <ScalarProperty Name="ExpenseDate" ColumnName="ExpenseDate" />
+                <ScalarProperty Name="ExpenseID" ColumnName="ExpenseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCancellations">
+            <EntityTypeMapping TypeName="salesDBModel.tblCancellation">
+              <MappingFragment StoreEntitySet="tblCancellations">
+                <ScalarProperty Name="CancelDate" ColumnName="CancelDate" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Flat" ColumnName="Flat" />
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+                <ScalarProperty Name="Tower" ColumnName="Tower" />
+                <ScalarProperty Name="TowerID" ColumnName="TowerID" />
+                <ScalarProperty Name="Project" ColumnName="Project" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Cancel_FlatBooking" FunctionName="salesDBModel.Store.sp_Cancel_FlatBooking" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

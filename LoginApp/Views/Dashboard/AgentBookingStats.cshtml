@@ -1,0 +1,332 @@
+﻿@model ModelLayer.Report
+@{
+    ViewBag.Title = "AgentBookingStats";
+    ViewBag.AgentBookingStats = "active";
+    ViewBag.Reports = "active";
+}
+
+<div class="jumbotron" style="background-color:white;padding-bottom:10px;margin-top:0px;">
+
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:2px" align="left">AGENT BOOKING STATS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        @Html.LabelFor(m => m.Project, new { @class = "col-md-1" })
+        @Html.DropDownListFor(m => m.Project, TempData["ProjectList"] as SelectList, "--All Project--", new { @class = "textbox-control col-md-2 col-xs" })
+        @Html.Label("From", new { @class = "col-md-1" })
+        <div class="col-md-2">
+            <input id="datepicker1" value="" title="datepicker" />
+        </div>
+        @Html.Label("To", new { @class = "col-md-1" })
+        <div class="col-md-2">
+            <input id="datepicker2" value="" title="datepicker" />
+        </div>
+        @*<div class="col-md-3 col-xs">
+                <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
+            </div>*@
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xs">
+            <button style="display:none" type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
+        </div>
+    </div>
+    <button id="pdfButton" class='export-pdf k-button'>Save as PDF</button>
+    <div style="height:770px;overflow:scroll" class="row">
+
+        <div id="chart" style="background-size:cover;align-content:center;align-items:center;"></div>
+    </div>
+
+</div>
+<script>
+    $("#datepicker1").kendoDatePicker();
+    $("#datepicker2").kendoDatePicker();
+    var fromDate = '';
+    var toDate = '';
+    //jQuery('#submitbtn').click();
+    $(document).ready(function () {
+        $("#submitbtn").click();
+        //$("#Project").val($("#Project option:first").val());
+    });
+    //$('#submitbtn').trigger('click');
+    $("#submitbtn").click(function () {
+
+        fromDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+        toDate = kendo.toString($("#datepicker2").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetAgentBookingStats", "Dashboard")',
+            contentType: "application/json; charset=utf-8",
+            data: { projectID: $("#Project").val(), fromDate: fromDate, toDate: toDate },
+            dataType: "json",
+            success: function (data) {
+                $(document).ready(createChart(data));
+                $(document).bind("kendo:skinChange", createChart(data));
+            },
+
+        });
+    });
+
+    $("#Project").change(function () {
+        $("#submitbtn").click();
+    });
+    $("#datepicker1").change(function () {
+        $("#submitbtn").click();
+    });
+    $("#datepicker2").change(function () {
+        $("#submitbtn").click();
+    });
+    $(".export-pdf").click(function () {
+        $("#chart").getKendoChart().saveAsPDF();
+    });
+    function createChart(data) {
+       // alert(data.xaxis);
+
+        var xaxis = data.map(function (val) {
+            return val.xaxis;
+        }).join(',');
+        var yaxis = data.map(function (val) {
+            return val.yaxis;
+        }).join(',');
+        var peak = Math.max.apply(Math, data.map(function (o) { return o.xaxis; }));
+        peak = peak + 5;
+        var chartHeight = '';
+        var a = xaxis.split(',');
+        var b = yaxis.split(',');
+        if (data.length > 3) {
+            chartHeight = data.length * 28;
+        }
+        else
+            chartHeight = data.length * 200;
+        
+
+        $("#chart").css("height", chartHeight);
+        var projectText = '';
+        if ($("#Project").val() == '') {
+            projectText = 'All Projects'
+        }
+        else {
+            projectText = $("#Project option:selected").text();
+        }
+        //$("#chart").kendoChart({
+        //    title: {
+        //        text: "Bookings Per project"
+        //    },
+        //    legend: {
+        //        visible: false
+        //    },
+        //    seriesDefaults: {
+        //        type: "bar"
+        //    },
+        //    series: [{
+        //        name: "Bookings",
+        //        data: a
+        //    }],
+        //    valueAxis: {
+        //        max: 140,
+        //        line: {
+        //            visible: false
+        //        },
+        //        minorGridLines: {
+        //            visible: true
+        //        },
+        //        labels: {
+        //            rotation: "auto"
+        //        }
+        //    },
+        //    categoryAxis: {
+        //        categories: b,
+        //        majorGridLines: {
+        //            visible: false
+        //        }
+        //    },
+        //    tooltip: {
+        //        visible: true,
+        //        template: "#= series.name #: #= value #"
+        //    }
+        //});
+
+        $("#chart").kendoChart({
+            pdf: {
+                fileName: "Bookings Per Project.pdf"
+            },
+            title: {
+                text: "Agent Bookings for " + projectText,
+                font: "bolder 16px Arial,Helvetica,sans-serif",
+                color: "black",
+            },
+            legend: {
+                visible: true,
+                position: "top",
+                item: {
+                    visual: createLegendItem
+                }
+            },
+           
+            seriesDefaults: {
+                type: "bar",
+                stack: true,
+                labels: {
+                    template: "#=stackValue#",
+                    visible: true,
+                    font: "bold 12px Arial,Helvetica,sans-serif",
+                    color: "black"
+                },
+                //visual: function (e) {
+                //    return createColumn(e.rect, e.options.color);
+                //}
+            },
+            series: [{
+                name: "Booking Count",
+                data: a,
+                color: "#26aadd"
+            }],
+            valueAxis: {
+                max: peak,
+                line: {
+                    visible: false
+                },
+                minorGridLines: {
+                    visible: false
+                }
+            },
+            categoryAxis: {
+                categories: b,
+                majorGridLines: {
+                    visible: false
+                },
+                labels: {
+                    rotation: "auto"
+                }
+            },
+            //pannable: {
+            //    lock: "y"
+            //},
+            //zoomable: {
+            //    mousewheel: {
+            //        lock: "y"
+            //    },
+            //    selection: {
+            //        lock: "y"
+            //    }
+            //},
+            tooltip: {
+                visible: true,
+                template: "#= value #"
+            }
+        });
+    }
+
+    var drawing = kendo.drawing;
+    var geometry = kendo.geometry;
+    function createColumn(rect, color) {
+        var origin = rect.origin;
+        var center = rect.center();
+        var bottomRight = rect.bottomRight();
+        var radiusX = rect.width() / 2;
+        var radiusY = radiusX / 3;
+        var gradient = new drawing.LinearGradient({
+            stops: [{
+                offset: 0,
+                color: color
+            }, {
+                offset: 0.5,
+                color: color,
+                opacity: 0.9
+            }, {
+                offset: 0.5,
+                color: color,
+                opacity: 0.9
+            }, {
+                offset: 1,
+                color: color
+            }]
+        });
+
+        var path = new drawing.Path({
+            fill: gradient,
+            stroke: {
+                color: "none"
+            }
+        }).moveTo(origin.x, origin.y)
+            .lineTo(origin.x, bottomRight.y)
+            .arc(180, 0, radiusX, radiusY, true)
+            .lineTo(bottomRight.x, origin.y)
+            .arc(0, 180, radiusX, radiusY);
+
+        var topArcGeometry = new geometry.Arc([center.x, origin.y], {
+            startAngle: 0,
+            endAngle: 360,
+            radiusX: radiusX,
+            radiusY: radiusY
+        });
+
+        var topArc = new drawing.Arc(topArcGeometry, {
+            fill: {
+                color: color
+            },
+            stroke: {
+                color: "#ebebeb"
+            }
+        });
+        var group = new drawing.Group();
+        group.append(path, topArc);
+        return group;
+    }
+
+    function createLegendItem(e) {
+        var color = e.options.markers.background;
+        var labelColor = e.options.labels.color;
+        var rect = new geometry.Rect([0, 0], [120, 50]);
+        var layout = new drawing.Layout(rect, {
+            spacing: 5,
+            alignItems: "center"
+        });
+
+        var overlay = drawing.Path.fromRect(rect, {
+            fill: {
+                color: "#fff",
+                opacity: 0
+            },
+            stroke: {
+                color: "none"
+            },
+            cursor: "pointer"
+        });
+
+        var column = createColumn(new geometry.Rect([0, 0], [15, 10]), color);
+        var label = new drawing.Text(e.series.name, [0, 0], {
+            fill: {
+                color: labelColor
+            }
+        })
+
+        layout.append(column, label);
+        layout.reflow();
+
+        var group = new drawing.Group().append(layout, overlay);
+
+        return group;
+    }
+
+    window.onload = function () {
+        getLocation();
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        $.get("/Cascade/UpdateAgentLocation", { latitude: position.coords.latitude, longitude: position.coords.longitude }, function (data) {
+        });
+    }
+</script>

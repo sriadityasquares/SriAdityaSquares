@@ -215,7 +215,14 @@
             dataSource: dataSource,
             pageable: true,
             height: 350,
-            toolbar: ["search"],
+            toolbar: ["search", "excel"],
+            excel: {
+                fileName: "MySiteVisists.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
             columns: [
                 { field: "ProjectName", title: "Project Name", width: "140px" },
                 { field: "AgentName", title: "Agent Name", width: "150px" },
@@ -232,5 +239,22 @@
 
 
     });
+
+    window.onload = function () {
+        getLocation();
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        $.get("/Cascade/UpdateAgentLocation", { latitude: position.coords.latitude, longitude: position.coords.longitude }, function (data) {
+        });
+    }
 </script>
 

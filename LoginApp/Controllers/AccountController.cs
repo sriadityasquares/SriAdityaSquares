@@ -91,7 +91,7 @@ namespace LoginApp.Controllers
                     case SignInStatus.Success:
                         {
                             var _user = UserManager.FindByEmail(model.Email);
-                            common.UpdateAgentLocation(model.Latitude, model.Longitude, model.Email);
+                            //common.UpdateAgentLocation(model.Latitude, model.Longitude, model.Email);
                             return RedirectToLocal(_user.Id, returnUrl);
                         }
                     case SignInStatus.LockedOut:

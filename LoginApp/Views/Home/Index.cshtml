@@ -11,12 +11,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Home Page</title>
-    @*<link rel="stylesheet" href="fontawesome-5.5/css/all.min.css" />*@
-    @*<link rel="stylesheet" href="slick/slick.css">
-        <link rel="stylesheet" href="slick/slick-theme.css">*@
+    <link rel="icon" src="~/Content/Images/SASBLACKLOGO.ico" href="~/Content/Images/SASBLACKLOGO.ico" sizes="32x32">
+    <link rel="icon" src="~/Content/Images/SASBLACKLOGO.ico" href="~/Content/Images/SASBLACKLOGO.ico" sizes="192x192">
     <link href="~/Content/kendo/2019.3.917/kendo.common.min.css" rel="stylesheet" />
     <link href="~/Content/kendo/2019.3.917/kendo.default.min.css" rel="stylesheet" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
     <link href="~/Content/Potfolio/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="~/Content/Potfolio/slick.css" rel="stylesheet" />
@@ -24,14 +23,15 @@
     <link href="~/Content/Potfolio/magnific-popup.css" rel="stylesheet" />
     <link href="~/Content/Potfolio/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/Potfolio/templatemo-style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="~/Scripts/jquery-1.9.1.min.js"></script>
     <script src="~/Scripts/kendo.all.min.js"></script>
-
     <script src="~/Content/Potfolio/slick.min.js"></script>
     <script src="~/Content/Potfolio/jquery.magnific-popup.min.js"></script>
     <script src="~/Content/Potfolio/jquery.singlePageNav.min.js"></script>
     <script src="~/Content/Potfolio/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
     <script data-ad-client="ca-pub-2839852821589260" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
@@ -39,14 +39,19 @@
 
     <div id="body1">
     </div>
+
+
     <section id="hero" class="text-white tm-font-big tm-parallax">
         <!-- Navigation -->
+
         <nav style="padding-bottom:3px;" class="navbar navbar-expand-md tm-navbar" id="tmNav">
             <div class="container">
                 <div class="tm-next">
-                    @*<span></span>
-                        <a href="#hero" class="navbar-brand">SAS INFRA</a>*@
-                    <img id="logoImagediv" style="object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+                    <a href="#hero">
+                        <img  id="logoImagediv" style="object-fit: contain;" src="~/Content/Images/SASBLACKLOGO.png" />
+                        <span style="font-family: kilsonburg;font-size:18px;color:black">SRI ADITYA SQUARES</span>
+                    </a>
+                    
                 </div>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,6 +67,9 @@
                             <a class="nav-link tm-nav-link" href="#work">Our Works</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link tm-nav-link" href="#galleryBox">Gallery</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link tm-nav-link" href="#contact">Contact Us</a>
                         </li>
                         <li id="loginPosition" class="nav-item">
@@ -70,19 +78,110 @@
                             </a>
                         </li>
                     </ul>
-
                 </div>
-
-
-
             </div>
-            @*<a style="color:#b91524" class="nav-link tm-nav-link" id="WebApp" href="http:www.google.com">Go to Web App <span><i class="fa fa-forward" aria-hidden="true"></i></span></a>*@
         </nav>
         <div class="tm-next tm-intro-next">
             <a href="#introduction" class="text-center tm-down-arrow-link">
                 <i class="fa fa-3x fa-caret-down tm-down-arrow"></i>
             </a>
         </div>
+
+        <!--<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+        </ol>
+
+        <div  class="carousel-inner">
+        <div class="carousel-item">
+            <img  src="~/Content/Images/PVRAnmol.jpg" />
+        <div class="carousel-caption d-md-block">-->
+        @*<h5>PVR Anmol</h5>*@
+        <!--</div>
+        </div>
+        <div id="imageTop" class="carousel-item">
+            <img style="object-fit:contain !important;background-size:cover;background-repeat:no-repeat"  src="~/Content/Images/Image_1.jpg" />
+        <div class="carousel-caption d-md-block">-->
+        @*<h5>Alpine Vistas</h5>*@
+        <!--</div>
+        </div>
+        <div id="imageTop"  class="carousel-item">
+            <img  src="~/Content/Images/Image_3.jpg">
+        <div class="carousel-caption d-md-block">-->
+        @*<h5>Third Image</h5>*@
+        <!--</div>
+        </div>
+        <div id="imageTop" class="carousel-item">
+            <img  src="~/Content/Images/Image_4.jpg">
+        <div class="carousel-caption d-md-block">-->
+        @*<h5>Third Image</h5>*@
+        <!--</div>
+        </div>
+        <div id="imageTop" class="carousel-item">
+            <img  src="~/Content/Images/Image_5.jpg">
+        <div class="carousel-caption d-md-block">-->
+        @*<h5>Third Image</h5>*@
+        <!--</div>
+        </div>
+        </div>
+
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <style>
+            @@media screen and (min-width: 800px) {
+
+                #imageTop {
+                    margin-top: 50px !important;
+                    /*margin-bottom: 100px !important*/
+                }
+            }
+
+            .full-screen {
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        </style>
+        <script>
+            var $item = $('.carousel-item');
+            var $wHeight = $(window).height();
+            $item.eq(0).addClass('active');
+            $item.height($wHeight);
+            $item.addClass('full-screen');
+
+            $('.carousel img').each(function () {
+                var $src = $(this).attr('src');
+                var $color = $(this).attr('data-color');
+                $(this).parent().css({
+                    'background-image': 'url(' + $src + ')',
+                    'background-color': $color,
+                    'background-size': 'contain'
+                });
+                $(this).remove();
+            });
+
+            $(window).on('resize', function () {
+                $wHeight = $(window).height();
+                $item.height($wHeight);
+            });
+
+            $('.carousel').carousel({
+                interval: 6000,
+                pause: "false"
+            });
+        </script>-->
     </section>
 
     <section id="introduction" class="tm-section-pad-top">
@@ -95,11 +194,11 @@
                 <div class="col-lg-6">
                     <div class="tm-intro-text-container">
                         <h2 class="tm-text-primary mb-4 tm-section-title">Introduction</h2>
-                        <p class="mb-4 tm-intro-text">
+                        <p style="font-weight: 500;" class="mb-4 tm-intro-text">
                             SAS,is the one stop destination for all your real estate property needs. We offer END to END services at free of cost and provide upto 90% of bank loans.
                             SAS  has more than 2500+ satisfied customers and the number is growing day by day.
                         </p>
-                        <p class="mb-5 tm-intro-text">
+                        <p style="font-weight: 500;" class="mb-5 tm-intro-text">
                             Before going to buy a property in Guntur / Hyderabad / Bangalore, Please take our advice from more than 500+ highly qualified and experienced corporate Professional employees.
                             If you want to buy any property like gated community FLATS in hyderabad, PLOTS for sale in hyderabad, DUPLEX, gated community VILLAS in hyderabad .
                         </p>
@@ -116,25 +215,25 @@
 
             <div class="row tm-section-pad-top">
                 <div class="col-lg-4">
-                    <img style="height:200px;width:400px" src="~/Content/Images/KitchenImg.jpg" />
+                    <img style="height:200px;width:400px" src="~/Content/Images/interior.jpg" />
                     <h5 style="padding-top:8px;padding-bottom:8px;margin-bottom:0 !important" class="text-center tm-text-primary mb-4">Real Estate Done Right!</h5>
-                    <p>
-                        Nervous about your property adventure? Don’t be. Whether you're getting ready to buy or sell, in the middle of it, or just looking for some answers, our top-notch skills ensure you get the best experience possible. It’s what we love to do.
+                    <p style="font-weight: 500;">
+                        Nervous about your property adventure? Don’t be.Whether you're getting ready to buy or sell, in the middle of it, or just looking for some answers, our top-notch skills ensure you get the best experience possible.It’s what we love to do.
                     </p>
                 </div>
 
                 <div class="col-lg-4 mt-5 mt-lg-0">
-                    <img style="height:200px;width:400px" src="~/Content/Images/cityLights.gif" />
+                    <img style="height:200px;width:400px;" src="~/Content/Images/cityLights.gif" />
 
                     <h5 style="padding-top:8px;padding-bottom:8px;margin-bottom:0 !important" class="text-center tm-text-primary mb-4">Commercial and Residential!</h5>
-                    <p>
+                    <p style="font-weight: 500;">
                         Large or small, condo or mansion, we can find it and get it for you at the price that's right. TICs? Fixer-uppers? Luxury? We can help with all of it. We always have a current list of available properties for you to check out.
                     </p>
                 </div>
                 <div class="col-lg-4 mt-5 mt-lg-0">
-                    <img style="height:200px;width:400px" src="~/Content/Images/home2.jpg" />
+                    <img style="height:200px;width:400px" src="~/Content/Images/KitchenImg.jpg" />
                     <h5 style="padding-top:8px;padding-bottom:8px;margin-bottom:0 !important" class="text-center tm-text-primary mb-4">Rely on Expertise!</h5>
-                    <p>
+                    <p style="font-weight: 500;">
                         If you have questions about affordability, credit, legal matters, or income, trust us to find you what you need fast. We make sure you feel confident and educated every step of the way.
                     </p>
                 </div>
@@ -147,125 +246,475 @@
             <div class="row">
                 <div class="text-center col-12">
                     <h2 class="tm-text-primary tm-section-title mb-4">Our Work</h2>
-                    <p class="mx-auto tm-work-description">
+                    <p style="font-weight:600" class="mx-auto tm-work-description">
                         A revolutionary change in the realty sector, SAS Infra presents, SAS - A one-of-a-kind Promotional,development of various real estate projects that will transform the way the  real estate  perceives business, life and luxury.
                     </p>
                 </div>
             </div>
-            @*<div class="row">
-                    OUR MISSION:
 
-                    •	SAS provides our clients with the very best service in all aspects of residential real estate, whether we are handling their sale or purchase personally, or connecting them to one of our associated property experts for particular service.
-
-                    •	SAS believes in customers for life, being there for our clients throughout our journey in business, and in life, to ensure when it comes to residential property, they receive the very best this industry has to offer.
-
-                    •	We aim to be at the forefront of property marketing, and to provide tailored, innovative solutions that fit our client’s individual property and situations to ensure the best possible outcome is achieved.
-
-                    •	To make the Buying and Selling of Real Estate as Cost effective as possible while maintaining the highest level of service.
-
-                    •	The best interest of our clients will always come first and we will place the clients concerns ahead of our own in each and every transaction, as we are dedicated to development of long- term client relationships.
-
-                    •	To provide accurate and up-to-date information, skilled analysis and sound Real Estate advice.
-
-                    •	To continually explore new ideas and technology, to make selling and buying of Real Estate faster, less costly and easier.
-
-
-                    Motto: We appreciate your Business
-
-                </div>*@
             <div class="row">
                 <div class="col-12">
-                    <div class="mx-auto tm-gallery-container">
-                        <div class="grid tm-gallery">
+                    <div id="example">
+                        <div class="k-card-deck-scrollwrap">
+                            <button class="k-button k-button-icon k-button-scroll">
+                                <span class="k-icon k-i-arrow-chevron-left"></span>
+                            </button>
+                            <div class="k-card-deck">
+                                <div class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Jewels County.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color: #0095d8" class="k-card-body">
+                                        <h5 class="k-card-title">Jewel's County</h5>
+                                        <h6 class="k-card-subtitle">K Peta</h6>
 
-                            @*<a href="~/Content/Images/JewelCounty2.jpg">
-                                    <figure class="effect-honey tm-gallery-item">
-                                        <img style="height:200px;width:400px" src="~/Content/Images/JewelCounty2.jpg" alt="Image" class="img-fluid">
-                                        <figcaption>
-                                            <h2><i>Jewel <span style="font-weight:400">County</span></i></h2>
-                                        </figcaption>
-                                    </figure>
-                                </a>
-                                <a href="~/Content/Images/Lotus.jpg">
-                                    <figure class="effect-honey tm-gallery-item">
-                                        <img style="height:200px;width:400px" src="~/Content/Images/Lotus.jpg" alt="Image" class="img-fluid">
+                                    </div>
 
-                                        <figcaption>
-                                            <h2><i>Lotus <span style="font-weight:400">Apt</span></i></h2>
-                                        </figcaption>
-                                    </figure>
-                                </a>*@
-                            @*<a href="~/Content/Images/PVR Anmol2.jpg">
-                                    <figure class="effect-honey tm-gallery-item">
-                                        <img style="height:200px;width:400px" src="~/Content/Images/PVR Anmol2.jpg" alt="Image" class="img-fluid">
-                                        <figcaption>
-                                            <h2><i>PVR <span style="font-weight:400">Anmol</span></i></h2>
-                                        </figcaption>
-                                    </figure>
-                                </a>*@
-                            <a href="~/Content/Images/PVR Anmol.png">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img   style="height:200px;width:400px;object-fit: cover;" src="~/Content/Images/PVR Anmol.png" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i>PVR <span style="font-weight:300">Anmol</span></i></h2> 
-                                    </figcaption>
-                                </figure>
-                            </a>
-                            <a href="~/Content/Images/Alpine Vistas.png">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img style="height:200px;width:400px;object-fit: cover;" src="~/Content/Images/Alpine Vistas.png" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i>Alpine <span style="font-weight:300">Vistas</span></i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                            <a href="~/Content/Images/Alpine Square.png">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img style="height:200px;width:400px;object-fit: cover;" src="~/Content/Images/Alpine Square.png" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i>Alpine <span style="font-weight:300">Squares</span></i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                            @*<a href="~/Content/Images/LotusVilla.jpg">
-                                    <figure class="effect-honey tm-gallery-item">
-                                        <img style="height:200px;width:400px" src="~/Content/Images/LotusVilla.jpg" alt="Image" class="img-fluid">
-                                        <figcaption>
-                                            <h2><i>Lotus <span style="font-weight:400">Villas</span></i></h2>
-                                        </figcaption>
-                                    </figure>
-                                </a>*@
+                                </div>
 
-                            <a href="~/Content/Images/largeSize.jpg">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img style="height:200px;width:400px;object-fit: cover;" src="~/Content/Images/largeSize.jpg" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i>In <span style="font-weight:300">The Woods</span></i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                            <a href="~/Content/Images/Elderado.PNG">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img style="height:200px;width:400px;object-fit: cover;"  src="~/Content/Images/Elderado.PNG" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i><span style="font-weight:300">Elderado</span></i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
+                                <div class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/In the Woods.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color: #6fbf12" class="k-card-body">
+                                        <h5 class="k-card-title">In the Woods</h5>
+                                        <h6 class="k-card-subtitle">Narsingi</h6>
 
+                                    </div>
 
+                                </div>
+                                <div class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Elderado.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color: #ffca2b" class="k-card-body">
+                                        <h5 class="k-card-title">Elderado</h5>
+                                        <h6 class="k-card-subtitle">Narsingi</h6>
 
+                                    </div>
+
+                                </div>
+                                <div style="background-color:whitesmoke;border:2px;border-color:black" class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Alpine Square.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color: rosybrown" class="k-card-body">
+                                        <h5 class="k-card-title">Alpine Squares</h5>
+                                        <h6 class="k-card-subtitle">Patancheru</h6>
+
+                                    </div>
+
+                                </div>
+                                <div class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/PVR Anmol.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color:#f48e36" class="k-card-body">
+                                        <h5 class="k-card-title">PVR Anmol</h5>
+                                        <h6 class="k-card-subtitle">Miyapur</h6>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Alpine Vistas.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color: #139e91" class="k-card-body">
+                                        <h5 class="k-card-title">Alpine Vistas</h5>
+                                        <h6 class="k-card-subtitle">Rendlagadda</h6>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <button class="k-button k-button-icon k-button-scroll">
+                                <span class="k-icon k-i-arrow-chevron-right"></span>
+                            </button>
                         </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+            <br />
+            <style>
+                h1 {
+                    font-size: 40px;
+                    line-height: 0.8em;
+                    color: rgba(255,255,255,0.2);
+                }
+
+
+
+                button:focus,
+                input:focus,
+                textarea:focus,
+                select:focus {
+                    outline: none;
+                }
+
+                .tabs {
+                    display: block;
+                    display: -webkit-flex;
+                    display: -moz-flex;
+                    display: flex;
+                    -webkit-flex-wrap: wrap;
+                    -moz-flex-wrap: wrap;
+                    flex-wrap: wrap;
+                    margin: 0;
+                    overflow: hidden;
+                }
+
+                    .tabs [class^="tab"] label,
+                    .tabs [class*=" tab"] label {
+                        color: #fd264f;
+                        cursor: pointer;
+                        display: block;
+                        font-size: 1.2em;
+                        font-weight: 400;
+                        line-height: 1em;
+                        padding: 2rem 0;
+                        text-align: center;
+                    }
+
+                    .tabs [class^="tab"] [type="radio"],
+                    .tabs [class*=" tab"] [type="radio"] {
+                        border-bottom: 1px solid rgba(239, 237, 239, 0.5);
+                        cursor: pointer;
+                        -webkit-appearance: none;
+                        -moz-appearance: none;
+                        appearance: none;
+                        display: block;
+                        width: 100%;
+                        -webkit-transition: all 0.3s ease-in-out;
+                        -moz-transition: all 0.3s ease-in-out;
+                        -o-transition: all 0.3s ease-in-out;
+                        transition: all 0.3s ease-in-out;
+                    }
+
+                        .tabs [class^="tab"] [type="radio"]:hover, .tabs [class^="tab"] [type="radio"]:focus,
+                        .tabs [class*=" tab"] [type="radio"]:hover,
+                        .tabs [class*=" tab"] [type="radio"]:focus {
+                            border-bottom: 1px solid #fd264f;
+                        }
+
+                        .tabs [class^="tab"] [type="radio"]:checked,
+                        .tabs [class*=" tab"] [type="radio"]:checked {
+                            border-bottom: 2px solid #fd264f;
+                        }
+
+                            .tabs [class^="tab"] [type="radio"]:checked + div,
+                            .tabs [class*=" tab"] [type="radio"]:checked + div {
+                                opacity: 1;
+                            }
+
+                        .tabs [class^="tab"] [type="radio"] + div,
+                        .tabs [class*=" tab"] [type="radio"] + div {
+                            display: block;
+                            opacity: 0;
+                            padding: 2rem 0;
+                            width: 90%;
+                            -webkit-transition: all 0.3s ease-in-out;
+                            -moz-transition: all 0.3s ease-in-out;
+                            -o-transition: all 0.3s ease-in-out;
+                            transition: all 0.3s ease-in-out;
+                        }
+
+                    .tabs .tab-2 {
+                        width: 50%;
+                    }
+
+                        .tabs .tab-2 [type="radio"] + div {
+                            width: 200%;
+                            margin-left: 200%;
+                        }
+
+                        .tabs .tab-2 [type="radio"]:checked + div {
+                            margin-left: 0;
+                        }
+
+                        .tabs .tab-2:last-child [type="radio"] + div {
+                            margin-left: 100%;
+                        }
+
+                        .tabs .tab-2:last-child [type="radio"]:checked + div {
+                            margin-left: -100%;
+                        }
+            </style>
+            <div class="tabs">
+                <div class="tab-2">
+                    <label style="color:#0095d8 !important" for="tab2-1">OUR MISSION</label>
+                    <input style="border-bottom:2px solid #0095d8 !important" id="tab2-1" name="tabs-two" class="active" type="radio" checked="checked">
+                    <div>
+
+                        <p style="font-weight:500">
+                            <b style="color:#0095d8">Mission Statement:</b>
+                            <br />
+                            <b style="color:#0095d8">•</b> SAS provides our clients with the very best service in all aspects of residential real
+                            estate, whether we are handling their sale or purchase personally, or connecting them to
+                            one of our associated property experts for particular service.
+                            <br />
+                            <b style="color:#0095d8">•</b> SAS believes in customers for life, being there for our clients throughout our journey in
+                            business, and in life, to ensure when it comes to residential property, they receive the
+                            very best this industry has to offer.
+                            <br />
+                            <b style="color:#0095d8">•</b> We aim to be at the forefront of property marketing, and to provide tailored, innovative
+                            solutions that fit our client’s individual property and situations to ensure the best possible
+                            outcome is achieved.
+                            <br />
+                            <b style="color:#0095d8">•</b> To make the Buying and Selling of Real Estate as Cost effective as possible while
+                            maintaining the highest level of service.
+                            <br />
+                            <b style="color:#0095d8">•</b> The best interest of our clients will always come first and we will place the clients
+                            concerns ahead of our own in each and every transaction, as we are dedicated to
+                            development of long- term client relationships.
+                            <br />
+                            <b style="color:#0095d8">•</b> To provide accurate and up-to-date information, skilled analysis and sound Real Estate
+                            advice.
+                            <br />
+                            <b style="color:#0095d8">•</b> To continually explore new ideas and technology, to make selling and buying of Real
+                            Estate faster, less costly and easier.
+                            <br />
+                            <b style="color:#0095d8">Motto:</b> We appreciate your Business
+                            <br />
+                            <hr />
+                            <b style="color:#0095d8">Values :</b>
+                            <br />
+                            <br />
+                        <p style="font-weight:500">
+                            <b style="color:#0095d8">
+                                D
+                            </b>- Dedicated – We take positive action.
+
+                            <br />
+
+                            <b style="color:#0095d8">
+                                R
+                            </b>- Respect – We treat everyone with dignity, value their contributions and help one another succeed.
+
+
+                            <br />
+                            <b style="color:#0095d8">
+                                E
+                            </b>- Excellence – We aspire to be the best in everything we do, and strive for continuous
+                            improvement
+                            <br />
+                            <b style="color:#0095d8">
+                                A
+                            </b>- Ambitious – We are eagerly desirous of achieving the DREAMS of our clients and customer’s
+                            <br />
+                            <b style="color:#0095d8">
+                                M
+                            </b>- Mission - We are transforming and enriching lives, through our love of Real Estate and
+                            construction.
+                            <br />
+                            <b style="color:#0095d8">
+                                S
+                            </b>- SAS Meaning – We are Serious, Determent, Responsible, Stable. We maintain the highest
+                            level of service to achieve the Highest.
+                        </p>
+                       
+                    </div>
+                </div>
+                <div class="tab-2">
+                    <label style="color:#ea4f4c !important" for="tab2-2">OUR    VISION</label>
+                    <input style="border-bottom:2px solid #ea4f4c !important;border-left:2px solid #ea4f4c !important;border-right:2px solid #ea4f4c !important" id="tab2-2" name="tabs-two" type="radio">
+                    <div>
+                        <p style="font-weight:500">
+                            <b style="color:#ea4f4c">Vision Statement :</b>
+                            <br />
+                            <b style="color:#ea4f4c">
+                                F
+                            </b>- Fairness in dealing with our clients and colleagues.
+                            <br />
+                            <b style="color:#ea4f4c">
+                                L
+                            </b>- Customers for Life
+                            succeed.
+                            <br />
+                            <b style="color:#ea4f4c">
+                                I
+                            </b>- Integrity & Honesty in dealing with our clients, service providers and Colleagues
+                            improvement
+                            <br />
+                            <b style="color:#ea4f4c">
+                                G
+                            </b>- Growth – Establishing our Agency as the preferred Real Estate Company in our market Area.
+                            <br />
+                            <b style="color:#ea4f4c">
+                                H
+                            </b>- Highest possible standards
+                            <br />
+                            <b style="color:#ea4f4c">
+                                T
+                            </b>- Team work – with our SAS Agents and Agents in our network system
+                        </p>
+
+                        <p style="font-weight:500">
+                            To be the leader in Real Estate and construction in Telangana and Andhra Pradesh, with a renowned reputation of honesty, integrity, impeccable customer service, helping other and serving our Community.
+                        </p>
+                        <hr />
+                        <p style="font-weight:500">
+                            <b style="color:#ea4f4c">SAS code of conduct: </b>Keys of Excellence
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Integrity – Match behaviour with values
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Failure leads to success – Learn from mistakes
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Speak with good purpose – Speak Honestly and Kindly
+                            <br />
+                            <b style="color:#ea4f4c">•</b> This is it – Make the most of every moment
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Commitment – Make your dreams happen
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Ownership - Take responsibility for actions
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Flexibility – Be Willing to do things differently
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Balance – Live your best life
+                        </p>
+                        <hr />
+                        <p style="font-weight:500">
+                            <b style="color:#ea4f4c">Core Values: </b> 
+                            <br />
+                            All members of SAS subscribe to this simple philosophy…. We serve our clients and community with honesty, integrity, knowledge and imagination to exceed their expectations and create win-win situations for all.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-        <br />
+    </section>
+    <style>
+        .main .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main .card {
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.24);
+            color: #333333;
+            border-radius: 2px;
+        }
+
+        .main .card-image {
+            background: #ffffff;
+            display: block;
+            padding-top: 70%;
+            position: relative;
+            width: 100%;
+        }
+
+            .main .card-image img {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        @@media only screen and (max-width: 600px) {
+            .main .container {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-gap: 1rem;
+            }
+        }
+    </style>
+    <script>
+        $('[data-fancybox="gallery"]').fancybox({
+            buttons: [
+                "slideShow",
+                "thumbs",
+                "zoom",
+                "fullScreen",
+                "share",
+                "close"
+            ],
+            loop: false,
+            protect: true
+        });
+
+    </script>
+    <section id="galleryBox" style="padding-bottom:30px;" class="tm-section-pad-top">
+        <div class="row">
+            <div class="text-center col-12">
+                <h2 class="tm-text-primary tm-section-title mb-4">Gallery</h2>
+
+            </div>
+        </div>
+        <main class="main">
+            <div class="container">
+
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/Image_1.jpg" data-fancybox="gallery" data-caption="Alpine Vistas">
+                            <img src="~/Content/Images/Image_1.jpg" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/AlpineVistasGallery1.PNG" data-fancybox="gallery" data-caption="Alpine Vistas">
+                            <img src="~/Content/Images/AlpineVistasGallery1.PNG" alt="Image Gallery">
+
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/AlpineVistasGallery2.PNG" data-fancybox="gallery" data-caption="Alpine Vistas">
+                            <img src="~/Content/Images/AlpineVistasGallery2.PNG" alt="Image Gallery">
+
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/Image_2.jpg" data-fancybox="gallery" data-caption="PVR Anmol">
+                            <img src="~/Content/Images/Image_2.jpg" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/PVRAnmolGallery1.PNG" data-fancybox="gallery" data-caption="PVR Anmol">
+                            <img src="~/Content/Images/PVRAnmolGallery1.PNG" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/PVR Anmol.png" data-fancybox="gallery" data-caption="PVR Anmol">
+                            <img src="~/Content/Images/PVR Anmol.png" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/Image_5.jpg" data-fancybox="gallery" data-caption="Alpine Squares">
+                            <img src="~/Content/Images/Image_5.jpg" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/Image_3.jpg" data-fancybox="gallery" data-caption="Alpine Squares">
+                            <img src="~/Content/Images/Image_3.jpg" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/AlpineSquareGallery1.PNG" data-fancybox="gallery" data-caption="Alpine Squares">
+                            <img src="~/Content/Images/AlpineSquareGallery1.PNG" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </main>
 
     </section>
-
     <!-- Contact -->
-    <section id="contact" style="padding-top:80px" class="tm-section-pad-top tm-parallax-2">
+    <section id="contact" class="tm-section-pad-top">
         <div class="container tm-container-contact">
             <div class="row">
                 <div class="col-12">
@@ -312,7 +761,7 @@
                                             <label for="Enquiry">Enquiry</label>
                                         </div>
                                         <div class="col-75">
-                                            @Html.TextAreaFor(m => m.Enquiry, new { @class = "text", type = "text", required = "required" })
+                                            @Html.TextAreaFor(m => m.Enquiry, new { @class = "text", type = "text", required = "required",maxlength = 160 })
                                         </div>
                                     </div>
                                     <div class="row">
@@ -350,8 +799,7 @@
         </footer>
 
     </section>
-    <style>
-    </style>
+
 
 
     <style>
@@ -408,8 +856,8 @@
             font-size: 20px;
             border-radius: 50%;
             position: fixed;
-            bottom: 20px;
-            right: 40px;
+            bottom: 60px;
+            right: 50px;
             cursor: pointer;
         }
 
@@ -468,14 +916,6 @@
                 var y = document.getElementById("body1");
                 var z = document.getElementById("msgIcon");
                 if (x.style.display === "none") {
-
-                    //y.style.opacity = 0;
-                    //y.style.position = "fixed";
-                    //y.style.display = "none";
-                    //y.style.width = '100%';
-
-                    //y.style.backgroundColor = "black";
-                    //y.style.zIndex = "2";
                     y.style.display = "block";
                     x.style.display = "flex";
                     x.style.zIndex = "9999";
@@ -561,8 +1001,7 @@
 
                 '<div class="k-quick-replies">' +
                 '# for (var i = 0; i < rows.length; i++) { #' +
-                //'<div><strong>#:rows[i].text#: </strong>' +
-                //'<span>#= kendo.toString(rows[i].value, "0.00") #</span></div>' +
+
                 '<span class="k-quick-reply" data-value="#:rows[i].value#">#:rows[i].title#</span>' +
                 '# } #' +
                 '</div>'
@@ -649,86 +1088,12 @@
                             });
                             chat.renderSuggestedActions(data);
 
-                            //chat.renderAttachments({
-                            //    attachments: [{
-                            //        contentType: "quote",
-                            //        content: {
-                            //            "project": data.ProjectName,
-                            //            "location": data.ProjectLocation,
-                            //            "chouse": data.ClubHouseCharges,
-                            //        }
-                            //    }],
-                            //    attachmentLayout: "carousel"
-                            //},"Venkat");
+
                         },
                         error: function (data) {
                         }
                     });
-                    //chat.renderMessage({
-                    //    type: "text",
-                    //    text: "Select the below options to know about :" + projectName,
-                    //    timestamp: new Date()
-                    //}, {
-                    //    name: "Bot",
-                    //    iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
-                    //});
 
-
-                    //var json = [{
-                    //    title: "Project Details",
-                    //    value: projectName+"-Details"
-                    //}, {
-                    //    title: "Approvals",
-                    //    value: projectName + "-Approvals"
-                    //},
-                    //{
-                    //    title: "Pricing",
-                    //    value: projectName + "-Pricing"
-                    //    }];
-
-                    //chat.renderSuggestedActions(json);
-                    //$.ajax({
-                    //    type: "GET",
-                    //    contentType: "application/json; charset=utf-8",
-                    //    url: "/Booking/GetProjectDetailsForChatBot",
-                    //    data: { projectName: projectName },
-                    //    success: function (data) {
-
-                    //        //chat.renderAttachments({
-                    //        //    attachments: [{
-                    //        //        contentType: "heroCard",
-                    //        //        content: {
-                    //        //            title: "Project :" + data.ProjectName,
-                    //        //            subtitle: "Location :" + data.ProjectLocation,
-                    //        //            text: "Club House Charges :" + data.ClubHouseCharges,
-                    //        //        }
-                    //        //    }]
-                    //        //}, 'Venkat');
-                    //        //chat.renderSuggestedActions(json);
-                    //        chat.renderMessage({
-                    //            type: "text",
-                    //            text: "",
-                    //            timestamp: new Date()
-                    //        }, {
-                    //            name: "Bot",
-                    //            iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
-                    //        });
-                    //        chat.renderAttachments({
-                    //            attachments: [{
-                    //                contentType: "quote",
-                    //                content: {
-                    //                    "project": data.ProjectName,
-                    //                    "location": data.ProjectLocation,
-                    //                    "chouse": data.ClubHouseCharges,
-                    //                    "projectImageURL" : data.projectImageURL,
-                    //                }
-                    //            }]
-                    //            //,attachmentLayout: "carousel"
-                    //        },"Venkat");
-                    //    },
-                    //    error: function (data) {
-                    //    }
-                    //});
 
                 }
                 else if (args.text.includes("Location-")) {
@@ -749,17 +1114,7 @@
                             });
                             chat.renderSuggestedActions(data);
 
-                            //chat.renderAttachments({
-                            //    attachments: [{
-                            //        contentType: "quote",
-                            //        content: {
-                            //            "project": data.ProjectName,
-                            //            "location": data.ProjectLocation,
-                            //            "chouse": data.ClubHouseCharges,
-                            //        }
-                            //    }],
-                            //    attachmentLayout: "carousel"
-                            //},"Venkat");
+
                         },
                         error: function (data) {
                         }
@@ -1063,8 +1418,10 @@
             });
         });
 
+        $(window).load(function () {
+            getLocation();
+        });
 
-        getLocation();
         var x = document.getElementById("demo1");
 
         function getLocation() {
@@ -1114,11 +1471,160 @@
         $.fn.enableScroll = function () {
             $(window).off('scroll.scrolldisabler');
         };
+
+        function scrollButtonClick(e) {
+            var button = $(e.currentTarget);
+            var scrollToLeft = button.find(".k-i-arrow-chevron-left").length !== 0;
+            var scrollContainer = $(".k-card-deck").eq(0);
+            var lastCard = scrollContainer.find(".k-card").last();
+            var cardWidth = lastCard.outerWidth(true);
+
+
+            if (scrollToLeft) {
+                scrollContainer.scrollLeft(scrollContainer.scrollLeft() - cardWidth);
+            } else {
+                scrollContainer.scrollLeft(scrollContainer.scrollLeft() + cardWidth);
+            }
+        };
+
+        $(document).ready(function () {
+            var cardDeck = $(".k-card-deck-scrollwrap").eq(0);
+
+            cardDeck.on("click", ".k-button-scroll", scrollButtonClick);
+        });
+
     </script>
+    <style>
+        #example {
+            display: flex;
+            justify-content: center;
+        }
+
+        /*.k-card-deck-scrollwrap {
+            max-width: 728px;
+        }*/
+
+        .k-card-deck {
+            box-sizing: border-box;
+            margin-left: -16px;
+            margin-right: -16px;
+            padding: 16px 16px 16px;
+            overflow-y: hidden;
+            overflow-x: auto;
+        }
+    </style>
 </body>
-<div style="display: none;position: fixed;bottom: 50px;right: 60px;width:350px;background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('/Content/Images/joana.jpg');background-size: cover;" id="chat"></div>
+<div style="display: none;position: fixed;bottom: 70px;right: 60px;width:350px;background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('/Content/Images/joana.jpg');background-size: cover;" id="chat"></div>
 
 <div id="msgIcon" class="message-icon">
     <img src="~/Content/Images/chatbotDark.png" />
 </div>
+<div type="button" style="position: fixed; bottom: 60px; left: 20px;" data-toggle="modal" data-target="#myModal">
+    <a href="#popup1">
+
+
+        <img width="64" height="64" src="~/Content/Images/Special-offer_3.gif" />
+    </a>
+</div>
+<div id="popup1" class="overlay1">
+    <div class="popup">
+        <h2>Vouchers</h2>
+        <a class="close" href="#">&times;</a>
+        <div class="content">
+            <div class="k-card-deck-scrollwrap">
+
+                <div class="k-card-deck">
+                    <div class="k-card k-card-type-rich">
+                        <img width=250 height="450" style="object-fit: contain;" src="~/Content/Images/Coupon.jpg" alt="undefined" class="k-card-image">
+                        <div style="background-color: #0095d8" class="k-card-body">
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="k-card k-card-type-rich">
+                        <img width=250 height="450" style="object-fit: contain;" src="~/Content/Images/Coupon1.jpg" alt="undefined" class="k-card-image">
+                        <div style="background-color: #6fbf12" class="k-card-body">
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .overlay1 {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+        .overlay1:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .popup {
+        margin: 80px auto;
+        padding: 20px;
+        background: #fff;
+        margin-top: 100px;
+        border-radius: 5px;
+        width: 30%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+
+        .popup h2 {
+            margin-top: 0;
+            color: #333;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+
+            .popup .close:hover {
+                color: #06D85F;
+            }
+
+        .popup .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+
+    @@media screen and (max-width: 700px) {
+
+        .popup {
+            width: 70%;
+        }
+    }
+
+    @@font-face {
+        font-family: 'kilsonburg';
+        src: url('../../Content/kilsonburg.ttf') format('truetype');
+    }
+
+    .classname {
+        font-family: 'kilsonburg';
+    }
+</style>
 </html>

@@ -16,8 +16,7 @@
                 <header>LOG IN</header>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <form action="#">
-                @Html.HiddenFor(m => m.Latitude)
-                @Html.HiddenFor(m => m.Longitude)
+                
                 <div class="field">
                     <span class="fa fa-user"></span>
                     @Html.TextBoxFor(m => m.Email)
@@ -70,24 +69,5 @@ else
         }
     });
 
-    getLocation();
-   
-
-    function getLocation() {
-        //if (location.protocol == "https:") {
-
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
-            }
-        //}
-    }
-
-    function showPosition(position) {
-
-        $("#Latitude").val(position.coords.latitude);
-        $("#Longitude").val(position.coords.longitude);
-    }
+    
 </script>

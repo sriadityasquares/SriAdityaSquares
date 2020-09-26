@@ -92,7 +92,7 @@ namespace ModelLayer
         public Nullable<int> Pincode { get; set; }
 
         [Required]
-        public Nullable<int> Mobile { get; set; }
+        public string Mobile { get; set; }
 
         [Required]
         [EmailAddress]

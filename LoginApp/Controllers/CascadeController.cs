@@ -46,9 +46,17 @@ namespace LoginApp.Controllers
 
         }
 
+        public JsonResult GetAgentsExceptSAS()
+        {
+            List<Agent> agentList = objCasc.BindAgentsExceptSAS();
+            return Json(agentList, JsonRequestBehavior.AllowGet);
+
+        }
+
+
         public JsonResult GetAgents2()
         {
-            List<AgentDropdown> agentList  = objCasc.BindAgents2();
+            List<AgentDropdown> agentList = objCasc.BindAgents2();
             return Json(agentList, JsonRequestBehavior.AllowGet);
 
         }
@@ -77,7 +85,7 @@ namespace LoginApp.Controllers
 
         }
 
-        
+
         public List<State> BindStateDetails(int CountryId)
         {
 
@@ -86,7 +94,7 @@ namespace LoginApp.Controllers
             {
                 stateDetail = objCasc.BindState(CountryId);
             }
-            
+
             catch (Exception ex)
             {
                 throw ex;
@@ -132,6 +140,13 @@ namespace LoginApp.Controllers
             s2.Status = "Pending";
             statusList.Add(s2);
             return Json(statusList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult UpdateAgentLocation(double latitude, double longitude)
+        {
+            if (User.IsInRole("Agent"))
+                objCasc.UpdateAgentLocation(latitude, longitude, User.Identity.Name);
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }

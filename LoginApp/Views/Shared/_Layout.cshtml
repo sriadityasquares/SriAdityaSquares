@@ -4,8 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-    <link rel="icon" href="" sizes="32x32">
-    <link rel="icon" href="" sizes="192x192">
+    <link rel="icon" src="~/Content/Images/SASBLACKLOGO.ico" href="~/Content/Images/SASBLACKLOGO.ico" sizes="32x32">
+    <link rel="icon" src="~/Content/Images/SASBLACKLOGO.ico" href="~/Content/Images/SASBLACKLOGO.ico" sizes="192x192">
+    
     <link rel="apple-touch-icon-precomposed" href="">
     @*<link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
         <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />*@
@@ -34,7 +35,7 @@
     <link href="~/Content/sweetalert.css" rel="stylesheet" />
     <script data-ad-client="ca-pub-2839852821589260" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
-<body onload="zoom()">
+<body>
     <nav style="background-color:black;margin-bottom:0;padding-top:0;width:240px" class="navbar">
         <a style="padding-top:0" class="navbar-brand" href="https://sasinfra.in/">
             <img style="align-content:center" src="~/Content/Images/SASBLACKLOGO.png" height="40" alt="">
@@ -55,8 +56,8 @@
 
                 <ul class="nano-content">
                     @*<li>
-                            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
-                        </li>*@
+            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+        </li>*@
                     <li class="sub-menu @(ViewBag.Dashboard)">
                         <a href="javascript:void(0);"><i class="fa fa-bar-chart"></i><span>DASHBOARD</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
@@ -125,11 +126,17 @@
                                     <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeFlatWiseAgentPayments", "Booking")">AGENT PAYMENTS</a>
                                 </li>
                                 <li>
+                                    <a class="@(ViewBag.ClientPayments)" href="@Url.Action("ClientPayments", "Booking")">CLIENT PAYMENTS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.DailyExpense)" href="@Url.Action("DailyExpenses", "Booking")">DAILY EXPENSES</a>
+                                </li>
+                                <li>
                                     <a class="@(ViewBag.Users)" href="@Url.Action("Index", "User")">USERS</a>
                                 </li>
                                 @*<li>
-                                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                                    </li>*@
+            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+        </li>*@
                             </ul>
                         </li>
                     }
@@ -143,6 +150,9 @@
                                     <a class="@(ViewBag.NewBooking)" href="@Url.Action("New", "Booking")">NEW BOOKING</a>
                                 </li>
                                 <li>
+                                    <a class="@(ViewBag.CancelBooking)" href="@Url.Action("CancelBooking", "Booking")">CANCEL BOOKING</a>
+                                </li>
+                                <li>
                                     <a class="@(ViewBag.MakePayment)" href="@Url.Action("MakePayment", "Booking")">PAYMENTS</a>
                                 </li>
                                 <li>
@@ -154,35 +164,44 @@
                             </ul>
                         </li>
                     }
-                    @if (this.User.IsInRole("Admin"))
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
                     {
                         <li class="sub-menu @(ViewBag.Reports)">
                             <a href="javascript:void(0);"><i class="fa fa-table"></i><span>REPORTS</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                             <ul>
-                                <li>
-                                    <a class="@(ViewBag.PeriodWiseBookingReport)" href="@Url.Action("PeriodWiseBookingReport", "Report")">PERIOD WISE BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.GraphicalPeriodWiseBookingReport)" href="@Url.Action("GraphicalPeriodWiseBookingReport", "Report")">GRAPHICAL PERIOD WISE BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.BookingInfoReport)" href="@Url.Action("BookingInfoReport", "Report")">BOOKING INFORMATION</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.PaymentInfoReport)" href="@Url.Action("PaymentInfoReport", "Report")">PAYMENT INFORMATION</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.AgentWiseBookingReport)" href="@Url.Action("AgentWiseBookingReport", "Report")">AGENT WISE BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.BhkWiseBookingReport)" href="@Url.Action("BhkWiseBookingReport", "Report")">BHK WISE BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.FacingWiseBookingReport)" href="@Url.Action("FacingWiseBookingReport", "Report")">FACING WISE BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.FlatWiseAgentCommission)" href="@Url.Action("FlatWiseAgentCommission", "Report")">FLAT WISE AGENT COMMISSION</a>
-                                </li>
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.PeriodWiseBookingReport)" href="@Url.Action("PeriodWiseBookingReport", "Report")">PERIOD WISE BOOKING</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.GraphicalPeriodWiseBookingReport)" href="@Url.Action("GraphicalPeriodWiseBookingReport", "Report")">GRAPHICAL PERIOD WISE BOOKING</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.BookingInfoReport)" href="@Url.Action("BookingInfoReport", "Report")">BOOKING INFORMATION</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.PaymentInfoReport)" href="@Url.Action("PaymentInfoReport", "Report")">PAYMENT INFORMATION</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.AgentWiseBookingReport)" href="@Url.Action("AgentWiseBookingReport", "Report")">AGENT WISE BOOKING</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.BhkWiseBookingReport)" href="@Url.Action("BhkWiseBookingReport", "Report")">BHK WISE BOOKING</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.FacingWiseBookingReport)" href="@Url.Action("FacingWiseBookingReport", "Report")">FACING WISE BOOKING</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.FlatWiseAgentCommission)" href="@Url.Action("FlatWiseAgentCommission", "Report")">FLAT WISE AGENT COMMISSION</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.AgentBookingStats)" href="@Url.Action("AgentBookingStats", "Dashboard")">AGENT BOOKING STATISTICS</a>
+                                    </li>
+                                }
                             </ul>
                         </li>
                     }
@@ -328,11 +347,17 @@
                                     <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeFlatWiseAgentPayments", "Booking")">AGENT PAYMENTS</a>
                                 </li>
                                 <li>
+                                    <a class="@(ViewBag.ClientPayments)" href="@Url.Action("ClientPayments", "Booking")">CLIENT PAYMENTS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.DailyExpense)" href="@Url.Action("DailyExpenses", "Booking")">DAILY EXPENSES</a>
+                                </li>
+                                <li>
                                     <a class="@(ViewBag.Users)" href="@Url.Action("Index", "User")">USERS</a>
                                 </li>
                                 @*<li>
-                                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                                    </li>*@
+            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+        </li>*@
                             </ul>
                         </li>
                     }
@@ -346,6 +371,9 @@
                                     <a class="@(ViewBag.NewBooking)" href="@Url.Action("New", "Booking")">NEW BOOKING</a>
                                 </li>
                                 <li>
+                                    <a class="@(ViewBag.CancelBooking)" href="@Url.Action("CancelBooking", "Booking")">CANCEL BOOKING</a>
+                                </li>
+                                <li>
                                     <a class="@(ViewBag.MakePayment)" href="@Url.Action("MakePayment", "Booking")">PAYMENTS</a>
                                 </li>
                                 <li>
@@ -357,35 +385,44 @@
                             </ul>
                         </li>
                     }
-                    @if (this.User.IsInRole("Admin"))
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
                     {
                         <li class="sub-menu @(ViewBag.Reports)">
                             <a href="javascript:void(0);"><i class="fa fa-table"></i><span>REPORTS</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                             <ul>
-                                <li>
-                                    <a class="@(ViewBag.PeriodWiseBookingReport)" href="@Url.Action("PeriodWiseBookingReport", "Report")">PERIOD WISE BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.GraphicalPeriodWiseBookingReport)" href="@Url.Action("GraphicalPeriodWiseBookingReport", "Report")">GRAPHICAL PERIOD WISE BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.BookingInfoReport)" href="@Url.Action("BookingInfoReport", "Report")">BOOKING INFORMATION</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.PaymentInfoReport)" href="@Url.Action("PaymentInfoReport", "Report")">PAYMENT INFORMATION</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.AgentWiseBookingReport)" href="@Url.Action("AgentWiseBookingReport", "Report")">AGENT WISE BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.BhkWiseBookingReport)" href="@Url.Action("BhkWiseBookingReport", "Report")">BHK WISE BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.FacingWiseBookingReport)" href="@Url.Action("FacingWiseBookingReport", "Report")">FACING WISE BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.FlatWiseAgentCommission)" href="@Url.Action("FlatWiseAgentCommission", "Report")">FLAT WISE AGENT COMMISSION</a>
-                                </li>
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.PeriodWiseBookingReport)" href="@Url.Action("PeriodWiseBookingReport", "Report")">PERIOD WISE BOOKING</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.GraphicalPeriodWiseBookingReport)" href="@Url.Action("GraphicalPeriodWiseBookingReport", "Report")">GRAPHICAL PERIOD WISE BOOKING</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.BookingInfoReport)" href="@Url.Action("BookingInfoReport", "Report")">BOOKING INFORMATION</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.PaymentInfoReport)" href="@Url.Action("PaymentInfoReport", "Report")">PAYMENT INFORMATION</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.AgentWiseBookingReport)" href="@Url.Action("AgentWiseBookingReport", "Report")">AGENT WISE BOOKING</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.BhkWiseBookingReport)" href="@Url.Action("BhkWiseBookingReport", "Report")">BHK WISE BOOKING</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.FacingWiseBookingReport)" href="@Url.Action("FacingWiseBookingReport", "Report")">FACING WISE BOOKING</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.FlatWiseAgentCommission)" href="@Url.Action("FlatWiseAgentCommission", "Report")">FLAT WISE AGENT COMMISSION</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.AgentBookingStats)" href="@Url.Action("AgentBookingStats", "Dashboard")">AGENT BOOKING STATISTICS</a>
+                                    </li>
+                                }
                             </ul>
                         </li>
                     }
@@ -486,9 +523,10 @@
     }
 </style>
 <script type="text/javascript">
+    zoom()
     function zoom() {
-
-        if ($(document).width() > 1700)
+        
+        if ($(document).width() > 1600)
             document.body.style.zoom = "90%";
         else
             document.body.style.zoom = "70%";

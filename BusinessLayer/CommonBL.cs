@@ -30,7 +30,10 @@ namespace BusinessLayer
         {
             return db.BindAgents();
         }
-
+        public List<Agent> BindAgentsExceptSAS()
+        {
+            return db.BindAgentsExceptSAS();
+        }
         public List<AgentDropdown> BindAgents2()
         {
             return db.BindAgents2();

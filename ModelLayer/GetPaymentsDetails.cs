@@ -13,7 +13,7 @@ namespace ModelLayer
         public string ProjectName { get; set; }
         public string TowerName { get; set; }
         public string Name { get; set; }
-        public Nullable<int> Mobile { get; set; }
+        public string Mobile { get; set; }
         public string FlatName { get; set; }
         public Nullable<int> BookingAmount { get; set; }
         public Nullable<int> Bhk { get; set; }
