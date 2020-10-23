@@ -10,11 +10,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>The Town HTML CSS Template</title>
-    @*<link rel="stylesheet" href="fontawesome-5.5/css/all.min.css" />*@
-    @*<link rel="stylesheet" href="slick/slick.css">
-        <link rel="stylesheet" href="slick/slick-theme.css">*@
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <title>Home Page</title>
+    <link rel="icon" src="~/Content/Images/SASBLACKLOGO.ico" href="~/Content/Images/SASBLACKLOGO.ico" sizes="32x32">
+    <link rel="icon" src="~/Content/Images/SASBLACKLOGO.ico" href="~/Content/Images/SASBLACKLOGO.ico" sizes="192x192">
+    <link href="~/Content/kendo/2019.3.917/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2019.3.917/kendo.default.min.css" rel="stylesheet" />
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
     <link href="~/Content/Potfolio/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="~/Content/Potfolio/slick.css" rel="stylesheet" />
@@ -22,18 +23,34 @@
     <link href="~/Content/Potfolio/magnific-popup.css" rel="stylesheet" />
     <link href="~/Content/Potfolio/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/Potfolio/templatemo-style.css" rel="stylesheet" />
-
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/kendo.all.min.js"></script>
+    <script src="~/Content/Potfolio/slick.min.js"></script>
+    <script src="~/Content/Potfolio/kchat.js"></script>
+    <script src="~/Content/Potfolio/homePage.js"></script>
+    <script src="~/Content/Potfolio/jquery.magnific-popup.min.js"></script>
+    <script src="~/Content/Potfolio/jquery.singlePageNav.min.js"></script>
+    <script src="~/Content/Potfolio/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    @*<script data-ad-client="ca-pub-2839852821589260" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>*@
 </head>
 <body>
     <!-- Hero section -->
+
+    <div id="body1">
+    </div>
     <section id="hero" class="text-white tm-font-big tm-parallax">
         <!-- Navigation -->
-        <nav class="navbar navbar-expand-md tm-navbar" id="tmNav">
+        <nav style="padding-bottom:3px;" class="navbar navbar-expand-md tm-navbar" id="tmNav">
             <div class="container">
                 <div class="tm-next">
-                    <span></span>
-                    <a href="#hero" class="navbar-brand">SAS WORKS</a>
+                    <a href="#hero">
+                        <img id="logoImagediv" style="object-fit: contain;" src="~/Content/Images/SASBLACKLOGO.png" />
+                        <span style="font-family: kilsonburg;font-size:18px;color:black">SRI ADITYA SQUARES</span>
+                    </a>
+
                 </div>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,33 +59,33 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
+
                             <a class="nav-link tm-nav-link" href="#introduction">Introduction</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link tm-nav-link" href="#work">Our Work</a>
+                            <a class="nav-link tm-nav-link" href="#work">Our Works</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link tm-nav-link" href="#galleryBox">Gallery</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link tm-nav-link" href="#contact">Contact Us</a>
+                        </li>
+                        <li id="loginPosition" class="nav-item">
+                            <a class="nav-link tm-nav-link" id="WebApp" href="">
+                                <span class="fa fa-sign-in"> Login</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-
-        <div class="text-center tm-hero-text-container">
-            @*<div class="tm-hero-text-container-inner">
-                    <h2 style="color:beige" class="tm-hero-title">SAS COMPANY</h2>
-
-                </div>*@
-        </div>
-
         <div class="tm-next tm-intro-next">
             <a href="#introduction" class="text-center tm-down-arrow-link">
                 <i class="fa fa-3x fa-caret-down tm-down-arrow"></i>
             </a>
         </div>
     </section>
-
     <section id="introduction" class="tm-section-pad-top">
         <div class="container">
             <div class="row">
@@ -79,13 +96,13 @@
                 <div class="col-lg-6">
                     <div class="tm-intro-text-container">
                         <h2 class="tm-text-primary mb-4 tm-section-title">Introduction</h2>
-                        <p class="mb-4 tm-intro-text">
-                            Explain about SAS...
+                        <p style="font-weight: 500;" class="mb-4 tm-intro-text">
+                            SAS,is the one stop destination for all your real estate property needs. We offer END to END services at free of cost and provide upto 90% of bank loans.
+                            SAS  has more than 2500+ satisfied customers and the number is growing day by day.
                         </p>
-                        <p class="mb-5 tm-intro-text">
-                            Give more details
-                            Thank you.
-
+                        <p style="font-weight: 500;" class="mb-5 tm-intro-text">
+                            Before going to buy a property in Guntur / Hyderabad / Bangalore, Please take our advice from more than 500+ highly qualified and experienced corporate Professional employees.
+                            If you want to buy any property like gated community FLATS in hyderabad, PLOTS for sale in hyderabad, DUPLEX, gated community VILLAS in hyderabad .
                         </p>
                         <div class="tm-next">
                             <a href="#work" class="tm-intro-text tm-btn-primary">Read More</a>
@@ -93,138 +110,367 @@
                     </div>
                 </div>
             </div>
-
             <div class="row tm-section-pad-top">
                 <div class="col-lg-4">
-                    <i class="fa fa-4x fa-home text-center tm-icon"></i>
-                    <h4 class="text-center tm-text-primary mb-4">Dream Homes </h4>
-                    <p>
-                        Four walls and a roof over your head isn’t the only way we define the word ‘home.’ Home is more then just a shelter, it’s where we love, it’s where we feel, it’s where we can be ourselves and it’s where life happens.
+                    <img style="height:200px;width:400px" src="~/Content/Images/interior.jpg" />
+                    <h5 style="padding-top:8px;padding-bottom:8px;margin-bottom:0 !important" class="text-center tm-text-primary mb-4">Real Estate Done Right!</h5>
+                    <p style="font-weight: 500;">
+                        Nervous about your property adventure? Don’t be.Whether you're getting ready to buy or sell, in the middle of it, or just looking for some answers, our top-notch skills ensure you get the best experience possible.It’s what we love to do.
                     </p>
                 </div>
 
                 <div class="col-lg-4 mt-5 mt-lg-0">
-                    <i class="fa fa-4x fa-building text-center tm-icon"></i>
-                    <h4 class="text-center tm-text-primary mb-4">Apartments</h4>
-                    <p>
-                        Explain about Apartment..
+                    <img style="height:200px;width:400px;" src="~/Content/Images/cityLights.gif" />
+
+                    <h5 style="padding-top:8px;padding-bottom:8px;margin-bottom:0 !important" class="text-center tm-text-primary mb-4">Commercial and Residential!</h5>
+                    <p style="font-weight: 500;">
+                        Large or small, condo or mansion, we can find it and get it for you at the price that's right. TICs? Fixer-uppers? Luxury? We can help with all of it. We always have a current list of available properties for you to check out.
                     </p>
                 </div>
                 <div class="col-lg-4 mt-5 mt-lg-0">
-                    <i class="fa fa-4x fa-university text-center tm-icon"></i>
-                    <h4 class="text-center tm-text-primary mb-4">Villas</h4>
-                    <p>
-                        Explain about villas..
+                    <img style="height:200px;width:400px" src="~/Content/Images/KitchenImg.jpg" />
+                    <h5 style="padding-top:8px;padding-bottom:8px;margin-bottom:0 !important" class="text-center tm-text-primary mb-4">Rely on Expertise!</h5>
+                    <p style="font-weight: 500;">
+                        If you have questions about affordability, credit, legal matters, or income, trust us to find you what you need fast. We make sure you feel confident and educated every step of the way.
                     </p>
                 </div>
             </div>
     </section>
+
     <section id="work" class="tm-section-pad-top">
         <div class="container tm-container-gallery">
             <div class="row">
                 <div class="text-center col-12">
                     <h2 class="tm-text-primary tm-section-title mb-4">Our Work</h2>
-                    <p class="mx-auto tm-work-description">
-                        "Explain about your work.."
+                    <p style="font-weight:600" class="mx-auto tm-work-description">
+                        A revolutionary change in the realty sector, SAS Infra presents, SAS - A one-of-a-kind Promotional,development of various real estate projects that will transform the way the  real estate  perceives business, life and luxury.
                     </p>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-12">
-                    <div class="mx-auto tm-gallery-container">
-                        <div class="grid tm-gallery">
-                            <a href="~/Content/Images/home1.jpg">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img src="~/Content/Images/sdd.jpg" alt="Image" class="img-fluid">
+                    <div id="example">
+                        <div class="k-card-deck-scrollwrap">
+                            <button class="k-button k-button-icon k-button-scroll">
+                                <span class="k-icon k-i-arrow-chevron-left"></span>
+                            </button>
+                            <div class="k-card-deck">
+                                <div class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Jewels County.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color: #0095d8" class="k-card-body">
+                                        <h5 class="k-card-title">Jewel's County</h5>
+                                        <h6 class="k-card-subtitle">K Peta</h6>
 
-                                    <figcaption>
-                                        <h2><i>Lotus <span>Homes</span></i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                            <a href="~/Content/Images/home1.jpg">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img src="~/Content/Images/sdd.jpg" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i>Jewel <span>County</span></i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                            <a href="~/Content/Images/home1.jpg">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img src="~/Content/Images/sdd.jpg" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i>Narmada <span>Homes</span></i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                            
-                            <a href="~/Content/Images/home3.jpg">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img src="~/Content/Images/sdd.jpg" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i>In <span>The Woods</span></i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                            <a href="img/gallery-img-05.jpg">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img src="img/gallery-tn-05.jpg" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i>Fifth <span>Honey</span> Now</i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                            <a href="img/gallery-img-06.jpg">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img src="img/gallery-tn-06.jpg" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i>Sixth <span>Honey</span> Now</i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                            <a href="img/gallery-img-01.jpg">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img src="img/gallery-tn-01.jpg" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i>Dreamy <span>Honey</span> Now</i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
-                            <a href="img/gallery-img-02.jpg">
-                                <figure class="effect-honey tm-gallery-item">
-                                    <img src="img/gallery-tn-02.jpg" alt="Image" class="img-fluid">
-                                    <figcaption>
-                                        <h2><i>Eighth <span>Honey</span> Now</i></h2>
-                                    </figcaption>
-                                </figure>
-                            </a>
+                                    </div>
+
+                                </div>
+
+                                <div class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/In the Woods.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color: #6fbf12" class="k-card-body">
+                                        <h5 class="k-card-title">In the Woods</h5>
+                                        <h6 class="k-card-subtitle">Narsingi</h6>
+
+                                    </div>
+
+                                </div>
+                                <div class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Elderado.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color: #ffca2b" class="k-card-body">
+                                        <h5 class="k-card-title">Elderado</h5>
+                                        <h6 class="k-card-subtitle">Narsingi</h6>
+
+                                    </div>
+
+                                </div>
+                                <div style="background-color:whitesmoke;border:2px;border-color:black" class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Alpine Square.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color: rosybrown" class="k-card-body">
+                                        <h5 class="k-card-title">Alpine Squares</h5>
+                                        <h6 class="k-card-subtitle">Patancheru</h6>
+
+                                    </div>
+
+                                </div>
+                                <div class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/PVR Anmol.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color:#f48e36" class="k-card-body">
+                                        <h5 class="k-card-title">PVR Anmol</h5>
+                                        <h6 class="k-card-subtitle">Miyapur</h6>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Alpine Vistas.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color: #139e91" class="k-card-body">
+                                        <h5 class="k-card-title">Alpine Vistas</h5>
+                                        <h6 class="k-card-subtitle">Rendlagadda</h6>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <button class="k-button k-button-icon k-button-scroll">
+                                <span class="k-icon k-i-arrow-chevron-right"></span>
+                            </button>
                         </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <div class="tabs">
+                <div class="tab-2">
+                    <label style="color:#0095d8 !important" for="tab2-1">OUR MISSION</label>
+                    <input style="border-bottom:2px solid #0095d8 !important" id="tab2-1" name="tabs-two" class="active" type="radio" checked="checked">
+                    <div>
+
+                        <p style="font-weight:500">
+                            <b style="color:#0095d8">Mission Statement:</b>
+                            <br />
+                            <b style="color:#0095d8">•</b> SAS provides our clients with the very best service in all aspects of residential real
+                            estate, whether we are handling their sale or purchase personally, or connecting them to
+                            one of our associated property experts for particular service.
+                            <br />
+                            <b style="color:#0095d8">•</b> SAS believes in customers for life, being there for our clients throughout our journey in
+                            business, and in life, to ensure when it comes to residential property, they receive the
+                            very best this industry has to offer.
+                            <br />
+                            <b style="color:#0095d8">•</b> We aim to be at the forefront of property marketing, and to provide tailored, innovative
+                            solutions that fit our client’s individual property and situations to ensure the best possible
+                            outcome is achieved.
+                            <br />
+                            <b style="color:#0095d8">•</b> To make the Buying and Selling of Real Estate as Cost effective as possible while
+                            maintaining the highest level of service.
+                            <br />
+                            <b style="color:#0095d8">•</b> The best interest of our clients will always come first and we will place the clients
+                            concerns ahead of our own in each and every transaction, as we are dedicated to
+                            development of long- term client relationships.
+                            <br />
+                            <b style="color:#0095d8">•</b> To provide accurate and up-to-date information, skilled analysis and sound Real Estate
+                            advice.
+                            <br />
+                            <b style="color:#0095d8">•</b> To continually explore new ideas and technology, to make selling and buying of Real
+                            Estate faster, less costly and easier.
+                            <br />
+                            <b style="color:#0095d8">Motto:</b> We appreciate your Business
+                            <br />
+                            <hr />
+                            <b style="color:#0095d8">Values :</b>
+                            <br />
+                            <br />
+                        <p style="font-weight:500">
+                            <b style="color:#0095d8">
+                                D
+                            </b>- Dedicated – We take positive action.
+
+                            <br />
+
+                            <b style="color:#0095d8">
+                                R
+                            </b>- Respect – We treat everyone with dignity, value their contributions and help one another succeed.
+
+
+                            <br />
+                            <b style="color:#0095d8">
+                                E
+                            </b>- Excellence – We aspire to be the best in everything we do, and strive for continuous
+                            improvement
+                            <br />
+                            <b style="color:#0095d8">
+                                A
+                            </b>- Ambitious – We are eagerly desirous of achieving the DREAMS of our clients and customer’s
+                            <br />
+                            <b style="color:#0095d8">
+                                M
+                            </b>- Mission - We are transforming and enriching lives, through our love of Real Estate and
+                            construction.
+                            <br />
+                            <b style="color:#0095d8">
+                                S
+                            </b>- SAS Meaning – We are Serious, Determent, Responsible, Stable. We maintain the highest
+                            level of service to achieve the Highest.
+                        </p>
+
+                    </div>
+                </div>
+                <div class="tab-2">
+                    <label style="color:#ea4f4c !important" for="tab2-2">OUR    VISION</label>
+                    <input style="border-bottom:2px solid #ea4f4c !important;border-left:2px solid #ea4f4c !important;border-right:2px solid #ea4f4c !important" id="tab2-2" name="tabs-two" type="radio">
+                    <div>
+                        <p style="font-weight:500">
+                            <b style="color:#ea4f4c">Vision Statement :</b>
+                            <br />
+                            <b style="color:#ea4f4c">
+                                F
+                            </b>- Fairness in dealing with our clients and colleagues.
+                            <br />
+                            <b style="color:#ea4f4c">
+                                L
+                            </b>- Customers for Life
+                            succeed.
+                            <br />
+                            <b style="color:#ea4f4c">
+                                I
+                            </b>- Integrity & Honesty in dealing with our clients, service providers and Colleagues
+                            improvement
+                            <br />
+                            <b style="color:#ea4f4c">
+                                G
+                            </b>- Growth – Establishing our Agency as the preferred Real Estate Company in our market Area.
+                            <br />
+                            <b style="color:#ea4f4c">
+                                H
+                            </b>- Highest possible standards
+                            <br />
+                            <b style="color:#ea4f4c">
+                                T
+                            </b>- Team work – with our SAS Agents and Agents in our network system
+                        </p>
+
+                        <p style="font-weight:500">
+                            To be the leader in Real Estate and construction in Telangana and Andhra Pradesh, with a renowned reputation of honesty, integrity, impeccable customer service, helping other and serving our Community.
+                        </p>
+                        <hr />
+                        <p style="font-weight:500">
+                            <b style="color:#ea4f4c">SAS code of conduct: </b>Keys of Excellence
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Integrity – Match behaviour with values
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Failure leads to success – Learn from mistakes
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Speak with good purpose – Speak Honestly and Kindly
+                            <br />
+                            <b style="color:#ea4f4c">•</b> This is it – Make the most of every moment
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Commitment – Make your dreams happen
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Ownership - Take responsibility for actions
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Flexibility – Be Willing to do things differently
+                            <br />
+                            <b style="color:#ea4f4c">•</b> Balance – Live your best life
+                        </p>
+                        <hr />
+                        <p style="font-weight:500">
+                            <b style="color:#ea4f4c">Core Values: </b>
+                            <br />
+                            All members of SAS subscribe to this simple philosophy…. We serve our clients and community with honesty, integrity, knowledge and imagination to exceed their expectations and create win-win situations for all.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <script>
+
+
+    </script>
+    <section id="galleryBox" style="padding-bottom:30px;" class="tm-section-pad-top">
+        <div class="row">
+            <div class="text-center col-12">
+                <h2 class="tm-text-primary tm-section-title mb-4">Gallery</h2>
+
+            </div>
+        </div>
+        <main class="main">
+            <div class="container">
+
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/Image_1.jpg" data-fancybox="gallery" data-caption="Alpine Vistas">
+                            <img src="~/Content/Images/Image_1.jpg" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/AlpineVistasGallery1.PNG" data-fancybox="gallery" data-caption="Alpine Vistas">
+                            <img src="~/Content/Images/AlpineVistasGallery1.PNG" alt="Image Gallery">
+
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/AlpineVistasGallery2.PNG" data-fancybox="gallery" data-caption="Alpine Vistas">
+                            <img src="~/Content/Images/AlpineVistasGallery2.PNG" alt="Image Gallery">
+
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/Image_2.jpg" data-fancybox="gallery" data-caption="PVR Anmol">
+                            <img src="~/Content/Images/Image_2.jpg" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/PVRAnmolGallery1.PNG" data-fancybox="gallery" data-caption="PVR Anmol">
+                            <img src="~/Content/Images/PVRAnmolGallery1.PNG" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/PVR Anmol.png" data-fancybox="gallery" data-caption="PVR Anmol">
+                            <img src="~/Content/Images/PVR Anmol.png" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/Image_5.jpg" data-fancybox="gallery" data-caption="Alpine Squares">
+                            <img src="~/Content/Images/Image_5.jpg" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/Image_3.jpg" data-fancybox="gallery" data-caption="Alpine Squares">
+                            <img src="~/Content/Images/Image_3.jpg" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <a href="~/Content/Images/AlpineSquareGallery1.PNG" data-fancybox="gallery" data-caption="Alpine Squares">
+                            <img src="~/Content/Images/AlpineSquareGallery1.PNG" alt="Image Gallery">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+    </section>
     <!-- Contact -->
-    <section id="contact" class="tm-section-pad-top tm-parallax-2">
+    <section id="contact" class="tm-section-pad-top">
         <div class="container tm-container-contact">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="mb-4 tm-section-title">Contact Us</h2>
+                    <h2 style="color:#3496d8" class="mb-4 tm-section-title">Contact Us</h2>
                     <div class="mb-5 tm-underline">
                         <div class="tm-underline-inner"></div>
                     </div>
-                    <p class="mb-5">
-
-                    </p>
 
                     @using (Html.BeginForm("Enquiry", "Customer", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
                         <div class="row" style="padding-top:0px">
                             <div class="col-xs-12 col-sm-12 col-md-12 div">
-                                
+                                @Html.HiddenFor(m => m.Latitude)
+                                @Html.HiddenFor(m => m.Longitude)
                                 <form>
                                     <div class="row">
                                         <div class="col-25">
@@ -232,7 +478,7 @@
                                         </div>
                                         <div class="col-75">
                                             @*<input type="text" id="CustomerName" name="firstname" placeholder="Your name..">*@
-                                            @Html.TextBoxFor(m => m.CustomerName, new {  type = "text", required = "required",placeholder = "Your name.." })
+                                            @Html.TextBoxFor(m => m.CustomerName, new { type = "text", required = "required", placeholder = "Your name.." })
                                         </div>
                                     </div>
                                     <div class="row">
@@ -256,19 +502,17 @@
                                             <label for="Enquiry">Enquiry</label>
                                         </div>
                                         <div class="col-75">
-                                            @Html.TextAreaFor(m => m.Enquiry, new { @class = "text", type = "text", required = "required" })
+                                            @Html.TextAreaFor(m => m.Enquiry, new { @class = "text", type = "text", required = "required", maxlength = 160 })
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input  type="submit" value="Contact">
+                                            <input type="submit" style="background-color:none !important" class="tm-intro-text tm-btn-primary" value="Contact">
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
-
-
 
 
                     }
@@ -277,166 +521,206 @@
                 </div>
             </div>
         </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         <footer class="text-center small tm-footer">
-            <p class="mb-0">
-                Copyright &copy; 2020 SAS WORKS
+            <p style="color:black" class="mb-0">
+                <b>
+                    <b>SRI ADITYA SQUARES</b> <br />
+                </b>
+                1st floor, Lakshmi's, Kavuri Hills Phase 1, Hyderabad, 500033<br />
+                Reach us at : <b>9000943243</b><br />
+                <b>Copyright &copy; 2020 SRI ADITYA SQUARES</b> <br />
 
 
         </footer>
 
     </section>
-
-    <script src="~/Content/Potfolio/jquery-1.9.1.min.js"></script>
-    <script src="~/Content/Potfolio/slick.min.js"></script>
-    <script src="~/Content/Potfolio/jquery.magnific-popup.min.js"></script>
-    <script src="~/Content/Potfolio/jquery.singlePageNav.min.js"></script>
-    <script src="~/Content/Potfolio/bootstrap.min.js"></script>
     <script>
 
-        function getOffSet() {
-            var _offset = 450;
-            var windowHeight = window.innerHeight;
+        $(document).ready(function () {
 
-            if (windowHeight > 500) {
-                _offset = 400;
-            }
-            if (windowHeight > 680) {
-                _offset = 300
-            }
-            if (windowHeight > 830) {
-                _offset = 210;
-            }
-
-            return _offset;
-        }
-
-        function setParallaxPosition($doc, multiplier, $object) {
-            var offset = getOffSet();
-            var from_top = $doc.scrollTop(),
-                bg_css = 'center ' + (multiplier * from_top - offset) + 'px';
-            $object.css({ "background-position": bg_css });
-        }
-
-        // Parallax function
-        // Adapted based on https://codepen.io/roborich/pen/wpAsm
-        var background_image_parallax = function ($object, multiplier, forceSet) {
-            multiplier = typeof multiplier !== 'undefined' ? multiplier : 0.5;
-            multiplier = 1 - multiplier;
-            var $doc = $(document);
-            // $object.css({"background-attatchment" : "fixed"});
-
-            if (forceSet) {
-                setParallaxPosition($doc, multiplier, $object);
-            } else {
-                $(window).scroll(function () {
-                    setParallaxPosition($doc, multiplier, $object);
-                });
-            }
-        };
-
-        var background_image_parallax_2 = function ($object, multiplier) {
-            multiplier = typeof multiplier !== 'undefined' ? multiplier : 0.5;
-            multiplier = 1 - multiplier;
-            var $doc = $(document);
-            $object.css({ "background-attachment": "fixed" });
-            $(window).scroll(function () {
-                var firstTop = $object.offset().top,
-                    pos = $(window).scrollTop(),
-                    yPos = Math.round((multiplier * (firstTop - pos)) - 186);
-
-                var bg_css = 'center ' + yPos + 'px';
-
-                $object.css({ "background-position": bg_css });
-            });
-        };
-
-        $(function () {
-            // Hero Section - Background Parallax
-            background_image_parallax($(".tm-parallax"), 0.30, false);
-            background_image_parallax_2($("#contact"), 0.80);
-
-            // Handle window resize
-            window.addEventListener('resize', function () {
-                background_image_parallax($(".tm-parallax"), 0.30, true);
-            }, true);
-
-            // Detect window scroll and update navbar
-            $(window).scroll(function (e) {
-                if ($(document).scrollTop() > 120) {
-                    $('.tm-navbar').addClass("scroll");
+            $('.message-icon').click(function () {
+                var x = document.getElementById("chat");
+                var y = document.getElementById("body1");
+                var z = document.getElementById("msgIcon");
+                if (x.style.display === "none") {
+                    y.style.display = "block";
+                    x.style.display = "flex";
+                    x.style.zIndex = "9999";
+                    z.style.zIndex = "9999";
+                    $("#body1").disableScroll();
                 } else {
-                    $('.tm-navbar').removeClass("scroll");
+                    x.style.display = "none";
+                    $("#body1").enableScroll();
+                    y.style.display = "none";
                 }
-            });
-
-            // Close mobile menu after click
-            $('#tmNav a').on('click', function () {
-                $('.navbar-collapse').removeClass('show');
-            })
-
-            // Scroll to corresponding section with animation
-            $('#tmNav').singlePageNav();
-
-            // Add smooth scrolling to all links
-            // https://www.w3schools.com/howto/howto_css_smooth_scroll.asp
-            $("a").on('click', function (event) {
-                if (this.hash !== "") {
-                    event.preventDefault();
-                    var hash = this.hash;
-
-                    $('html, body').animate({
-                        scrollTop: $(hash).offset().top
-                    }, 400, function () {
-                        window.location.hash = hash;
-                    });
-                } // End if
-            });
-
-            // Pop up
-            $('.tm-gallery').magnificPopup({
-                delegate: 'a',
-                type: 'image',
-                gallery: { enabled: true }
-            });
-
-            // Gallery
-            $('.tm-gallery').slick({
-                dots: true,
-                infinite: false,
-                slidesToShow: 5,
-                slidesToScroll: 2,
-                responsive: [
-                    {
-                        breakpoint: 1199,
-                        settings: {
-                            slidesToShow: 4,
-                            slidesToScroll: 2
-                        }
-                    },
-                    {
-                        breakpoint: 991,
-                        settings: {
-                            slidesToShow: 3,
-                            slidesToScroll: 2
-                        }
-                    },
-                    {
-                        breakpoint: 767,
-                        settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 1
-                        }
-                    },
-                    {
-                        breakpoint: 480,
-                        settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1
-                        }
-                    }
-                ]
             });
         });
     </script>
+    <script id="quote-template" type="text/x-kendo-template">
+        <div id="quote1" class="#=styles.card# #=styles.cardRich#">
+            <div class="#=styles.cardBody#">
+                <div>
+                    <strong>Project Name:</strong>
+                    <span>#:project#</span>
+                </div>
+                <div>
+                    <strong>Location:</strong>
+                    <span>#:location#</span>
+                </div>
+                <div>
+                    <strong>Club House:</strong>
+                    <span>#:chouse#</span>
+                </div>
+
+            </div>
+        </div>
+    </script>
+
+
+
+
+    <script>
+        document.getElementById("WebApp").onclick = function () {
+            location.href = "https://sasinfra.in/Account/Login";
+        };
+        $('[data-fancybox="gallery"]').fancybox({
+            buttons: [
+                "slideShow",
+                "thumbs",
+                "zoom",
+                "fullScreen",
+                "share",
+                "close"
+            ],
+            loop: false,
+            protect: true
+        });
+
+        $(window).load(function () {
+            getLocation();
+        });
+
+        var x = document.getElementById("demo1");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+
+            $("#Latitude").val(position.coords.latitude);
+            $("#Longitude").val(position.coords.longitude);
+        }
+
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        document.onkeydown = function (e) {
+            if (event.keyCode == 123) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+        }
+        $.fn.disableScroll = function () {
+            window.oldScrollPos = $(window).scrollTop();
+
+            $(window).on('scroll.scrolldisabler', function (event) {
+                $(window).scrollTop(window.oldScrollPos);
+                event.preventDefault();
+            });
+        };
+
+        $.fn.enableScroll = function () {
+            $(window).off('scroll.scrolldisabler');
+        };
+
+        function scrollButtonClick(e) {
+            var button = $(e.currentTarget);
+            var scrollToLeft = button.find(".k-i-arrow-chevron-left").length !== 0;
+            var scrollContainer = $(".k-card-deck").eq(0);
+            var lastCard = scrollContainer.find(".k-card").last();
+            var cardWidth = lastCard.outerWidth(true);
+
+
+            if (scrollToLeft) {
+                scrollContainer.scrollLeft(scrollContainer.scrollLeft() - cardWidth);
+            } else {
+                scrollContainer.scrollLeft(scrollContainer.scrollLeft() + cardWidth);
+            }
+        };
+
+        $(document).ready(function () {
+            var cardDeck = $(".k-card-deck-scrollwrap").eq(0);
+
+            cardDeck.on("click", ".k-button-scroll", scrollButtonClick);
+        });
+
+    </script>
+
 </body>
+<div style="display: none;position: fixed;bottom: 70px;right: 60px;width:350px;background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('/Content/Images/joana.jpg');background-size: cover;" id="chat"></div>
+
+<div id="msgIcon" class="message-icon">
+    <img src="~/Content/Images/chatbotDark.png" />
+</div>
+<div type="button" style="position: fixed; bottom: 60px; left: 20px;" data-toggle="modal" data-target="#myModal">
+    <a href="#popup1">
+
+
+        <img width="64" height="64" src="~/Content/Images/Special-offer_3.gif" />
+    </a>
+</div>
+<div id="popup1" class="overlay1">
+    <div class="popup">
+        <h2>Vouchers</h2>
+        <a class="close" href="#">&times;</a>
+        <div class="content">
+            <div class="k-card-deck-scrollwrap">
+
+                <div class="k-card-deck">
+                    <div class="k-card k-card-type-rich">
+                        <img width=250 height="450" style="object-fit: contain;" src="~/Content/Images/Coupon.jpg" alt="undefined" class="k-card-image">
+                        <div style="background-color: #0095d8" class="k-card-body">
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="k-card k-card-type-rich">
+                        <img width=250 height="450" style="object-fit: contain;" src="~/Content/Images/Coupon1.jpg" alt="undefined" class="k-card-image">
+                        <div style="background-color: #6fbf12" class="k-card-body">
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 </html>

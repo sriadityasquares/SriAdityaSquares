@@ -478,6 +478,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ads.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -646,6 +647,32 @@
     <Content Include="Content\Images\11.21.WEST.2008.png" />
     <Content Include="Content\Images\11.21.WEST.2259.png" />
     <Content Include="Content\Images\11.21.WEST.3175.png" />
+    <Content Include="Content\Images\13.24.1.png" />
+    <Content Include="Content\Images\13.24.10.png" />
+    <Content Include="Content\Images\13.24.11.png" />
+    <Content Include="Content\Images\13.24.12.png" />
+    <Content Include="Content\Images\13.24.13.png" />
+    <Content Include="Content\Images\13.24.14.png" />
+    <Content Include="Content\Images\13.24.15.png" />
+    <Content Include="Content\Images\13.24.16.png" />
+    <Content Include="Content\Images\13.24.17.png" />
+    <Content Include="Content\Images\13.24.2.png" />
+    <Content Include="Content\Images\13.24.3.png" />
+    <Content Include="Content\Images\13.24.4.png" />
+    <Content Include="Content\Images\13.24.5.png" />
+    <Content Include="Content\Images\13.24.6.png" />
+    <Content Include="Content\Images\13.24.7.png" />
+    <Content Include="Content\Images\13.24.8.png" />
+    <Content Include="Content\Images\13.24.9.png" />
+    <Content Include="Content\Images\13.25.1.png" />
+    <Content Include="Content\Images\13.25.2.png" />
+    <Content Include="Content\Images\13.25.3.png" />
+    <Content Include="Content\Images\13.25.4.png" />
+    <Content Include="Content\Images\13.25.5.png" />
+    <Content Include="Content\Images\13.25.6.png" />
+    <Content Include="Content\Images\13.25.7.png" />
+    <Content Include="Content\Images\13.25.8.png" />
+    <Content Include="Content\Images\13.25.9.png" />
     <Content Include="Content\Images\147.jpg" />
     <Content Include="Content\Images\14Avenue.JPG" />
     <Content Include="Content\Images\159862874088521280 %281%29.png" />
@@ -654,9 +681,12 @@
     <Content Include="Content\Images\Alpine Square.png" />
     <Content Include="Content\Images\Alpine Vistas.png" />
     <Content Include="Content\Images\AlpineSquareGallery1.PNG" />
+    <Content Include="Content\Images\AlpineSquareGallery2.PNG" />
+    <Content Include="Content\Images\Alpine Towers.png" />
     <Content Include="Content\Images\AlpineVistas.jpg" />
     <Content Include="Content\Images\AlpineVistasGallery1.PNG" />
     <Content Include="Content\Images\AlpineVistasGallery2.PNG" />
+    <Content Include="Content\Images\Alpinesquare.mp4" />
     <Content Include="Content\Images\Bamboo Maze.PNG" />
     <Content Include="Content\Images\Banquet Hall.PNG" />
     <Content Include="Content\Images\Barbeque Corner.PNG" />
@@ -728,6 +758,7 @@
     <Content Include="Content\Images\offersGif.mp4" />
     <Content Include="Content\Images\Open Air Theatre.PNG" />
     <Content Include="Content\Images\Pharmacy.PNG" />
+    <Content Include="Content\Images\PVRAnmol.mp4" />
     <Content Include="Content\Images\PVRAnmol.jpg" />
     <Content Include="Content\Images\PVR Anmol.jpg" />
     <Content Include="Content\Images\PVR Anmol.png" />
@@ -1147,6 +1178,8 @@
     <Content Include="Content\Potfolio\jquery-1.9.1.min.js" />
     <Content Include="Content\Potfolio\jquery.magnific-popup.min.js" />
     <Content Include="Content\Potfolio\jquery.singlePageNav.min.js" />
+    <Content Include="Content\Potfolio\homePage.js" />
+    <Content Include="Content\Potfolio\mediaPlayer.js" />
     <Content Include="Content\Potfolio\magnific-popup.css" />
     <Content Include="Content\Potfolio\slick-theme.css" />
     <Content Include="Content\Potfolio\slick.css" />
@@ -1997,6 +2030,7 @@
     <Content Include="Views\Booking\ClientPayments.cshtml" />
     <Content Include="Views\Booking\DailyExpenses.cshtml" />
     <Content Include="Views\Booking\CancelBooking.cshtml" />
+    <Content Include="Views\Report\FlatPaymentDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

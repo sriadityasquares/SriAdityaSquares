@@ -134,6 +134,9 @@
     <Compile Include="sp_GetFlatLifeCycle_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetFlatPaymentDetails_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_GetFlatWiseTotalAgentCommission_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>

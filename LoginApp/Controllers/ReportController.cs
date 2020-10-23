@@ -142,6 +142,20 @@ namespace LoginApp.Controllers
             return View();
         }
 
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult FlatPaymentDetails()
+        {
+            
+            return View();
+        }
+
+        public JsonResult GetFlatPaymemts()
+        {
+            ReportBL rep = new ReportBL();
+            var list = rep.GetFlatPayments();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetFlatAgentCommission(int projectID, int towerID)
         {
             ReportBL rep = new ReportBL();

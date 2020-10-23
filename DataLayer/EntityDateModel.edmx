@@ -204,6 +204,7 @@
           <Property Name="BookingAmount" Type="int" />
           <Property Name="BookingDate" Type="datetime" />
           <Property Name="CancelDate" Type="datetime" />
+          <Property Name="Comments" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="tblCity">
           <Key>
@@ -650,6 +651,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         </Association>
         <Function Name="sp_Cancel_FlatBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FlatID" Type="int" Mode="In" />
+          <Parameter Name="comments" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="sp_GetAgentBookingGraphByAgentLogins" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AgentEmail" Type="nvarchar(max)" Mode="In" />
@@ -724,6 +726,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <Function Name="sp_GetFlatLifeCycle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FlatID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_GetFlatPaymentDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetFlatWiseTotalAgentCommission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
           <Parameter Name="TowerID" Type="int" Mode="In" />
@@ -1026,7 +1029,9 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblCancellations" EntityType="salesDBModel.tblCancellation" />
           <FunctionImport Name="sp_Cancel_FlatBooking">
             <Parameter Name="FlatID" Mode="In" Type="Int32" />
+            <Parameter Name="comments" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_GetFlatPaymentDetails" ReturnType="Collection(salesDBModel.sp_GetFlatPaymentDetails_Result)" />
         </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -1934,7 +1939,24 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="BookingAmount" Type="Int32" />
           <Property Name="BookingDate" Type="DateTime" Precision="3" />
           <Property Name="CancelDate" Type="DateTime" Precision="3" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="sp_GetFlatPaymentDetails_Result">
+          <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="FlatName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="Sft" Nullable="true" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="FinalRate" Nullable="true" />
+          <Property Type="Int32" Name="Discount" Nullable="true" />
+          <Property Type="Int32" Name="GrandRate" Nullable="true" />
+          <Property Type="String" Name="SchemeName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="TotalPaid" Nullable="true" />
+          <Property Type="Int32" Name="TotalBalance" Nullable="true" />
+          <Property Type="DateTime" Name="LastPaymentDate" Nullable="true" Precision="23" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2902,6 +2924,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySetMapping Name="tblCancellations">
             <EntityTypeMapping TypeName="salesDBModel.tblCancellation">
               <MappingFragment StoreEntitySet="tblCancellations">
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
                 <ScalarProperty Name="CancelDate" ColumnName="CancelDate" />
                 <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
                 <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
@@ -2918,6 +2941,26 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_Cancel_FlatBooking" FunctionName="salesDBModel.Store.sp_Cancel_FlatBooking" />
+          <FunctionImportMapping FunctionImportName="sp_GetFlatPaymentDetails" FunctionName="salesDBModel.Store.sp_GetFlatPaymentDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetFlatPaymentDetails_Result">
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="Sft" ColumnName="Sft" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="FinalRate" ColumnName="FinalRate" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="GrandRate" ColumnName="GrandRate" />
+                <ScalarProperty Name="SchemeName" ColumnName="SchemeName" />
+                <ScalarProperty Name="TotalPaid" ColumnName="TotalPaid" />
+                <ScalarProperty Name="TotalBalance" ColumnName="TotalBalance" />
+                <ScalarProperty Name="LastPaymentDate" ColumnName="LastPaymentDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

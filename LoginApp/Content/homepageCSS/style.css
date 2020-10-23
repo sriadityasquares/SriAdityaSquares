@@ -8,11 +8,11 @@
 
 .bg-img {
     /*background: url("https://images.pexels.com/photos/34088/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");*/
-    background: url('../../Content/Images/loginPageBackImage.jpg');
+    background: url('../../Content/Images/EyeOfViewResize.jpg');
     height: 100vh;
+    /*position: relative;*/
     background-size: cover;
     background-position: center;
-
 }
 
     .bg-img:after {

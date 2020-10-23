@@ -1,4 +1,4 @@
-﻿@model ModelLayer.BookingInformation
+﻿@model ModelLayer.Cancellation
 @{
     ViewBag.Title = "Cancel Booking";
     ViewBag.CancelBooking = "active";
@@ -8,7 +8,7 @@
 
 
 
-<div class="jumbotron" style="padding-bottom:0px;margin-bottom:0px;height:880px">
+<div class="jumbotron">
     @*<div class="row">
             <div class="col-md-1 col-xs">
                 <h3 align="center" style="margin-bottom:2px">FLAT LIFECYCLE</h3>
@@ -31,6 +31,11 @@
         @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
         @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
     </div>
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.Comments, new { @class = "col-md-1" })
+        @Html.TextAreaFor(model => model.Comments,  new { @class = "textboxarea-control col-md-8 col-xs" })
+       
+    </div>
     <div class="row" style="padding-top:5px;">
         <div class="col-md-12 col-xs">
             <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Cancel</button>
@@ -44,7 +49,7 @@
 
     </div>
     <div id="grid"></div>
-    </div>
+</div>
     <script>
     $("#ProjectID").change(function () {
         $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
@@ -88,8 +93,8 @@
         $.ajax({
             type: "GET",
             url: '@Url.Action("BookingCancellation", "Booking")',
-                contentType: "application/json; charset=utf-8",
-            data: { flatID: $("#FlatID").val().toString() },
+            contentType: "application/json; charset=utf-8",
+            data: { flatID: $("#FlatID").val().toString(), comments: $("#Comments").val().toString() },
             dataType: "json",
             success: function (result) {
 
@@ -114,7 +119,20 @@
                     dataType: "json",
                     type: "POST"
                 },
-
+                update: {
+                    url: "/Booking/UpdateCancellation",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
                 parameterMap: function (options, operation) {
                     if (operation !== "read" && options.models) {
                         return { models: kendo.stringify(options.models) };
@@ -123,6 +141,22 @@
             },
             batch: true,
             pageSize: 5,
+            schema: {
+                model: {
+                    id: "ProjectID",
+                    fields: {
+                        Project: { editable: false },
+                        Tower: { editable: false },
+                        Flat: { editable: false },
+                        CustomerName: { editable: false },
+                        AgentName: { editable: false },
+                        BookingAmount: { editable: false },
+                        BookingDate: { editable: false },
+                        CancelDate: { editable: false }
+                        
+                    }
+                }
+            }
 
         });
 
@@ -140,15 +174,23 @@
                 allPages: true
             },
             columns: [
-                { field: "Project", title: "Project", width: "100px" },
-                { field: "Tower", title: "Tower", width: "80px" },
+                { field: "Project", title: "Project", width: "100px", editable: false },
+                { field: "Tower", title: "Tower", width: "80px", editable: false },
                 { field: "Flat", title: "Flat", width: "80px" },
-                { field: "CustomerName", title: "Customer", width: "150px" },
-                { field: "AgentName", title: "Agent", width: "150px" },
-                { field: "BookingAmount", title: "Booking Amount", width: "100px" },
+                { field: "CustomerName", title: "Customer", width: "130px" },
+                { field: "AgentName", title: "Agent", width: "130px" },
+                { field: "BookingAmount", title: "Booking Amount", width: "120px" },
                 { field: "BookingDate", title: "Booking Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(BookingDate), "MM/dd/yyyy")#' },
                 { field: "CancelDate", title: "Cancel Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(CancelDate), "MM/dd/yyyy")#' },
-            ],
+                { field: "Comments", title: "Comments", width: "130px" },
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "60px"
+                }],
+            editable: "inline",
+            
         });
 
 

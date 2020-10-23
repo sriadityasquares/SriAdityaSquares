@@ -107,16 +107,19 @@ namespace BusinessLayer
         }
 
 
-        public bool CancelBooking(int flatId)
+        public bool CancelBooking(int flatId,string comments)
         {
-            return db.CancelBooking(flatId);
+            return db.CancelBooking(flatId, comments);
         }
 
         public List<Cancellation> GetCancellations()
         {
             return db.GetCancellations();
         }
-
+        public bool UpdateCancellation(string comments,int id)
+        {
+            return db.UpdateCancellation(comments, id);
+        }
         public List<PaymentInformation> BindPaymentDetails(int FlatId)
         {
             return db.BindPaymentDetails(FlatId);

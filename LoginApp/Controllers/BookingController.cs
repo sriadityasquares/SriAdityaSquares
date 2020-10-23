@@ -611,9 +611,10 @@ namespace LoginApp.Controllers
             var sysDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
             var bookingDate = Convert.ToDateTime(result.CreatedDate).ToString("dd/MM/yyyy");
             var amountInWords = AmountInWords(Convert.ToDouble(result.BookingAmount));
+            var bookID = result.BookingID.ToString().Split('-')[0].ToString().ToUpper();
             //var html = "<article><address></address><table class=\"meta\"><tr><th><span>Receipt  #</span></th><td><span contenteditable></span></td> </tr><tr><th><span>Date</span></th><td><span contenteditable>#BookingDate</span></td></tr><tr></tr></table><table class=\"inventory\"><tr><th><span>PROJECT :</span></th><td><span>#Project</span></td><th><span>TOWER :</span></th><td><span>#Tower</span></td></tr><tr><th><span>NAME:</span></th><td><span>#CName</span></td><th><span>MOBILE :</span></th><td><span>#CMobile</span></td></tr><tr><th><span>AMOUNT PAID:</span></th><td><span>#BookingAmount</span></td><th><span>FLAT/PLOT NO :</span></th><td><span>#Flat</span></td></tr><tr><th><span>SFT:</span></th><td><span contenteditable>#SFT</span></td><th><span>MODE :</span></th><td><span>#Cheque</span></td></tr><tr><th><span>Ref No:</span></th><td><span>#RefNo</span></td></tr></table></article>";
-            var html = "<article><address></address><table class=\"meta\"><tr><th><span>Receipt No</span></th><td><span contenteditable></span></td> </tr><tr><th><span>Date</span></th><td><span contenteditable>#Date</span></td></tr><tr></tr></table><table class=\"inventory\"><tr><th>Project</th><td>#Project</td><th>Tower</ th ><td>#Tower</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><tr><th>Mobile</th><td contenteditable>#CMobile</td><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Booking Date</th><td contenteditable>#BookingDate</td></tr><tr><th >Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td contenteditable >#RefNo</td></tr> <tr><th> Amount in Words </th><td contenteditable colspan = '3' >#amountInWords</td></tr><tr><th> Bank Name </th><td contenteditable colspan = '3' > &nbsp;</td> </tr></table></article>";
-            html = html.Replace("#BookingDate", bookingDate).Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile == null ? "" : result.Mobile.ToString()).Replace("#BookingAmount", "Rs. " + result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo", result.ReferenceNo).Replace("#BHK", result.Bhk.ToString()).Replace("#Date", sysDate).Replace("#amountInWords", amountInWords);
+            var html = "<article><address></address><table class=\"meta\"><tr><th><span>Receipt No</span></th><td><span contenteditable>#bookingID</span></td> </tr><tr><th><span>Date</span></th><td><span contenteditable>#Date</span></td></tr><tr></tr></table><table class=\"inventory\"><tr><th>Project</th><td>#Project</td><th>Tower</ th ><td>#Tower</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><tr><th>Mobile</th><td contenteditable>#CMobile</td><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Booking Date</th><td contenteditable>#BookingDate</td></tr><tr><th >Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td contenteditable >#RefNo</td></tr> <tr><th> Amount in Words </th><td contenteditable colspan = '3' >#amountInWords</td></tr><tr><th> Bank Name </th><td contenteditable colspan = '3' > &nbsp;</td> </tr></table></article>";
+            html = html.Replace("#BookingDate", bookingDate).Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile == null ? "" : result.Mobile.ToString()).Replace("#BookingAmount", "Rs. " + result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo", result.ReferenceNo).Replace("#BHK", result.Bhk.ToString()).Replace("#Date", sysDate).Replace("#amountInWords", amountInWords).Replace("#bookingID", bookID);
             return Json(html, JsonRequestBehavior.AllowGet);
         }
 
@@ -794,9 +795,24 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        public ActionResult BookingCancellation(int flatID)
+        [HttpGet]
+        public JsonResult UpdateCancellation(string models)
         {
-            var result = booking.CancelBooking(flatID);
+            try
+            {
+                List<Cancellation> data = JsonConvert.DeserializeObject<List<Cancellation>>(models);
+                var result = booking.UpdateCancellation(data[0].Comments, data[0].ID);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult BookingCancellation(int flatID,string comments)
+        {
+            var result = booking.CancelBooking(flatID, comments);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

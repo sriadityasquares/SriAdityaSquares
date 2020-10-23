@@ -413,13 +413,22 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetPaymentsDetails_Result>("sp_GetPaymentsDetails", paymentIDParameter);
         }
     
-        public virtual int sp_Cancel_FlatBooking(Nullable<int> flatID)
+        public virtual int sp_Cancel_FlatBooking(Nullable<int> flatID, string comments)
         {
             var flatIDParameter = flatID.HasValue ?
                 new ObjectParameter("FlatID", flatID) :
                 new ObjectParameter("FlatID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Cancel_FlatBooking", flatIDParameter);
+            var commentsParameter = comments != null ?
+                new ObjectParameter("comments", comments) :
+                new ObjectParameter("comments", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Cancel_FlatBooking", flatIDParameter, commentsParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetFlatPaymentDetails_Result> sp_GetFlatPaymentDetails()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatPaymentDetails_Result>("sp_GetFlatPaymentDetails");
         }
     }
 }

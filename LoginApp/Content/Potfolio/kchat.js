@@ -1,4 +1,6 @@
 $(document).ready(function () {
+
+
     // Initialize the Chat
     var QUOTE_CARD_TEMPLATE = kendo.template($('#quote-template').html());
     kendo.chat.registerTemplate("quote", QUOTE_CARD_TEMPLATE);
@@ -233,6 +235,9 @@ window.ChatAgent = kendo.Class.extend({
             else if (projectName[0] == 'Alpine Vistas') {
                 approvalText = 'HMDA Approval Pending';
             }
+            else if (projectName[0] == 'Alpine Towers') {
+                approvalText = 'HMDA Approval Pending';
+            }
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
@@ -311,3 +316,7 @@ window.ChatAgent = kendo.Class.extend({
 
     }
 });
+
+
+
+

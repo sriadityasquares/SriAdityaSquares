@@ -801,11 +801,11 @@ namespace DataLayer
             }
         }
 
-        public bool CancelBooking(int flatID)
+        public bool CancelBooking(int flatID,string comments)
         {
             try
             {
-                dbEntity.sp_Cancel_FlatBooking(flatID);
+                dbEntity.sp_Cancel_FlatBooking(flatID, comments);
                 dbEntity.SaveChanges();
                 return true;
             }
@@ -816,6 +816,22 @@ namespace DataLayer
             }
         }
 
+
+        public bool UpdateCancellation(string comments,int id)
+        {
+            try
+            {
+                var cancellation = dbEntity.tblCancellations.Where(x => x.ID == id).FirstOrDefault();
+                cancellation.Comments = comments;
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
         public List<Cancellation> GetCancellations()
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;

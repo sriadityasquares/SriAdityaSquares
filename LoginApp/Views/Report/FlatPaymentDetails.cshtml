@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "FlatPaymentDetails";
+    ViewBag.FlatPaymentDetails = "active";
+    ViewBag.Reports = "active";
+}
+
+<div class="jumbotron" style="background-color:white;padding-bottom:40px;margin-top:20px;margin-bottom:20px;">
+
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">FLAT PAYMENT DETAILS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <hr />
+    <br />
+    <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
+        <div id="grid"></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Report/GetFlatPaymemts",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            //schema: {
+            //    model: {
+
+            //        fields: {
+            //            CustomerName: { editable: false, nullable: true },
+            //            Mobile: { validation: { required: true } },
+            //            ProjectName: { validation: { required: true } },
+            //            BookingStatus: { validation: { required: true } },
+            //            ClubHouseCharges: { type: "number", validation: { min: 0, required: true } }
+            //        }
+            //    }
+            //}
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 700,
+            toolbar: ["search", "excel"],
+            excel: {
+                fileName: "FlatPaymentDetails.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
+            columns: [
+                { field: "CustomerName", title: "Customer", width: "190px" },
+                { field: "Mobile", title: "Mobile", width: "100px" },
+                { field: "ProjectName", title: "Project", width: "120px" },
+                { field: "TowerName", title: "Tower", width: "90px" },
+                { field: "FlatName", title: "Flat/Plot", width: "90px" },
+                { field: "Sft", title: "Sft", width: "70px" },
+                { field: "AgentName", title: "Agent", width: "120px" },
+                { field: "FinalRate", title: "Final Rate", width: "90px" },
+                { field: "Discount", title: "Discount", width: "80px" },
+                { field: "GrandRate", title: "GrandRate", width: "90px" },
+                { field: "SchemeName", title: "Scheme", width: "90px" },
+                { field: "TotalPaid", title: "Total Paid", width: "90px" },
+                { field: "TotalBalance", title: "Total Balance", width: "100px" },
+                { field: "LastPaymentDate", title: "Last Payment", width: "120px", template: '#= kendo.toString(kendo.parseDate(LastPaymentDate), "MM/dd/yyyy")#' },
+            ],
+            editable: "inline",
+        });
+    });
+</script>

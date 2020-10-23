@@ -74,6 +74,7 @@
     <Compile Include="GetBookingStatistics.cs" />
     <Compile Include="GetFacingWiseBookingDetails.cs" />
     <Compile Include="GetFlatLifeCycle.cs" />
+    <Compile Include="GetFlatPaymentDetails.cs" />
     <Compile Include="GetFlatWiseTotalAgentCommission.cs" />
     <Compile Include="GetGraphicalPeriodWiseBooking.cs" />
     <Compile Include="GetMySiteVisits.cs" />

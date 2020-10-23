@@ -134,6 +134,26 @@ namespace DataLayer
             return lstBooking;
         }
 
+        public List<GetFlatPaymentDetails> GetFlatPayments()
+        {
+            List<GetFlatPaymentDetails> lstBooking = new List<GetFlatPaymentDetails>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetFlatPaymentDetails_Result, GetFlatPaymentDetails>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<sp_GetFlatPaymentDetails_Result>, List<GetFlatPaymentDetails>>(dbEntity.sp_GetFlatPaymentDetails().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstBooking;
+        }
+
         public List<FlatWiseAgentCommission> BindFlatAgentCommissionDetails()
         {
             List<FlatWiseAgentCommission> lstAgents = new List<FlatWiseAgentCommission>();

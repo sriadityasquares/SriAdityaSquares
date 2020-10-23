@@ -42,6 +42,10 @@ namespace BusinessLayer
             return db.BindFlatAgentCommission(projectID,towerID);
         }
 
+        public List<GetFlatPaymentDetails> GetFlatPayments()
+        {
+            return db.GetFlatPayments();
+        }
         public List<FlatWiseAgentCommission> BindFlatAgentCommissionDetails()
         {
             return db.BindFlatAgentCommissionDetails();
