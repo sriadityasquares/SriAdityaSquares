@@ -137,5 +137,12 @@ namespace ModelLayer
         public Nullable<double> SASNetBalance { get; set; }
 
         public string AgentParent { get; set; }
+        [Display(Name = "CQStatus")]
+        public string ChequeStatus { get; set; }
+
+        [Display(Name = "CQ Date")]
+        public Nullable<System.DateTime> ChequeDate { get; set; }
+
+        public Nullable<System.DateTime> ChequeDateMod { get; set; }
     }
 }

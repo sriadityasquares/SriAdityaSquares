@@ -46,5 +46,11 @@ namespace ModelLayer
         public Nullable<int> Year { get; set; }
         public Nullable<int> Month { get; set; }
         public Nullable<int> Day { get; set; }
+
+        [Display(Name = "Cheque Status")]
+        public string ChequeStatus { get; set; }
+
+        [Display(Name = "Cheque Date")]
+        public Nullable<System.DateTime> ChequeDate { get; set; }
     }
 }

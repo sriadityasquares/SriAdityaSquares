@@ -130,6 +130,7 @@
             height: 550,
             //navigation: true,
             pageable: true,
+            filterable: true,
             toolbar: ["create", "search", "excel"],
             excel: {
                 fileName: "Flats.xlsx",
@@ -183,7 +184,7 @@
             //    var x = 1
             //},
             columns: [
-                { field: "FlatName", title: "Flat Name", width: "80px" },
+                { field: "FlatName", title: "Flat Name", width: "120px" },
 
                 {
                     // the brandId column
@@ -194,6 +195,7 @@
                     //template: "#= brandName(ProjectID) #", // the template shows the name corresponding to the brandId field
                     //template: "#if(data.isNew()){# #: brandName(0) # #}else {# #: brandName(ProjectID) # #}#",
                     template: $("#template1").html(),
+                    filterable: { ui: projectFilterTemplate },
                     editor: function (container) { // use a dropdownlist as an editor
                         //create an input element with id and name set as the bound field (brandId)
                         var input = $('<input id="ProjectID" name="ProjectID">');
@@ -214,6 +216,7 @@
                     field: "TowerID",  // bound to the modelId field
                     //template: "#= modelName(TowerID) #", //the template shows the name corresponding to the modelId field
                     template: $("#template2").html(),
+                    filterable: { ui: towerFilterTemplate },
                     editor: function (container) { // use a dropdownlist as an editor
                         var input = $('<input id="TowerID" name="TowerID">');
                         input.appendTo(container);
@@ -250,7 +253,25 @@
     })
 
 
+    function projectFilterTemplate(input) {
+        input.kendoDropDownList({
+            filter: "eq",
+            dataTextField: "ProjectName",
+            dataValueField: "ProjectID",
+            dataSource: projects,
+            optionLabel: "All"
+        });
+    }
 
+    function towerFilterTemplate(input) {
+        input.kendoDropDownList({
+            filter: "eq",
+            dataTextField: "TowerName",
+            dataValueField: "TowerID",
+            dataSource: towers,
+            optionLabel: "All"
+        });
+    }
 
     function statusDropDownEditor(container, options) {
         $('<input id="status" name="' + options.field + '"/>')

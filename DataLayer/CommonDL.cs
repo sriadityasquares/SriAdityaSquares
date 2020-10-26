@@ -73,6 +73,24 @@ namespace DataLayer
             return lstStatus;
         }
 
+        public List<Cheque> BindChequeStatus()
+        {
+            List<Cheque> lstStatus = new List<Cheque>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblChequeStatu, Cheque>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstStatus = mapper.Map<List<tblChequeStatu>, List<Cheque>>(dbEntity.tblChequeStatus.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstStatus;
+        }
 
 
         public List<Agent> BindAgents()

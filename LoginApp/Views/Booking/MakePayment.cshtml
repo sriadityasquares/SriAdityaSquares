@@ -11,94 +11,115 @@
     //@(ViewContext.ClientValidationEnabled = false)
 
     @Html.AntiForgeryToken()
-    <div class="jumbotron">
-        <div class="row">
-            <div class="col-md-1 col-xs">
-                <h3 align="center" style="margin-bottom:2px">PAYMENTS</h3>
-                <div class="specialLine"></div>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">PAYMENTS</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+    <div class="row">
+        <hr />
+    </div>
+    @Html.HiddenFor(m => m.PaymentMode)
+    @Html.HiddenFor(m => m.BookingID)
+    @Html.HiddenFor(m => m.Aadhar)
+    @Html.HiddenFor(m => m.PaymentDate)
+    @Html.HiddenFor(m => m.ChequeDate)
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+    <div id="paydetails">
+        <div class="row justify-content-center" style="padding-top:20px">
+            <div class="" col-md-12 col-sm-12 col-xs-12 table-responsive">
+                <table id="table" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Amount Paid</th>
+                            <th>Date of Payment</th>
+                            <th>Cheque Status</th>
+                            <th>Reference No</th>
+                            @*<th>Print Receipt</th>*@
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
 
         </div>
-        <div class="row">
-            <hr />
+
+
+        <div id="paydetails1" style="padding-top:5px" class="row">
+            @Html.LabelFor(m => m.TotalPaid, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.TotalPaid, new { @class = "textbox-control col-md-3 col-xs", @readonly = true })
+            @Html.LabelFor(m => m.TotalBalance, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.TotalBalance, new { @class = "textbox-control col-md-3 col-xs", @readonly = true })
         </div>
-        @Html.HiddenFor(m => m.PaymentMode)
-        @Html.HiddenFor(m => m.BookingID)
-        @Html.HiddenFor(m => m.Aadhar)
-        @Html.HiddenFor(m => m.PaymentDate)
-        <div class="row" style="padding-top:10px">
-            @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
-            @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+        <div id="paydetails2" style="padding-top:5px" class="row">
+            @Html.LabelFor(m => m.BookingAmount, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.BookingAmount, new { @class = "textbox-control col-md-3 col-xs", @type = "number" })
+            @Html.LabelFor(m => m.BalanceAmount, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.BalanceAmount, new { @class = "textbox-control col-md-3 col-xs", @type = "number" })
         </div>
-        <div id="paydetails">
-            <div class="row justify-content-center" style="padding-top:20px">
-                <div class="" col-md-12 col-sm-12 col-xs-12 table-responsive">
-                    <table id="table" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Amount Paid</th>
-                                <th>Date of Payment</th>
-                                @*<th>Print Receipt</th>*@
-                            </tr>
-
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-
+        <div id="paydetails3" style="padding-top:5px" class="row">
+            @Html.LabelFor(m => m.PaymentModeID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(m => m.PaymentModeID, new List<SelectListItem>
+        {
+             new SelectListItem{ Text="--Mode--", Value = "0"  },
+            new SelectListItem{ Text="Cheque", Value = "1" },
+            new SelectListItem{ Text="NEFT", Value = "2" },
+            new SelectListItem{ Text="CC", Value = "3" },
+            new SelectListItem{ Text="Cash", Value = "4" },
+         }, new { @class = "textbox-control col-md-3 col-xs", @readonly = "readonly" })
+            @Html.LabelFor(m => m.ReferenceNo, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.ReferenceNo, new { @class = "textbox-control col-md-3 col-xs" })
+        </div>
+        <div id="paydetails4" style="padding-top:5px" class="row">
+            @Html.LabelFor(m => m.PaymentDate, new { @class = "col-md-2" })
+            <div class="col-md-3" style="padding-left:0px">
+                <input id="datepicker1" title="datepicker" />
             </div>
-
-
-            <div id="paydetails1" style="padding-top:5px" class="row">
-                @Html.LabelFor(m => m.TotalPaid, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.TotalPaid, new { @class = "textbox-control col-md-3 col-xs", @readonly = true })
-                @Html.LabelFor(m => m.TotalBalance, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.TotalBalance, new { @class = "textbox-control col-md-3 col-xs", @readonly = true })
+            @Html.LabelFor(m => m.ChequeDate, new { @class = "col-md-2" })
+            <div class="col-md-2" style="padding-left:0px">
+                <input id="cqDatePicker" title="datepicker" />
             </div>
-            <div id="paydetails2" style="padding-top:5px" class="row">
-                @Html.LabelFor(m => m.BookingAmount, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.BookingAmount, new { @class = "textbox-control col-md-3 col-xs", @type = "number" })
-                @Html.LabelFor(m => m.BalanceAmount, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.BalanceAmount, new { @class = "textbox-control col-md-3 col-xs", @type = "number" })
-            </div>
-            <div id="paydetails3" style="padding-top:5px" class="row">
-                @Html.LabelFor(m => m.PaymentModeID, new { @class = "col-md-2" })
-                @Html.DropDownListFor(m => m.PaymentModeID, new List<SelectListItem>
+        </div>
+        @*<div id="paydetails4" style="padding-top:5px" class="row">
+
+                    @Html.LabelFor(m => m.ChequeStatus, new { @class = "col-md-2" })
+                    @Html.DropDownListFor(m => m.ChequeStatus, new List<SelectListItem>
             {
-                 new SelectListItem{ Text="--Mode--", Value = "0"  },
-                new SelectListItem{ Text="Cheque", Value = "1" },
-                new SelectListItem{ Text="NEFT", Value = "2" },
-                new SelectListItem{ Text="CC", Value = "3" },
-                new SelectListItem{ Text="Cash", Value = "4" },
+                 new SelectListItem{ Text="Not-Applicable", Value = "Not-Applicable"  },
+                new SelectListItem{ Text="Received", Value = "Received" },
+                new SelectListItem{ Text="Cleared", Value = "Cleared" },
+                new SelectListItem{ Text="Bounced", Value = "Bounced" },
+                new SelectListItem{ Text="Hold", Value = "Hold" },
+                new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
              }, new { @class = "textbox-control col-md-3 col-xs", @readonly = "readonly" })
-                @Html.LabelFor(m => m.ReferenceNo, new { @class = "col-md-2" })
-                @Html.TextBoxFor(m => m.ReferenceNo, new { @class = "textbox-control col-md-3 col-xs" })
-            </div>
-            <div id="paydetails4" style="padding-top:5px" class="row">
-                @Html.LabelFor(m => m.PaymentDate, new { @class = "col-md-2" })
-                <div class="col-md-1" style="padding-left:0px">
-                    <input id="datepicker1" title="datepicker" />
-                </div>
-            </div>
-            <div id="paydetails4" style="padding-top:5px" class="row">
-                <br />
-                <div class="col-md-6 no-pad">
-                    <button type="submit" id="submitbtn" name="submit" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>PAY</button>
-                </div>
+                </div>*@
+        <div id="paydetails4" style="padding-top:5px" class="row">
+            <br />
+            <div class="col-md-6 no-pad">
+                <button type="submit" id="submitbtn" name="submit" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>PAY</button>
             </div>
         </div>
     </div>
+</div>
 
     
 }
 <script>
 
     $("#datepicker1").kendoDatePicker();
+    $("#cqDatePicker").kendoDatePicker();
     HideDiv();
     $("#ProjectID").change(function () {
         $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
@@ -137,7 +158,10 @@
             var DueDate = "";
             $('#table tbody tr').remove();
             $.each(data, function (index, row) {
-                $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td></tr>");
+                if (row.ReferenceNo == null) {
+                    row.ReferenceNo = "";
+                }
+                $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.ChequeStatus + "</td><td>" + row.ReferenceNo +"</td></tr>");
                 //$('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td>" + "</td><td><button type='submit'  name='GenerateReceipt' style='padding:3px;margin-bottom: 0px;' id='Generate' value='" + row.PaymentID + "' class='btn btn-default'><i class='fa fa-file-pdf-o'></i>GENERATE RECEIPT</button></td></tr>");
 
                 TotalPaid = TotalPaid + Number(row.BookingAmount);
@@ -161,9 +185,10 @@
     $("#submitbtn").submit(function () {
         Validations();
         var payDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'dd-MMM-yyyy');
+        var cQDate = kendo.toString($("#cqDatePicker").data("kendoDatePicker").value(), 'dd-MMM-yyyy');
         //alert(fromDate);
         $("#PaymentDate").val(payDate);
-
+        $("#ChequeDate").val(cQDate);
     });
 
     function SetBalanceAmount() {

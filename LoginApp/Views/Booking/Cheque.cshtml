@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "Cheque";
+    ViewBag.Admin = "active";
+    ViewBag.Cheque = "active";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">CHEQUE STATUS</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Booking/GetChequeInfo",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Booking/UpdateChequeStatus",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                //destroy: {
+                //    url: "/Sample/Destroy",
+                //    dataType: "jsonp"
+                //},
+                //create: {
+                //    url: "/Project/CreateProject",
+                //    dataType: "json",
+                //    complete: function (jqXhr, textStatus) {
+                //        if (textStatus == 'success') {
+                //            toastr.success('Added Successfull');
+                //        }
+                //        else {
+                //            toastr.error('Error in Adding');
+                //        }
+                //    }
+                //},
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "PaymentID",
+                    fields: {
+                        BookingID: { editable: false},
+                        ProjectName: {  editable :false },
+                        TowerName: { editable: false },
+                        FlatName: { editable: false },
+                        CustomerName: { editable: false },
+                        Mobile: { editable: false },
+                        BookingAmount: { editable: false },
+                        ReferenceNo: { editable: false },
+                        ChequeDate: { editable: false },
+                        CreatedDate: { editable: false },
+                        ChequeStatus: { editable: true },
+                    }
+                }
+            }
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 550,
+            toolbar: ["search", "excel"],
+            excel: {
+                fileName: "Cheques.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
+            columns: [
+                { field: "ProjectName", title: "Project", width: "150px" },
+                { field: "TowerName", title: "Tower", width: "100px" },
+                { field: "FlatName", title: "Flat", width: "100px" },
+                { field: "CustomerName", title: "Customer", width: "200px" },
+                { field: "Mobile", title: "Mobile", width: "100px" },
+                { field: "BookingAmount", title: "Amount", width: "100px" },
+                { field: "ReferenceNo", title: "Reference No", width: "100px" },
+                { field: "CreatedDate", title: "Payment Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(CreatedDate), "dd/MM/yyyy")#' },
+                { field: "ChequeDate", title: "Cheque Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(ChequeDate), "dd/MM/yyyy")#' },
+                
+                { field: "ChequeStatus", title: "Status", width: "130px", editor: statusDropDownEditor },
+                
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "60px"
+                }],
+            editable: "inline",
+        });
+
+
+
+        function statusDropDownEditor(container, options) {
+            $('<input required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: true,
+                    dataTextField: "Status",
+                    dataValueField: "Status",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetChequeStatus",
+
+                        }
+                    }
+                });
+        }
+
+    });
+</script>
+
+
+
+
+
+<style>
+    .specialLine {
+        box-sizing: border-box;
+        border-top: 3px solid rgba(227, 63, 14, 1);
+        margin-bottom: 10px;
+    }
+</style>
+

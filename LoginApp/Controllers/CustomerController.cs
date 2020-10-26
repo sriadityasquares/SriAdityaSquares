@@ -40,6 +40,8 @@ namespace LoginApp.Controllers
             TempData.Keep("ProjectList");
             var agents =  agentLocations.Where(x=>x.Distance != null).OrderBy(x => x.Distance).Take(5);
             var message = "";
+            var agentNames = "";
+            int i = 0;
             foreach (var currentAgent in agents)
             {
                 //currentAgent.AgentMobileNo = 9505055755;
@@ -48,8 +50,20 @@ namespace LoginApp.Controllers
                 var request = new RestRequest(Method.GET);
                 request.AddHeader("Cache-Control", "no-cache");
                 IRestResponse response = client.Execute(request);
-            }
+                if(i != 0)
+                {
+                    agentNames = agentNames + "," + currentAgent.AgentName;
+                }
+                else
+                    agentNames = currentAgent.AgentName;
 
+                i++;
+            }
+            customerEnquiry.Sms = message;
+            TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            customerEnquiry.EnquiryDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+            customerEnquiry.Recipients = agentNames;
+            booking.SaveCustomerInquiry(customerEnquiry);
             return RedirectToAction("Index", "Home");
         }
 

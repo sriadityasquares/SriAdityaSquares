@@ -105,9 +105,17 @@ namespace BusinessLayer
         {
             return db.UpdateBooking(b);
         }
+        public List<GetChequeInfo> GetChequeInfo()
+        {
+            return db.GetChequeInfo();
+        }
 
+        public bool UpdateChequeInfo(GetChequeInfo gci)
+        {
+            return db.UpdateChequeInfo(gci);
+        }
 
-        public bool CancelBooking(int flatId,string comments)
+        public bool CancelBooking(int flatId, string comments)
         {
             return db.CancelBooking(flatId, comments);
         }
@@ -116,7 +124,7 @@ namespace BusinessLayer
         {
             return db.GetCancellations();
         }
-        public bool UpdateCancellation(string comments,int id)
+        public bool UpdateCancellation(string comments, int id)
         {
             return db.UpdateCancellation(comments, id);
         }
@@ -287,9 +295,14 @@ namespace BusinessLayer
             return db.GetProjectAmenities(projectName);
         }
 
-        public List<GetGraphicalPeriodWiseBooking> GetAgentBookingGraph(string username,string projectID, string fromDate, string toDate)
+        public List<GetGraphicalPeriodWiseBooking> GetAgentBookingGraph(string username, string projectID, string fromDate, string toDate)
         {
-            return db.GetAgentBookingGraph(username, projectID,fromDate, toDate);
+            return db.GetAgentBookingGraph(username, projectID, fromDate, toDate);
+        }
+
+        public void SaveCustomerInquiry(CustomerEnquiry ce)
+        {
+            db.SaveCustomerInquiry(ce);
         }
     }
 }

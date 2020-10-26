@@ -2031,6 +2031,7 @@
     <Content Include="Views\Booking\DailyExpenses.cshtml" />
     <Content Include="Views\Booking\CancelBooking.cshtml" />
     <Content Include="Views\Report\FlatPaymentDetails.cshtml" />
+    <Content Include="Views\Booking\Cheque.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -129,6 +129,9 @@
                                     <a class="@(ViewBag.ClientPayments)" href="@Url.Action("ClientPayments", "Booking")">CLIENT PAYMENTS</a>
                                 </li>
                                 <li>
+                                    <a class="@(ViewBag.Cheque)" href="@Url.Action("Cheque", "Booking")">CHEQUE STATUS</a>
+                                </li>
+                                <li>
                                     <a class="@(ViewBag.DailyExpense)" href="@Url.Action("DailyExpenses", "Booking")">DAILY EXPENSES</a>
                                 </li>
                                 <li>
@@ -353,6 +356,9 @@
                                     <a class="@(ViewBag.ClientPayments)" href="@Url.Action("ClientPayments", "Booking")">CLIENT PAYMENTS</a>
                                 </li>
                                 <li>
+                                    <a class="@(ViewBag.Cheque)" href="@Url.Action("Cheque", "Booking")">CHEQUE STATUS</a>
+                                </li>
+                                <li>
                                     <a class="@(ViewBag.DailyExpense)" href="@Url.Action("DailyExpenses", "Booking")">DAILY EXPENSES</a>
                                 </li>
                                 <li>
@@ -547,26 +553,26 @@
         $('li.sub-menu active').removeClass('active');
         $(this).addClass('sub-menu active');
     });
-    document.addEventListener('contextmenu', function (e) {
-        e.preventDefault();
-    });
-    document.onkeydown = function (e) {
-        if (event.keyCode == 123) {
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-            return false;
-        }
-        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-            return false;
-        }
-    }
+    //document.addEventListener('contextmenu', function (e) {
+    //    e.preventDefault();
+    //});
+    //document.onkeydown = function (e) {
+    //    if (event.keyCode == 123) {
+    //        return false;
+    //    }
+    //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+    //        return false;
+    //    }
+    //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+    //        return false;
+    //    }
+    //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+    //        return false;
+    //    }
+    //    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+    //        return false;
+    //    }
+    //}
 
 </script>
 

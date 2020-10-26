@@ -10,9 +10,8 @@
 namespace DataLayer
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class tblPaymentInfo
+    public partial class sp_GetChequeInfo_Result
     {
         public int PaymentID { get; set; }
         public Nullable<System.Guid> BookingID { get; set; }
@@ -32,5 +31,10 @@ namespace DataLayer
         public Nullable<int> Day { get; set; }
         public string ChequeStatus { get; set; }
         public Nullable<System.DateTime> ChequeDate { get; set; }
+        public string CustomerName { get; set; }
+        public string Mobile { get; set; }
+        public string ProjectName { get; set; }
+        public string TowerName { get; set; }
+        public string FlatName { get; set; }
     }
 }

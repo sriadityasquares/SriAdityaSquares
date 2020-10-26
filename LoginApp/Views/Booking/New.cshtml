@@ -41,6 +41,7 @@
     @Html.HiddenFor(m => m.AgentParent)
     @Html.HiddenFor(m => m.BookingID)
     @Html.HiddenFor(m => m.BookingDate)
+    @Html.HiddenFor(m => m.ChequeDateMod)
     <div class="row" style="padding-top:5px">
         @Html.LabelFor(m => m.Name, new { @class = "col-md-1 required" })
         @Html.TextBoxFor(m => m.Name, new { @class = "textbox-control col-md-11 col-xs" })
@@ -159,26 +160,43 @@
     </div>
     <div class="row">
         @Html.LabelFor(m => m.BookingDate, new { @class = "col-md-1" })
-        <div class="col-md-1" style="padding-left:0px">
+        <div class="col-md-2" style="padding-left:0px">
             <input id="datepicker1" title="datepicker" />
         </div>
+        @Html.LabelFor(m => m.ChequeDate, new { @class = "col-md-1" })
+        <div class="col-md-2" style="padding-left:0px">
+            <input id="cqDatePicker" title="datepicker" />
+        </div>
+        @*@Html.LabelFor(m => m.ChequeStatus, new { @class = "col-md-1" })
+        @Html.DropDownListFor(m => m.ChequeStatus, new List<SelectListItem>
+{
+     new SelectListItem{ Text="Not-Applicable", Value = "Not-Applicable"  },
+    new SelectListItem{ Text="Received", Value = "Received" },
+    new SelectListItem{ Text="Cleared", Value = "Cleared" },
+    new SelectListItem{ Text="Bounced", Value = "Bounced" },
+    new SelectListItem{ Text="Hold", Value = "Hold" },
+    new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
+ }, new { @class = "textbox-control col-md-2 col-xs", @readonly = "readonly" })*@
+
 
     </div>
-
+    <br />
+    <hr />
+    <br />
     <div class="row">
 
-        <div  class="col-md-6">
+        <div class="col-md-6">
             <button type="submit" id="submitbtn" value="New" name="submit" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>Book</button>
         </div>
 
     </div>
     @*<div class="row">
 
-        <div style="float:right" class="col-md-6">
-            <button type="submit" id="cancelbtn" value="Cancel" name="cancel" class="btn btn-default orangebg pull-right"><i class="fa fa-remove"></i>Cancel</button>
-        </div>
+            <div style="float:right" class="col-md-6">
+                <button type="submit" id="cancelbtn" value="Cancel" name="cancel" class="btn btn-default orangebg pull-right"><i class="fa fa-remove"></i>Cancel</button>
+            </div>
 
-    </div>*@
+        </div>*@
 </div>
 
 }
@@ -191,9 +209,12 @@
 
 
     var ClubHouseCharges;
+    $("#datepicker1").kendoDatePicker();
+    $("#cqDatePicker").kendoDatePicker();
     $(document).ready(function () {
 
-        $("#datepicker1").kendoDatePicker();
+        //$("#datepicker1").kendoDatePicker();
+        //$("#cqDatePicker").kendoDatePicker();
         //dp.setOptions({ format: "MM-dd-yyyy });
         //var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
         //$("#datepicker1").data("kendoDatePicker").value(todayDate);
@@ -205,13 +226,19 @@
         var bookStatus = '@TempData["BookingStatus"]';
         var flatName = '@TempData["FlatName"]';
         var payMode = '@TempData["PayMode"]';
+        var cqStatus = '@TempData["ChequeStatus"]';
         var state = '@TempData["State"]';
         var city = '@TempData["City"]';
         var bookingID = '@TempData["BookingID"]';
         var bookingDate = '@TempData["BookingDate"]';
+        var cQDate = '@TempData["CQDate"]';
         if (bookingDate != null && bookingDate != '') {
             //alert(bookingDate);
             $("#datepicker1").data('kendoDatePicker').value(bookingDate);
+        }
+        if (cQDate != null && cQDate != '') {
+            //alert(bookingDate);
+            $("#cqDatePicker").data('kendoDatePicker').value(cQDate);
         }
         if (proID != 0) {
             // $("#ProjectID").val() = 1;
@@ -273,6 +300,7 @@
                         if (bookStatus == 'P') {
                             $("#FlatID").append("<option selected='selected' value='" + flatID + "'>" + flatName + "</option>")
                             document.getElementById('PaymentModeID').value = payMode;
+                            document.getElementById('ChequeStatus').value = cqStatus;
                             $("#BookingID").val(bookingID);
                             //document.getElementById('State').value = state;
                             //document.getElementById('City').value = city;
@@ -575,8 +603,10 @@
             $("#TowerID").prop("disabled", false);
             $("#FlatID").prop("disabled", false);
             var fromDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+            var chequeDate = kendo.toString($("#cqDatePicker").data("kendoDatePicker").value(), 'MM/dd/yyyy');
             //alert(fromDate);
             $("#BookingDate").val(fromDate);
+            $("#ChequeDateMod").val(chequeDate);
         };
         var validationsFlag = false;
 

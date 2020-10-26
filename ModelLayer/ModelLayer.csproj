@@ -54,6 +54,7 @@
     <Compile Include="Amenity.cs" />
     <Compile Include="BookingInformation.cs" />
     <Compile Include="Cancellation.cs" />
+    <Compile Include="Cheque.cs" />
     <Compile Include="City.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="ClientPayments.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="GetBhkWiseBookingDetails.cs" />
     <Compile Include="GetBookingInfoByDate.cs" />
     <Compile Include="GetBookingStatistics.cs" />
+    <Compile Include="GetChequeInfo.cs" />
     <Compile Include="GetFacingWiseBookingDetails.cs" />
     <Compile Include="GetFlatLifeCycle.cs" />
     <Compile Include="GetFlatPaymentDetails.cs" />

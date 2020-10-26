@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -83,7 +84,7 @@ namespace DataLayer
             }
             return lstProjects;
         }
-        
+
         public List<Projects> BindProjectsBasedOnLocation(string locationName)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -672,6 +673,11 @@ namespace DataLayer
                         paymentListOld[i].Day = Convert.ToDateTime(bookingInfo.CreatedDate).Day;
                         paymentListOld[i].Month = Convert.ToDateTime(bookingInfo.CreatedDate).Month;
                         paymentListOld[i].Year = Convert.ToDateTime(bookingInfo.CreatedDate).Year;
+                        paymentListOld[i].PaymentMode = bookingInfo.PaymentMode;
+                        paymentListOld[i].PaymentModeID = bookingInfo.PaymentModeID;
+                        paymentListOld[i].ReferenceNo = bookingInfo.ReferenceNo;
+                        //paymentListOld[i].ChequeStatus = bookingInfo.ChequeStatus;
+                        paymentListOld[i].ChequeDate = bookingInfo.ChequeDate;
                     }
                     else
                     {
@@ -801,7 +807,64 @@ namespace DataLayer
             }
         }
 
-        public bool CancelBooking(int flatID,string comments)
+
+        public List<GetChequeInfo> GetChequeInfo()
+        {
+            List<GetChequeInfo> lstChequeInfo = new List<GetChequeInfo>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetChequeInfo_Result, GetChequeInfo>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstChequeInfo = mapper.Map<List<sp_GetChequeInfo_Result>, List<GetChequeInfo>>(dbEntity.sp_GetChequeInfo().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstChequeInfo;
+        }
+
+        public bool UpdateChequeInfo(GetChequeInfo gci)
+        {
+            try
+            {
+                if (gci.ChequeStatus == "Cancelled" || gci.ChequeStatus == "Bounced")
+                {
+                    var getPaymentsForBooking = dbEntity.tblPaymentInfoes.Where(x => x.BookingID == gci.BookingID).OrderBy(x => x.CreatedDate).ToList();
+                    var totalAmount = getPaymentsForBooking[0].BalanceAmount + getPaymentsForBooking[0].BookingAmount;
+                    for (int i = 0; i < getPaymentsForBooking.Count; i++)
+                    {
+                        if (getPaymentsForBooking[i].PaymentID == gci.PaymentID)
+                        {
+                            getPaymentsForBooking[i].BookingAmount = 0;
+                            getPaymentsForBooking[i].ChequeStatus = gci.ChequeStatus;
+                        }
+                        if (i == 0)
+                            getPaymentsForBooking[i].BalanceAmount = totalAmount - getPaymentsForBooking[i].BookingAmount;
+                        else
+                            getPaymentsForBooking[i].BalanceAmount = getPaymentsForBooking[i - 1].BalanceAmount - getPaymentsForBooking[i].BookingAmount;
+                    }
+                    dbEntity.SaveChanges();
+                }
+                else
+                {
+                    var updateStatus = dbEntity.tblPaymentInfoes.Where(x => x.PaymentID == gci.PaymentID).FirstOrDefault();
+                    updateStatus.ChequeStatus = gci.ChequeStatus;
+                    dbEntity.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+        public bool CancelBooking(int flatID, string comments)
         {
             try
             {
@@ -817,7 +880,7 @@ namespace DataLayer
         }
 
 
-        public bool UpdateCancellation(string comments,int id)
+        public bool UpdateCancellation(string comments, int id)
         {
             try
             {
@@ -1110,7 +1173,7 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstAgents = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<FlatWiseAgentCommission>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).ToList()).ToList();
-                
+
             }
             catch (Exception ex)
             {
@@ -1133,7 +1196,7 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstAgents = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<AgentMaster>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).OrderBy(x => x.AgentID).ToList()).ToList();
-               
+
                 List<TreeObject> lstTreeObject = new List<TreeObject>();
                 foreach (var agent in lstAgents)
                 {
@@ -1144,11 +1207,11 @@ namespace DataLayer
                     TreeObject.colorScheme = "#1696d3";
                     lstTreeObject.Add(TreeObject);
                 }
-                lstTreeObject = lstTreeObject.GroupBy(x=>x.AgentCode).Select(x => x.First()).ToList();
+                lstTreeObject = lstTreeObject.GroupBy(x => x.AgentCode).Select(x => x.First()).ToList();
                 //var x  = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<TreeObject>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).ToList()).ToList();
                 result = TreeObject.FlatToHierarchy(lstTreeObject).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -1440,7 +1503,7 @@ namespace DataLayer
                 mapper.Map<ClientPayments, tblClientPayment>(cp, cpInfo);
                 dbEntity.tblClientPayments.Add(cpInfo);
                 dbEntity.SaveChanges();
-                
+
                 return true;
             }
             catch (Exception ex)
@@ -1620,7 +1683,7 @@ namespace DataLayer
             try
             {
                 var projectID = dbEntity.tblProjects.Where(x => x.ProjectName == projectName).Select(x => x.ProjectID).FirstOrDefault();
-                
+
 
                 //lstCountry = dbEntity.tblProjects.ToList();
                 var config = new MapperConfiguration(cfg =>
@@ -1628,7 +1691,7 @@ namespace DataLayer
                     cfg.CreateMap<tblAmenity, Amenity>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstAmenities = mapper.Map<List<tblAmenity>, List<Amenity>>(dbEntity.tblAmenities.Where(x=>x.ProjectID == projectID).ToList()).ToList();
+                lstAmenities = mapper.Map<List<tblAmenity>, List<Amenity>>(dbEntity.tblAmenities.Where(x => x.ProjectID == projectID).ToList()).ToList();
             }
 
             catch (Exception ex)
@@ -1638,7 +1701,7 @@ namespace DataLayer
             return lstAmenities;
         }
 
-        public List<GetGraphicalPeriodWiseBooking> GetAgentBookingGraph(string username,string projectid,string fromDate,string toDate)
+        public List<GetGraphicalPeriodWiseBooking> GetAgentBookingGraph(string username, string projectid, string fromDate, string toDate)
         {
             try
             {
@@ -1649,11 +1712,32 @@ namespace DataLayer
                     cfg.CreateMap<sp_GetAgentBookingGraphByAgentLogins_Result, GetGraphicalPeriodWiseBooking>();
                 });
                 IMapper mapper = config.CreateMapper();
-                return mapper.Map<List<sp_GetAgentBookingGraphByAgentLogins_Result>, List<GetGraphicalPeriodWiseBooking>>(dbEntity.sp_GetAgentBookingGraphByAgentLogins(username, projectid,fromDate, toDate).ToList()).ToList();
+                return mapper.Map<List<sp_GetAgentBookingGraphByAgentLogins_Result>, List<GetGraphicalPeriodWiseBooking>>(dbEntity.sp_GetAgentBookingGraphByAgentLogins(username, projectid, fromDate, toDate).ToList()).ToList();
             }
             catch (Exception ex)
             {
                 return new List<GetGraphicalPeriodWiseBooking>();
+            }
+        }
+
+        public void SaveCustomerInquiry(CustomerEnquiry ce)
+        {
+            try
+            {
+                tblCustomerEnquiry ceInfo = new tblCustomerEnquiry();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<CustomerEnquiry, tblCustomerEnquiry>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<CustomerEnquiry, tblCustomerEnquiry>(ce, ceInfo);
+                dbEntity.tblCustomerEnquiries.Add(ceInfo);
+                dbEntity.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }

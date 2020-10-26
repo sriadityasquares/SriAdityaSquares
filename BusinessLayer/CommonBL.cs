@@ -26,6 +26,10 @@ namespace BusinessLayer
             return db.BindStatus();
         }
 
+        public List<Cheque> BindChequeStatus()
+        {
+            return db.BindChequeStatus();
+        }
         public List<Agent> BindAgents()
         {
             return db.BindAgents();

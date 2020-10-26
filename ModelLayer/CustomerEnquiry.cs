@@ -9,6 +9,8 @@ namespace ModelLayer
 {
     public class CustomerEnquiry
     {
+
+        public int EnquiryID { get; set; }
         [Display(Name ="Name")]
         public string CustomerName { get; set; }
 
@@ -20,6 +22,12 @@ namespace ModelLayer
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
+
+        public string Sms { get; set; }
+
+        public string Recipients { get; set; }
+
+        public Nullable<System.DateTime> EnquiryDate { get; set; }
 
     }
 }

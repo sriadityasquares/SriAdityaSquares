@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2b8d0ed23c574fac97c9f89f2eedd442" Name="Diagram1" ZoomLevel="66">
+      <Diagram DiagramId="2b8d0ed23c574fac97c9f89f2eedd442" Name="Diagram1" ZoomLevel="50">
         <EntityTypeShape EntityType="salesDBModel.tblCity" Width="1.5" PointX="5.75" PointY="4.75" />
         <EntityTypeShape EntityType="salesDBModel.tblCountry" Width="1.5" PointX="7.75" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblProject" Width="1.5" PointX="0.75" PointY="1.375" />
@@ -29,7 +29,6 @@
         <AssociationConnector Association="salesDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="salesDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="salesDBModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="salesDBModel.tblBookingInformation" Width="1.5" PointX="14.375" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblAgentTotalPayment" Width="1.5" PointX="16.375" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblFlatWiseAgentCommission" Width="1.5" PointX="16.375" PointY="3.75" />
         <EntityTypeShape EntityType="salesDBModel.tblCustomerVisitInfo" Width="1.5" PointX="3.375" PointY="16.75" />
@@ -41,6 +40,9 @@
         <EntityTypeShape EntityType="salesDBModel.tblCustomerInfo_backup" Width="1.5" PointX="17.375" PointY="17.75" />
         <EntityTypeShape EntityType="salesDBModel.tblDailyExpens" Width="1.5" PointX="7.375" PointY="8.75" />
         <EntityTypeShape EntityType="salesDBModel.tblCancellation" Width="1.5" PointX="18.375" PointY="0.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblBookingInformation" Width="1.5" PointX="0.75" PointY="17.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblCustomerEnquiry" Width="1.5" PointX="12.375" PointY="3.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblChequeStatu" Width="1.5" PointX="12.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -85,7 +85,12 @@ namespace LoginApp.Controllers
 
         }
 
+        public JsonResult GetChequeStatus()
+        {
+            var list = objCasc.BindChequeStatus();
+            return Json(list, JsonRequestBehavior.AllowGet);
 
+        }
         public List<State> BindStateDetails(int CountryId)
         {
 

@@ -77,16 +77,23 @@ namespace LoginApp.Controllers
                     TempData["AgentID"] = b.AgentID;
                     TempData["FlatName"] = b.FlatName;
                     TempData["PayMode"] = b.PaymentModeID;
+                    TempData["ChequeStatus"] = b.ChequeStatus;
                     TempData["State"] = b.State;
                     TempData["City"] = b.City;
                     TempData["BookingStatus"] = "P";
                     TempData["BookingID"] = b.BookingID;
                     var bookingDate = Convert.ToDateTime(b.CreatedDate).ToString("MM/dd/yyyy");
+                    var chequeDate = "";
+                    if (b.ChequeDate != null)
+                    {
+                        chequeDate = Convert.ToDateTime(b.ChequeDate).ToString("MM/dd/yyyy");
+                    }
                     //bookingDate
                     //DateTime dt = DateTime.ParseExact(b.CreatedDate.ToString(), "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                     ////s will be MM/dd/yyyy format string
                     //string s = dt.ToString("MM/dd/yyyy");
                     TempData["BookingDate"] = bookingDate;
+                    TempData["CQDate"] = chequeDate;
                     ViewBag.ScreenName = "Edit Booking";
                 }
                 return View(b);
@@ -102,13 +109,17 @@ namespace LoginApp.Controllers
             bool result = false;
             try
             {
-
+                b.ChequeDate = b.ChequeDateMod;
                 b.CreatedDate = Convert.ToDateTime(b.BookingDate);
                 b.CreatedBy = User.Identity.Name;
                 var isNew = false;
                 if (b.BookingID == Guid.Empty)
                 {
                     isNew = true;
+                    if(b.PaymentModeID == "1")
+                        b.ChequeStatus = "Received";
+                    else
+                        b.ChequeStatus = "Not-Applicable";
                     result = booking.SaveNewBooking(b);
                 }
                 else
@@ -243,6 +254,10 @@ namespace LoginApp.Controllers
                 {
                     //payInfo.CreatedDate = DateTime.ParseExact(payInfo.PaymentDate, "dd/MM/yyyy", null);
                     payInfo.CreatedBy = User.Identity.Name;
+                    if (payInfo.PaymentModeID == "1")
+                        payInfo.ChequeStatus = "Received";
+                    else
+                        payInfo.ChequeStatus = "Not-Applicable";
                     var result = booking.SaveNewPayment(payInfo);
                     if (result)
                         TempData["successmessage"] = "Payment Successfull";
@@ -810,7 +825,7 @@ namespace LoginApp.Controllers
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult BookingCancellation(int flatID,string comments)
+        public ActionResult BookingCancellation(int flatID, string comments)
         {
             var result = booking.CancelBooking(flatID, comments);
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -822,6 +837,23 @@ namespace LoginApp.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Cheque()
+        {
+            return View();
+        }
+
+        public JsonResult GetChequeInfo()
+        {
+            var result = booking.GetChequeInfo();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult UpdateChequeStatus(string models)
+        {
+            List<GetChequeInfo> data = JsonConvert.DeserializeObject<List<GetChequeInfo>>(models);
+            var result = booking.UpdateChequeInfo(data[0]);
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
     }
 
 

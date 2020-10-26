@@ -61,5 +61,7 @@ namespace DataLayer
         public Nullable<double> AgentNet { get; set; }
         public Nullable<double> TotalComm { get; set; }
         public Nullable<int> PaymentModeID { get; set; }
+        public string ChequeStatus { get; set; }
+        public Nullable<System.DateTime> ChequeDate { get; set; }
     }
 }

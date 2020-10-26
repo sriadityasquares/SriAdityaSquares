@@ -33,9 +33,14 @@ namespace LoginApp.Controllers
         {
 
             List<Projects> projectList = booking.BindProjects();
+            Projects p = new Projects();
+            p.ProjectID = 9999;
+            p.ProjectName = "All";
+            projectList.Add(p);
+            ViewBag.ProjectList = new SelectList(projectList.OrderByDescending(x => x.ProjectID), "ProjectID", "ProjectName");
+
             List<Year> years = common.BindYear();
             List<Month> months = common.BindMonth();
-            ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
             ViewBag.YearList = new SelectList(years, "YearName", "YearName");
             ViewBag.MonthList = new SelectList(months, "ID", "MonthName");
             return View();
@@ -44,7 +49,13 @@ namespace LoginApp.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult GetPeriodWiseBookingReport(int option,string fromDate,string toDate,string projects,string years,string months) 
         {
-
+            if(projects.Contains("9999"))
+            {
+                foreach(var project in booking.BindProjects())
+                {
+                    projects = projects  +","+project.ProjectID.ToString(); 
+                }
+            }
             ReportBL rep = new ReportBL();
             List<GetPeriodWiseBookingDetails> list = rep.BindPeriodWiseBookingInfo(option, fromDate, toDate, projects, years, months);
             return Json(list, JsonRequestBehavior.AllowGet);
@@ -62,7 +73,13 @@ namespace LoginApp.Controllers
         public ActionResult BookingInfoReport()
         {
             List<Projects> projectList = booking.BindProjects();
-            ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
+            Projects p = new Projects();
+            p.ProjectID = 9999;
+            p.ProjectName = "All";
+            projectList.Add(p);
+            ViewBag.ProjectList = new SelectList(projectList.OrderByDescending(x => x.ProjectID), "ProjectID", "ProjectName");
+
+            ViewBag.ProjectList = new SelectList(projectList.OrderByDescending(x => x.ProjectID), "ProjectID", "ProjectName");
             return View();
         }
 
@@ -70,13 +87,25 @@ namespace LoginApp.Controllers
         public ActionResult PaymentInfoReport()
         {
             List<Projects> projectList = booking.BindProjects();
-            ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
+            Projects p = new Projects();
+            p.ProjectID = 9999;
+            p.ProjectName = "All";
+            projectList.Add(p);
+
+            ViewBag.ProjectList = new SelectList(projectList.OrderByDescending(x => x.ProjectID), "ProjectID", "ProjectName");
             return View();
         }
 
         public JsonResult GetBookingReportbyDate(string start, string end,string projectID)
         {
             ReportBL rep = new ReportBL();
+            if (projectID.Contains("9999"))
+            {
+                foreach (var project in booking.BindProjects())
+                {
+                    projectID = projectID + "," + project.ProjectID.ToString();
+                }
+            }
             List<GetBookingInfoByDate> list = rep.BindBookingInfo(start, end, projectID);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -84,6 +113,13 @@ namespace LoginApp.Controllers
         public JsonResult GetPaymentReportbyDate(string start, string end, string projectID)
         {
             ReportBL rep = new ReportBL();
+            if (projectID.Contains("9999"))
+            {
+                foreach (var project in booking.BindProjects())
+                {
+                    projectID = projectID + "," + project.ProjectID.ToString();
+                }
+            }
             List<GetPaymentInfoByDate> list = rep.BindPaymentInfo(start, end, projectID);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -92,7 +128,11 @@ namespace LoginApp.Controllers
         public ActionResult AgentWiseBookingReport()
         {
             List<Projects> projectList = booking.BindProjects();
-            ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
+            Projects p = new Projects();
+            p.ProjectID = 9999;
+            p.ProjectName = "All";
+            projectList.Add(p);
+            ViewBag.ProjectList = new SelectList(projectList.OrderByDescending(x=>x.ProjectID), "ProjectID", "ProjectName");
             return View();
         }
 
@@ -100,6 +140,13 @@ namespace LoginApp.Controllers
         public JsonResult GetAgentBookingReportbyDate(string start, string end, string projectID)
         {
             ReportBL rep = new ReportBL();
+            if (projectID.Contains("9999"))
+            {
+                foreach (var project in booking.BindProjects())
+                {
+                    projectID = projectID + "," + project.ProjectID.ToString();
+                }
+            }
             List<GetAgentWiseBookingDetails> list = rep.BindAgentBookingInfo(start, end, projectID);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -108,7 +155,11 @@ namespace LoginApp.Controllers
         public ActionResult BhkWiseBookingReport()
         {
             List<Projects> projectList = booking.BindProjects();
-            ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
+            Projects p = new Projects();
+            p.ProjectID = 9999;
+            p.ProjectName = "All";
+            projectList.Add(p);
+            ViewBag.ProjectList = new SelectList(projectList.OrderByDescending(x => x.ProjectID), "ProjectID", "ProjectName");
             return View();
         }
 
@@ -116,13 +167,24 @@ namespace LoginApp.Controllers
         public ActionResult FacingWiseBookingReport()
         {
             List<Projects> projectList = booking.BindProjects();
-            ViewBag.ProjectList = new SelectList(projectList, "ProjectID", "ProjectName");
+            Projects p = new Projects();
+            p.ProjectID = 9999;
+            p.ProjectName = "All";
+            projectList.Add(p);
+            ViewBag.ProjectList = new SelectList(projectList.OrderByDescending(x => x.ProjectID), "ProjectID", "ProjectName");
             return View();
         }
 
         public JsonResult GetBhkBookingReportbyDate(string start, string end, string projectID)
         {
             ReportBL rep = new ReportBL();
+            if (projectID.Contains("9999"))
+            {
+                foreach (var project in booking.BindProjects())
+                {
+                    projectID = projectID + "," + project.ProjectID.ToString();
+                }
+            }
             List<GetBhkWiseBookingDetails> list = rep.BindBhkBookingInfo(start, end, projectID);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -130,6 +192,13 @@ namespace LoginApp.Controllers
         public JsonResult GetFacingBookingReportbyDate(string start, string end, string projectID)
         {
             ReportBL rep = new ReportBL();
+            if (projectID.Contains("9999"))
+            {
+                foreach (var project in booking.BindProjects())
+                {
+                    projectID = projectID + "," + project.ProjectID.ToString();
+                }
+            }
             List<GetFacingWiseBookingDetails> list = rep.BindFacingBookingInfo(start, end, projectID);
             return Json(list, JsonRequestBehavior.AllowGet);
         }

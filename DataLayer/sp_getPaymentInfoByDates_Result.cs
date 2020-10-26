@@ -18,6 +18,10 @@ namespace DataLayer
         public string flatname { get; set; }
         public string name { get; set; }
         public string agentname { get; set; }
+        public string PaymentMode { get; set; }
+        public string ReferenceNo { get; set; }
+        public string ChequeStatus { get; set; }
+        public Nullable<System.DateTime> ChequeDate { get; set; }
         public Nullable<int> BookingAmount { get; set; }
         public Nullable<int> BalanceAmount { get; set; }
         public string PaidDate { get; set; }
