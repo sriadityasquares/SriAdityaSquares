@@ -17,6 +17,7 @@ namespace DataLayer
         public Nullable<System.DateTime> PaymentDate { get; set; }
         public string ProjectName { get; set; }
         public string TowerName { get; set; }
+        public Nullable<System.DateTime> ChequeDate { get; set; }
         public string Name { get; set; }
         public string Mobile { get; set; }
         public string FlatName { get; set; }

@@ -27,6 +27,10 @@ namespace DataLayer
                     projectOld.ProjectLocation = p.ProjectLocation;
                     projectOld.BookingStatus = p.BookingStatus;
                     projectOld.ClubHouseCharges = p.ClubHouseCharges;
+                    projectOld.Description = p.Description;
+                    projectOld.LocationURL = p.LocationURL;
+                    projectOld.ApprovalStatus = p.ApprovalStatus;
+                    projectOld.Pricing = p.Pricing;
                     projectOld.UpdatedDate = DateTime.Now;
                     dbEntity.SaveChanges();
                 }
@@ -80,6 +84,7 @@ namespace DataLayer
                 towerNew.BookingStatus = p.BookingStatus;
                 towerNew.CreatedBy = p.CreatedBy;
                 towerNew.CreatedDate = DateTime.Now;
+                
                 dbEntity.tblTowers.Add(towerNew);
                 dbEntity.SaveChanges();
 

@@ -397,6 +397,18 @@ namespace LoginApp.Controllers
             base.Dispose(disposing);
         }
 
+        public ActionResult MyProfile()
+        {
+            string role = "";
+            if (User.IsInRole("Customer"))
+                role = "Customer";
+            if (User.IsInRole("Agent"))
+                role = "Agent";
+            CommonBL c = new CommonBL();
+            var profile = c.GetMyProfile(User.Identity.Name, role);
+            return View(profile);
+        }
+
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

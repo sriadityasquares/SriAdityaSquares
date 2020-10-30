@@ -29,7 +29,7 @@
     <script src="~/Scripts/kendo.all.min.js"></script>
     <script src="~/Content/Potfolio/slick.min.js"></script>
     <script src="~/Content/Potfolio/kchat.js"></script>
-    
+
     <script src="~/Content/Potfolio/homePage.js"></script>
     <script src="~/Content/Potfolio/jquery.magnific-popup.min.js"></script>
     <script src="~/Content/Potfolio/jquery.singlePageNav.min.js"></script>
@@ -214,6 +214,16 @@
 
                                 </div>
 
+                                <div class="k-card k-card-type-rich">
+                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/The Drizzle.png" alt="undefined" class="k-card-image">
+                                    <div style="background-color: #ff0707b8" class="k-card-body">
+                                        <h5 class="k-card-title">The Drizzle</h5>
+                                        <h6 class="k-card-subtitle">Narsingi</h6>
+
+                                    </div>
+
+                                </div>
+
                             </div>
                             <button class="k-button k-button-icon k-button-scroll">
                                 <span class="k-icon k-i-arrow-chevron-right"></span>
@@ -233,7 +243,7 @@
                         $("#mediaplayer").kendoMediaPlayer({
                             autoPlay: false
                         });
-                        
+
                         var videos = new kendo.data.DataSource({
                             data: [{
                                 title: "Alpine Square",
@@ -246,8 +256,13 @@
                                 poster: "/Content/Images/PVRAnmol.JPG",
                                 source: "/Content/Images/PVRAnmol.mp4",
                                 bgcolor: "#f48e36"
+                            },
+                            {
+                                title: "The Drizzle",
+                                poster: "/Content/Images/The Drizzle.png",
+                                source: "https://youtu.be/xwExJJd0Lk0",
+                                bgcolor: "#ff0707b8"
                             }
-
 
                             ]
                         });
@@ -259,16 +274,16 @@
                             template: kendo.template($("#template").html()),
                             change: onChange,
                             dataBound: onDataBound,
-                            
+
                         });
 
                         function onChange() {
                             var index = this.select().index();
                             var dataItem = this.dataSource.view()[index];
                             $("#mediaplayer").data("kendoMediaPlayer").media(dataItem);
-                            
+
                         }
-                        
+
                         function onDataBound() {
                             this.select(this.element.children().first());
                         }
@@ -280,7 +295,7 @@
 
 
                 <script type="text/x-kendo-template" id="template">
-                    <li style="background:#:bgcolor#"  class="k-item k-state-default" onmouseover="$(this).addClass('k-state-hover')"
+                    <li style="background:#:bgcolor#" class="k-item k-state-default" onmouseover="$(this).addClass('k-state-hover')"
                         onmouseout="$(this).removeClass('k-state-hover')">
                         <span>
                             <img src="#:poster#" />
@@ -289,7 +304,7 @@
                     </li>
                 </script>
                 <div id="mediaplayer" style="height:360px"></div>
-                <div class="k-list-container playlist"><ul  id="listView" class="k-list"></ul></div>
+                <div class="k-list-container playlist"><ul id="listView" class="k-list"></ul></div>
 
             </div>
             <br />

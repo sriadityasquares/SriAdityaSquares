@@ -64,6 +64,21 @@ namespace LoginApp.Controllers
 
         }
 
+        public JsonResult GetProjectApprovalsForChatBot(string projectName)
+        {
+            Projects project = booking.BindProjectDetails(projectName);
+            //project.projectImageURL = @"/Content/Images/" + projectName + ".png";
+            return Json(project.ApprovalStatus, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetProjectPricingForChatBot(string projectName)
+        {
+            Projects project = booking.BindProjectDetails(projectName);
+            //project.projectImageURL = @"/Content/Images/" + projectName + ".png";
+            return Json(project.Pricing, JsonRequestBehavior.AllowGet);
+
+        }
         public JsonResult GetProjectSuggestionForChatBot(string projectName)
         {
             List<SuggestedActions> lstSuggestedActions = new List<SuggestedActions>();
@@ -79,6 +94,10 @@ namespace LoginApp.Controllers
             suggestedActions3.title = "Amenities";
             suggestedActions3.value = projectName + "-Amenities";
             lstSuggestedActions.Add(suggestedActions3);
+            SuggestedActions suggestedActions4 = new SuggestedActions();
+            suggestedActions4.title = "Pricing";
+            suggestedActions4.value = projectName + "-Pricing";
+            lstSuggestedActions.Add(suggestedActions4);
             return Json(lstSuggestedActions, JsonRequestBehavior.AllowGet);
         }
 

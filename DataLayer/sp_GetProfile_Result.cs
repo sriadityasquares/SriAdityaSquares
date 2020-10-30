@@ -11,12 +11,16 @@ namespace DataLayer
 {
     using System;
     
-    public partial class sp_GetFlatLifeCycle_Result
+    public partial class sp_GetProfile_Result
     {
-        public Nullable<int> BookingAmount { get; set; }
-        public Nullable<int> BalanceAmount { get; set; }
-        public string CreatedDate { get; set; }
         public string Name { get; set; }
-        public string SchemeName { get; set; }
+        public Nullable<long> Mobile { get; set; }
+        public string Email { get; set; }
+        public string Pan { get; set; }
+        public string Aadhar { get; set; }
+        public string AgentCode { get; set; }
+        public string AccountNo { get; set; }
+        public string Bank { get; set; }
+        public string IFSC { get; set; }
     }
 }

@@ -40,5 +40,9 @@ namespace ModelLayer
         public string RERAApprovalDocument { get; set; }
         public string Description { get; set; }
         public string LocationURL { get; set; }
+
+        public string ApprovalStatus { get; set; }
+
+        public string Pricing { get; set; }
     }
 }

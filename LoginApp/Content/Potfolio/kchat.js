@@ -167,6 +167,42 @@ window.ChatAgent = kendo.Class.extend({
                 }
             });
         }
+        else if (args.text.includes("-Pricing")) {
+            var projectName = args.text.split("-");
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: "/ChatBot/GetProjectPricingForChatBot",
+                data: { projectName: projectName[0] },
+                success: function (data) {
+                    chat.renderMessage({
+                        type: "text",
+                        text: data,
+                        timestamp: new Date()
+                    }, {
+                        name: "Bot",
+                        iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
+                    });
+                    var json = [{
+                        title: "Amenities",
+                        value: projectName[0] + "-Amenities"
+                    },
+                    {
+                        title: "Project Details",
+                        value: projectName[0] + "-Details"
+                    },
+                    {
+                        title: "Approvals",
+                        value: projectName[0] + "-Approvals"
+                    }
+                    ];
+
+                    chat.renderSuggestedActions(json);
+                },
+                error: function (data) {
+                }
+            });
+        }
         else if (args.text.includes("-Details")) {
             var projectName = args.text.split("-");
             $.ajax({
@@ -204,6 +240,10 @@ window.ChatAgent = kendo.Class.extend({
                         value: projectName[0] + "-Approvals"
                     },
                     {
+                        title: "Pricing",
+                        value: projectName[0] + "-Pricing"
+                    },
+                    {
                         title: "Amenities",
                         value: projectName[0] + "-Amenities"
                     }];
@@ -217,36 +257,39 @@ window.ChatAgent = kendo.Class.extend({
         else if (args.text.includes("-Approvals")) {
             var projectName = args.text.split("-");
             var approvalText = "";
-            if (projectName[0] == 'Jewels County') {
-                approvalText = 'HMDA Approved';
-            }
-            else if (projectName[0] == 'In the Woods') {
-                approvalText = 'HMDA Approval to be completed by March 2021';
-            }
-            else if (projectName[0] == 'Elderado') {
-                approvalText = 'HMDA Approved';
-            }
-            else if (projectName[0] == 'PVR Anmol') {
-                approvalText = 'HMDA awaiting for DC Letter';
-            }
-            else if (projectName[0] == 'Alpine Square') {
-                approvalText = 'GHMC & RERA Approved';
-            }
-            else if (projectName[0] == 'Alpine Vistas') {
-                approvalText = 'HMDA Approval Pending';
-            }
-            else if (projectName[0] == 'Alpine Towers') {
-                approvalText = 'HMDA Approval Pending';
-            }
+            //if (projectName[0] == 'Jewels County') {
+            //    approvalText = 'HMDA Approved';
+            //}
+            //else if (projectName[0] == 'In the Woods') {
+            //    approvalText = 'HMDA Approval to be completed by March 2021';
+            //}
+            //else if (projectName[0] == 'Elderado') {
+            //    approvalText = 'HMDA Approved';
+            //}
+            //else if (projectName[0] == 'PVR Anmol') {
+            //    approvalText = 'HMDA awaiting for DC Letter';
+            //}
+            //else if (projectName[0] == 'Alpine Square') {
+            //    approvalText = 'GHMC & RERA Approved';
+            //}
+            //else if (projectName[0] == 'Alpine Vistas') {
+            //    approvalText = 'HMDA Approved';
+            //}
+            //else if (projectName[0] == 'Alpine Towers') {
+            //    approvalText = 'HMDA Approval Pending';
+            //}
+            //else if (projectName[0] == 'The Drizzle') {
+            //    approvalText = 'HMDA Approval Pending';
+            //}
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
-                url: "/ChatBot/GetProjectDetailsForChatBot",
+                url: "/ChatBot/GetProjectApprovalsForChatBot",
                 data: { projectName: projectName[0] },
                 success: function (data) {
                     chat.renderMessage({
                         type: "text",
-                        text: approvalText,
+                        text: data,
                         timestamp: new Date()
                     }, {
                         name: "Bot",
@@ -255,6 +298,10 @@ window.ChatAgent = kendo.Class.extend({
                     var json = [{
                         title: "Amenities",
                         value: projectName[0] + "-Amenities"
+                    },
+                    {
+                        title: "Pricing",
+                        value: projectName[0] + "-Pricing"
                     },
                     {
                         title: "Project Details",
@@ -298,6 +345,10 @@ window.ChatAgent = kendo.Class.extend({
                     var json = [{
                         title: "Approvals",
                         value: projectName[0] + "-Approvals"
+                    },
+                    {
+                        title: "Pricing",
+                        value: projectName[0] + "-Pricing"
                     },
                     {
                         title: "Project Details",

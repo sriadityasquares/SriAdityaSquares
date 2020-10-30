@@ -31,7 +31,7 @@ namespace ModelLayer
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
 
-        [Display(Name ="Payment Date")]
+        [Display(Name ="Created Date")]
         public string PaymentDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
@@ -50,7 +50,7 @@ namespace ModelLayer
         [Display(Name = "Cheque Status")]
         public string ChequeStatus { get; set; }
 
-        [Display(Name = "Cheque Date")]
+        [Display(Name = "Paid Date")]
         public Nullable<System.DateTime> ChequeDate { get; set; }
     }
 }

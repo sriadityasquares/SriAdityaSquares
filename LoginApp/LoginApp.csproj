@@ -830,6 +830,7 @@
     <Content Include="Content\Images\Tennis Court.PNG" />
     <Content Include="Content\Images\Terrace Boutique.PNG" />
     <Content Include="Content\Images\Terrace Seating Lounge.PNG" />
+    <Content Include="Content\Images\The Drizzle.PNG" />
     <Content Include="Content\Images\TV Room.PNG" />
     <Content Include="Content\Images\wall.JPG" />
     <Content Include="Content\Images\woods.jpg" />
@@ -2032,6 +2033,7 @@
     <Content Include="Views\Booking\CancelBooking.cshtml" />
     <Content Include="Views\Report\FlatPaymentDetails.cshtml" />
     <Content Include="Views\Booking\Cheque.cshtml" />
+    <Content Include="Views\Account\MyProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

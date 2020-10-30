@@ -88,6 +88,7 @@
     <Compile Include="GetUsersWithRoles.cs" />
     <Compile Include="LevelsMaster.cs" />
     <Compile Include="Month.cs" />
+    <Compile Include="MyProfile.cs" />
     <Compile Include="PaymentInformation.cs" />
     <Compile Include="Projects.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

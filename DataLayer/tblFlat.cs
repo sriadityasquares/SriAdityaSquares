@@ -29,7 +29,9 @@ namespace DataLayer
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public string FlatPlanURL { get; set; }
     
-        public virtual tblProject tblProject { get; set; }
         public virtual tblTower tblTower { get; set; }
+        public virtual tblProject tblProject { get; set; }
+        public virtual tblProject tblProject1 { get; set; }
+        public virtual tblProject tblProject2 { get; set; }
     }
 }

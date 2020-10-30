@@ -24,12 +24,12 @@
         @Html.LabelFor(m => m.From, new { @class = "col-md-1" })
 
         <div class="col-md-2">
-            <input id="datepicker1" value="10/01/2019" title="datepicker" />
+            <input id="datepicker1"  title="datepicker" />
         </div>
 
         @Html.LabelFor(m => m.To, new { @class = "col-md-1" })
         <div class="col-md-2">
-            <input id="datepicker2" value="10/31/2019" title="datepicker" />
+            <input id="datepicker2"  title="datepicker" />
         </div>
 
         @*@Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })*@
@@ -112,8 +112,8 @@
 
                     { field: "BookingAmount", title: "AMOUNT PAID" ,width: 120 },
                     { field: "BalanceAmount", title: "AMOUNT REM" ,width: 140},
-                    { field: "PaidDate", title: "PAID DATE", width: 100 },
-                    { field: "DueDate", title: "DUE DATE", width: 100 },
+                    { field: "ChequeDate", title: "PAID DATE", width: 100, template: '#= kendo.toString(kendo.parseDate(ChequeDate), "dd/MM/yyyy")#' },
+                    { field: "DueDate", title: "DUE DATE", width: 100, template: '#= kendo.toString(kendo.parseDate(DueDate), "dd/MM/yyyy")#' },
                     { field: "year" ,title: "YEAR" , width :75},
                     { field: "month" ,title: "MONTH" , width :75},
                     { field: "day" ,title: "DAY", width :75 }

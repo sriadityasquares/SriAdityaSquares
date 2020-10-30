@@ -263,6 +263,26 @@ namespace DataLayer
             }
         }
 
+        public MyProfile GetMyProfile(string username,string role)
+        {
+            MyProfile myProfile = new MyProfile();
+            try
+            {
+
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetProfile_Result, MyProfile>();
+                });
+                IMapper mapper = config.CreateMapper();
+                myProfile = mapper.Map<sp_GetProfile_Result, MyProfile>(dbEntity.sp_GetProfile(role,username).FirstOrDefault());
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return myProfile;
+        }
+
 
     }
 }

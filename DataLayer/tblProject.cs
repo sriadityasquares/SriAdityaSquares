@@ -17,8 +17,10 @@ namespace DataLayer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblProject()
         {
-            this.tblTowers = new HashSet<tblTower>();
             this.tblFlats = new HashSet<tblFlat>();
+            this.tblFlats1 = new HashSet<tblFlat>();
+            this.tblFlats2 = new HashSet<tblFlat>();
+            this.tblTowers = new HashSet<tblTower>();
         }
     
         public int ProjectID { get; set; }
@@ -30,16 +32,18 @@ namespace DataLayer
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public Nullable<int> ClubHouseCharges { get; set; }
-        public Nullable<bool> GHMC_Approval { get; set; }
-        public string GHMCApprovalDocument { get; set; }
-        public Nullable<bool> RERA_Approval { get; set; }
-        public string RERAApprovalDocument { get; set; }
         public string Description { get; set; }
         public string LocationURL { get; set; }
+        public string ApprovalStatus { get; set; }
+        public string Pricing { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblTower> tblTowers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblFlat> tblFlats { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblFlat> tblFlats1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblFlat> tblFlats2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblTower> tblTowers { get; set; }
     }
 }

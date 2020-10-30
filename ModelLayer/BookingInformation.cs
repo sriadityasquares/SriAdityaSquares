@@ -140,7 +140,7 @@ namespace ModelLayer
         [Display(Name = "CQStatus")]
         public string ChequeStatus { get; set; }
 
-        [Display(Name = "CQ Date")]
+        [Display(Name = "Pay Date")]
         public Nullable<System.DateTime> ChequeDate { get; set; }
 
         public Nullable<System.DateTime> ChequeDateMod { get; set; }

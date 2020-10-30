@@ -1,0 +1,58 @@
+﻿
+@model ModelLayer.MyProfile
+@{
+    ViewBag.Title = "My Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.MyProfile = "active";
+
+}
+<div class="jumbotron">
+    <div class="card card-outline-secondary">
+        <div class="row">
+            <div class="col-md-12 col-xs" style="margin-top:0px">
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">MY PROFILE</h3>
+                <div class="specialLine col-md-1"></div>
+            </div>
+
+        </div>
+        <hr />
+        <br />
+        <div class="row">
+            <button class="btn btn-info pull-right"><a style="color:white !important" href="/Manage/ChangePassword">Change your password</a></button>
+
+        </div>
+
+        <div class="row" style="padding-top:5px">
+            @Html.LabelFor(m => m.Name, new { @class = "col-md-1" })
+            @Html.TextBoxFor(m => m.Name, new { @class = "textbox-control col-md-11 col-xs", @readonly = "readonly" })
+            @*@Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })*@
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Aadhar, new { @class = "col-md-1" })
+            @Html.TextBoxFor(m => m.Aadhar, new { @class = "textbox-control col-md-5 col-xs", @readonly = "readonly" })
+            @Html.LabelFor(m => m.Pan, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.Pan, new { @class = "textbox-control col-md-4 col-xs", @readonly = "readonly" })
+        </div>
+        <div style="padding-top:5px" class="row">
+            @Html.LabelFor(m => m.Mobile, new { @class = "col-md-1" })
+            @Html.TextBoxFor(m => m.Mobile, new { @class = "textbox-control col-md-5 col-xs", @readonly = "readonly" })
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "textbox-control col-md-4 col-xs", @readonly = "readonly" })
+        </div>
+        @if (User.IsInRole("Agent"))
+        {
+            <div style="padding-top:5px" class="row">
+                @Html.LabelFor(m => m.AgentCode, new { @class = "col-md-1" })
+                @Html.TextBoxFor(m => m.AgentCode, new { @class = "textbox-control col-md-5 col-xs", @readonly = "readonly" })
+                @Html.LabelFor(m => m.AccountNo, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.AccountNo, new { @class = "textbox-control col-md-4 col-xs", @readonly = "readonly" })
+            </div>
+            <div style="padding-top:5px" class="row">
+                @Html.LabelFor(m => m.Bank, new { @class = "col-md-1" })
+                @Html.TextBoxFor(m => m.Bank, new { @class = "textbox-control col-md-5 col-xs", @readonly = "readonly" })
+                @Html.LabelFor(m => m.IFSC, new { @class = "col-md-2" })
+                @Html.TextBoxFor(m => m.IFSC, new { @class = "textbox-control col-md-4 col-xs", @readonly = "readonly" })
+            </div>
+        }
+    </div>
+</div>

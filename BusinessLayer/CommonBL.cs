@@ -70,5 +70,9 @@ namespace BusinessLayer
         {
             db.UpdateAgentLocation(lalitude, longitude, email);
         }
+        public MyProfile GetMyProfile(string username, string role)
+        {
+            return db.GetMyProfile(username, role);
+        }
     }
 }

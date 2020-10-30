@@ -14,7 +14,8 @@ namespace ModelLayer
         public string CreatedDate { get; set; }
 
         public string FlatEvent { get; set; }
-
+        public string Name { get; set; }
+        public string SchemeName { get; set; }
 
     }
 }

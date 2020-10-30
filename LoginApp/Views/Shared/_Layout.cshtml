@@ -259,6 +259,12 @@
                         @Html.AntiForgeryToken()
                         <div id="leftside-navigation" class="nano">
                             <ul class="logout">
+                                @if (this.User.IsInRole("Agent") || this.User.IsInRole("Customer"))
+                                {
+                                    <li>
+                                        <a  href="@Url.Action("MyProfile", "Account")">MY PROFILE</a>
+                                    </li>
+                                }
                                 <li>
                                     @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                                 </li>
@@ -486,6 +492,12 @@
                         @Html.AntiForgeryToken()
                         <div id="leftside-navigation" class="nano">
                             <ul class="logout">
+                                @if (this.User.IsInRole("Agent") || this.User.IsInRole("Customer"))
+                                {
+                                    <li>
+                                        <a  href="@Url.Action("MyProfile", "Account")">MY PROFILE</a>
+                                    </li>
+                                }
                                 <li>
                                     @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                                 </li>
