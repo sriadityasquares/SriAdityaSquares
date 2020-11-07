@@ -51,6 +51,7 @@
     <Compile Include="AgentPaymentInformation.cs" />
     <Compile Include="AgentProjectLevel.cs" />
     <Compile Include="AgentTotalPayments.cs" />
+    <Compile Include="Agreements.cs" />
     <Compile Include="Amenity.cs" />
     <Compile Include="BookingInformation.cs" />
     <Compile Include="Cancellation.cs" />

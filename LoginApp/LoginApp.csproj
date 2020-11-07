@@ -2034,6 +2034,8 @@
     <Content Include="Views\Report\FlatPaymentDetails.cshtml" />
     <Content Include="Views\Booking\Cheque.cshtml" />
     <Content Include="Views\Account\MyProfile.cshtml" />
+    <Content Include="Views\Report\CustomerEnquiry.cshtml" />
+    <Content Include="Views\Booking\Agreements.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

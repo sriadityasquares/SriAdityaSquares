@@ -148,7 +148,20 @@
                     dataType: "json",
                     type: "POST"
                 },
-
+                destroy: {
+                    url: "/Booking/DeleteDailyExpense",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Deleted Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Deleting');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
                 parameterMap: function (options, operation) {
                     if (operation !== "read" && options.models) {
                         return { models: kendo.stringify(options.models) };
@@ -157,7 +170,14 @@
             },
             batch: true,
             pageSize: 5,
-
+            schema: {
+                model: {
+                    id: "ExpenseID",
+                    fields: {
+                        ExpenseID: { editable: false, nullable: true },
+                    }
+                }
+            }
         });
 
         $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
@@ -179,9 +199,10 @@
                 { field: "Particulars", title: "Particulars", width: "120px" },
                 { field: "Amount", title: "Amount", width: "100px" },
                 { field: "PaymentMode", title: "Mode of Payment", width: "120px" },
-                { field: "Comments", title: "Comments", width: "100px" }
-
+                { field: "Comments", title: "Comments", width: "100px" },
+                { command: ["destroy"], title: "&nbsp;", width: "100px" }
             ],
+            editable: "inline"
         });
 
 

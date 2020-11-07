@@ -859,6 +859,69 @@ namespace LoginApp.Controllers
             var result = booking.UpdateChequeInfo(data[0]);
             return Json(true, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Agreements()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Agreements(Agreements agreements)
+        {
+            agreements.CreatedBy = User.Identity.Name;
+            TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+            agreements.CreatedDate = Convert.ToDateTime(indianTime);
+            var result = booking.AddAgreement(agreements);
+            if (result)
+            {
+                TempData["successmessage"] = "Agreement Added Successfully";
+
+            }
+            else
+            {
+                TempData["successmessage"] = "Agreement Adding Failed";
+            }
+            ModelState.Clear();
+            return View();
+        }
+
+
+        public JsonResult GetAgreements()
+        {
+            var result = booking.GetAgreements();
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult DeleteAgreement(string models)
+        {
+            List<Agreements> data = JsonConvert.DeserializeObject<List<Agreements>>(models);
+            var result = booking.DeleteAgreement(data[0].AgreementID);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult DeleteDailyExpense(string models)
+        {
+            List<DailyExpense> data = JsonConvert.DeserializeObject<List<DailyExpense>>(models);
+            var result = booking.DeleteDailyExpense(data[0].ExpenseID);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult DeleteClientPayment(string models)
+        {
+            List<ClientPayments> data = JsonConvert.DeserializeObject<List<ClientPayments>>(models);
+            var result = booking.DeleteClientPayment(data[0].ClientPayID);
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
     }
 
 

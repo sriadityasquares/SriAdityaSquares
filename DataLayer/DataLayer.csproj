@@ -182,6 +182,9 @@
     <Compile Include="tblAgentTotalPayment.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblAgreement.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblAmenity.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>

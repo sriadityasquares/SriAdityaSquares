@@ -135,6 +135,9 @@
                                     <a class="@(ViewBag.DailyExpense)" href="@Url.Action("DailyExpenses", "Booking")">DAILY EXPENSES</a>
                                 </li>
                                 <li>
+                                    <a class="@(ViewBag.Agreements)" href="@Url.Action("Agreements", "Booking")">AGREEMENTS</a>
+                                </li>
+                                <li>
                                     <a class="@(ViewBag.Users)" href="@Url.Action("Index", "User")">USERS</a>
                                 </li>
                                 @*<li>
@@ -200,6 +203,9 @@
                                     </li>
                                     <li>
                                         <a class="@(ViewBag.FlatPaymentDetails)" href="@Url.Action("FlatPaymentDetails", "Report")">FLAT PAYMENTS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.CustomerEnquiry)" href="@Url.Action("CustomerEnquiry", "Report")">CUSTOMER ENQUIRIES</a>
                                     </li>
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
@@ -368,6 +374,9 @@
                                     <a class="@(ViewBag.DailyExpense)" href="@Url.Action("DailyExpenses", "Booking")">DAILY EXPENSES</a>
                                 </li>
                                 <li>
+                                    <a class="@(ViewBag.Agreements)" href="@Url.Action("Agreements", "Booking")">AGREEMENTS</a>
+                                </li>
+                                <li>
                                     <a class="@(ViewBag.Users)" href="@Url.Action("Index", "User")">USERS</a>
                                 </li>
                                 @*<li>
@@ -433,6 +442,9 @@
                                     </li>
                                     <li>
                                         <a class="@(ViewBag.FlatPaymentDetails)" href="@Url.Action("FlatPaymentDetails", "Report")">FLAT PAYMENTS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.CustomerEnquiry)" href="@Url.Action("CustomerEnquiry", "Report")">CUSTOMER ENQUIRIES</a>
                                     </li>
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))

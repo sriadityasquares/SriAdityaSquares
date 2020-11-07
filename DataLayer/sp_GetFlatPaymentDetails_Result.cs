@@ -19,6 +19,8 @@ namespace DataLayer
         public string TowerName { get; set; }
         public string FlatName { get; set; }
         public Nullable<int> Sft { get; set; }
+        public Nullable<int> SftRate { get; set; }
+        public Nullable<System.DateTime> BookingDate { get; set; }
         public string AgentName { get; set; }
         public Nullable<int> FinalRate { get; set; }
         public Nullable<int> Discount { get; set; }

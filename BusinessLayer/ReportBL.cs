@@ -50,7 +50,10 @@ namespace BusinessLayer
         {
             return db.BindFlatAgentCommissionDetails();
         }
-
+        public List<CustomerEnquiry> GetCustomerEnquiries()
+        {
+            return db.GetCustomerEnquiries();
+        }
         public List<GetPeriodWiseBookingDetails> BindPeriodWiseBookingInfo(int option, string fromDate, string toDate, string projectID, string years, string month)
         {
             return db.BindPeriodWiseBookingInfo(option, fromDate, toDate, projectID, years, month);

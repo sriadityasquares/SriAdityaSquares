@@ -174,6 +174,26 @@ namespace DataLayer
             return lstAgents;
         }
 
+        public List<CustomerEnquiry> GetCustomerEnquiries()
+        {
+            List<CustomerEnquiry> lstEnquiries = new List<CustomerEnquiry>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblCustomerEnquiry, CustomerEnquiry>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstEnquiries = mapper.Map<List<tblCustomerEnquiry>, List<CustomerEnquiry>>(dbEntity.tblCustomerEnquiries.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstEnquiries;
+        }
+
         public List<GetPeriodWiseBookingDetails> BindPeriodWiseBookingInfo(int option, string fromDate, string toDate, string projectID, string years, string month)
         {
             List<GetPeriodWiseBookingDetails> lstBooking = new List<GetPeriodWiseBookingDetails>();

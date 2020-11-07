@@ -259,6 +259,11 @@ namespace BusinessLayer
             return db.AddDailyExpense(de);
         }
 
+        public bool AddAgreement(Agreements a)
+        {
+            return db.AddAgreement(a);
+        }
+
         public List<GetMySiteVisits> GetMySiteVisits(string username)
         {
             return db.GetMySiteVisits(username);
@@ -273,6 +278,26 @@ namespace BusinessLayer
         public List<DailyExpense> GetDailyExpenses()
         {
             return db.GetDailyExpenses();
+        }
+
+        public List<Agreements> GetAgreements()
+        {
+            return db.GetAgreements();
+        }
+
+        public bool DeleteAgreement(int id)
+        {
+            return db.DeleteAgreement(id);
+        }
+
+        public bool DeleteDailyExpense(int id)
+        {
+            return db.DeleteDailyExpense(id);
+        }
+
+        public bool DeleteClientPayment(int id)
+        {
+            return db.DeleteClientPayment(id);
         }
 
         public List<SiteVisitInfo> GetSiteVisitsForApproval()

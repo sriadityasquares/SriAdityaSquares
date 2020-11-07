@@ -1535,6 +1535,27 @@ namespace DataLayer
             }
         }
 
+        public bool AddAgreement(Agreements a)
+        {
+            try
+            {
+                tblAgreement aeInfo = new tblAgreement();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<Agreements, tblAgreement>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<Agreements, tblAgreement>(a, aeInfo);
+                dbEntity.tblAgreements.Add(aeInfo);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
         public List<ClientPayments> GetClientPayments()
         {
             try
@@ -1570,6 +1591,70 @@ namespace DataLayer
             catch (Exception ex)
             {
                 return new List<DailyExpense>();
+            }
+        }
+
+        public List<Agreements> GetAgreements()
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgreement, Agreements>();
+                });
+                IMapper mapper = config.CreateMapper();
+                return mapper.Map<List<tblAgreement>, List<Agreements>>(dbEntity.tblAgreements.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<Agreements>();
+            }
+        }
+
+        public bool DeleteAgreement(int id)
+        {
+            try
+            {
+                var agreement = dbEntity.tblAgreements.Where(x => x.AgreementID == id).FirstOrDefault();
+                dbEntity.tblAgreements.Remove(agreement);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteClientPayment(int id)
+        {
+            try
+            {
+                var cp = dbEntity.tblClientPayments.Where(x => x.ClientPayID == id).FirstOrDefault();
+                dbEntity.tblClientPayments.Remove(cp);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteDailyExpense(int id)
+        {
+            try
+            {
+                var de = dbEntity.tblDailyExpenses.Where(x => x.ExpenseID == id).FirstOrDefault();
+                dbEntity.tblDailyExpenses.Remove(de);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
 

@@ -254,5 +254,23 @@ namespace LoginApp.Controllers
             ViewBag.MonthList = new SelectList(months, "ID", "MonthName");
             return View();
         }
+
+        public ActionResult CustomerEnquiry()
+        {
+            return View();
+        }
+
+        public JsonResult GetCustomerEnquiries()
+        {
+            ReportBL rep = new ReportBL();
+            //var flatAgent = JsonConvert.DeserializeObject<List<GetFlatWiseTotalAgentCommission>>(data);
+            //GetFlatWiseTotalAgentCommission datalist = JsonConvert.DeserializeObject<GetFlatWiseTotalAgentCommission>(data);
+            List<CustomerEnquiry> list = rep.GetCustomerEnquiries();
+            foreach(var item in list)
+            {
+                item.Recipients = item.Recipients.Replace(",", "<br>");
+            }
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
     }
 }

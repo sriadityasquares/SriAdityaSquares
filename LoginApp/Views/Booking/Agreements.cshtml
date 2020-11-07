@@ -1,11 +1,11 @@
-﻿@model ModelLayer.ClientPayments
+﻿@model ModelLayer.Agreements
 @{
-    ViewBag.ClientPayments = "active";
-    ViewBag.Title = "Client Payments";
+    ViewBag.Agreements = "active";
+    ViewBag.Title = "Agreements";
     var message = TempData["successmessage"] ?? string.Empty;
     ViewBag.Admin = "active";
 }
-@using (Html.BeginForm("ClientPayments", "Booking", FormMethod.Post, new
+@using (Html.BeginForm("Agreements", "Booking", FormMethod.Post, new
 {
 
     role = "form",
@@ -16,21 +16,18 @@
     @Html.HiddenFor(m => m.ProjectName)
     @Html.HiddenFor(m => m.TowerName)
     @Html.HiddenFor(m => m.FlatName)
-    @Html.HiddenFor(m => m.PaymentDate)
+    @Html.HiddenFor(m => m.AgentName)
+    @Html.HiddenFor(m => m.AgreementDate)
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-12 col-xs" style="margin-top:0px">
-                <h3 style="margin-top:0px;margin-bottom:4px" align="left">ADD CLIENT PAYMENTS</h3>
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">ADD AGREEMENT</h3>
                 <div class="specialLine col-md-1"></div>
             </div>
 
         </div>
 
-        <div class="row" style="padding-top:10px">
-            @Html.LabelFor(m => m.ClientName, new { @class = "col-md-2" })
-            @Html.TextBoxFor(model => model.ClientName, new { @class = "textbox-control col-md-8 col-xs" })
 
-        </div>
         <div class="row">
             @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-2" })
             @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
@@ -41,10 +38,13 @@
         <div class="row">
             @Html.LabelFor(m => m.FlatID, new { @class = "col-md-2" })
             @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.Amount, new { @class = "col-md-2" })
-            @Html.TextBoxFor(model => model.Amount, new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.AgentID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.AgentID, new SelectList(" "), "--Select Agent--", new { @class = "textbox-control col-md-3 col-xs" })
         </div>
         <div class="row">
+
+            @Html.LabelFor(m => m.Commission, new { @class = "col-md-2" })
+            @Html.TextBoxFor(model => model.Commission, new { @class = "textbox-control col-md-3 col-xs" })
             @Html.LabelFor(m => m.PaymentMode, new { @class = "col-md-2" })
             @Html.DropDownListFor(m => m.PaymentMode, new List<SelectListItem>
        {
@@ -55,21 +55,26 @@
            new SelectListItem{ Text="Online", Value = "Online" },
            new SelectListItem{ Text="Cash", Value = "Cash" },
         }, new { @class = "textbox-control col-md-3 col-xs" })
-            @Html.LabelFor(m => m.PaymentDate, new { @class = "col-md-2" })
+        </div>
+        <div class="row">
+
+            @Html.LabelFor(m => m.AgreementDate, new { @class = "col-md-2" })
             <div class="col-md-2" style="padding-left:0px">
                 <input id="datepicker1" title="datepicker" />
             </div>
+            @Html.LabelFor(m => m.Comments, new { @class = "col-md-3" })
+            @Html.TextAreaFor(model => model.Comments, new { @class = "textboxarea-control col-md-3 col-xs" })
         </div>
 
 
         <div class="row" style="padding-top:5px;">
             <div class="col-sm-3 no-pad">
-                <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-dollar"></i>ADD</button>
+                <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i style="color:white" class="fa fa-handshake-o"></i>ADD</button>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 col-xs" style="margin-top:0px">
-                <h3 style="margin-top:0px;margin-bottom:4px" align="left">CLIENT PAYMENTS</h3>
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">AGREEMENTS</h3>
                 <div class="specialLine col-md-1"></div>
             </div>
 
@@ -91,6 +96,18 @@
             $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
             $.each(data, function (index, row) {
                 $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+            });
+        });
+
+        $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
+            $("#AgentID").empty();
+            AgentList = data;
+            //$("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
+            $.each(data, function (index, row) {
+                //$("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+
+                    $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+
             });
         });
     });
@@ -118,14 +135,15 @@
         $("#ProjectName").val($("#ProjectID option:selected").text());
         $("#TowerName").val($("#TowerID option:selected").text());
         $("#FlatName").val($("#FlatID option:selected").text());
-        $("#PaymentDate").val($("#datepicker1").val());
+        $("#AgentName").val($("#AgentID option:selected").text());
+        $("#AgreementDate").val($("#datepicker1").val());
     }
 
 
     $(window).load(function () {
         var tempdataval = '@TempData["successmessage"]';
         if (tempdataval != '') {
-            if (tempdataval == 'Payment Added Successfully')
+            if (tempdataval == 'Agreement Added Successfully')
                 toastr.success(tempdataval);
             else {
                 toastr.error(tempdataval);
@@ -138,13 +156,20 @@
         dataSource = new kendo.data.DataSource({
             transport: {
                 read: {
-                    url: "/Booking/GetClientPayments",
+                    url: "/Booking/GetAgreements",
                     contentType: "application/json",
                     dataType: "json",
                     type: "POST"
+
                 },
+                //destroy: {
+                //    url: "/Booking/DeleteAgreement",
+                //    type: "POST",
+                //    dataType: "json",
+                    
+                //},
                 destroy: {
-                    url: "/Booking/DeleteClientPayment",
+                    url: "/Booking/DeleteAgreement",
                     dataType: "json",
                     complete: function (jqXhr, textStatus) {
                         if (textStatus == 'success') {
@@ -165,16 +190,19 @@
             },
             batch: true,
             pageSize: 5,
+          
             schema: {
                 model: {
-                    id: "ClientPayID",
+                    id: "AgreementID",
                     fields: {
-                        ClientPayID: { editable: false, nullable: true },
+                        AgreementID: { editable: false, nullable: true },
                         ProjectName: { validation: { required: true } },
                         TowerName: { validation: { required: true } },
-                        FlatName: { validation: { required: true } }
+                        FlatName: { validation: { required: true } },
+                        Commission: { validation: { required: true } },
+                        PaymentMode: { validation: { required: true } },
+                        Comments: { validation: { required: true } }
                         
-
                     }
                 }
             }
@@ -186,21 +214,23 @@
             pageable: true,
             height: 350,
             toolbar: ["search", "excel"],
+            excelExport: exportGridWithTemplatesContent,
             excel: {
-                fileName: "ClientPayments.xlsx",
+                fileName: "Agreements.xlsx",
 
                 //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
                 filterable: true,
                 allPages: true
             },
             columns: [
-                { field: "ClientName", title: "Client", width: "140px" },
+
                 { field: "ProjectName", title: "Project", width: "140px" },
                 { field: "TowerName", title: "Tower/Plot", width: "120px" },
                 { field: "FlatName", title: "Flat/Villa", width: "120px" },
-                { field: "Amount", title: "Amount Received", width: "120px" },
+                { field: "Commission", title: "Commission", width: "120px" },
                 { field: "PaymentMode", title: "Mode of Payment", width: "120px" },
-                { field: "PaymentDate", title: "Payment Date", width: "100px" },
+                { field: "AgreementDate", title: "Agreement Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(AgreementDate), "dd/MM/yyyy")#' },
+                { field: "Comments", title: "Comments", width: "150px" },
                 { command: ["destroy"], title: "&nbsp;", width: "100px" }
             ],
             editable: "inline"
@@ -208,4 +238,46 @@
 
 
     });
+
+    function exportGridWithTemplatesContent(e) {
+        var data = e.data;
+        var gridColumns = e.sender.columns;
+        var sheet = e.workbook.sheets[0];
+        var visibleGridColumns = [];
+        var columnTemplates = [];
+        var dataItem;
+        // Create element to generate templates in.
+        var elem = document.createElement('div');
+
+        // Get a list of visible columns
+        for (var i = 0; i < gridColumns.length; i++) {
+            if (!gridColumns[i].hidden) {
+                visibleGridColumns.push(gridColumns[i]);
+            }
+        }
+
+        // Create a collection of the column templates, together with the current column index
+        for (var i = 0; i < visibleGridColumns.length; i++) {
+            if (visibleGridColumns[i].template) {
+                columnTemplates.push({ cellIndex: i, template: kendo.template(visibleGridColumns[i].template) });
+            }
+        }
+
+        // Traverse all exported rows.
+        for (var i = 1; i < sheet.rows.length; i++) {
+            var row = sheet.rows[i];
+            // Traverse the column templates and apply them for each row at the stored column position.
+
+            // Get the data item corresponding to the current row.
+            var dataItem = data[i - 1];
+            for (var j = 0; j < columnTemplates.length; j++) {
+                var columnTemplate = columnTemplates[j];
+                // Generate the template content for the current cell.
+                elem.innerHTML = columnTemplate.template(dataItem);
+                if (row.cells[columnTemplate.cellIndex] != undefined)
+                    // Output the text content of the templated cell into the exported cell.
+                    row.cells[columnTemplate.cellIndex].value = elem.textContent || elem.innerText || "";
+            }
+        }
+    }
 </script>

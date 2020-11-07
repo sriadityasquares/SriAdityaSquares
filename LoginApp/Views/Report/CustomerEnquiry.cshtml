@@ -1,7 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "FlatPaymentDetails";
-    ViewBag.FlatPaymentDetails = "active";
+    ViewBag.Title = "Customer Enquiry";
+    ViewBag.CustomerEnquiry = "active";
     ViewBag.Reports = "active";
 }
 
@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-md-12 col-xs" style="margin-top:0px">
-            <h3 style="margin-top:0px;margin-bottom:4px" align="left">FLAT PAYMENT DETAILS</h3>
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">CUSTOMER ENQUIRIES</h3>
             <div class="specialLine col-md-1"></div>
         </div>
 
@@ -25,7 +25,7 @@
         dataSource = new kendo.data.DataSource({
             transport: {
                 read: {
-                    url: "/Report/GetFlatPaymemts",
+                    url: "/Report/GetCustomerEnquiries",
                     contentType: "application/json",
                     dataType: "json",
                     type: "POST"
@@ -38,19 +38,8 @@
                 }
             },
             batch: true,
-            pageSize: 20,
-            //schema: {
-            //    model: {
-
-            //        fields: {
-            //            CustomerName: { editable: false, nullable: true },
-            //            Mobile: { validation: { required: true } },
-            //            ProjectName: { validation: { required: true } },
-            //            BookingStatus: { validation: { required: true } },
-            //            ClubHouseCharges: { type: "number", validation: { min: 0, required: true } }
-            //        }
-            //    }
-            //}
+            pageSize: 10,
+            
         });
 
         $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
@@ -61,7 +50,7 @@
             toolbar: ["search", "excel"],
             excelExport: exportGridWithTemplatesContent,
             excel: {
-                fileName: "FlatPaymentDetails.xlsx",
+                fileName: "Enquiries.xlsx",
 
                 //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
                 filterable: true,
@@ -69,25 +58,24 @@
             },
             columns: [
                 { field: "CustomerName", title: "Customer", width: "190px" },
-                { field: "Mobile", title: "Mobile", width: "100px" },
-                { field: "ProjectName", title: "Project", width: "120px" },
-                { field: "TowerName", title: "Tower", width: "90px" },
-                { field: "FlatName", title: "Flat/Plot", width: "90px" },
-                { field: "Sft", title: "Sft", width: "70px" },
-                { field: "SftRate", title: "Sft Rate", width: "80px" },
-                { field: "BookingDate", title: "Booking Date", width: "120px", template: '#= kendo.toString(kendo.parseDate(BookingDate), "dd/MM/yyyy")#' },
-                { field: "AgentName", title: "Agent", width: "120px" },
-                { field: "FinalRate", title: "Final Rate", width: "90px" },
-                { field: "Discount", title: "Discount", width: "80px" },
-                { field: "GrandRate", title: "GrandRate", width: "90px" },
-                { field: "SchemeName", title: "Scheme", width: "90px" },
-                { field: "TotalPaid", title: "Total Paid", width: "90px" },
-                { field: "TotalBalance", title: "Total Balance", width: "100px" },
-                { field: "LastPaymentDate", title: "Last Payment", width: "120px", template: '#= kendo.toString(kendo.parseDate(LastPaymentDate), "dd/MM/yyyy")#' },
+                { field: "Mobile", title: "Mobile", width: "90px" },
+                { field: "Latitude", title: "Latitude", width: "90px" },
+                { field: "Longitude", title: "Longitude", width: "90px" },
+                { field: "Enquiry", title: "Enquiry", width: "90px" },
+                //{ field: "Sms", title: "SMS", width: "70px" },
+                { field: "Recipients", title: "Recipients", width: "200px", encoded: false },
+                { field: "EnquiryDate", title: "Enquiry Date", width: "120px", template: '#= kendo.toString(kendo.parseDate(EnquiryDate), "dd/MM/yyyy")#' }
+                
             ],
-            editable: "inline",
+            
         });
     });
+
+
+    function getHtmlNewLinesString(text) {
+        var regexp = new RegExp(',', 'g');
+        return text.replace(regexp, '<br>');
+    }
 
     function exportGridWithTemplatesContent(e) {
         var data = e.data;
