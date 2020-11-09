@@ -754,6 +754,7 @@
     <Content Include="Content\Images\house.jpg" />
     <Content Include="Content\Images\interior.jpg" />
     <Content Include="Content\Images\nikita-kachanovsky-OVbeSXRk_9E-unsplash.jpg" />
+    <Content Include="Content\Images\Offers.PNG" />
     <Content Include="Content\Images\offersGif.gif" />
     <Content Include="Content\Images\offersGif.mp4" />
     <Content Include="Content\Images\Open Air Theatre.PNG" />
@@ -833,6 +834,7 @@
     <Content Include="Content\Images\The Drizzle.PNG" />
     <Content Include="Content\Images\TV Room.PNG" />
     <Content Include="Content\Images\wall.JPG" />
+    <Content Include="Content\Images\Woodland.PNG" />
     <Content Include="Content\Images\woods.jpg" />
     <Content Include="Content\Images\work.jpg" />
     <Content Include="Content\Images\work1.jpg" />
@@ -2036,6 +2038,7 @@
     <Content Include="Views\Account\MyProfile.cshtml" />
     <Content Include="Views\Report\CustomerEnquiry.cshtml" />
     <Content Include="Views\Booking\Agreements.cshtml" />
+    <Content Include="Views\Booking\Offers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

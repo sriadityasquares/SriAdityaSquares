@@ -105,6 +105,11 @@ namespace LoginApp.Controllers.Admin
                         var request = new RestRequest(Method.GET);
                         request.AddHeader("Cache-Control", "no-cache");
                         IRestResponse response = client.Execute(request);
+
+                        var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + 8121751751 + "&smsContentType=english");
+                        var request1 = new RestRequest(Method.GET);
+                        request1.AddHeader("Cache-Control", "no-cache");
+                        IRestResponse response1 = client1.Execute(request1);
                     }
                     else
                     {

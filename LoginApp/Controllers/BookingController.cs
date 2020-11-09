@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -146,6 +148,11 @@ namespace LoginApp.Controllers
                             var request = new RestRequest(Method.GET);
                             request.AddHeader("Cache-Control", "no-cache");
                             IRestResponse response = client.Execute(request);
+
+                            var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + 8121751751 + "&smsContentType=english");
+                            var request1 = new RestRequest(Method.GET);
+                            request1.AddHeader("Cache-Control", "no-cache");
+                            IRestResponse response1 = client1.Execute(request1);
                         }
                     }
                 }
@@ -920,6 +927,32 @@ namespace LoginApp.Controllers
             var result = booking.DeleteClientPayment(data[0].ClientPayID);
             return Json(result, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult Offers()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ImportFile(HttpPostedFileBase importFile)
+        {
+            if (importFile == null) return Json(new { Status = 0, Message = "No File Selected" });
+
+            try
+            {
+                Bitmap b = (Bitmap)Bitmap.FromStream(importFile.InputStream);
+                ModelState.Clear();
+                string file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Content\Images\Offers.png"/*+importFile.FileName.Split('.')[1].ToString()*/);
+                b.Save(file, ImageFormat.Png);
+                return Json(new { Status = 1, Message = "Offers Uploaded Successfully " });
+                
+            }
+            catch (Exception ex)
+            {
+                ModelState.Clear();
+                return Json(new { Status = 0, Message = ex.Message });
+            }
         }
 
     }
