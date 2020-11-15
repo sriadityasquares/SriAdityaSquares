@@ -57,15 +57,19 @@
 </script>
 
 <script>
-
+    var canDisplay = '@ViewBag.CanDisplay';
+    var hidden = false;
+    if (canDisplay == 'False') {
+        hidden = true;
+    }
         $(document).ready(function(){
              $(".js-select2").select2();
         $(".js-select2-multi").select2();
 
         $(".large").select2({
-            dropdownCssClass: "big-drop",
+         dropdownCssClass: "big-drop",
         });
-        });
+     });
 
 
 
@@ -102,23 +106,24 @@
                 batch: true,
                 sortable: true,
                 pageable: true,
-                //filterable: true,
+                filterable: true,
                 columns: [
                     { field: "projectname", title: "PROJECT" ,width :120},
                     { field: "towername", title: "TOWER",width :120 },
                     { field: "flatname", title: "FLAT", width: 120 },
                     { field: "name", title: "CUSTOMER", width: 120 },
-                    { field: "agentname", title: "AGENT", width: 120 },
-                    { field: "PaymentMode", title: "PAY MODE", width: 120 },
-                    { field: "ReferenceNo", title: "REF NO", width: 80 },
 
-                    { field: "BookingAmount", title: "AMOUNT PAID" ,width: 120 },
+                    { field: "agentname", title: "AGENT", width: 120, hidden: hidden },
+                    { field: "PaymentMode", title: "PAY MODE", width: 120 },
+                    { field: "ReferenceNo", title: "REF NO", width: 120 },
+
+                    { field: "BookingAmount", title: "AMOUNT PAID" ,width: 140 },
                     { field: "BalanceAmount", title: "AMOUNT REM" ,width: 140},
-                    { field: "ChequeDate", title: "PAID DATE", width: 100, template: '#= kendo.toString(kendo.parseDate(ChequeDate), "dd/MM/yyyy")#' },
-                    { field: "DueDate", title: "DUE DATE", width: 100, template: '#= kendo.toString(kendo.parseDate(DueDate), "dd/MM/yyyy")#' },
-                    { field: "year" ,title: "YEAR" , width :75},
-                    { field: "month" ,title: "MONTH" , width :75},
-                    { field: "day" ,title: "DAY", width :75 }
+                    { field: "ChequeDate", title: "CHEQUE DATE", width: 140, template: '#= kendo.toString(kendo.parseDate(ChequeDate), "dd/MM/yyyy")#' },
+                    { field: "DueDate", title: "DUE DATE", width: 120, template: '#= kendo.toString(kendo.parseDate(DueDate), "dd/MM/yyyy")#' },
+                    { field: "year" ,title: "YEAR" , width :90},
+                    { field: "month" ,title: "MONTH" , width :90},
+                    { field: "day" ,title: "DAY", width :90 }
 
                 ],
 
@@ -169,9 +174,9 @@
             }
         }
     }
-
+    //canDisplay = '@ViewBag.CanDisplay'
     $("#submitbtn").click(function () {
-
+            canDisplay = '@ViewBag.CanDisplay'
             if ($("#Project").val() == null) {
                 toastr.error("Please select a project");
                 return;

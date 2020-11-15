@@ -65,6 +65,7 @@
     <Compile Include="CustomerVisitInfo.cs" />
     <Compile Include="DailyExpense.cs" />
     <Compile Include="Dashboard.cs" />
+    <Compile Include="EligibleFlatsForCommission.cs" />
     <Compile Include="FlatDetails.cs" />
     <Compile Include="Flats.cs" />
     <Compile Include="FlatWiseAgentCommission.cs" />

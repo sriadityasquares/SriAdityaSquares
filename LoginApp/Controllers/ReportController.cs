@@ -83,15 +83,26 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Client")]
         public ActionResult PaymentInfoReport()
         {
-            List<Projects> projectList = booking.BindProjects();
-            Projects p = new Projects();
-            p.ProjectID = 9999;
-            p.ProjectName = "All";
-            projectList.Add(p);
-
+            //ViewBag.CanDisplay = false;
+            List<Projects> projectList = new List<Projects>();
+            if (User.IsInRole("Client"))
+            {
+                projectList = booking.BindClientProjects(User.Identity.Name);
+                ViewBag.CanDisplay = false;
+            }
+            else
+            {
+                projectList = booking.BindProjects();
+                ViewBag.CanDisplay = true;
+            }
+                Projects p = new Projects();
+                p.ProjectID = 9999;
+                p.ProjectName = "All";
+                projectList.Add(p);
+            
             ViewBag.ProjectList = new SelectList(projectList.OrderByDescending(x => x.ProjectID), "ProjectID", "ProjectName");
             return View();
         }
@@ -115,10 +126,23 @@ namespace LoginApp.Controllers
             ReportBL rep = new ReportBL();
             if (projectID.Contains("9999"))
             {
-                foreach (var project in booking.BindProjects())
+                if (!User.IsInRole("Client"))
                 {
-                    projectID = projectID + "," + project.ProjectID.ToString();
+                    foreach (var project in booking.BindProjects())
+                    {
+                        projectID = projectID + "," + project.ProjectID.ToString();
+                    }
+                    ViewBag.CanDisplay = false;
                 }
+                else
+                {
+                    foreach (var project in booking.BindClientProjects(User.Identity.Name))
+                    {
+                        projectID = projectID + "," + project.ProjectID.ToString();
+                    }
+                    ViewBag.CanDisplay = true;
+                }
+
             }
             List<GetPaymentInfoByDate> list = rep.BindPaymentInfo(start, end, projectID);
             return Json(list, JsonRequestBehavior.AllowGet);
@@ -271,6 +295,18 @@ namespace LoginApp.Controllers
                 item.Recipients = item.Recipients.Replace(",", "<br>");
             }
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EligibleFlatsForCommission()
+        {
+            return View();
+        }
+
+        public JsonResult GetEligibleFlatsForCommission()
+        {
+            ReportBL rep = new ReportBL();
+            var lstEligibleBookings = rep.GetEligibleFlatsForCommission();
+            return Json(lstEligibleBookings, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -2039,6 +2039,8 @@
     <Content Include="Views\Report\CustomerEnquiry.cshtml" />
     <Content Include="Views\Booking\Agreements.cshtml" />
     <Content Include="Views\Booking\Offers.cshtml" />
+    <Content Include="Views\Report\GetEligibleFlatsForCommission.cshtml" />
+    <Content Include="Views\Report\EligibleFlatsForCommission.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

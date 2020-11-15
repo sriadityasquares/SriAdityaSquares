@@ -759,6 +759,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <Function Name="sp_GetCustomerTowers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Username" Type="varchar(max)" Mode="In" />
         </Function>
+        <Function Name="sp_GetEligibleFlatsForCommission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetFacingWiseBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Project" Type="varchar" Mode="In" />
           <Parameter Name="fromdate" Type="varchar" Mode="In" />
@@ -1098,8 +1099,9 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetClientProjects" ReturnType="Collection(salesDBModel.sp_GetClientProjects_Result)">
-            <Parameter Name="Username" Mode="In" Type="String" />
+          <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_GetEligibleFlatsForCommission" ReturnType="Collection(salesDBModel.sp_GetEligibleFlatsForCommission_Result)" />
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -2141,6 +2143,18 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="String" Name="LocationURL" Nullable="true" />
           <Property Type="String" Name="ApprovalStatus" Nullable="true" />
           <Property Type="String" Name="Pricing" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetEligibleFlatsForCommission_Result">
+          <Property Type="Int32" Name="FlatID" Nullable="false" />
+          <Property Type="String" Name="Project" Nullable="true" />
+          <Property Type="String" Name="Tower" Nullable="true" />
+          <Property Type="String" Name="Flat" Nullable="true" />
+          <Property Type="String" Name="Customer" Nullable="true" />
+          <Property Type="String" Name="Agent" Nullable="true" />
+          <Property Type="String" Name="Scheme" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SalePrice" Nullable="true" />
+          <Property Type="Int32" Name="Paid" Nullable="true" />
+          <Property Type="Int32" Name="Balance" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3243,6 +3257,22 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
                 <ScalarProperty Name="LocationURL" ColumnName="LocationURL" />
                 <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
                 <ScalarProperty Name="Pricing" ColumnName="Pricing" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetEligibleFlatsForCommission" FunctionName="salesDBModel.Store.sp_GetEligibleFlatsForCommission">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetEligibleFlatsForCommission_Result">
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+                <ScalarProperty Name="Project" ColumnName="Project" />
+                <ScalarProperty Name="Tower" ColumnName="Tower" />
+                <ScalarProperty Name="Flat" ColumnName="Flat" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="Agent" ColumnName="Agent" />
+                <ScalarProperty Name="Scheme" ColumnName="Scheme" />
+                <ScalarProperty Name="SalePrice" ColumnName="SalePrice" />
+                <ScalarProperty Name="Paid" ColumnName="Paid" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

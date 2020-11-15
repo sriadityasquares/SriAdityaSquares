@@ -15,6 +15,8 @@ namespace ModelLayer
         public string CustomerName { get; set; }
 
         public Nullable<long> Mobile { get; set; }
+
+        [StringLength(100, MinimumLength = 0)]
         public string Enquiry { get; set; }
         [Display(Name = "Project")]
         public Nullable<int> ProjectID { get; set; }

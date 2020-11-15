@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "FlatPaymentDetails";
+    ViewBag.Title = "EligibleFlats";
     ViewBag.FlatPaymentDetails = "active";
     ViewBag.Reports = "active";
 }
@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-md-12 col-xs" style="margin-top:0px">
-            <h3 style="margin-top:0px;margin-bottom:4px" align="left">FLAT PAYMENT DETAILS</h3>
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">ELIGIBLE FLATS FOR COMMISSION</h3>
             <div class="specialLine col-md-1"></div>
         </div>
 
@@ -25,7 +25,7 @@
         dataSource = new kendo.data.DataSource({
             transport: {
                 read: {
-                    url: "/Report/GetFlatPaymemts",
+                    url: "/Report/GetEligibleFlats",
                     contentType: "application/json",
                     dataType: "json",
                     type: "POST"
@@ -39,7 +39,7 @@
             },
             batch: true,
             pageSize: 20,
-            
+
             //schema: {
             //    model: {
 
@@ -71,24 +71,18 @@
                 allPages: true
             },
             columns: [
-                { field: "CustomerName", title: "Customer", width: "190px" },
-                { field: "Mobile", title: "Mobile", width: "100px" },
-                { field: "ProjectName", title: "Project", width: "120px" },
-                { field: "TowerName", title: "Tower", width: "90px" },
-                { field: "FlatName", title: "Flat/Plot", width: "120px" },
-                { field: "Sft", title: "Sft", width: "70px" },
-                { field: "SftRate", title: "Sft Rate", width: "100px" },
-                { field: "BookingDate", title: "Booking Date", width: "150px", template: '#= kendo.toString(kendo.parseDate(BookingDate), "dd/MM/yyyy")#' },
-                { field: "AgentName", title: "Agent", width: "150px" },
-                { field: "FinalRate", title: "Final Rate", width: "120px" },
-                { field: "Discount", title: "Discount", width: "100px" },
-                { field: "GrandRate", title: "GrandRate", width: "120px" },
-                { field: "SchemeName", title: "Scheme", width: "100px" },
-                { field: "TotalPaid", title: "Total Paid", width: "120px" },
-                { field: "TotalBalance", title: "Total Balance", width: "150px" },
-                { field: "LastPaymentDate", title: "Last Payment", width: "140px", template: '#= kendo.toString(kendo.parseDate(LastPaymentDate), "dd/MM/yyyy")#' },
+                { field: "Project", title: "Project", width: "130px" },
+                { field: "Tower", title: "Tower/Plot", width: "130px" },
+                { field: "Flat", title: "Flat/Villa", width: "130px" },
+                { field: "Project", title: "Project", width: "130px" },
+                { field: "Customer", title: "Customer", width: "130px" },
+                { field: "Agent", title: "Agent", width: "130px" },
+                { field: "SalePrice", title: "Sale Price", width: "100px" },
+                { field: "Paid", title: "Total Paid", width: "120px" },
+                { field: "Balance", title: "Total Balance", width: "150px" },
+                
             ],
-            editable: "inline",
+            //editable: "inline",
         });
     });
 

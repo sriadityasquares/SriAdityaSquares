@@ -63,5 +63,10 @@ namespace BusinessLayer
         {
             return db.BindGraphicalPeriodWiseBookingInfo(option, projectID, years, month);
         }
+
+        public List<EligibleFlatsForCommission> GetEligibleFlatsForCommission()
+        {
+            return db.GetEligibleFlatsForCommission();
+        }
     }
 }

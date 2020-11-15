@@ -25,50 +25,53 @@ namespace LoginApp.Controllers
         [HttpPost]
         public ActionResult Enquiry(CustomerEnquiry customerEnquiry)
         {
-            List<GetAgentLocations> agentLocations = booking.GetAgentLocations();
-            GetAgentLocations agent = new GetAgentLocations();
-            //double minDistance = 9999;
-            string customerLocation = "https://www.google.com/maps/place/"+customerEnquiry.Latitude+","+customerEnquiry.Longitude+"/@"+customerEnquiry.Latitude+','+customerEnquiry.Longitude;
-            foreach(var item in agentLocations)
+            if (customerEnquiry.Enquiry.Length < 100)
             {
-                if(item.AgentLatitude != null && item.AgentLongitude !=null)
+                List<GetAgentLocations> agentLocations = booking.GetAgentLocations();
+                GetAgentLocations agent = new GetAgentLocations();
+                //double minDistance = 9999;
+                string customerLocation = "https://www.google.com/maps/place/" + customerEnquiry.Latitude + "," + customerEnquiry.Longitude + "/@" + customerEnquiry.Latitude + ',' + customerEnquiry.Longitude;
+                foreach (var item in agentLocations)
                 {
-                    item.Distance = distance(customerEnquiry.Latitude, Convert.ToDouble(item.AgentLatitude), customerEnquiry.Longitude, Convert.ToDouble(item.AgentLongitude));
+                    if (item.AgentLatitude != null && item.AgentLongitude != null)
+                    {
+                        item.Distance = distance(customerEnquiry.Latitude, Convert.ToDouble(item.AgentLatitude), customerEnquiry.Longitude, Convert.ToDouble(item.AgentLongitude));
+                    }
+                    //22bd272c6ec1a7de6af16ae3818ab
                 }
-                //22bd272c6ec1a7de6af16ae3818ab
-            }
-            TempData.Keep("ProjectList");
-            var agents =  agentLocations.Where(x=>x.Distance != null).OrderBy(x => x.Distance).Take(5);
-            var message = "";
-            var agentNames = "";
-            int i = 0;
-            foreach (var currentAgent in agents)
-            {
-                //currentAgent.AgentMobileNo = 9505055755;
-                message = "Hello, we got a new enquiry from the below Customer :\n  Customer Name :" + customerEnquiry.CustomerName + Environment.NewLine + "Mobile no :" + customerEnquiry.Mobile + Environment.NewLine + "Location :" + customerLocation + Environment.NewLine + "Requirement :" + customerEnquiry.Enquiry;
-                var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + currentAgent.AgentMobileNo + "&smsContentType=english");
-                var request = new RestRequest(Method.GET);
-                request.AddHeader("Cache-Control", "no-cache");
-                IRestResponse response = client.Execute(request);
-                if(i != 0)
+                TempData.Keep("ProjectList");
+                var agents = agentLocations.Where(x => x.Distance != null).OrderBy(x => x.Distance).Take(5);
+                var message = "";
+                var agentNames = "";
+                int i = 0;
+                foreach (var currentAgent in agents)
                 {
-                    agentNames = agentNames + "," + currentAgent.AgentName;
-                }
-                else
-                    agentNames = currentAgent.AgentName;
+                    //currentAgent.AgentMobileNo = 9505055755;
+                    message = "Hello, we got a new enquiry from the below Customer :\n  Customer Name :" + customerEnquiry.CustomerName + Environment.NewLine + "Mobile no :" + customerEnquiry.Mobile + Environment.NewLine + "Location :" + customerLocation + Environment.NewLine + "Requirement :" + customerEnquiry.Enquiry;
+                    var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + currentAgent.AgentMobileNo + "&smsContentType=english");
+                    var request = new RestRequest(Method.GET);
+                    request.AddHeader("Cache-Control", "no-cache");
+                    IRestResponse response = client.Execute(request);
+                    if (i != 0)
+                    {
+                        agentNames = agentNames + "," + currentAgent.AgentName;
+                    }
+                    else
+                        agentNames = currentAgent.AgentName;
 
-                i++;
+                    i++;
+                }
+                message = "Hello, we got a new enquiry from the below Customer :\n  Customer Name :" + customerEnquiry.CustomerName + Environment.NewLine + "Mobile no :" + customerEnquiry.Mobile + Environment.NewLine + "Location :" + customerLocation + Environment.NewLine + "Requirement :" + customerEnquiry.Enquiry;
+                var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + 8121751751 + "&smsContentType=english");
+                var request1 = new RestRequest(Method.GET);
+                request1.AddHeader("Cache-Control", "no-cache");
+                IRestResponse response1 = client1.Execute(request1);
+                customerEnquiry.Sms = message;
+                TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+                customerEnquiry.EnquiryDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+                customerEnquiry.Recipients = agentNames;
+                booking.SaveCustomerInquiry(customerEnquiry);
             }
-            message = "Hello, we got a new enquiry from the below Customer :\n  Customer Name :" + customerEnquiry.CustomerName + Environment.NewLine + "Mobile no :" + customerEnquiry.Mobile + Environment.NewLine + "Location :" + customerLocation + Environment.NewLine + "Requirement :" + customerEnquiry.Enquiry;
-            var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + 8121751751 + "&smsContentType=english");
-            var request1 = new RestRequest(Method.GET);
-            request1.AddHeader("Cache-Control", "no-cache");
-            IRestResponse response1 = client1.Execute(request1);
-            customerEnquiry.Sms = message;
-            TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
-            customerEnquiry.EnquiryDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
-            customerEnquiry.Recipients = agentNames;
-            booking.SaveCustomerInquiry(customerEnquiry);
             return RedirectToAction("Index", "Home");
         }
 

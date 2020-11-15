@@ -451,5 +451,10 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetClientProjects_Result>("sp_GetClientProjects", usernameParameter);
         }
+    
+        public virtual ObjectResult<sp_GetEligibleFlatsForCommission_Result> sp_GetEligibleFlatsForCommission()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetEligibleFlatsForCommission_Result>("sp_GetEligibleFlatsForCommission");
+        }
     }
 }

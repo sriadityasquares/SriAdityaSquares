@@ -173,7 +173,7 @@
                             </ul>
                         </li>
                     }
-                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent") || this.User.IsInRole("Client"))
                     {
                         <li class="sub-menu @(ViewBag.Reports)">
                             <a href="javascript:void(0);"><i class="fa fa-table"></i><span>REPORTS</span><i class="arrow fa fa-angle-right pull-right"></i></a>
@@ -210,11 +210,20 @@
                                     <li>
                                         <a class="@(ViewBag.CustomerEnquiry)" href="@Url.Action("CustomerEnquiry", "Report")">CUSTOMER ENQUIRIES</a>
                                     </li>
+                                    <li>
+                                        <a class="@(ViewBag.EligibleFlats)" href="@Url.Action("EligibleFlatsForCommission", "Report")">FLATS ELIGIBLE FOR COMMISSION</a>
+                                    </li>
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
                                 {
                                     <li>
                                         <a class="@(ViewBag.AgentBookingStats)" href="@Url.Action("AgentBookingStats", "Dashboard")">AGENT BOOKING STATISTICS</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Client"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.PaymentInfoReport)" href="@Url.Action("PaymentInfoReport", "Report")">PAYMENT INFORMATION</a>
                                     </li>
                                 }
                             </ul>
@@ -298,8 +307,8 @@
 
                 <ul class="nano-content">
                     @*<li>
-                            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
-                        </li>*@
+            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+        </li>*@
                     <li class="sub-menu @(ViewBag.Dashboard)">
                         <a href="javascript:void(0);"><i class="fa fa-bar-chart"></i><span>DASHBOARD</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
@@ -386,8 +395,8 @@
                                     <a class="@(ViewBag.Offers)" href="@Url.Action("Offers", "Booking")">OFFERS</a>
                                 </li>
                                 @*<li>
-            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-        </li>*@
+                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+                    </li>*@
                             </ul>
                         </li>
                     }
@@ -415,7 +424,7 @@
                             </ul>
                         </li>
                     }
-                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent") || this.User.IsInRole("Client"))
                     {
                         <li class="sub-menu @(ViewBag.Reports)">
                             <a href="javascript:void(0);"><i class="fa fa-table"></i><span>REPORTS</span><i class="arrow fa fa-angle-right pull-right"></i></a>
@@ -452,11 +461,20 @@
                                     <li>
                                         <a class="@(ViewBag.CustomerEnquiry)" href="@Url.Action("CustomerEnquiry", "Report")">CUSTOMER ENQUIRIES</a>
                                     </li>
+                                    <li>
+                                        <a class="@(ViewBag.EligibleFlats)" href="@Url.Action("EligibleFlatsForCommission", "Report")">FLATS ELIGIBLE FOR COMMISSION</a>
+                                    </li>
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
                                 {
                                     <li>
                                         <a class="@(ViewBag.AgentBookingStats)" href="@Url.Action("AgentBookingStats", "Dashboard")">AGENT BOOKING STATISTICS</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Client"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.PaymentInfoReport)" href="@Url.Action("PaymentInfoReport", "Report")">PAYMENT INFORMATION</a>
                                     </li>
                                 }
                             </ul>

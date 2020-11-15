@@ -236,5 +236,26 @@ namespace DataLayer
             }
             return lstBooking;
         }
+
+        public List<EligibleFlatsForCommission> GetEligibleFlatsForCommission()
+        {
+            List<EligibleFlatsForCommission> lstEligibleFlats = new List<EligibleFlatsForCommission>();
+            try
+            {
+
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetEligibleFlatsForCommission_Result, EligibleFlatsForCommission>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstEligibleFlats = mapper.Map<List<sp_GetEligibleFlatsForCommission_Result>, List<EligibleFlatsForCommission>>(dbEntity.sp_GetEligibleFlatsForCommission().ToList()).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstEligibleFlats;
+        }
     }
 }
