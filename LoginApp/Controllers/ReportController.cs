@@ -308,5 +308,18 @@ namespace LoginApp.Controllers
             var lstEligibleBookings = rep.GetEligibleFlatsForCommission();
             return Json(lstEligibleBookings, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult SchemeBasedBookings()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            return View();
+        }
+
+        public JsonResult GetSchemeBasedBookings(int projectID)
+        {
+            var list = booking.BindSchemeBasedBookings(projectID);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
     }
 }

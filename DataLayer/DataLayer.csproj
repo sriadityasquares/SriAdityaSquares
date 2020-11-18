@@ -167,6 +167,9 @@
     <Compile Include="sp_GetProfile_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetSchemeBasedBookings_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_GetTowerDetails_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>

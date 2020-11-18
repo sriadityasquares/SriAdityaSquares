@@ -65,7 +65,7 @@ namespace ModelLayer
         [Display(Name = "Booking Amount")]
         public Nullable<int> BookingAmount { get; set; }
         [Required]
-        [Display(Name = "Balance Amount")]
+        [Display(Name = "Balance")]
         public Nullable<int> BalanceAmount { get; set; }
         [Required]
         [Display(Name = "Agent")]
@@ -144,5 +144,10 @@ namespace ModelLayer
         public Nullable<System.DateTime> ChequeDate { get; set; }
 
         public Nullable<System.DateTime> ChequeDateMod { get; set; }
+
+        [Display(Name = "Other Charges")]
+        public Nullable<int> OtherCharges { get; set; }
+
+        public string Remarks { get; set; }
     }
 }

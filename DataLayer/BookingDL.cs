@@ -1761,7 +1761,27 @@ namespace DataLayer
             return lstBookingStats;
         }
 
+        public List<GetBookingStatistics> BindSchemeBasedBookings(int projectID)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
 
+            List<GetBookingStatistics> lstBookingStats = new List<GetBookingStatistics>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetSchemeBasedBookings_Result, GetBookingStatistics>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBookingStats = mapper.Map<List<sp_GetSchemeBasedBookings_Result>, List<GetBookingStatistics>>(dbEntity.sp_GetSchemeBasedBookings().Where(x=>x.ProjectID == projectID).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstBookingStats;
+        }
         public List<Amenity> GetProjectAmenities(string projectName)
         {
             List<Amenity> lstAmenities = new List<Amenity>();

@@ -329,5 +329,10 @@ namespace BusinessLayer
         {
             db.SaveCustomerInquiry(ce);
         }
+
+        public List<GetBookingStatistics> BindSchemeBasedBookings(int projectID)
+        {
+            return db.BindSchemeBasedBookings(projectID);
+        }
     }
 }

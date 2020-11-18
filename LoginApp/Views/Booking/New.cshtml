@@ -131,14 +131,16 @@
         @Html.LabelFor(m => m.AgentID, new { @class = "col-md-1" })
         @Html.DropDownListFor(model => model.AgentID, new SelectList(" "), "--Select Agent--", new { @class = "textbox-control col-md-2 col-xs" })
         @*@Html.LabelFor(m => m.AgentCharges, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.AgentCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })*@
+        @Html.TextBoxFor(m => m.AgentCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })*@
 
         @Html.LabelFor(m => m.FinalRate, new { @class = "col-md-1" })
         @Html.TextBoxFor(m => m.FinalRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
         @Html.LabelFor(m => m.ClubHouseCharges, new { @class = "col-md-2" })
         @Html.TextBoxFor(m => m.ClubHouseCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-        @Html.LabelFor(m => m.GrandRate, new { @class = "col-md-2" })
-        @Html.TextBoxFor(m => m.GrandRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.OtherCharges, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.OtherCharges, new { @class = "textbox-control col-md-1 col-xs" })
+        @*@Html.LabelFor(m => m.GrandRate, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.GrandRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })*@
     </div>
     <div class="row">
 
@@ -155,8 +157,17 @@
         @Html.TextBoxFor(m => m.ReferenceNo, new { @class = "textbox-control col-md-1 col-xs" })
         @Html.LabelFor(m => m.BookingAmount, new { @class = "col-md-2" })
         @Html.TextBoxFor(m => m.BookingAmount, new { @class = "textbox-control col-md-1 col-xs" })
-        @Html.LabelFor(m => m.BalanceAmount, new { @class = "col-md-2" })
-        @Html.TextBoxFor(m => m.BalanceAmount, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.GrandRate, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.GrandRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @*@Html.LabelFor(m => m.BookingDate, new { @class = "col-md-1" })
+        <div class="col-md-2" style="padding-left:0px">
+            <input id="datepicker1" title="datepicker" />
+        </div>
+        @Html.LabelFor(m => m.ChequeDate, new { @class = "col-md-1" })
+        <div class="col-md-2" style="padding-left:0px">
+            <input id="cqDatePicker" title="datepicker" />
+        </div>*@
+
     </div>
     <div class="row">
         @Html.LabelFor(m => m.BookingDate, new { @class = "col-md-1" })
@@ -167,16 +178,20 @@
         <div class="col-md-2" style="padding-left:0px">
             <input id="cqDatePicker" title="datepicker" />
         </div>
+        @Html.LabelFor(m => m.BalanceAmount, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.BalanceAmount, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.Remarks, new { @class = "col-md-2" })
+        @Html.TextAreaFor(model => model.Remarks, new { @class = "textboxarea-control col-md-2 col-xs" })
         @*@Html.LabelFor(m => m.ChequeStatus, new { @class = "col-md-1" })
-        @Html.DropDownListFor(m => m.ChequeStatus, new List<SelectListItem>
-{
-     new SelectListItem{ Text="Not-Applicable", Value = "Not-Applicable"  },
-    new SelectListItem{ Text="Received", Value = "Received" },
-    new SelectListItem{ Text="Cleared", Value = "Cleared" },
-    new SelectListItem{ Text="Bounced", Value = "Bounced" },
-    new SelectListItem{ Text="Hold", Value = "Hold" },
-    new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
- }, new { @class = "textbox-control col-md-2 col-xs", @readonly = "readonly" })*@
+                @Html.DropDownListFor(m => m.ChequeStatus, new List<SelectListItem>
+        {
+             new SelectListItem{ Text="Not-Applicable", Value = "Not-Applicable"  },
+            new SelectListItem{ Text="Received", Value = "Received" },
+            new SelectListItem{ Text="Cleared", Value = "Cleared" },
+            new SelectListItem{ Text="Bounced", Value = "Bounced" },
+            new SelectListItem{ Text="Hold", Value = "Hold" },
+            new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
+         }, new { @class = "textbox-control col-md-2 col-xs", @readonly = "readonly" })*@
 
 
     </div>
@@ -497,7 +512,7 @@
                             $("#Facing").val(row.Facing);
                             //$("#TotalRate").val(row.TotalRate);
                             $("#ClubHouseCharges").val(row.ClubHouseCharges);
-
+                            //$("#OtherCharges").val('0');
                         });
                     });
                 }
@@ -523,19 +538,28 @@
                 $("#SftRate").val('');
                 //$("#TotalRate").val('');
                 $("#ClubHouseCharges").val('');
+                //$("#OtherCharges").val(0);
             }
         }
 
         $("#SftRate").keyup(function () {
             SetTotalRate();
+            SetBalanceAmount();
         });
 
         $("#HighRiseCharges").keyup(function () {
             SetTotalRate();
+            SetBalanceAmount();
         });
 
         $("#Discount").keyup(function () {
             SetTotalRate();
+            SetBalanceAmount();
+        });
+
+        $("#OtherCharges").keyup(function () {
+            SetTotalRate();
+            SetBalanceAmount();
         });
 
         $("#BookingAmount").keyup(function () {
@@ -548,6 +572,9 @@
                 $("#FinalRate").val(parseInt($("#TotalRate").val()) * parseInt($("#Area").val()))
                 if ($("#ClubHouseCharges").val() != '') {
                     $("#GrandRate").val(parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val()))
+                }
+                if ($("#OtherCharges").val() != '') {
+                    $("#GrandRate").val(parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val()) + parseInt($("#OtherCharges").val()))
                 }
             }
             else {

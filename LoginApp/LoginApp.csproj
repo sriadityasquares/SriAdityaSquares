@@ -732,6 +732,7 @@
     <Content Include="Content\Images\In the Woods.png" />
     <Content Include="Content\Images\Jewels County.PNG" />
     <Content Include="Content\Images\Jogging Path.PNG" />
+    <Content Include="Content\Images\Leaflet.PNG" />
     <Content Include="Content\Images\letterhead2.jpg" />
     <Content Include="Content\Images\eyeOfView.jpg" />
     <Content Include="Content\Images\fantasy-2543658.jpg" />
@@ -2041,6 +2042,7 @@
     <Content Include="Views\Booking\Offers.cshtml" />
     <Content Include="Views\Report\GetEligibleFlatsForCommission.cshtml" />
     <Content Include="Views\Report\EligibleFlatsForCommission.cshtml" />
+    <Content Include="Views\Report\SchemeBasedBookings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

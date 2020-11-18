@@ -213,6 +213,9 @@
                                     <li>
                                         <a class="@(ViewBag.EligibleFlats)" href="@Url.Action("EligibleFlatsForCommission", "Report")">FLATS ELIGIBLE FOR COMMISSION</a>
                                     </li>
+                                    <li>
+                                        <a class="@(ViewBag.SchemeBasedBookings)" href="@Url.Action("SchemeBasedBookings", "Report")">SCHEME BASED BOOKING </a>
+                                    </li>
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
                                 {
@@ -463,6 +466,9 @@
                                     </li>
                                     <li>
                                         <a class="@(ViewBag.EligibleFlats)" href="@Url.Action("EligibleFlatsForCommission", "Report")">FLATS ELIGIBLE FOR COMMISSION</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.SchemeBasedBookings)" href="@Url.Action("SchemeBasedBookings", "Report")">SCHEME BASED BOOKING </a>
                                     </li>
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
