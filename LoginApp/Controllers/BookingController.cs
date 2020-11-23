@@ -257,35 +257,39 @@ namespace LoginApp.Controllers
         {
             try
             {
-                if (Request.Form["GenerateReceipt"] == null)
-                {
-                    //payInfo.CreatedDate = DateTime.ParseExact(payInfo.PaymentDate, "dd/MM/yyyy", null);
-                    payInfo.CreatedBy = User.Identity.Name;
-                    if (payInfo.PaymentModeID == "1")
-                        payInfo.ChequeStatus = "Received";
+                if(payInfo.BookingAmount != null)
+                { 
+                    if (Request.Form["GenerateReceipt"] == null)
+                    {
+                        //payInfo.CreatedDate = DateTime.ParseExact(payInfo.PaymentDate, "dd/MM/yyyy", null);
+                        payInfo.CreatedBy = User.Identity.Name;
+                        if (payInfo.PaymentModeID == "1")
+                            payInfo.ChequeStatus = "Received";
+                        else
+                            payInfo.ChequeStatus = "Not-Applicable";
+                        var result = booking.SaveNewPayment(payInfo);
+                        if (result)
+                            TempData["successmessage"] = "Payment Successfull";
+                        else
+                            TempData["successmessage"] = "Payment Failed";
+                    }
                     else
-                        payInfo.ChequeStatus = "Not-Applicable";
-                    var result = booking.SaveNewPayment(payInfo);
-                    if (result)
-                        TempData["successmessage"] = "Payment Successfull";
-                    else
-                        TempData["successmessage"] = "Payment Failed";
+                    {
+                        var payid = Request.Form["GenerateReceipt"];
+                    }
+                    ModelState.Clear();
+                    
+                    TempData.Keep("ProjectList");
+                    List<PaymentInformation> lstPayments = new List<PaymentInformation>();
+                    ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
                 }
-                else
-                {
-                    var payid = Request.Form["GenerateReceipt"];
-                }
-                ModelState.Clear();
-                //List<Projects> projectList1 = booking.BindProjects();
-                //TempData["ProjectList"] = new SelectList(projectList1, "ProjectID", "ProjectName");
-                TempData.Keep("ProjectList");
-                List<PaymentInformation> lstPayments = new List<PaymentInformation>();
-                ViewBag.Payments = new SelectList(lstPayments, "BookingAmount", "CreatedDate");
             }
             catch (Exception ex)
             {
                 log.Error("Error :" + ex);
             }
+            ModelState.Clear();
+            TempData.Keep("ProjectList");
             return View();
         }
 
@@ -663,8 +667,8 @@ namespace LoginApp.Controllers
             //var payDate = Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy");
             var payDate = result.ChequeDate != null ? Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy") : "";
             var amountInWords = AmountInWords(Convert.ToDouble(result.BookingAmount));
-            var html = "<article><address></address><table class=\"meta\"><tr><th> Pay ID:#</th><td><span contenteditable>#PaymentID</span></td></tr><tr><th>Date</th><td><span contenteditable>#Date</span></td></tr></tbody></table><table class=\"inventory\"><tbody><tr><th>Project</th><td>#Project</td><th>Tower</th><td>#Tower</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><th>Mobile</th><td contenteditable>#CMobile</td><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Payment Date</th><td contenteditable>#PaymentDate</td></tr><tr><th >Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td><span contenteditable>#RefNo</span></td></tr><tr><th>Amount in Words</th><td colspan = '3' contenteditable>#amountInWords</td></tr><tr><th>Bank Name</th><td colspan = '3' contenteditable></td></tr></table></article>";
-            html = html.Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile == null ? "" : result.Mobile.ToString()).Replace("#BookingAmount", "Rs. " + result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo", result.ReferenceNo).Replace("#PaymentID", result.PaymentID.ToString()).Replace("#PaymentDate", payDate).Replace("#Date", sysDate).Replace("#amountInWords", amountInWords).Replace("#BHK", result.Bhk.ToString());
+            var html = "<article><address></address><table class=\"meta\"><tr><th> Pay ID:#</th><td><span contenteditable>#PaymentID</span></td></tr><tr><th>Date</th><td><span contenteditable>#Date</span></td></tr></tbody></table><table class=\"inventory\"><tbody><tr><th>Project</th><td>#Project</td><th>Tower</th><td>#Tower</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><th>Mobile</th><td contenteditable>#CMobile</td><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Payment Date</th><td contenteditable>#PaymentDate</td></tr><tr><th >Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td><span contenteditable>#RefNo</span></td></tr><tr><th>Amount in Words</th><td colspan = '3' contenteditable>#amountInWords</td></tr><tr><th>Bank Name</th><td colspan = '3' contenteditable></td></tr><tr><th>Details</th><td colspan = '3' contenteditable>#Details</td></tr></table></article>";
+            html = html.Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile == null ? "" : result.Mobile.ToString()).Replace("#BookingAmount", "Rs. " + result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo", result.ReferenceNo).Replace("#PaymentID", result.PaymentID.ToString()).Replace("#PaymentDate", payDate).Replace("#Date", sysDate).Replace("#amountInWords", amountInWords).Replace("#BHK", result.Bhk.ToString()).Replace("#Details",result.Details);
             return Json(html, JsonRequestBehavior.AllowGet);
         }
 
@@ -829,6 +833,22 @@ namespace LoginApp.Controllers
             {
                 List<Cancellation> data = JsonConvert.DeserializeObject<List<Cancellation>>(models);
                 var result = booking.UpdateCancellation(data[0].Comments, data[0].ID);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult UpdatePaymentDetails(int payID,string Details)
+        {
+            try
+            {
+                //List<Cancellation> data = JsonConvert.DeserializeObject<List<Cancellation>>(models);
+                var result = booking.UpdatePaymentDetails(payID, Details);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

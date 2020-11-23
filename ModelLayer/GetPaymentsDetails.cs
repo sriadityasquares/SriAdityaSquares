@@ -21,5 +21,7 @@ namespace ModelLayer
         public Nullable<int> Area { get; set; }
         public string PaymentMode { get; set; }
         public string ReferenceNo { get; set; }
+
+        public string Details { get; set; }
     }
 }

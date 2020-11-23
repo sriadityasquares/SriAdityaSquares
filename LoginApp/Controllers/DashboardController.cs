@@ -97,6 +97,11 @@ namespace LoginApp.Controllers
         public ActionResult GetFlatLifeCycle(int flatID)
         {
             var flatLifeCycle = booking.BindFlatLifeCycle(flatID);
+            double TotalAmount = Convert.ToDouble(flatLifeCycle[0].BalanceAmount) + Convert.ToDouble(flatLifeCycle[0].BookingAmount);
+            double BalanceAmount = Convert.ToDouble(flatLifeCycle[flatLifeCycle.Count - 1].BalanceAmount);
+            double TotalPaid = Convert.ToDouble(TotalAmount - BalanceAmount);
+            var percentagePaid = Math.Round(TotalPaid/TotalAmount*100,2);
+            flatLifeCycle[0].PercentageCompleted = percentagePaid;
             return Json(flatLifeCycle, JsonRequestBehavior.AllowGet);
         }
 

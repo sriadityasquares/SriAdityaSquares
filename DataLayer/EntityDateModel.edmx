@@ -450,6 +450,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="Day" Type="int" />
           <Property Name="ChequeStatus" Type="nvarchar" MaxLength="250" />
           <Property Name="ChequeDate" Type="datetime" />
+          <Property Name="Details" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="tblProjects">
           <Key>
@@ -945,7 +946,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
             <Parameter Name="projectid" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="tblStatus" EntityType="salesDBModel.tblStatu" />
-          <EntitySet Name="tblPaymentInfoes" EntityType="salesDBModel.tblPaymentInfo" />
           <EntitySet Name="tblLevelsMasters" EntityType="salesDBModel.tblLevelsMaster" />
           <FunctionImport Name="sp_GetTowerDetails" ReturnType="Collection(salesDBModel.sp_GetTowerDetails_Result)" />
           <FunctionImport Name="sp_GetAgentWiseBookingDetails" ReturnType="Collection(salesDBModel.sp_GetAgentWiseBookingDetails_Result)">
@@ -1072,9 +1072,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
             <Parameter Name="Role" Mode="In" Type="String" />
             <Parameter Name="Email" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_GetPaymentsDetails" ReturnType="Collection(salesDBModel.sp_GetPaymentsDetails_Result)">
-          <Parameter Name="PaymentID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="tblProjects" EntityType="salesDBModel.tblProject" />
           <AssociationSet Name="FK_Flats1" Association="salesDBModel.FK_Flats1">
             <End Role="tblProject" EntitySet="tblProjects" />
@@ -1106,6 +1103,10 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="FlatID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_GetSchemeBasedBookings" ReturnType="Collection(salesDBModel.sp_GetSchemeBasedBookings_Result)" />
+          <EntitySet Name="tblPaymentInfoes" EntityType="salesDBModel.tblPaymentInfo" />
+          <FunctionImport Name="sp_GetPaymentsDetails" ReturnType="Collection(salesDBModel.sp_GetPaymentsDetails_Result)">
+            <Parameter Name="PaymentID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -1215,29 +1216,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="ID" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="BookingStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="StatusType" Type="Int32" />
-        </EntityType>
-        <EntityType Name="tblPaymentInfo">
-          <Key>
-            <PropertyRef Name="PaymentID" />
-          </Key>
-          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookingID" Type="Guid" />
-          <Property Name="FlatID" Type="Int32" />
-          <Property Name="BookingAmount" Type="Int32" />
-          <Property Name="BalanceAmount" Type="Int32" />
-          <Property Name="PaymentModeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentMode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ReferenceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Aadhar" Type="Int32" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Year" Type="Int32" />
-          <Property Name="Month" Type="Int32" />
-          <Property Name="Day" Type="Int32" />
-          <Property Name="ChequeStatus" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="ChequeDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="tblLevelsMaster">
           <Key>
@@ -1878,21 +1856,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="String" Name="Bank" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="IFSC" Nullable="true" MaxLength="100" />
         </ComplexType>
-        <ComplexType Name="sp_GetPaymentsDetails_Result">
-          <Property Type="Int32" Name="PaymentID" Nullable="false" />
-          <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
-          <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
-          <Property Type="DateTime" Name="ChequeDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="FlatName" Nullable="true" MaxLength="250" />
-          <Property Type="Int32" Name="BookingAmount" Nullable="true" />
-          <Property Type="Int32" Name="Bhk" Nullable="true" />
-          <Property Type="Int32" Name="Area" Nullable="true" />
-          <Property Type="String" Name="PaymentMode" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ReferenceNo" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <EntityType Name="tblProject">
           <Key>
             <PropertyRef Name="ProjectID" />
@@ -2170,6 +2133,46 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="Int32" Name="value" Nullable="true" />
           <Property Type="String" Name="color" Nullable="false" MaxLength="10" />
         </ComplexType>
+        <EntityType Name="tblPaymentInfo">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingID" Type="Guid" />
+          <Property Name="FlatID" Type="Int32" />
+          <Property Name="BookingAmount" Type="Int32" />
+          <Property Name="BalanceAmount" Type="Int32" />
+          <Property Name="PaymentModeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentMode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Aadhar" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Day" Type="Int32" />
+          <Property Name="ChequeStatus" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ChequeDate" Type="DateTime" Precision="3" />
+          <Property Name="Details" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="sp_GetPaymentsDetails_Result">
+          <Property Type="Int32" Name="PaymentID" Nullable="false" />
+          <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="ChequeDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FlatName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="BookingAmount" Nullable="true" />
+          <Property Type="Int32" Name="Bhk" Nullable="true" />
+          <Property Type="Int32" Name="Area" Nullable="true" />
+          <Property Type="String" Name="PaymentMode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ReferenceNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Details" Nullable="true" MaxLength="250" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2299,30 +2302,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
                 <ScalarProperty Name="StatusType" ColumnName="StatusType" />
                 <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblPaymentInfoes">
-            <EntityTypeMapping TypeName="salesDBModel.tblPaymentInfo">
-              <MappingFragment StoreEntitySet="tblPaymentInfo">
-                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
-                <ScalarProperty Name="ChequeStatus" ColumnName="ChequeStatus" />
-                <ScalarProperty Name="Day" ColumnName="Day" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
-                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
-                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
-                <ScalarProperty Name="PaymentModeID" ColumnName="PaymentModeID" />
-                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
-                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
-                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
-                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3033,25 +3012,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetPaymentsDetails" FunctionName="salesDBModel.Store.sp_GetPaymentsDetails">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="salesDBModel.sp_GetPaymentsDetails_Result">
-                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
-                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
-                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
-                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
-                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
-                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
-                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="tblProjects">
             <EntityTypeMapping TypeName="salesDBModel.tblProject">
               <MappingFragment StoreEntitySet="tblProjects">
@@ -3301,6 +3261,51 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
                 <ScalarProperty Name="category" ColumnName="category" />
                 <ScalarProperty Name="value" ColumnName="value" />
                 <ScalarProperty Name="color" ColumnName="color" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblPaymentInfoes">
+            <EntityTypeMapping TypeName="salesDBModel.tblPaymentInfo">
+              <MappingFragment StoreEntitySet="tblPaymentInfo">
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
+                <ScalarProperty Name="ChequeStatus" ColumnName="ChequeStatus" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="PaymentModeID" ColumnName="PaymentModeID" />
+                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetPaymentsDetails" FunctionName="salesDBModel.Store.sp_GetPaymentsDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetPaymentsDetails_Result">
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="Details" ColumnName="Details" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

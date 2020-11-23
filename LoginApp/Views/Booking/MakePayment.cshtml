@@ -43,8 +43,11 @@
                         <tr>
                             <th>Amount Paid</th>
                             <th>Date of Payment</th>
+                            <th>Payment Mode</th>
                             <th>Cheque Status</th>
                             <th>Reference No</th>
+                            <th>Details</th>
+                            <th>Save Changes</th>
                             @*<th>Print Receipt</th>*@
                         </tr>
 
@@ -92,19 +95,24 @@
                 <input id="cqDatePicker" title="datepicker" />
             </div>
         </div>
+        <div id="paydetails5" style="padding-top:5px" class="row">
+            @Html.LabelFor(m => m.Details, new { @class = "col-md-2" })
+            @Html.TextAreaFor(m => m.Details, new { @class = "textboxarea-control col-md-8 col-xs" })
+
+        </div>
         @*<div id="paydetails4" style="padding-top:5px" class="row">
 
-                    @Html.LabelFor(m => m.ChequeStatus, new { @class = "col-md-2" })
-                    @Html.DropDownListFor(m => m.ChequeStatus, new List<SelectListItem>
-            {
-                 new SelectListItem{ Text="Not-Applicable", Value = "Not-Applicable"  },
-                new SelectListItem{ Text="Received", Value = "Received" },
-                new SelectListItem{ Text="Cleared", Value = "Cleared" },
-                new SelectListItem{ Text="Bounced", Value = "Bounced" },
-                new SelectListItem{ Text="Hold", Value = "Hold" },
-                new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
-             }, new { @class = "textbox-control col-md-3 col-xs", @readonly = "readonly" })
-                </div>*@
+                @Html.LabelFor(m => m.ChequeStatus, new { @class = "col-md-2" })
+                @Html.DropDownListFor(m => m.ChequeStatus, new List<SelectListItem>
+        {
+             new SelectListItem{ Text="Not-Applicable", Value = "Not-Applicable"  },
+            new SelectListItem{ Text="Received", Value = "Received" },
+            new SelectListItem{ Text="Cleared", Value = "Cleared" },
+            new SelectListItem{ Text="Bounced", Value = "Bounced" },
+            new SelectListItem{ Text="Hold", Value = "Hold" },
+            new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
+         }, new { @class = "textbox-control col-md-3 col-xs", @readonly = "readonly" })
+            </div>*@
         <div id="paydetails4" style="padding-top:5px" class="row">
             <br />
             <div class="col-md-6 no-pad">
@@ -161,7 +169,7 @@
                 if (row.ReferenceNo == null) {
                     row.ReferenceNo = "";
                 }
-                $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.ChequeStatus + "</td><td>" + row.ReferenceNo +"</td></tr>");
+                $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.PaymentMode + "</td><td>" + row.ChequeStatus + "</td><td>" + row.ReferenceNo + "</td><td contenteditable id='" + row.PaymentID + "'>" + row.Details + "</td><td><button class ='btn' onclick='UpdateDetails("+row.PaymentID+")'>Save</button>"+"</tr>");
                 //$('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td>" + "</td><td><button type='submit'  name='GenerateReceipt' style='padding:3px;margin-bottom: 0px;' id='Generate' value='" + row.PaymentID + "' class='btn btn-default'><i class='fa fa-file-pdf-o'></i>GENERATE RECEIPT</button></td></tr>");
 
                 TotalPaid = TotalPaid + Number(row.BookingAmount);
@@ -200,6 +208,17 @@
         }
     }
 
+    function UpdateDetails(payID) {
+        var Details = $("#" + payID)[0].innerHTML;
+        $.get("/Booking/UpdatePaymentDetails", { payID: payID, Details: Details }, function (data) {
+            if (data) {
+                toastr.success("Payment details updated");
+            }
+            else {
+                toastr.error("Payment details update failed");
+            }
+        })
+    };
     function HideDiv() {
         $("#paydetails").hide();
     };

@@ -17,5 +17,7 @@ namespace ModelLayer
         public string Name { get; set; }
         public string SchemeName { get; set; }
 
+        public double PercentageCompleted { get; set; }
+
     }
 }

@@ -128,6 +128,12 @@ namespace BusinessLayer
         {
             return db.UpdateCancellation(comments, id);
         }
+
+        public bool UpdatePaymentDetails(int payID,string details)
+        {
+            return db.UpdatePaymentDetails(payID, details);
+        }
+
         public List<PaymentInformation> BindPaymentDetails(int FlatId)
         {
             return db.BindPaymentDetails(FlatId);

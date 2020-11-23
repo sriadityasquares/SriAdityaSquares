@@ -711,6 +711,7 @@
     <Content Include="Content\Images\Coupon1.jpg" />
     <Content Include="Content\Images\Coupons.jpeg" />
     <Content Include="Content\Images\Cricket Nets.PNG" />
+    <Content Include="Content\Images\CricketGround.png" />
     <Content Include="Content\Images\darkroad.jpg" />
     <Content Include="Content\Images\darkroadMobile.jpg" />
     <Content Include="Content\Images\Elderado.PNG" />
@@ -719,6 +720,7 @@
     <Content Include="Content\Images\gallery.jpg" />
     <Content Include="Content\Images\gallery1.jpg" />
     <Content Include="Content\Images\Game Room.PNG" />
+    <Content Include="Content\Images\GolfCourse.png" />
     <Content Include="Content\Images\Grocery Store.PNG" />
     <Content Include="Content\Images\Gym.PNG" />
     <Content Include="Content\Images\heroPage.jpg" />
@@ -732,7 +734,7 @@
     <Content Include="Content\Images\In the Woods.png" />
     <Content Include="Content\Images\Jewels County.PNG" />
     <Content Include="Content\Images\Jogging Path.PNG" />
-    <Content Include="Content\Images\Leaflet.PNG" />
+    <Content Include="Content\Images\Tapovanam.PNG" />
     <Content Include="Content\Images\letterhead2.jpg" />
     <Content Include="Content\Images\eyeOfView.jpg" />
     <Content Include="Content\Images\fantasy-2543658.jpg" />
@@ -755,7 +757,6 @@
     <Content Include="Content\Images\house.jpg" />
     <Content Include="Content\Images\interior.jpg" />
     <Content Include="Content\Images\nikita-kachanovsky-OVbeSXRk_9E-unsplash.jpg" />
-    <Content Include="Content\Images\Offers.PNG" />
     <Content Include="Content\Images\offersGif.gif" />
     <Content Include="Content\Images\offersGif.mp4" />
     <Content Include="Content\Images\Open Air Theatre.PNG" />

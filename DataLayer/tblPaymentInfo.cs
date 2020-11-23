@@ -32,5 +32,6 @@ namespace DataLayer
         public Nullable<int> Day { get; set; }
         public string ChequeStatus { get; set; }
         public Nullable<System.DateTime> ChequeDate { get; set; }
+        public string Details { get; set; }
     }
 }

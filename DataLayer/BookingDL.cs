@@ -362,7 +362,7 @@ namespace DataLayer
                     cfg.CreateMap<sp_GetAgentsByProjectID_Result, AgentProjectLevel>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstAgents = mapper.Map<List<sp_GetAgentsByProjectID_Result>, List<AgentProjectLevel>>(dbEntity.sp_GetAgentsByProjectID(projectID).ToList()).ToList();
+                lstAgents = mapper.Map<List<sp_GetAgentsByProjectID_Result>, List<AgentProjectLevel>>(dbEntity.sp_GetAgentsByProjectID(projectID).OrderBy(x=>x.AgentName).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -895,6 +895,24 @@ namespace DataLayer
                 return false;
             }
         }
+
+        public bool UpdatePaymentDetails(int id,string details)
+        {
+            try
+            {
+                var payments = dbEntity.tblPaymentInfoes.Where(x => x.PaymentID == id).FirstOrDefault();
+                payments.Details = details;
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+
         public List<Cancellation> GetCancellations()
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
@@ -1141,6 +1159,7 @@ namespace DataLayer
                     if (i == 0)
                     {
                         lstFlatLifeCycle[i].FlatEvent = "START";
+
                     }
                     else
                     {

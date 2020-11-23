@@ -34,7 +34,6 @@ namespace DataLayer
         public virtual DbSet<tblMonth> tblMonths { get; set; }
         public virtual DbSet<tblYear> tblYears { get; set; }
         public virtual DbSet<tblStatu> tblStatus { get; set; }
-        public virtual DbSet<tblPaymentInfo> tblPaymentInfoes { get; set; }
         public virtual DbSet<tblLevelsMaster> tblLevelsMasters { get; set; }
         public virtual DbSet<tblSchemeMaster> tblSchemeMasters { get; set; }
         public virtual DbSet<tblAgentProjectLevel> tblAgentProjectLevels { get; set; }
@@ -60,6 +59,7 @@ namespace DataLayer
         public virtual DbSet<tblProject> tblProjects { get; set; }
         public virtual DbSet<tblAgreement> tblAgreements { get; set; }
         public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
+        public virtual DbSet<tblPaymentInfo> tblPaymentInfoes { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {
@@ -411,15 +411,6 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetProfile_Result>("sp_GetProfile", roleParameter, emailParameter);
         }
     
-        public virtual ObjectResult<sp_GetPaymentsDetails_Result> sp_GetPaymentsDetails(Nullable<int> paymentID)
-        {
-            var paymentIDParameter = paymentID.HasValue ?
-                new ObjectParameter("PaymentID", paymentID) :
-                new ObjectParameter("PaymentID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetPaymentsDetails_Result>("sp_GetPaymentsDetails", paymentIDParameter);
-        }
-    
         public virtual ObjectResult<sp_GetFlatPaymentDetails_Result> sp_GetFlatPaymentDetails()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatPaymentDetails_Result>("sp_GetFlatPaymentDetails");
@@ -460,6 +451,15 @@ namespace DataLayer
         public virtual ObjectResult<sp_GetSchemeBasedBookings_Result> sp_GetSchemeBasedBookings()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetSchemeBasedBookings_Result>("sp_GetSchemeBasedBookings");
+        }
+    
+        public virtual ObjectResult<sp_GetPaymentsDetails_Result> sp_GetPaymentsDetails(Nullable<int> paymentID)
+        {
+            var paymentIDParameter = paymentID.HasValue ?
+                new ObjectParameter("PaymentID", paymentID) :
+                new ObjectParameter("PaymentID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetPaymentsDetails_Result>("sp_GetPaymentsDetails", paymentIDParameter);
         }
     }
 }
