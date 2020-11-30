@@ -231,7 +231,7 @@
                 { field: "NoOfCustomers", title: "No of Customers", width: "120px" },
                 { field: "CustomerMobile", title: "Customer Mobile", width: "115px" },
                 { field: "Status", title: "Status", width: "90px" },
-                { field: "DateOfVisit", title: "Visit Date", width: "90px" },
+                { field: "DateOfVisit", title: "Visit Date", width: "90px", template: '#= kendo.toString(kendo.parseDate(DateOfVisit), "dd/MM/yyyy")#' },
                 { field: "FromAddress", title: "From Address", width: "150px" },
                 { field: "ToAddress", title: "To Address", width: "150px" },
             ],

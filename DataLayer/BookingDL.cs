@@ -267,10 +267,11 @@ namespace DataLayer
                 //lstCountry = dbEntity.tblProjects.ToList();
                 var config = new MapperConfiguration(cfg =>
                 {
-                    cfg.CreateMap<tblFlat, Flats>();
+                    cfg.CreateMap<sp_GetFlatsByTowerID_Result, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID).OrderBy(x => new { x.Floor, x.FlatName }).ToList()).ToList();
+                lstFlats = mapper.Map<List<sp_GetFlatsByTowerID_Result>, List<Flats>>(dbEntity.sp_GetFlatsByTowerID(towerID).ToList()).ToList();
+                //lstFlats.OrderBy(x)
             }
             catch (Exception ex)
             {
@@ -412,6 +413,29 @@ namespace DataLayer
             }
             return lstFlatDetails;
         }
+
+
+        public List<GetGraphicalPeriodWiseBooking> GetAgentPercentagesByProject(int projectID)
+        {
+            List<GetGraphicalPeriodWiseBooking> agentPercentages = new List<GetGraphicalPeriodWiseBooking>();
+            try
+            {
+
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetAgentPercentageByProject_Result, GetGraphicalPeriodWiseBooking>();
+                });
+                IMapper mapper = config.CreateMapper();
+                agentPercentages = mapper.Map<List<sp_GetAgentPercentageByProject_Result>, List<GetGraphicalPeriodWiseBooking>>(dbEntity.sp_GetAgentPercentageByProject(projectID).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return agentPercentages;
+        }
+
 
         public bool SaveNewBooking(BookingInformation bookingInfo)
         {

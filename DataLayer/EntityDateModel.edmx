@@ -725,6 +725,9 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <Function Name="sp_GetAgentPayBalance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AgentID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_GetAgentPercentageByProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProjectID" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_GetAgentsByProjectID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
@@ -776,6 +779,9 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="FlatID" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_GetFlatPaymentDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetFlatsByTowerID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TowerID" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_GetFlatWiseTotalAgentCommission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
           <Parameter Name="TowerID" Type="int" Mode="In" />
@@ -1105,7 +1111,13 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <FunctionImport Name="sp_GetSchemeBasedBookings" ReturnType="Collection(salesDBModel.sp_GetSchemeBasedBookings_Result)" />
           <EntitySet Name="tblPaymentInfoes" EntityType="salesDBModel.tblPaymentInfo" />
           <FunctionImport Name="sp_GetPaymentsDetails" ReturnType="Collection(salesDBModel.sp_GetPaymentsDetails_Result)">
-            <Parameter Name="PaymentID" Mode="In" Type="Int32" />
+          <Parameter Name="PaymentID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetFlatsByTowerID" ReturnType="Collection(salesDBModel.sp_GetFlatsByTowerID_Result)">
+          <Parameter Name="TowerID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetAgentPercentageByProject" ReturnType="Collection(salesDBModel.sp_GetAgentPercentageByProject_Result)">
+            <Parameter Name="ProjectID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="tblCity">
@@ -2172,6 +2184,26 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="String" Name="PaymentMode" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="ReferenceNo" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Details" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="sp_GetFlatsByTowerID_Result">
+          <Property Type="Int32" Name="FlatID" Nullable="false" />
+          <Property Type="String" Name="FlatName" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="ProjectID" Nullable="true" />
+          <Property Type="Int32" Name="TowerID" Nullable="true" />
+          <Property Type="Int32" Name="Floor" Nullable="true" />
+          <Property Type="Int32" Name="Bhk" Nullable="true" />
+          <Property Type="Int32" Name="Sft" Nullable="true" />
+          <Property Type="String" Name="Facing" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="BookingStatus" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="FlatPlanURL" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="sp_GetAgentPercentageByProject_Result">
+          <Property Type="String" Name="xaxis" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="yaxis" Nullable="true" MaxLength="30" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3306,6 +3338,34 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
                 <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
                 <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
                 <ScalarProperty Name="Details" ColumnName="Details" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetFlatsByTowerID" FunctionName="salesDBModel.Store.sp_GetFlatsByTowerID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetFlatsByTowerID_Result">
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="TowerID" ColumnName="TowerID" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
+                <ScalarProperty Name="Sft" ColumnName="Sft" />
+                <ScalarProperty Name="Facing" ColumnName="Facing" />
+                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="FlatPlanURL" ColumnName="FlatPlanURL" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentPercentageByProject" FunctionName="salesDBModel.Store.sp_GetAgentPercentageByProject">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentPercentageByProject_Result">
+                <ScalarProperty Name="xaxis" ColumnName="xaxis" />
+                <ScalarProperty Name="yaxis" ColumnName="yaxis" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

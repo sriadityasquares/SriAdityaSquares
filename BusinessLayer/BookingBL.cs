@@ -96,6 +96,10 @@ namespace BusinessLayer
             return db.BindFlatDetails(FlatId, ProjectID);
         }
 
+        public List<GetGraphicalPeriodWiseBooking> GetAgentPercentagesByProject(int projectID)
+        {
+            return db.GetAgentPercentagesByProject(projectID);
+        }
         public bool SaveNewBooking(BookingInformation b)
         {
             return db.SaveNewBooking(b);

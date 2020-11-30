@@ -108,7 +108,7 @@
                     { field: "towername", title: "TOWER",width :120 },
                     { field: "flatname", title: "FLAT",width :120 },
                     { field: "agentname", title: "AGENT" ,width :120},
-                    { field: "bookingdate", title: "BOOKING DATE" ,width: 120 },
+                    { field: "bookingdate", title: "BOOKING DATE", width: 120, template: '#= kendo.toString(kendo.parseDate(bookingdate), "dd/MM/yyyy")#' },
                     { field: "bookingamount", title: "BOOKING AMOUNT" ,width: 140},
                     { field: "discount", title: "DISCOUNT", width: 100 },
                     { field: "highrisecharges", title: "HIGH RISE", width: 100 },

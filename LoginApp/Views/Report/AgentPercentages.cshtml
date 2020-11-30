@@ -1,7 +1,7 @@
 ﻿@model ModelLayer.Report
 @{
-    ViewBag.Title = "AgentBookingStats";
-    ViewBag.AgentBookingStats = "active";
+    ViewBag.Title = "Agent Percentages";
+    ViewBag.Percentages = "active";
     ViewBag.Reports = "active";
 }
 
@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-md-12 col-xs" style="margin-top:0px">
-            <h3 style="margin-top:0px;margin-bottom:2px" align="left">AGENT BOOKING STATS</h3>
+            <h3 style="margin-top:0px;margin-bottom:2px" align="left">AGENT PERCENTAGES</h3>
             <div class="specialLine col-md-1"></div>
         </div>
 
@@ -17,15 +17,9 @@
 
     <div class="row">
         @Html.LabelFor(m => m.Project, new { @class = "col-md-1" })
-        @Html.DropDownListFor(m => m.Project, TempData["ProjectList"] as SelectList, "--All Project--", new { @class = "textbox-control col-md-2 col-xs" })
-        @Html.Label("From", new { @class = "col-md-1" })
-        <div class="col-md-2">
-            <input id="datepicker1" value="" title="datepicker" />
-        </div>
-        @Html.Label("To", new { @class = "col-md-1" })
-        <div class="col-md-2">
-            <input id="datepicker2" value="" title="datepicker" />
-        </div>
+        @Html.DropDownListFor(m => m.Project, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-2 col-xs" })
+        
+        
         @*<div class="col-md-3 col-xs">
                 <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right">Show</button>
             </div>*@
@@ -43,25 +37,17 @@
 
 </div>
 <script>
-    $("#datepicker1").kendoDatePicker();
-    $("#datepicker2").kendoDatePicker();
-    var fromDate = '';
-    var toDate = '';
-    //jQuery('#submitbtn').click();
-    $(document).ready(function () {
-        $("#submitbtn").click();
-        //$("#Project").val($("#Project option:first").val());
-    });
+    
     //$('#submitbtn').trigger('click');
     $("#submitbtn").click(function () {
 
-        fromDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'dd/MM/yyyy');
-        toDate = kendo.toString($("#datepicker2").data("kendoDatePicker").value(), 'dd/MM/yyyy');
+        //fromDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+        //toDate = kendo.toString($("#datepicker2").data("kendoDatePicker").value(), 'MM/dd/yyyy');
         $.ajax({
             type: "GET",
-            url: '@Url.Action("GetAgentBookingStats", "Dashboard")',
+            url: '@Url.Action("GetAgentPercentages", "Report")',
             contentType: "application/json; charset=utf-8",
-            data: { projectID: $("#Project").val(), fromDate: fromDate, toDate: toDate },
+            data: { projectID: $("#Project").val() },
             dataType: "json",
             success: function (data) {
                 $(document).ready(createChart(data));
@@ -102,7 +88,7 @@
         }
         else
             chartHeight = data.length * 200;
-        
+
 
         $("#chart").css("height", chartHeight);
         var projectText = '';
@@ -155,7 +141,7 @@
                 fileName: "Bookings Per Project.pdf"
             },
             title: {
-                text: "Agent Bookings for " + projectText,
+                text: "Agent Percentage for " + projectText,
                 font: "bolder 16px Arial,Helvetica,sans-serif",
                 color: "black",
             },
@@ -166,7 +152,7 @@
                     visual: createLegendItem
                 }
             },
-           
+
             seriesDefaults: {
                 type: "bar",
                 stack: true,
@@ -181,12 +167,12 @@
                 //}
             },
             series: [{
-                name: "Booking Count",
-                data: a,
+                name: "Percentage",
+                data: b,
                 color: "#26aadd"
             }],
             valueAxis: {
-                max: peak,
+                max: 10,
                 line: {
                     visible: false
                 },
@@ -195,7 +181,7 @@
                 }
             },
             categoryAxis: {
-                categories: b,
+                categories: a,
                 majorGridLines: {
                     visible: false
                 },
@@ -330,3 +316,4 @@
         });
     }
 </script>
+

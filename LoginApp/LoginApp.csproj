@@ -734,6 +734,7 @@
     <Content Include="Content\Images\In the Woods.png" />
     <Content Include="Content\Images\Jewels County.PNG" />
     <Content Include="Content\Images\Jogging Path.PNG" />
+    <Content Include="Content\Images\SISHTA ABODE.PNG" />
     <Content Include="Content\Images\Tapovanam.PNG" />
     <Content Include="Content\Images\letterhead2.jpg" />
     <Content Include="Content\Images\eyeOfView.jpg" />
@@ -2044,6 +2045,7 @@
     <Content Include="Views\Report\GetEligibleFlatsForCommission.cshtml" />
     <Content Include="Views\Report\EligibleFlatsForCommission.cshtml" />
     <Content Include="Views\Report\SchemeBasedBookings.cshtml" />
+    <Content Include="Views\Report\AgentPercentages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

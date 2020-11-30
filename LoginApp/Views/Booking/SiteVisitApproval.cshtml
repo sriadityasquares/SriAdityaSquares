@@ -64,7 +64,7 @@
                         CustomerName: { editable: false, nullable: true },
                         NoOfCustomers: { editable: false, nullable: true },
                         CustomerMobile: { editable: false, nullable: true },
-                        DateOfVisit: { editable: false, nullable: true },
+                        DateOfVisit: { editable: false, nullable: true, template: '#= kendo.toString(kendo.parseDate(DateOfVisit), "dd/MM/yyyy")#' },
                         FromAddress: { editable: false, nullable: true },
                         ToAddress: { editable: false, nullable: true },
                         Status: { validation: { required: true } },

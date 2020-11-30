@@ -108,7 +108,7 @@
                     { field: "AgentName", title: "AGENT" ,width :120},
                     { field: "projectname", title: "PROJECT" ,width :120},
                     { field: "towername", title: "TOWER",width :120 },
-                    { field: "CreatedDate", title: "BOOKING DATE" ,width: 120 },
+                    { field: "CreatedDate", title: "BOOKING DATE", width: 120, template: '#= kendo.toString(kendo.parseDate(CreatedDate), "dd/MM/yyyy")#' },
                     { field: "TotalBookingamount", title: "BOOKING AMOUNT" ,width: 140},
                     { field: "flatsbooked", title: "FLATS BOOKED", width: 120 },
                     { field: "Year" ,title: "YEAR" , width :75},

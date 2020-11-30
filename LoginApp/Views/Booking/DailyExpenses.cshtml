@@ -194,7 +194,7 @@
                 allPages: true
             },
             columns: [
-                { field: "ExpenseDate", title: "Expense Date", width: "120px" },
+                { field: "ExpenseDate", title: "Expense Date", width: "120px", template: '#= kendo.toString(kendo.parseDate(ExpenseDate), "dd/MM/yyyy")#' },
                 { field: "PaidTo", title: "Paid To", width: "120px" },
                 { field: "Particulars", title: "Particulars", width: "120px" },
                 { field: "Amount", title: "Amount", width: "100px" },

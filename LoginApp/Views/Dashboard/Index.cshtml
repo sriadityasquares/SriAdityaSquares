@@ -119,52 +119,63 @@
     //var Sqft;
     //var Bhk;
     $("#Tower").change(function () {
-        $('#bookingstatus').html('');
+        $('#bookingstatus').hide();
+        html = ''
         $.get("/Booking/GetAllFlats", { TowerId: $("#Tower").val() }, function (data) {
-            $.each(data, function (index, row) {
+            if (data != '' || data != null) {
+                $.each(data, function (index, row) {
 
-                if (index == 0) {
-                    FloorNo = row.Floor;
-                    html = '<div class="cinema-seats left"> <div class="cinema-row row-1">';
+                    if (index == 0) {
+                        FloorNo = row.Floor;
+                        html = '<div class="cinema-seats left"> <div class="cinema-row row-1">';
 
-                }
-
-
-                if (index == 0) {
-                    FloorNo = row.Floor;
-                    html = '<div class="cinema-seats left"> <div class="cinema-row row-1">';
-                }
-                if (FloorNo != row.Floor) {
-                    FloorNo = row.Floor;
-                    html = html + '</div>'
-                    html = html + '<div class="cinema-row row-' + row.Floor + '">';
-                }
-                //var Facing = row.Facing;
-                //var Sqft = row.Sft;
-                //var Bhk = row.Bhk;
-                //alert(row.Facing);
-                if (row.BookingStatus == 'O') {
-
-                    html = html + '<div style="background:linear-gradient(to bottom,ForestGreen, white)" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\''+')"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
-                }
-                if (row.BookingStatus == 'S') {
-                    html = html + '<div style="background-color: #bd4f6c;background-image:linear-gradient(326deg, #bd4f6c 0%, #d7816a 74%);" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\''+')"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
-                }
-                if (row.BookingStatus == 'M') {
-                    html = html + '<div style="background:linear-gradient(to bottom,#7AD7F0, white);"   class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
-                }
-                if (row.BookingStatus =='P') {
-                    html = html + '<div style="background:linear-gradient(to bottom,#FFD700, white);" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\''+')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
-                }
-                if (row.BookingStatus == 'H') {
-                    html = html + '<div style="background:#8e438e" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\'' + ')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
-                }
-               
+                    }
 
 
-            });
-            $('#bookingstatus').html(html);
-            $('#labels').show();
+                    if (index == 0) {
+                        FloorNo = row.Floor;
+                        html = '<div class="cinema-seats left"> <div class="cinema-row row-1">';
+                    }
+                    if (FloorNo != row.Floor) {
+                        FloorNo = row.Floor;
+                        html = html + '</div>'
+                        html = html + '<div class="cinema-row row-' + row.Floor + '">';
+                    }
+                    //var Facing = row.Facing;
+                    //var Sqft = row.Sft;
+                    //var Bhk = row.Bhk;
+                    //alert(row.Facing);
+                    if (row.BookingStatus == 'O') {
+
+                        html = html + '<div style="background:linear-gradient(to bottom,ForestGreen, white)" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\'' + ')"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                    }
+                    if (row.BookingStatus == 'S') {
+                        html = html + '<div style="background-color: #bd4f6c;background-image:linear-gradient(326deg, #bd4f6c 0%, #d7816a 74%);" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\'' + ')"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                    }
+                    if (row.BookingStatus == 'M') {
+                        html = html + '<div style="background:linear-gradient(to bottom,#7AD7F0, white);"   class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                    }
+                    if (row.BookingStatus == 'P') {
+                        html = html + '<div style="background:linear-gradient(to bottom,#FFD700, white);" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\'' + ')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                    }
+                    if (row.BookingStatus == 'H') {
+                        html = html + '<div style="background:#8e438e" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\'' + ')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                    }
+
+
+
+                });
+                //if (data != null) {
+                $('#bookingstatus').html(html);
+                $('#bookingstatus').show();
+                //}
+
+
+                $('#labels').show();
+            }
+            else {
+                $('#bookingstatus').hide();
+            }
         });
     });
 

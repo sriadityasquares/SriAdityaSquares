@@ -200,7 +200,7 @@
                 { field: "FlatName", title: "Flat/Villa", width: "120px" },
                 { field: "Amount", title: "Amount Received", width: "120px" },
                 { field: "PaymentMode", title: "Mode of Payment", width: "120px" },
-                { field: "PaymentDate", title: "Payment Date", width: "100px" },
+                { field: "PaymentDate", title: "Payment Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(PaymentDate), "dd/MM/yyyy")#' },
                 { command: ["destroy"], title: "&nbsp;", width: "100px" }
             ],
             editable: "inline"

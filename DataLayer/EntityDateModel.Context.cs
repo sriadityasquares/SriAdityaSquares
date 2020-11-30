@@ -461,5 +461,23 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetPaymentsDetails_Result>("sp_GetPaymentsDetails", paymentIDParameter);
         }
+    
+        public virtual ObjectResult<sp_GetFlatsByTowerID_Result> sp_GetFlatsByTowerID(Nullable<int> towerID)
+        {
+            var towerIDParameter = towerID.HasValue ?
+                new ObjectParameter("TowerID", towerID) :
+                new ObjectParameter("TowerID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatsByTowerID_Result>("sp_GetFlatsByTowerID", towerIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetAgentPercentageByProject_Result> sp_GetAgentPercentageByProject(Nullable<int> projectID)
+        {
+            var projectIDParameter = projectID.HasValue ?
+                new ObjectParameter("ProjectID", projectID) :
+                new ObjectParameter("ProjectID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentPercentageByProject_Result>("sp_GetAgentPercentageByProject", projectIDParameter);
+        }
     }
 }

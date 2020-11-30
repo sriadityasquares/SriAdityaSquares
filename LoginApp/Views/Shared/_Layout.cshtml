@@ -216,6 +216,9 @@
                                     <li>
                                         <a class="@(ViewBag.SchemeBasedBookings)" href="@Url.Action("SchemeBasedBookings", "Report")">SCHEME BASED BOOKING </a>
                                     </li>
+                                    <li>
+                                        <a class="@(ViewBag.Percentages)" href="@Url.Action("AgentPercentages", "Report")">AGENT PERCENTAGES</a>
+                                    </li>
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
                                 {
@@ -469,6 +472,9 @@
                                     </li>
                                     <li>
                                         <a class="@(ViewBag.SchemeBasedBookings)" href="@Url.Action("SchemeBasedBookings", "Report")">SCHEME BASED BOOKING </a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Percentages)" href="@Url.Action("AgentPercentages", "Report")">AGENT PERCENTAGES</a>
                                     </li>
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))

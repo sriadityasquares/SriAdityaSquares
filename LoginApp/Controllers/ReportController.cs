@@ -321,5 +321,20 @@ namespace LoginApp.Controllers
             var list = booking.BindSchemeBasedBookings(projectID);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult AgentPercentages()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            return View();
+        }
+
+        public ActionResult GetAgentPercentages(int projectID)
+        {
+            var agentPercentage = booking.GetAgentPercentagesByProject(projectID);
+            return Json(agentPercentage, JsonRequestBehavior.AllowGet);
+            
+        }
     }
 }
