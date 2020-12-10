@@ -110,6 +110,18 @@ namespace LoginApp.Controllers.Admin
                         var request1 = new RestRequest(Method.GET);
                         request1.AddHeader("Cache-Control", "no-cache");
                         IRestResponse response1 = client1.Execute(request1);
+
+                        SMS sms = new SMS();
+                        sms.MessageType = "Agent Account Creation";
+                        sms.Message = message;
+                        sms.Recipients = data[0].AgentMobileNo + "," + "8121751751";
+                        sms.CreatedBy = User.Identity.Name;
+                        TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+                        var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+                        //var sysDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
+                        sms.CreatedDate = indianTime;
+                        CommonBL common = new CommonBL();
+                        common.LogSMS(sms);
                     }
                     else
                     {

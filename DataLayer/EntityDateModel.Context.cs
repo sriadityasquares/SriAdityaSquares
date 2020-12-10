@@ -58,8 +58,9 @@ namespace DataLayer
         public virtual DbSet<tblChequeStatu> tblChequeStatus { get; set; }
         public virtual DbSet<tblProject> tblProjects { get; set; }
         public virtual DbSet<tblAgreement> tblAgreements { get; set; }
-        public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
         public virtual DbSet<tblPaymentInfo> tblPaymentInfoes { get; set; }
+        public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
+        public virtual DbSet<tblSM> tblSMS { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {
@@ -439,15 +440,6 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetEligibleFlatsForCommission_Result>("sp_GetEligibleFlatsForCommission");
         }
     
-        public virtual ObjectResult<sp_GetBookingDetails_Result> sp_GetBookingDetails(Nullable<int> flatID)
-        {
-            var flatIDParameter = flatID.HasValue ?
-                new ObjectParameter("FlatID", flatID) :
-                new ObjectParameter("FlatID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetBookingDetails_Result>("sp_GetBookingDetails", flatIDParameter);
-        }
-    
         public virtual ObjectResult<sp_GetSchemeBasedBookings_Result> sp_GetSchemeBasedBookings()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetSchemeBasedBookings_Result>("sp_GetSchemeBasedBookings");
@@ -478,6 +470,29 @@ namespace DataLayer
                 new ObjectParameter("ProjectID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentPercentageByProject_Result>("sp_GetAgentPercentageByProject", projectIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetBookingDetails_Result> sp_GetBookingDetails(Nullable<int> flatID)
+        {
+            var flatIDParameter = flatID.HasValue ?
+                new ObjectParameter("FlatID", flatID) :
+                new ObjectParameter("FlatID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetBookingDetails_Result>("sp_GetBookingDetails", flatIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetDueReminders_Result> sp_GetDueReminders()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetDueReminders_Result>("sp_GetDueReminders");
+        }
+    
+        public virtual ObjectResult<sp_GetFlatWiseAgentCommission_Result> sp_GetFlatWiseAgentCommission(Nullable<int> flatID)
+        {
+            var flatIDParameter = flatID.HasValue ?
+                new ObjectParameter("FlatID", flatID) :
+                new ObjectParameter("FlatID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatWiseAgentCommission_Result>("sp_GetFlatWiseAgentCommission", flatIDParameter);
         }
     }
 }

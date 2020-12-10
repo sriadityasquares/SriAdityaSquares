@@ -5365,7 +5365,7 @@ body {
 
     .sidebar {
         width: 240px;
-        height: 100%;
+        height: 110% !important;
         background: black;
         position: absolute;
         -webkit-transition: all 0.3s ease-in-out;

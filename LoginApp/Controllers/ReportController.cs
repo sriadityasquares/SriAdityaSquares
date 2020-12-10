@@ -336,5 +336,18 @@ namespace LoginApp.Controllers
             return Json(agentPercentage, JsonRequestBehavior.AllowGet);
             
         }
+
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult SMSLog()
+        {
+            return View();
+        }
+
+        public JsonResult GetSMSLogs()
+        {
+            var sms = common.GetSMSLogs();
+            return Json(sms, JsonRequestBehavior.AllowGet);
+        }
     }
 }

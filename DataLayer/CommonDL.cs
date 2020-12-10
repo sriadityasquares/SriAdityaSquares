@@ -283,6 +283,47 @@ namespace DataLayer
             return myProfile;
         }
 
+        public void LogSMS(SMS sms)
+        {
+            try
+            {
+                tblSM newSMS = new tblSM();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<SMS, tblSM>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<SMS, tblSM>(sms, newSMS);
+                dbEntity.tblSMS.Add(newSMS);
+                dbEntity.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public List<SMS> GetSMSLogs()
+        {
+            List<SMS> lstSMS = new List<SMS>();
+            try
+            {
+
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblSM, SMS>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstSMS = mapper.Map<List<tblSM>, List<SMS>>(dbEntity.tblSMS.OrderByDescending(x=>x.CreatedDate).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstSMS;
+        }
+
 
     }
 }

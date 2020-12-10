@@ -76,6 +76,7 @@
     <Compile Include="GetBookingInfoByDate.cs" />
     <Compile Include="GetBookingStatistics.cs" />
     <Compile Include="GetChequeInfo.cs" />
+    <Compile Include="GetDueReminders.cs" />
     <Compile Include="GetFacingWiseBookingDetails.cs" />
     <Compile Include="GetFlatLifeCycle.cs" />
     <Compile Include="GetFlatPaymentDetails.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Report.cs" />
     <Compile Include="Schemes.cs" />
     <Compile Include="SiteVisitInfo.cs" />
+    <Compile Include="SMS.cs" />
     <Compile Include="State.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="SuggestedActions.cs" />

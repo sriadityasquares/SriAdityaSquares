@@ -219,6 +219,12 @@
                                     <li>
                                         <a class="@(ViewBag.Percentages)" href="@Url.Action("AgentPercentages", "Report")">AGENT PERCENTAGES</a>
                                     </li>
+                                    <li>
+                                        <a class="@(ViewBag.CheckList)" href="@Url.Action("CheckList", "Booking")">CHECK LIST</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.SMSLog)" href="@Url.Action("SMSLog", "Report")">SMS LOG</a>
+                                    </li>
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
                                 {
@@ -475,6 +481,12 @@
                                     </li>
                                     <li>
                                         <a class="@(ViewBag.Percentages)" href="@Url.Action("AgentPercentages", "Report")">AGENT PERCENTAGES</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.CheckList)" href="@Url.Action("CheckList", "Booking")">CHECK LIST</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.SMSLog)" href="@Url.Action("SMSLog", "Report")">SMS LOG</a>
                                     </li>
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))

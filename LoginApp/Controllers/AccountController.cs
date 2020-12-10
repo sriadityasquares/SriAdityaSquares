@@ -15,6 +15,7 @@ using BusinessLayer;
 using System.Text;
 using Microsoft.AspNet.Identity.EntityFramework;
 using RestSharp;
+using ModelLayer;
 
 namespace LoginApp.Controllers
 {
@@ -159,6 +160,18 @@ namespace LoginApp.Controllers
                         var request = new RestRequest(Method.GET);
                         request.AddHeader("Cache-Control", "no-cache");
                         IRestResponse response = client.Execute(request);
+
+                        SMS sms = new SMS();
+                        sms.MessageType = "Account Creation";
+                        sms.Message = message;
+                        sms.Recipients = model.PhoneNumber;
+                        sms.CreatedBy = User.Identity.Name;
+                        TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+                        var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+                        //var sysDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
+                        sms.CreatedDate = indianTime;
+                        CommonBL common = new CommonBL();
+                        common.LogSMS(sms);
                         // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                         // Send an email with this link
                         // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -227,7 +240,17 @@ namespace LoginApp.Controllers
                     var request = new RestRequest(Method.GET);
                     request.AddHeader("Cache-Control", "no-cache");
                     IRestResponse response = client.Execute(request);
-                    
+                    SMS sms = new SMS();
+                    sms.MessageType = "Password Reset";
+                    sms.Message = message;
+                    sms.Recipients = user.PhoneNumber;
+                    sms.CreatedBy = User.Identity.Name;
+                    TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+                    var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+                    //var sysDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
+                    sms.CreatedDate = indianTime;
+                    CommonBL common = new CommonBL();
+                    common.LogSMS(sms);
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

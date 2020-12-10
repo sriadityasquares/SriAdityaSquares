@@ -1,0 +1,333 @@
+﻿@model ModelLayer.BookingInformation
+
+@{
+    ViewBag.Title = "CheckList";
+    ViewBag.CheckList = "active";
+    ViewBag.Reports = "active";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">CHECK LIST FOR AGREEMENTS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+    </div>
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.TowerID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.FlatID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+    <div id="example">
+
+        <div class="row">
+
+            @Html.Label("Select Page size", new { @class = "col-md-4" })
+            <div class="col-md-3">
+                <select id="paper" style="width: 100px;">
+                    <option value="size-a4" selected>A4</option>
+                    <option value="size-letter">Letter</option>
+                    <option value="size-executive">Executive</option>
+                </select>
+            </div>
+            <button class="btn-success" onclick="getPDF('.pdf-page')">Export to PDF</button>
+            <button class="btn-success" onclick="fnExcelExport()">Export to Excel</button>
+           
+        </div>
+
+        <div style="overflow:auto;" class="page-container hidden-on-narrow">
+            <div class="pdf-page size-a4">
+                <div class="inner-page">
+                    <h4 style="margin-top: 0px;"><b>BOOKING DETAILS</b></h4>
+                    <div id="content">
+
+                        
+                    </div>
+                    <h4><b>PAYMENT DETAILS</b></h4>
+                    <table id="tblPayments" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th><span>Amount</span></th>
+                                <th><span>Date</span></th>
+                                <th><span>Mode</span></th>
+                                <th><span>Ref</span></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                        </tbody>
+                    </table>
+                    <p>
+                        <b>BALANCE : Rs.  <span id="TotalBalance"></span></b>
+                    </p>
+                    
+                </div>
+            </div>
+
+            <div class="responsive-message"></div>
+
+            <style>
+                
+                .pdf-page {
+                    font-family: "DejaVu Sans", "Arial", sans-serif;
+                }
+            </style>
+
+            <script>
+                
+                kendo.pdf.defineFont({
+                    "DejaVu Sans": "https://kendo.cdn.telerik.com/2016.2.607/styles/fonts/DejaVu/DejaVuSans.ttf",
+                    "DejaVu Sans|Bold": "https://kendo.cdn.telerik.com/2016.2.607/styles/fonts/DejaVu/DejaVuSans-Bold.ttf",
+                    "DejaVu Sans|Bold|Italic": "https://kendo.cdn.telerik.com/2016.2.607/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf",
+                    "DejaVu Sans|Italic": "https://kendo.cdn.telerik.com/2016.2.607/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf",
+                    "WebComponentsIcons": "https://kendo.cdn.telerik.com/2017.1.223/styles/fonts/glyphs/WebComponentsIcons.ttf"
+                });
+            </script>
+
+            <!-- Load Pako ZLIB library to enable PDF compression -->
+            <script src="../content/shared/js/pako.min.js"></script>
+
+            <script>
+                function getPDF(selector) {
+                    kendo.drawing.drawDOM($(selector)).then(function (group) {
+                        kendo.drawing.pdf.saveAs(group, "CheckList.pdf");
+                    });
+                }
+                $('#example').hide();
+
+
+                $("#paper").kendoDropDownList({
+                    change: function () {
+                        $(".pdf-page")
+                            .removeClass("size-a4")
+                            .removeClass("size-letter")
+                            .removeClass("size-executive")
+                            .addClass(this.value());
+                    }
+                });
+
+            </script>
+            <style>
+
+                tr{
+                    padding :4px!important
+                }
+                td {
+                    padding: 4px !important;
+                }
+
+                .pdf-page {
+                    position: relative;
+                    margin: 0 auto;
+                    padding: .4in .3in;
+                    color: #333;
+                    background-color: #fff;
+                    box-shadow: 0 5px 10px 0 rgba(0,0,0,.3);
+                    box-sizing: border-box;
+                }
+
+                .pdf-header {
+                    padding-bottom: .2in;
+                    margin-bottom: .3in;
+                    /*border-bottom: 1px solid #e5e5e5;*/
+                }
+
+                .invoice-number {
+                    padding-top: .1in;
+                    float: right;
+                }
+
+                .pdf-footer {
+                    position: absolute;
+                    bottom: .25in;
+                    left: .3in;
+                    right: .3in;
+                    padding-top: 0.05in;
+                    border-top: 1px solid #e5e5e5;
+                    font-size: 0.9em;
+                    text-align: left;
+                    color: #787878;
+                }
+
+                .addresses {
+                    font-size: 12px;
+                }
+
+                    .addresses:after {
+                        display: block;
+                        content: "";
+                        clear: both;
+                    }
+
+                .for {
+                    float: left;
+                }
+
+                .from {
+                    float: right;
+                }
+
+                .addresses p {
+                    color: #787878;
+                    padding: .05in 0;
+                    border-top: 1px solid #e5e5e5;
+                }
+
+                    .addresses p:first-of-type {
+                        border-top: 0;
+                    }
+
+                .pdf-body {
+                    margin-top: .3in;
+                }
+
+                .company-logo {
+                    font-size: 1.8em;
+                    font-weight: bold;
+                    color: #3aabf0;
+                }
+
+                .signature {
+                    padding-top: .3in;
+                }
+
+                /* Dimensions other than px and em should be divided by 1.33 for the proper PDF output */
+                .size-a4 {
+                    width: 6.2in;
+                    height: 8.7in;
+                }
+
+                .size-letter {
+                    width: 6.3in;
+                    height: 8.2in;
+                }
+
+                .size-executive {
+                    width: 5.4in;
+                    height: 7.8in;
+                    font-size: 12px;
+                }
+
+                    .size-executive .pdf-header {
+                        margin-bottom: .1in;
+                    }
+            </style>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var html = '';
+
+    $("#ProjectID").change(function () {
+        $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+            //HideDiv();
+            $("#TowerID").empty();
+            $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+            });
+        });
+    });
+
+    $("#TowerID").change(function () {
+
+        $.get("/Booking/GetFlatsExceptOpen", { TowerID: $("#TowerID").val() }, function (data) {
+            //$("#TowerID").empty();
+            //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            //HideDiv();
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
+            });
+        });
+    });
+    $("#FlatID").change(function () {
+        $.get("/Booking/GetCheckList", { flatID: $("#FlatID").val() }, function (data) {
+            $("#content").empty();
+            $("#content").append(data);
+
+            $.get("/Booking/GetPaymentDetails", { flatID: $("#FlatID").val() }, function (data) {
+                var TotalPaid = 0;
+                var BalanceAmount = "";
+                var BookingID = "";
+                var Aadhar = "";
+                var DueDate = "";
+                $('#tblPayments tbody tr').remove();
+                $.each(data, function (index, row) {
+                    if (row.ReferenceNo == null) {
+                        row.ReferenceNo = "";
+                    }
+                    $('#tblPayments tbody').append("<tr><td> <b>Rs.</b> " + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.PaymentMode + "</td><td>" + row.ReferenceNo + "</td></tr>");
+                    //$('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td>" + "</td><td><button type='submit'  name='GenerateReceipt' style='padding:3px;margin-bottom: 0px;' id='Generate' value='" + row.PaymentID + "' class='btn btn-default'><i class='fa fa-file-pdf-o'></i>GENERATE RECEIPT</button></td></tr>");
+
+                    //TotalPaid = TotalPaid + Number(row.BookingAmount);
+                    BalanceAmount = parseInt(row.BalanceAmount);
+                    //BookingID = row.BookingID;
+
+                    Aadhar = row.Aadhar;
+                });
+               
+                //$("#TotalBalance").val(BalanceAmount);
+                $('#TotalBalance')[0].textContent = BalanceAmount;
+                
+            });
+
+        $('#example').show();
+        });
+    });
+
+    
+    function fnExcelExport() {
+        var tab_text = "<table border='2px'><thead>BOOKING & PAYMENT DETAILS</thead>";
+        var textRange; var j = 0;
+        tab = document.getElementById('tblPayments'); // id of table
+        tab1 = document.getElementById('tblBookingDetails');
+       
+        for (k = 0; k < tab1.rows.length; k++) {
+            tab_text = tab_text + tab1.rows[k].innerHTML + "</tr>";
+            
+        }
+        tab_text = tab_text + "<tr></tr>";
+        //tab_text = tab_text + "Payment Details"
+        for (j = 0; j < tab.rows.length; j++) {
+            tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+            tab_text=tab_text+"<br/>";
+        }
+
+        
+
+
+        tab_text = tab_text + "</table>";
+        tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html", "replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus();
+            sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
+        }
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+
+        return (sa);
+    }
+
+    
+</script>

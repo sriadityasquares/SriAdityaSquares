@@ -42,6 +42,7 @@
     @Html.HiddenFor(m => m.BookingID)
     @Html.HiddenFor(m => m.BookingDate)
     @Html.HiddenFor(m => m.ChequeDateMod)
+    @Html.HiddenFor(m => m.SchemePercentage)
     <div class="row" style="padding-top:5px">
         @Html.LabelFor(m => m.Name, new { @class = "col-md-1 required" })
         @Html.TextBoxFor(m => m.Name, new { @class = "textbox-control col-md-11 col-xs" })
@@ -131,7 +132,7 @@
         @Html.LabelFor(m => m.AgentID, new { @class = "col-md-1" })
         @Html.DropDownListFor(model => model.AgentID, new SelectList(" "), "--Select Agent--", new { @class = "textbox-control col-md-2 col-xs" })
         @*@Html.LabelFor(m => m.AgentCharges, new { @class = "col-md-1" })
-        @Html.TextBoxFor(m => m.AgentCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })*@
+            @Html.TextBoxFor(m => m.AgentCharges, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })*@
 
         @Html.LabelFor(m => m.FinalRate, new { @class = "col-md-1" })
         @Html.TextBoxFor(m => m.FinalRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
@@ -140,7 +141,7 @@
         @Html.LabelFor(m => m.OtherCharges, new { @class = "col-md-2" })
         @Html.TextBoxFor(m => m.OtherCharges, new { @class = "textbox-control col-md-1 col-xs" })
         @*@Html.LabelFor(m => m.GrandRate, new { @class = "col-md-2" })
-        @Html.TextBoxFor(m => m.GrandRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })*@
+            @Html.TextBoxFor(m => m.GrandRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })*@
     </div>
     <div class="row">
 
@@ -160,13 +161,13 @@
         @Html.LabelFor(m => m.GrandRate, new { @class = "col-md-2" })
         @Html.TextBoxFor(m => m.GrandRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
         @*@Html.LabelFor(m => m.BookingDate, new { @class = "col-md-1" })
-        <div class="col-md-2" style="padding-left:0px">
-            <input id="datepicker1" title="datepicker" />
-        </div>
-        @Html.LabelFor(m => m.ChequeDate, new { @class = "col-md-1" })
-        <div class="col-md-2" style="padding-left:0px">
-            <input id="cqDatePicker" title="datepicker" />
-        </div>*@
+            <div class="col-md-2" style="padding-left:0px">
+                <input id="datepicker1" title="datepicker" />
+            </div>
+            @Html.LabelFor(m => m.ChequeDate, new { @class = "col-md-1" })
+            <div class="col-md-2" style="padding-left:0px">
+                <input id="cqDatePicker" title="datepicker" />
+            </div>*@
 
     </div>
     <div class="row">
@@ -178,22 +179,33 @@
         <div class="col-md-2" style="padding-left:0px">
             <input id="cqDatePicker" title="datepicker" />
         </div>
-        @Html.LabelFor(m => m.BalanceAmount, new { @class = "col-md-1" })
+
+        @Html.LabelFor(m => m.IBOShare, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.IBOShare, new { @class = "textbox-control col-md-1 col-xs" })
+        @Html.LabelFor(m => m.CompanyShare, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.CompanyShare, new { @class = "textbox-control col-md-1 col-xs" })
+        @*@Html.LabelFor(m => m.ChequeStatus, new { @class = "col-md-1" })
+                    @Html.DropDownListFor(m => m.ChequeStatus, new List<SelectListItem>
+            {
+                 new SelectListItem{ Text="Not-Applicable", Value = "Not-Applicable"  },
+                new SelectListItem{ Text="Received", Value = "Received" },
+                new SelectListItem{ Text="Cleared", Value = "Cleared" },
+                new SelectListItem{ Text="Bounced", Value = "Bounced" },
+                new SelectListItem{ Text="Hold", Value = "Hold" },
+                new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
+             }, new { @class = "textbox-control col-md-2 col-xs", @readonly = "readonly" })*@
+
+
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.DueDate, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.DueDate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.DueAmount, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.DueAmount, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.BalanceAmount, new { @class = "col-md-2" })
         @Html.TextBoxFor(m => m.BalanceAmount, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
         @Html.LabelFor(m => m.Remarks, new { @class = "col-md-2" })
         @Html.TextAreaFor(model => model.Remarks, new { @class = "textboxarea-control col-md-2 col-xs" })
-        @*@Html.LabelFor(m => m.ChequeStatus, new { @class = "col-md-1" })
-                @Html.DropDownListFor(m => m.ChequeStatus, new List<SelectListItem>
-        {
-             new SelectListItem{ Text="Not-Applicable", Value = "Not-Applicable"  },
-            new SelectListItem{ Text="Received", Value = "Received" },
-            new SelectListItem{ Text="Cleared", Value = "Cleared" },
-            new SelectListItem{ Text="Bounced", Value = "Bounced" },
-            new SelectListItem{ Text="Hold", Value = "Hold" },
-            new SelectListItem{ Text="Cancelled", Value = "Cancelled" }
-         }, new { @class = "textbox-control col-md-2 col-xs", @readonly = "readonly" })*@
-
-
     </div>
     <br />
     <hr />
@@ -250,6 +262,7 @@
         if (bookingDate != null && bookingDate != '') {
             //alert(bookingDate);
             $("#datepicker1").data('kendoDatePicker').value(bookingDate);
+
         }
         if (cQDate != null && cQDate != '') {
             //alert(bookingDate);
@@ -315,7 +328,8 @@
                         if (bookStatus == 'P') {
                             $("#FlatID").append("<option selected='selected' value='" + flatID + "'>" + flatName + "</option>")
                             document.getElementById('PaymentModeID').value = payMode;
-                            document.getElementById('ChequeStatus').value = cqStatus;
+                            //document.getElementById('ChequeStatus').value = cqStatus;
+                            $("#ChequeStatus").val(cqStatus);
                             $("#BookingID").val(bookingID);
                             //document.getElementById('State').value = state;
                             //document.getElementById('City').value = city;
@@ -385,7 +399,36 @@
             });
         };
 
+        $("#datepicker1").change(function () {
+            DueDateCal();
+        });
+        function DueDateCal() {
+            var date = new Date();
+            var bdate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+            if (bdate != null) {
+                var dueDate = addDays(bdate, DuePeriod);
+                var dd = dueDate.getDate();
+                var mm = dueDate.getMonth() + 1;
+                var yyyy = dueDate.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
 
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                dueDate = mm + '/' + dd + '/' + yyyy;
+                $("#DueDate").val(dueDate)
+            }
+            else {
+                $("#DueDate").val('')
+            }
+        }
+        function addDays(date, days) {
+            var result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
 
         $("#Country").change(function () {
             if ($("#Country").val() != '') {
@@ -475,6 +518,7 @@
         var downPayment = 0;
         var downDuePeriod = 0;
         var DuePeriod = 0;
+        var payPercentage = 0;
         $("#SchemeID").change(function () {
             var SortedSchemeList = SchemeList.filter(function (e) {
                 return e.SchemeID == $("#SchemeID").val();
@@ -489,9 +533,13 @@
             downPayment = SortedSchemeList[0].DownPayment;
             downDuePeriod = SortedSchemeList[0].DownPaymentTimePeriod;
             DuePeriod = SortedSchemeList[0].PaymentTimePeriod;
+            payPercentage = SortedSchemeList[0].PaymentPercentage;
             //toastr.info('Minimum Down Payment : ' + downPayment + '\n' + 'Down Payment Due Period : ' + downDuePeriod + ' days');
-            swal("Down Payment Info!", 'Minimum Down Payment : ' + downPayment + '\n' + 'Down Payment Due Period : ' + downDuePeriod + ' days', "info")
 
+            
+            DueDateCal();
+            SetDueAmount();
+            swal("Down Payment Info!", 'Minimum Down Payment : ' + downPayment + '\n' + 'Down Payment Due Period : ' + downDuePeriod + ' days', "info")
             toastr.options.timeOut = 2000;
             toastr.options.closeButton = false;
         });
@@ -545,25 +593,30 @@
         $("#SftRate").keyup(function () {
             SetTotalRate();
             SetBalanceAmount();
+            SetDueAmount();
         });
 
         $("#HighRiseCharges").keyup(function () {
             SetTotalRate();
             SetBalanceAmount();
+            SetDueAmount();
         });
 
         $("#Discount").keyup(function () {
             SetTotalRate();
             SetBalanceAmount();
+            SetDueAmount();
         });
 
         $("#OtherCharges").keyup(function () {
             SetTotalRate();
             SetBalanceAmount();
+            SetDueAmount();
         });
 
         $("#BookingAmount").keyup(function () {
             SetBalanceAmount();
+            SetDueAmount();
         });
 
         function SetTotalRate() {
@@ -596,7 +649,14 @@
             }
         }
 
-
+        function SetDueAmount() {
+            if ($("#FinalRate").val() != '' && $("#BookingAmount").val() != '') {
+                $("#DueAmount").val((parseInt($("#FinalRate").val()) * payPercentage)/100)
+            }
+            else {
+                $("#DueAmount").val('')
+            }
+        }
 
 
         $("#submitbtn").submit(function () {
@@ -634,6 +694,7 @@
             //alert(fromDate);
             $("#BookingDate").val(fromDate);
             $("#ChequeDateMod").val(chequeDate);
+            $("#SchemePercentage").val(payPercentage);
         };
         var validationsFlag = false;
 

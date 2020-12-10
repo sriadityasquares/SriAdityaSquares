@@ -254,9 +254,9 @@ namespace BusinessLayer
             return db.GetSelfies(projectID, mobile);
         }
 
-        public bool AddSiteVisit(SiteVisitInfo svi)
+        public bool AddSiteVisit(SiteVisitInfo svi,string username)
         {
-            return db.AddSiteVisit(svi);
+            return db.AddSiteVisit(svi, username);
         }
 
         public bool AddClientPayments(ClientPayments cp)
@@ -315,9 +315,9 @@ namespace BusinessLayer
             return db.GetSiteVisitsForApproval();
         }
 
-        public bool UpdateSiteVisitApproval(SiteVisitInfo svi)
+        public bool UpdateSiteVisitApproval(SiteVisitInfo svi,string username)
         {
-            return db.UpdateSiteVisitApproval(svi);
+            return db.UpdateSiteVisitApproval(svi, username);
         }
 
         public List<GetBookingStatistics> BindBookingStatistics(int towerID)

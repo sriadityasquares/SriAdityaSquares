@@ -1,5 +1,6 @@
 ﻿using BusinessLayer;
 using ModelLayer;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,34 @@ namespace LoginApp.Controllers
         
         public ActionResult Details()
         {
+            ReportBL report = new ReportBL();
+            var reminders = report.GetDueReminders();
+            foreach (var rem in reminders)
+            {
+                var message = @"Greetings from Sri Aditya Squares ,it's a Gentle Reminder about your due payment of your property  to avoid penality charges.Please ignore if you already paid ."+Environment.NewLine+
+                               "Project: #Project"+Environment.NewLine+
+                               "Tower: #Tower" + Environment.NewLine +
+                               "Flat: #Flat" + Environment.NewLine +
+                               "DueDate: #DueDate" + Environment.NewLine +
+                               "DueAmount: #DueAmount" + Environment.NewLine;
+                //rem.CustomerMobile = "9505055755";
+                //rem.AgentMobile = 9492983529;
+                message = message.Replace("#Project", rem.ProjectName).Replace("#Tower", rem.TowerName).Replace("#Flat", rem.FlatName).Replace("#DueDate", rem.DueDate).Replace("#DueAmount", rem.DueAmount);
+                var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=TBTSMS&routeId=1&mobileNos=9951999884" + "&smsContentType=english");
+                var request1 = new RestRequest(Method.GET);
+                request1.AddHeader("Cache-Control", "no-cache");
+                IRestResponse response1 = client1.Execute(request1);
+
+                var client2 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=TBTSMS&routeId=1&mobileNos=9505055755" + "&smsContentType=english");
+                var request2 = new RestRequest(Method.GET);
+                request1.AddHeader("Cache-Control", "no-cache");
+                IRestResponse response2 = client1.Execute(request2);
+
+                var client3 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=TBTSMS&routeId=1&mobileNos=9566257752" + "&smsContentType=english");
+                var request3 = new RestRequest(Method.GET);
+                request1.AddHeader("Cache-Control", "no-cache");
+                IRestResponse response3 = client1.Execute(request3);
+            }
             projectList = booking.BindProjects();
             return Json(projectList, JsonRequestBehavior.AllowGet);
         }

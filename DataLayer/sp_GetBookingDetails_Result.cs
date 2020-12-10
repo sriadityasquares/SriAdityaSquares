@@ -64,6 +64,10 @@ namespace DataLayer
         public Nullable<System.DateTime> ChequeDate { get; set; }
         public Nullable<int> OtherCharges { get; set; }
         public string Remarks { get; set; }
+        public Nullable<int> DueAmount { get; set; }
+        public Nullable<int> IBOShare { get; set; }
+        public Nullable<int> CompanyShare { get; set; }
+        public Nullable<int> SchemePercentage { get; set; }
         public Nullable<int> Pincode { get; set; }
         public string Address { get; set; }
         public Nullable<int> Age { get; set; }

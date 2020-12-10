@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "SMS Log";
+    ViewBag.SMSLog = "active";
+    ViewBag.Reports = "active";
+}
+
+<div class="jumbotron" style="background-color:white;padding-bottom:40px;margin-top:20px;margin-bottom:20px;">
+
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">SMS LOG</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <hr />
+    <br />
+    <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
+        <div id="grid"></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Report/GetSMSLogs",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 10,
+
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 700,
+            filterable: true,
+            toolbar: ["search", "excel"],
+            excelExport: exportGridWithTemplatesContent,
+            excel: {
+                fileName: "SMSLogs.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
+            columns: [
+                { field: "MessageType", title: "Message Type", width: "150px" },
+                { field: "Message", title: "Message", width: "250px" },
+                { field: "Recipients", title: "Recipients", width: "120px" },
+                { field: "CreatedDate", title: "Sent at", width: "120px", template: '#= kendo.toString(kendo.parseDate(CreatedDate), "dd/MM/yyyy")#' }
+
+            ],
+
+        });
+    });
+
+
+    function getHtmlNewLinesString(text) {
+        var regexp = new RegExp(',', 'g');
+        return text.replace(regexp, '<br>');
+    }
+
+    function exportGridWithTemplatesContent(e) {
+        var data = e.data;
+        var gridColumns = e.sender.columns;
+        var sheet = e.workbook.sheets[0];
+        var visibleGridColumns = [];
+        var columnTemplates = [];
+        var dataItem;
+        // Create element to generate templates in.
+        var elem = document.createElement('div');
+
+        // Get a list of visible columns
+        for (var i = 0; i < gridColumns.length; i++) {
+            if (!gridColumns[i].hidden) {
+                visibleGridColumns.push(gridColumns[i]);
+            }
+        }
+
+        // Create a collection of the column templates, together with the current column index
+        for (var i = 0; i < visibleGridColumns.length; i++) {
+            if (visibleGridColumns[i].template) {
+                columnTemplates.push({ cellIndex: i, template: kendo.template(visibleGridColumns[i].template) });
+            }
+        }
+
+        // Traverse all exported rows.
+        for (var i = 1; i < sheet.rows.length; i++) {
+            var row = sheet.rows[i];
+            // Traverse the column templates and apply them for each row at the stored column position.
+
+            // Get the data item corresponding to the current row.
+            var dataItem = data[i - 1];
+            for (var j = 0; j < columnTemplates.length; j++) {
+                var columnTemplate = columnTemplates[j];
+                // Generate the template content for the current cell.
+                elem.innerHTML = columnTemplate.template(dataItem);
+                if (row.cells[columnTemplate.cellIndex] != undefined)
+                    // Output the text content of the templated cell into the exported cell.
+                    row.cells[columnTemplate.cellIndex].value = elem.textContent || elem.innerText || "";
+            }
+        }
+    }
+</script>
+

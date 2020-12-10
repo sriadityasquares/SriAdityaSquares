@@ -23,5 +23,7 @@ namespace ModelLayer
         public int AmountPaid { get; set; }
         public Nullable<int> Discount { get; set; }
         public int NetBalance { get; set; }
+
+        public Nullable<int> IBOShare { get; set; }
     }
 }

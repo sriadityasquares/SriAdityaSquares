@@ -447,6 +447,7 @@ namespace DataLayer
                 var levelPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == bookingInfo.Level).Select(z => z.Percentage).FirstOrDefault();
                 var TotalComm = (bookingInfo.FinalRate * Convert.ToDouble(highestPercentage)) / 100;
                 bookingInfo.TotalComm = TotalComm;
+                
                 if (Convert.ToDouble(levelPercentage) == Convert.ToDouble(highestPercentage))
                 {
                     bookingInfo.SASComm = TotalComm;
@@ -469,7 +470,9 @@ namespace DataLayer
                 bookingInfo.Year = Convert.ToDateTime(bookingInfo.CreatedDate).Year;
                 int noOfDays = Convert.ToInt32(bookingInfo.PaymentTimePeriod);
                 bookingInfo.DueDate = DateTime.Now.AddDays(noOfDays);
-
+                //var x = dbEntity.tblSchemeMasters.ToList().Where(y => y.SchemeID.ToString() == bookingInfo.SchemeID).Select(z => z.PaymentPercentage).FirstOrDefault();
+                var schemePercentage = dbEntity.tblSchemeMasters.Where(z => z.SchemeID.ToString() == bookingInfo.SchemeID).Select(z => z.PaymentPercentage).FirstOrDefault();
+                bookingInfo.SchemePercentage = Convert.ToInt32(schemePercentage);
                 //Booking Info
                 var config = new MapperConfiguration(cfg =>
                 {
@@ -639,7 +642,8 @@ namespace DataLayer
                 bookingInfo.Year = Convert.ToDateTime(bookingInfo.CreatedDate).Year;
                 int noOfDays = Convert.ToInt32(bookingInfo.PaymentTimePeriod);
                 bookingInfo.DueDate = DateTime.Now.AddDays(noOfDays);
-
+                var schemePercentage = dbEntity.tblSchemeMasters.Where(z => z.SchemeID.ToString() == bookingInfo.SchemeID).Select(z => z.PaymentPercentage).FirstOrDefault();
+                bookingInfo.SchemePercentage = Convert.ToInt32(schemePercentage);
                 tblBookingInformation bookingOld = dbEntity.tblBookingInformations.Where(x => x.BookingID == bookingInfo.BookingID).FirstOrDefault();
 
                 //Update Booking Info
@@ -1402,10 +1406,10 @@ namespace DataLayer
             {
                 var config = new MapperConfiguration(cfg =>
                 {
-                    cfg.CreateMap<tblFlatWiseAgentCommission, FlatWiseAgentCommission>();
+                    cfg.CreateMap<sp_GetFlatWiseAgentCommission_Result, FlatWiseAgentCommission>();
                 });
                 IMapper mapper = config.CreateMapper();
-                fwac = mapper.Map<List<tblFlatWiseAgentCommission>, List<FlatWiseAgentCommission>>(dbEntity.tblFlatWiseAgentCommissions.Where(x => x.FlatID == flatID).ToList()).ToList();
+                fwac = mapper.Map<List<sp_GetFlatWiseAgentCommission_Result>, List<FlatWiseAgentCommission>>(dbEntity.sp_GetFlatWiseAgentCommission(flatID).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -1498,7 +1502,7 @@ namespace DataLayer
             return lstSelfies;
         }
 
-        public bool AddSiteVisit(SiteVisitInfo svi)
+        public bool AddSiteVisit(SiteVisitInfo svi,string username)
         {
             try
             {
@@ -1522,6 +1526,17 @@ namespace DataLayer
                     var request = new RestRequest(Method.GET);
                     request.AddHeader("Cache-Control", "no-cache");
                     IRestResponse response = client.Execute(request);
+                    SMS sms = new SMS();
+                    sms.MessageType = "New Site Visit";
+                    sms.Message = message;
+                    sms.Recipients = agent.ToString();
+                    sms.CreatedBy = username;
+                    TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+                    var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+                    //var sysDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
+                    sms.CreatedDate = indianTime;
+                    CommonDL common = new CommonDL();
+                    common.LogSMS(sms);
                 }
                 return true;
             }
@@ -1741,7 +1756,7 @@ namespace DataLayer
             }
         }
 
-        public bool UpdateSiteVisitApproval(SiteVisitInfo svi)
+        public bool UpdateSiteVisitApproval(SiteVisitInfo svi,string username)
         {
             try
             {
@@ -1770,6 +1785,18 @@ namespace DataLayer
                         var request = new RestRequest(Method.GET);
                         request.AddHeader("Cache-Control", "no-cache");
                         IRestResponse response = client.Execute(request);
+
+                        SMS sms = new SMS();
+                        sms.MessageType = "Site Visit Approvals";
+                        sms.Message = message;
+                        sms.Recipients = agent.ToString();
+                        sms.CreatedBy = username;
+                        TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+                        var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+                        //var sysDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
+                        sms.CreatedDate = indianTime;
+                        CommonDL common = new CommonDL();
+                        common.LogSMS(sms);
                     }
                 }
                 return true;

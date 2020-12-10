@@ -68,7 +68,7 @@ namespace ModelLayer
         [Display(Name = "Balance")]
         public Nullable<int> BalanceAmount { get; set; }
         [Required]
-        [Display(Name = "Agent")]
+        [Display(Name = "IBO")]
         public int AgentID { get; set; }
 
         public Nullable<double> AgentComm { get; set; }
@@ -125,6 +125,8 @@ namespace ModelLayer
 
         public Nullable<int> PaymentTimePeriod { get; set; }
         public Nullable<int> DownPaymentTimePeriod { get; set; }
+
+        [Display(Name = "Due Date")]
         public Nullable<System.DateTime> DueDate { get; set; }
 
         public Nullable<double> AgentTDS { get; set; }
@@ -149,5 +151,14 @@ namespace ModelLayer
         public Nullable<int> OtherCharges { get; set; }
 
         public string Remarks { get; set; }
+
+        public int IBOShare { get; set; }
+        public int CompanyShare { get; set; }
+        [Display(Name = "Due Amount")]
+        public int DueAmount { get; set; }
+
+
+        public int SchemePercentage { get; set; }
+
     }
 }

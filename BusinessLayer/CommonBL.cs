@@ -74,5 +74,15 @@ namespace BusinessLayer
         {
             return db.GetMyProfile(username, role);
         }
+
+        public void LogSMS(SMS sms)
+        {
+            db.LogSMS(sms);
+        }
+
+        public List<SMS> GetSMSLogs()
+        {
+            return db.GetSMSLogs();
+        }
     }
 }

@@ -68,5 +68,10 @@ namespace BusinessLayer
         {
             return db.GetEligibleFlatsForCommission();
         }
+
+        public List<GetDueReminders> GetDueReminders()
+        {
+            return db.GetDueReminders();
+        }
     }
 }

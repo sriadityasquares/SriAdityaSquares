@@ -257,5 +257,26 @@ namespace DataLayer
             }
             return lstEligibleFlats;
         }
+
+        public List<GetDueReminders> GetDueReminders()
+        {
+            List<GetDueReminders> lstDues = new List<GetDueReminders>();
+            try
+            {
+
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetDueReminders_Result, GetDueReminders>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstDues = mapper.Map<List<sp_GetDueReminders_Result>, List<GetDueReminders>>(dbEntity.sp_GetDueReminders().ToList()).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstDues;
+        }
     }
 }
