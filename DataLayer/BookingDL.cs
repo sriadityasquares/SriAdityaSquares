@@ -1915,5 +1915,48 @@ namespace DataLayer
 
             }
         }
+
+        public DashboardParameters BindDashboardParameters()
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetDashboardParameters_Result, DashboardParameters>();
+                });
+                IMapper mapper = config.CreateMapper();
+                return mapper.Map<sp_GetDashboardParameters_Result, DashboardParameters>(dbEntity.sp_GetDashboardParameters().FirstOrDefault());
+
+                //return mapper.Map<sp_GetDashboardParameters_Result>,<DashboardParameters>(dbEntity.sp_GetDashboardParameters().FirstOrDefault()).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                return new DashboardParameters();
+            }
+        }
+
+        public List<GetTopIBOInMonth> BindTopIBO(bool SAS)
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<GetTopIBOInMonth> lstTopIBO = new List<GetTopIBOInMonth>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetTopIBOInMonth_Result, GetTopIBOInMonth>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstTopIBO = mapper.Map<List<sp_GetTopIBOInMonth_Result>, List<GetTopIBOInMonth>>(dbEntity.sp_GetTopIBOInMonth(SAS).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstTopIBO;
+        }
     }
 }

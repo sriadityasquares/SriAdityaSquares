@@ -65,6 +65,7 @@
     <Compile Include="CustomerVisitInfo.cs" />
     <Compile Include="DailyExpense.cs" />
     <Compile Include="Dashboard.cs" />
+    <Compile Include="DashboardParameters.cs" />
     <Compile Include="EligibleFlatsForCommission.cs" />
     <Compile Include="FlatDetails.cs" />
     <Compile Include="Flats.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="GetPaymentsDetails.cs" />
     <Compile Include="GetPercentages.cs" />
     <Compile Include="GetPeriodWiseBookingDetails.cs" />
+    <Compile Include="GetTopIBOInMonth.cs" />
     <Compile Include="GetTowerDetails.cs" />
     <Compile Include="GetUsersWithRoles.cs" />
     <Compile Include="LevelsMaster.cs" />

@@ -455,11 +455,11 @@ namespace LoginApp.Controllers
         private ActionResult RedirectToLocal(string UserID, string returnUrl)
         {
             if (UserManager.IsInRole(UserID, "Admin"))
-                return RedirectToAction("Index", "Dashboard");
+                return RedirectToAction("Home", "Dashboard");
             else if (UserManager.IsInRole(UserID, "DataEntry"))
-                return RedirectToAction("Index", "Dashboard");
+                return RedirectToAction("Home", "Dashboard");
             else if (UserManager.IsInRole(UserID, "Agent"))
-                return RedirectToAction("Index", "Dashboard");
+                return RedirectToAction("Home", "Dashboard");
             else if (UserManager.IsInRole(UserID, "Customer"))
                 return RedirectToAction("FlatLifeCycle", "Dashboard");
             else if (UserManager.IsInRole(UserID, "Client"))

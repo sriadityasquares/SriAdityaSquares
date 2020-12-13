@@ -344,5 +344,15 @@ namespace BusinessLayer
         {
             return db.BindSchemeBasedBookings(projectID);
         }
+
+        public DashboardParameters BindDashboardParameters()
+        {
+            return db.BindDashboardParameters();
+        }
+
+        public List<GetTopIBOInMonth> BindTopIBO(bool SAS)
+        {
+            return db.BindTopIBO(SAS);
+        }
     }
 }

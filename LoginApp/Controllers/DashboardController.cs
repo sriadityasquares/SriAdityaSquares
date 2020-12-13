@@ -56,6 +56,63 @@ namespace LoginApp.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Admin,DataEntry,Agent")]
+        public ActionResult Home()
+        {
+            var dashboardparams = booking.BindDashboardParameters();
+            ViewBag.Projects = dashboardparams.ProjectCount;
+            ViewBag.Bookings = dashboardparams.BookingCount;
+            ViewBag.Locations = dashboardparams.LocationCount;
+            ViewBag.IBOCount = dashboardparams.IBOCount;
+            ViewBag.TodayBooking = dashboardparams.TodayBooking;
+            ViewBag.TodayPaymentCount = dashboardparams.TodayPaymentCount;
+            ViewBag.TodayCustomerCount = dashboardparams.TodayCustomerCount;
+            if (dashboardparams.BookingGrowth >= 0)
+            {
+                ViewBag.isBookingGrowth = true;
+                ViewBag.BookingGrowth = dashboardparams.BookingGrowth;
+            }
+            else
+            {
+                ViewBag.isBookingGrowth = false;
+                ViewBag.BookingGrowth = dashboardparams.BookingGrowth;
+            }
+            if (dashboardparams.PaymentGrowth >= 0)
+            {
+                ViewBag.isPaymentGrowth = true;
+                ViewBag.PaymentGrowth = dashboardparams.PaymentGrowth;
+            }
+            else
+            {
+                ViewBag.isPaymentGrowth = false;
+                ViewBag.PaymentGrowth = dashboardparams.PaymentGrowth;
+            }
+            if (dashboardparams.CustomerGrowth >= 0)
+            {
+                ViewBag.isCustomerGrowth = true;
+                ViewBag.CustomerGrowth = dashboardparams.CustomerGrowth;
+            }
+            else
+            {
+                ViewBag.isCustomerGrowth = false;
+                ViewBag.CustomerGrowth = dashboardparams.CustomerGrowth;
+            }
+            ReportBL report = new ReportBL();
+            var dueList = report.GetDueReminders();
+            ViewBag.PaymentDuesCount = dueList.Count;
+            ViewBag.PaymentDues = dueList;
+            bool SAS = false;
+            if(User.IsInRole("Admin"))
+            {
+                SAS = true;
+            }
+            ViewBag.TopIBO = booking.BindTopIBO(SAS);
+            return View();
+        }
+
+
+
         [Authorize(Roles = "Admin,Client,DataEntry,Agent")]
         public ActionResult Index()
         {
@@ -100,7 +157,7 @@ namespace LoginApp.Controllers
             double TotalAmount = Convert.ToDouble(flatLifeCycle[0].BalanceAmount) + Convert.ToDouble(flatLifeCycle[0].BookingAmount);
             double BalanceAmount = Convert.ToDouble(flatLifeCycle[flatLifeCycle.Count - 1].BalanceAmount);
             double TotalPaid = Convert.ToDouble(TotalAmount - BalanceAmount);
-            var percentagePaid = Math.Round(TotalPaid/TotalAmount*100,2);
+            var percentagePaid = Math.Round(TotalPaid / TotalAmount * 100, 2);
             flatLifeCycle[0].PercentageCompleted = percentagePaid;
             return Json(flatLifeCycle, JsonRequestBehavior.AllowGet);
         }
@@ -217,7 +274,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        public JsonResult GetAgentBookingStats(string projectID,string fromDate,string toDate)
+        public JsonResult GetAgentBookingStats(string projectID, string fromDate, string toDate)
         {
             var email = "";
             var _user = UserManager.FindByEmail(User.Identity.Name);

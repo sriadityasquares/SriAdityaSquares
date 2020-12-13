@@ -494,5 +494,19 @@ namespace DataLayer
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatWiseAgentCommission_Result>("sp_GetFlatWiseAgentCommission", flatIDParameter);
         }
+    
+        public virtual ObjectResult<sp_GetDashboardParameters_Result> sp_GetDashboardParameters()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetDashboardParameters_Result>("sp_GetDashboardParameters");
+        }
+    
+        public virtual ObjectResult<sp_GetTopIBOInMonth_Result> sp_GetTopIBOInMonth(Nullable<bool> sAS)
+        {
+            var sASParameter = sAS.HasValue ?
+                new ObjectParameter("SAS", sAS) :
+                new ObjectParameter("SAS", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetTopIBOInMonth_Result>("sp_GetTopIBOInMonth", sASParameter);
+        }
     }
 }

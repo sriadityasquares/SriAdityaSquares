@@ -3,6 +3,7 @@ using ModelLayer;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -75,6 +76,13 @@ namespace LoginApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        public ActionResult DownloadBrochure(string fileName)
+        {
+            string fullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Content\Brochures\"+fileName);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(fullName);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        }
         static double toRadians(
            double angleIn10thofaDegree)
         {

@@ -780,6 +780,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <Function Name="sp_GetCustomerTowers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Username" Type="varchar(max)" Mode="In" />
         </Function>
+        <Function Name="sp_GetDashboardParameters" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetDueReminders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetEligibleFlatsForCommission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetFacingWiseBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -839,6 +840,9 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="Email" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="sp_GetSchemeBasedBookings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetTopIBOInMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SAS" Type="bit" Mode="In" />
+        </Function>
         <Function Name="sp_GetTowerDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetUsersWithRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="salesDBModelStoreContainer">
@@ -1144,6 +1148,10 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="FlatID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="tblSMS" EntityType="salesDBModel.tblSM" />
+          <FunctionImport Name="sp_GetDashboardParameters" ReturnType="Collection(salesDBModel.sp_GetDashboardParameters_Result)" />
+          <FunctionImport Name="sp_GetTopIBOInMonth" ReturnType="Collection(salesDBModel.sp_GetTopIBOInMonth_Result)">
+            <Parameter Name="SAS" Mode="In" Type="Boolean" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -2274,6 +2282,26 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="sp_GetDashboardParameters_Result">
+          <Property Type="Int32" Name="ProjectCount" Nullable="true" />
+          <Property Type="Int32" Name="LocationCount" Nullable="true" />
+          <Property Type="Int32" Name="BookingCount" Nullable="true" />
+          <Property Type="Int32" Name="IBOCount" Nullable="true" />
+          <Property Type="Int32" Name="TodayBooking" Nullable="true" />
+          <Property Type="Int32" Name="YesterdayBookingCount" Nullable="true" />
+          <Property Type="Double" Name="BookingGrowth" Nullable="true" />
+          <Property Type="Int32" Name="TodayPaymentCount" Nullable="true" />
+          <Property Type="Int32" Name="YesterdayPaymnetCount" Nullable="true" />
+          <Property Type="Double" Name="PaymentGrowth" Nullable="true" />
+          <Property Type="Int32" Name="TodayCustomerCount" Nullable="true" />
+          <Property Type="Int32" Name="YesterdayCustomerCount" Nullable="true" />
+          <Property Type="Double" Name="CustomerGrowth" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetTopIBOInMonth_Result">
+          <Property Type="String" Name="AgentID" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="BookingsCount" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3491,6 +3519,34 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetDashboardParameters" FunctionName="salesDBModel.Store.sp_GetDashboardParameters">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetDashboardParameters_Result">
+                <ScalarProperty Name="ProjectCount" ColumnName="ProjectCount" />
+                <ScalarProperty Name="LocationCount" ColumnName="LocationCount" />
+                <ScalarProperty Name="BookingCount" ColumnName="BookingCount" />
+                <ScalarProperty Name="IBOCount" ColumnName="IBOCount" />
+                <ScalarProperty Name="TodayBooking" ColumnName="TodayBooking" />
+                <ScalarProperty Name="YesterdayBookingCount" ColumnName="YesterdayBookingCount" />
+                <ScalarProperty Name="BookingGrowth" ColumnName="BookingGrowth" />
+                <ScalarProperty Name="TodayPaymentCount" ColumnName="TodayPaymentCount" />
+                <ScalarProperty Name="YesterdayPaymnetCount" ColumnName="YesterdayPaymnetCount" />
+                <ScalarProperty Name="PaymentGrowth" ColumnName="PaymentGrowth" />
+                <ScalarProperty Name="TodayCustomerCount" ColumnName="TodayCustomerCount" />
+                <ScalarProperty Name="YesterdayCustomerCount" ColumnName="YesterdayCustomerCount" />
+                <ScalarProperty Name="CustomerGrowth" ColumnName="CustomerGrowth" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetTopIBOInMonth" FunctionName="salesDBModel.Store.sp_GetTopIBOInMonth">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetTopIBOInMonth_Result">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="BookingsCount" ColumnName="BookingsCount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

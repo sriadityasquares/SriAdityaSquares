@@ -6,7 +6,7 @@
     <title>@ViewBag.Title</title>
     <link rel="icon" src="~/Content/Images/SASBLACKLOGO.ico" href="~/Content/Images/SASBLACKLOGO.ico" sizes="32x32">
     <link rel="icon" src="~/Content/Images/SASBLACKLOGO.ico" href="~/Content/Images/SASBLACKLOGO.ico" sizes="192x192">
-    
+
     <link rel="apple-touch-icon-precomposed" href="">
     @*<link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
         <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />*@
@@ -56,11 +56,17 @@
 
                 <ul class="nano-content">
                     @*<li>
-            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
-        </li>*@
+                            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+                        </li>*@
                     <li class="sub-menu @(ViewBag.Dashboard)">
                         <a href="javascript:void(0);"><i class="fa fa-bar-chart"></i><span>DASHBOARD</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
+                            @if (!this.User.IsInRole("Customer") && !this.User.IsInRole("Client"))
+                            {
+                                <li>
+                                    <a class="@(ViewBag.Statistics)" href="@Url.Action("Home", "Dashboard")">STATISTICS</a>
+                                </li>
+                            }
                             @if (!this.User.IsInRole("Customer"))
                             {
                                 <li>
@@ -144,8 +150,8 @@
                                     <a class="@(ViewBag.Offers)" href="@Url.Action("Offers", "Booking")">OFFERS</a>
                                 </li>
                                 @*<li>
-            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-        </li>*@
+                                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+                                    </li>*@
                             </ul>
                         </li>
                     }
@@ -292,7 +298,7 @@
                                 @if (this.User.IsInRole("Agent") || this.User.IsInRole("Customer"))
                                 {
                                     <li>
-                                        <a  href="@Url.Action("MyProfile", "Account")">MY PROFILE</a>
+                                        <a href="@Url.Action("MyProfile", "Account")">MY PROFILE</a>
                                     </li>
                                 }
                                 <li>
@@ -319,12 +325,17 @@
 
                 <ul class="nano-content">
                     @*<li>
-            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
-        </li>*@
+                            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+                        </li>*@
                     <li class="sub-menu @(ViewBag.Dashboard)">
                         <a href="javascript:void(0);"><i class="fa fa-bar-chart"></i><span>DASHBOARD</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
-
+                            @if (!this.User.IsInRole("Customer") && !this.User.IsInRole("Client"))
+                            {
+                                <li>
+                                    <a class="@(ViewBag.Statistics)" href="@Url.Action("Home", "Dashboard")">STATISTICS</a>
+                                </li>
+                            }
                             @if (!this.User.IsInRole("Customer"))
                             {
                                 <li>
@@ -407,8 +418,8 @@
                                     <a class="@(ViewBag.Offers)" href="@Url.Action("Offers", "Booking")">OFFERS</a>
                                 </li>
                                 @*<li>
-                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                    </li>*@
+                                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+                                    </li>*@
                             </ul>
                         </li>
                     }
@@ -555,7 +566,7 @@
                                 @if (this.User.IsInRole("Agent") || this.User.IsInRole("Customer"))
                                 {
                                     <li>
-                                        <a  href="@Url.Action("MyProfile", "Account")">MY PROFILE</a>
+                                        <a href="@Url.Action("MyProfile", "Account")">MY PROFILE</a>
                                     </li>
                                 }
                                 <li>
@@ -609,7 +620,7 @@
 <script type="text/javascript">
     zoom()
     function zoom() {
-        
+
         if ($(document).width() > 1600)
             document.body.style.zoom = "90%";
         else

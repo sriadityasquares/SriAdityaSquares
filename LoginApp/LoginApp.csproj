@@ -702,6 +702,7 @@
     <Content Include="Content\Images\AlpineVistasGallery1.PNG" />
     <Content Include="Content\Images\AlpineVistasGallery2.PNG" />
     <Content Include="Content\Images\Alpinesquare.mp4" />
+    <Content Include="Content\Images\AlpineVistasVideo.mp4" />
     <Content Include="Content\Images\Bamboo Maze.PNG" />
     <Content Include="Content\Images\Banquet Hall.PNG" />
     <Content Include="Content\Images\Barbeque Corner.PNG" />
@@ -1256,6 +1257,12 @@
     <Content Include="Content\toastr.less" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Dashboard\bootstrap-material-design.min.js" />
+    <Content Include="Scripts\Dashboard\demo.css" />
+    <Content Include="Scripts\Dashboard\material-dashboard-rtl.css" />
+    <Content Include="Scripts\Dashboard\material-dashboard.css" />
+    <Content Include="Scripts\Dashboard\material-dashboard.min.css" />
+    <Content Include="Scripts\Dashboard\popper.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -1368,6 +1375,10 @@
     <Content Include="Content\kendo\2019.3.917\kendo.uniform.mobile.min.css.map" />
     <Content Include="Content\kilsonburg.ttf" />
     <Content Include="Content\Files\RERA_Alpine Square.pdf" />
+    <Content Include="Content\Brochures\AlpineSquareBrochure.pdf" />
+    <Content Include="Content\Brochures\WoodlandBrochure.pdf" />
+    <Content Include="Content\Brochures\AlpineVistasBrochure.pdf" />
+    <Content Include="Content\Brochures\ElderadoBrochure.pdf" />
     <None Include="Properties\PublishProfiles\flatbooking - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\flatsapp - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\LoginApp20200301112104 - Web Deploy.pubxml" />
@@ -1377,6 +1388,7 @@
     <None Include="Properties\PublishProfiles\sasflatapp - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\sasflatsapp - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\sasinfra - Web Deploy.pubxml" />
+    <Content Include="Scripts\Dashboard\material-dashboard.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
@@ -2064,6 +2076,7 @@
     <Content Include="Views\Report\AgentPercentages.cshtml" />
     <Content Include="Views\Booking\CheckList.cshtml" />
     <Content Include="Views\Report\SMSLog.cshtml" />
+    <Content Include="Views\Dashboard\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

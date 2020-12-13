@@ -131,6 +131,9 @@
     <Compile Include="sp_GetCustomerTowers_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetDashboardParameters_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_GetDueReminders_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
@@ -180,6 +183,9 @@
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_GetSchemeBasedBookings_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetTopIBOInMonth_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_GetTowerDetails_Result.cs">

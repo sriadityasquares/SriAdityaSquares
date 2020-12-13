@@ -5,404 +5,310 @@
     ViewBag.Admin = "active";
     ViewBag.Schemes = "active";
 }
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-<div style="display: none;
-        position: fixed;
-        bottom: 60px;
-        right: 40px;
-        background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('/Content/Images/joana.jpg');
-        background-size: cover;" id="chat"></div>
-<div class="message-icon">
-    <i class="fa fa-comments"></i>
-</div>
-<style>
-    .message-icon {
-        width: 40px;
-        height: 40px;   
-        background: #4085F6;
-        line-height: 40px;
-        text-align: center;
-        color: #fff;
-        font-size: 20px;
-        border-radius: 50%;
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        cursor: pointer;
-    }
+    <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <!-- CSS Files -->
+    <link href="~/Scripts/Dashboard/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+    <link href="~/Scripts/Dashboard/demo.css" rel="stylesheet" />
 
-    .k-quick-replies1 {
-        display: block;
-        max-width: 100%;
-    }
+    <script src="~/Scripts/Dashboard/bootstrap-material-design.min.js"></script>
+</head>
+<div class="jumbotron">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon">
+                            <div class="card-icon">
+                                @*<i class="material-icons">content_copy</i>*@
+                                <i class="fa fa-building"></i>
+                            </div>
+                            <p style="font-weight:bold !important" class="card-category"><b>PROJECTS</b></p>
+                            <h3 class="card-title">
+                                19
+                            </h3>
+                        </div>
+                        <div class="card-footer">
 
-    .k-chat .k-quick-reply1 {
-        border-color: #f35800;
-        color: #f35800;
-        background-color: transparent;
-    }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-success card-header-icon">
+                            <div class="card-icon">
+                                <i class="fa fa-ticket"></i>
+                            </div>
+                            <p style="font-weight:bold !important" class="card-category"><b>BOOKINGS</b></p>
+                            <h3 class="card-title">623</h3>
+                        </div>
+                        <div class="card-footer">
 
-    .k-quick-reply1 {
-        border-radius: 100px;
-        margin-right: 8px;
-        margin-bottom: 4px;
-        padding: 8px 12px;
-        border-width: 1px;
-        border-style: solid;
-        line-height: 18px;
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        display: inline-block;
-        -ms-flex: 0 0 auto;
-        flex: 0 0 auto;
-        transition-property: color,background-color,border-color;
-        transition-duration: .2s;
-        transition-timing-function: ease-in-out;
-    }
-</style>
-<script>
-    
-    $(document).ready(function () {
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-danger card-header-icon">
+                            <div class="card-icon">
+                                <i class="fa fa-map"></i>
+                            </div>
+                            <p style="font-weight:bold !important" class="card-category"><b>LOCATIONS</b></p>
+                            <h3 class="card-title">9</h3>
+                        </div>
+                        <div class="card-footer">
 
-        $('.message-icon').click(function () {
-            var x = document.getElementById("chat");
-            if (x.style.display === "none") {
-                x.style.display = "flex";
-            } else {
-                x.style.display = "none";
-            }
-        });
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-info card-header-icon">
+                            <div class="card-icon">
+                                <i class="fa fa-id-card"></i>
+                            </div>
+                            <p style="font-weight:bold !important" class="card-category"><b>IBO</b></p>
+                            <h3 class="card-title">500+</h3>
+                        </div>
+                        <div class="card-footer">
 
-        
-    });
-</script>
-<script id="quote-template" type="text/x-kendo-template">
-    <div id="quote1" class="#=styles.card# #=styles.cardRich#">
-        <div class="#=styles.cardBody#">
-            <div>
-                <strong>Project Name:</strong>
-                <span>#:project#</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                <strong>Location:</strong>
-                <span>#:location#</span>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card card-chart">
+                        <div class="card-header card-header-success">
+                            <div class="ct-chart" id="dailySalesChart"></div>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">Daily Sales</h4>
+                            <p class="card-category">
+                                <span style="font-size:12px" class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-chart">
+                        <div class="card-header card-header-warning">
+                            <div class="ct-chart" id="websiteViewsChart"></div>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">Payments Received</h4>
+                            <p class="card-category">
+                                <span style="font-size:12px" class="text-success"><i class="fa fa-long-arrow-up"></i> 25% </span> increase in today payments.
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-chart">
+                        <div class="card-header card-header-danger">
+                            <div class="ct-chart" id="completedTasksChart"></div>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">New Customers</h4>
+                            <p class="card-category">
+                                <span style="font-size:12px" class="text-success"><i class="fa fa-long-arrow-up"></i> 5 </span> new customers added today.
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                <strong>Club House:</strong>
-                <span>#:chouse#</span>
-            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-info">
+                            <h4 class="card-title"><b style="font-size:14px;font-weight:bolder">PAYMENTS DUE IN 5 DAYS</b></h4>
+                            <p class="card-category">Last Updated @DateTime.Now</p>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover">
+                                <thead class="text-info">
+                                <th>FLAT</th>
+                                <th>CUSTOMER</th>
+                                <th>IBO</th>
 
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>101</td>
+                                        <td>Sridhar</td>
+                                        <td>SAS</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>705</td>
+                                        <td>Sai Siva</td>
+                                        <td>Kumar Siva</td>
+                                    </tr>
+                                    <tr>
+                                        <td>802</td>
+                                        <td>Sanjay Ramadugu</td>
+                                        <td>SAS</td>
+                                    </tr>
+                                    <tr>
+                                        <td>909</td>
+                                        <td>Sai Siva</td>
+                                        <td>Narayana Goud</td>
+                                    </tr>
+                                    <tr>
+                                        <td>808</td>
+                                        <td>Santosh</td>
+                                        <td>Ghouse Syed</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-warning">
+                            <h4 class="card-title"><b style="font-size:14px;font-weight:bolder">TOP 5 IBO IN CURRENT MONTH</b></h4>
+                            <p class="card-category">Last Updated @DateTime.Now</p>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover">
+                                <thead class="text-warning">
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>BOOKINGS</th>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SAS</td>
+                                        <td>50</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Kumar Siva</td>
+                                        <td>42</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Sanjay Ramadugu</td>
+                                        <td>12</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Narayana Goud</td>
+                                        <td>10</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Ghouse Syed</td>
+                                        <td>3</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</script>
-<script>
-    $(document).ready(function () {
-        // Initialize the Chat
-        var QUOTE_CARD_TEMPLATE = kendo.template($('#quote-template').html());
-        kendo.chat.registerTemplate("quote", QUOTE_CARD_TEMPLATE);
-        var chat = $("#chat").kendoChat({
-            post: function (args) {
-                agent.postMessage(args);
-            }
-        }).data("kendoChat");
-
-        // Create a new agent and pass the Chat widget.
-        var agent = new ChatAgent(chat);
-        var QUOTE_CARD_TEMPLATE = kendo.template(
-            '<div class="k-card k-card-type-rich">' +
-            '<p><strong>Project Details :</strong></p>' +
-            '<div> <img width=250 height=250 style="object-fit: cover;" src="#:projectImageURL#" />  </div>' +
-            '<div class="k-card-body quoteCard">' +
-            '<div><strong>Project Name:</strong>' +
-            '<span>#:project#</span></div>' +
-
-            '<div><strong>Location :</strong>' +
-            '<span>#:location#</span></div>' +
-
-            '<div><strong>ClubHouse:</strong>' +
-            '<span>#:chouse#</span></div>' +
-
-            //'<hr/><div><strong>Total:</strong>' +
-            //'<span>#=kendo.toString(chouse, "0.00")#</span></div>' +
-            '</div>' +
-            '</div>'
-        );
-        kendo.chat.registerTemplate("quote", QUOTE_CARD_TEMPLATE);
-
-        var PLAN_CARD_TEMPLATE = kendo.template(
-            
-            '<div class="k-quick-replies">' +
-            '# for (var i = 0; i < rows.length; i++) { #' +
-            //'<div><strong>#:rows[i].text#: </strong>' +
-            //'<span>#= kendo.toString(rows[i].value, "0.00") #</span></div>' +
-            '<span class="k-quick-reply" data-value="#:rows[i].value#">#:rows[i].title#</span>'+
-            '# } #' + 
-            '</div>'
-        );
-        kendo.chat.registerTemplate("payment_plan", PLAN_CARD_TEMPLATE);
-        // Initially render a hint message to the user.
-        agent.chat.renderMessage({
-            type: "text",
-            text: "Hello! Please choose your preferred location.",
-            timestamp: new Date()
-        }, {
-            name: "Bot",
-            iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
-        });
-        $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            url: "/ChatBot/GetProjectLocationsForChatBot",
-            success: function (data) {
-                //chat.renderSuggestedActions(data);
-                chat.renderAttachments({
-                    attachments: [{
-                        contentType: "payment_plan",
-                        content: {
-                            rows: data
-                        }
-                    }]
-                    //,attachmentLayout: "carousel"
-                }, "Venkat");
-            },
-            error: function (data) {
-
-            }
-        });
-        
-    });
-</script>
-
-<script>
-
-    window.ChatAgent = kendo.Class.extend({
-        // Initialize the ChatAgent object.
-        init: function (chat) {
-            this.chat = chat;
-
-        },
-        // Implement the postMessage logic.
-        postMessage: function (args) {
-            var chat = this.chat;
-
-            if (args.text.includes("Project-")) {
-                var projectName = args.text.split("-").pop();
-                $.ajax({
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    url: "/ChatBot/GetProjectSuggestionForChatBot",
-                    data: { projectName: projectName },
-                    success: function (data) {
-                        chat.renderMessage({
-                            type: "text",
-                            text: "Select the below options to know more about :" + projectName,
-                            timestamp: new Date()
-                        }, {
-                            name: "Bot",
-                            iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
-                        });
-                        chat.renderSuggestedActions(data);
-
-                        //chat.renderAttachments({
-                        //    attachments: [{
-                        //        contentType: "quote",
-                        //        content: {
-                        //            "project": data.ProjectName,
-                        //            "location": data.ProjectLocation,
-                        //            "chouse": data.ClubHouseCharges,
-                        //        }
-                        //    }],
-                        //    attachmentLayout: "carousel"
-                        //},"Venkat");
-                    },
-                    error: function (data) {
-                    }
-                });
-                //chat.renderMessage({
-                //    type: "text",
-                //    text: "Select the below options to know about :" + projectName,
-                //    timestamp: new Date()
-                //}, {
-                //    name: "Bot",
-                //    iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
-                //});
-
-
-                //var json = [{
-                //    title: "Project Details",
-                //    value: projectName+"-Details"
-                //}, {
-                //    title: "Approvals",
-                //    value: projectName + "-Approvals"
-                //},
-                //{
-                //    title: "Pricing",
-                //    value: projectName + "-Pricing"
-                //    }];
-
-                //chat.renderSuggestedActions(json);
-                //$.ajax({
-                //    type: "GET",
-                //    contentType: "application/json; charset=utf-8",
-                //    url: "/Booking/GetProjectDetailsForChatBot",
-                //    data: { projectName: projectName },
-                //    success: function (data) {
-
-                //        //chat.renderAttachments({
-                //        //    attachments: [{
-                //        //        contentType: "heroCard",
-                //        //        content: {
-                //        //            title: "Project :" + data.ProjectName,
-                //        //            subtitle: "Location :" + data.ProjectLocation,
-                //        //            text: "Club House Charges :" + data.ClubHouseCharges,
-                //        //        }
-                //        //    }]
-                //        //}, 'Venkat');
-                //        //chat.renderSuggestedActions(json);
-                //        chat.renderMessage({
-                //            type: "text",
-                //            text: "",
-                //            timestamp: new Date()
-                //        }, {
-                //            name: "Bot",
-                //            iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
-                //        });
-                //        chat.renderAttachments({
-                //            attachments: [{
-                //                contentType: "quote",
-                //                content: {
-                //                    "project": data.ProjectName,
-                //                    "location": data.ProjectLocation,
-                //                    "chouse": data.ClubHouseCharges,
-                //                    "projectImageURL" : data.projectImageURL,
-                //                }
-                //            }]
-                //            //,attachmentLayout: "carousel"
-                //        },"Venkat");
-                //    },
-                //    error: function (data) {
-                //    }
-                //});
-
-            }
-            else if (args.text.includes("Location-")) {
-                var locationName = args.text.split("-").pop();
-                $.ajax({
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    url: "/ChatBot/GetProjectBasedOnLocationsForChatBot",
-                    data: { locationName: locationName },
-                    success: function (data) {
-                        chat.renderMessage({
-                            type: "text",
-                            text: "Please choose your preferred Project.",
-                            timestamp: new Date()
-                        }, {
-                            name: "Bot",
-                            iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
-                        });
-                        chat.renderSuggestedActions(data);
-
-                        //chat.renderAttachments({
-                        //    attachments: [{
-                        //        contentType: "quote",
-                        //        content: {
-                        //            "project": data.ProjectName,
-                        //            "location": data.ProjectLocation,
-                        //            "chouse": data.ClubHouseCharges,
-                        //        }
-                        //    }],
-                        //    attachmentLayout: "carousel"
-                        //},"Venkat");
-                    },
-                    error: function (data) {
-                    }
-                });
-            }
-            else if (args.text.includes("-Details")) {
-                var projectName = args.text.split("-");
-                $.ajax({
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    url: "/ChatBot/GetProjectDetailsForChatBot",
-                    data: { projectName: projectName[0] },
-                    success: function (data) {
-                            chat.renderMessage({
-                            type: "text",
-                            text: "",
-                            timestamp: new Date()
-                        }, {
-                            name: "Bot",
-                            iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
-                        });
-                        chat.renderAttachments({
-                            attachments: [{
-                                contentType: "quote",
-                                content: {
-                                    "project": data.ProjectName,
-                                    "location": data.ProjectLocation,
-                                    "chouse": data.ClubHouseCharges,
-                                    "projectImageURL" : data.projectImageURL,
-                                }
-                            }]
-                            //,attachmentLayout: "carousel"
-                        },"Venkat");
-                    },
-                    error: function (data) {
-                    }
-                });
-            }
-            else if (args.text.includes("-Approvals")) {
-                var projectName = args.text.split("-");
-                $.ajax({
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    url: "/ChatBot/GetProjectDetailsForChatBot",
-                    data: { projectName: projectName[0] },
-                    success: function (data) {
-                        chat.renderMessage({
-                            type: "text",
-                            text: "Yet to implement Approvals Functionality",
-                            timestamp: new Date()
-                        }, {
-                            name: "Bot",
-                            iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
-                        });
-                        
-                    },
-                    error: function (data) {
-                    }
-                });
-            }
-            else if (args.text.includes("-Pricing")) {
-                var projectName = args.text.split("-");
-                $.ajax({
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    url: "/ChatBot/GetProjectDetailsForChatBot",
-                    data: { projectName: projectName[0] },
-                    success: function (data) {
-                        chat.renderMessage({
-                            type: "text",
-                            text: "Yet to implement Pricing Functionality",
-                            timestamp: new Date()
-                        }, {
-                            name: "Bot",
-                            iconUrl: "https://demos.telerik.com/kendo-ui/content/chat/InsuranceBot.png"
-                        });
-
-                    },
-                    error: function (data) {
-                    }
-                });
-            }
-
-
-        }
-    });
-</script>
-
-
+</div>
+<style>
+    tr td{
+        font-weight :bold !important;
+        font-size:12px !important;
+    }
+    th {
+        font-weight: bold !important;
+        font-size: 12px !important;
+    }
+</style>
+   
+<div class="fixed-plugin">
+    <div class="dropdown show-dropdown">
+        <a href="#" data-toggle="dropdown">
+            <i class="fa fa-cog fa-2x"> </i>
+        </a>
+        <ul class="dropdown-menu">
+            <li class="header-title"> Sidebar Filters</li>
+            <li class="adjustments-line">
+                <a href="javascript:void(0)" class="switch-trigger active-color">
+                    <div class="badge-colors ml-auto mr-auto">
+                        <span class="badge filter badge-purple" data-color="purple"></span>
+                        <span class="badge filter badge-azure" data-color="azure"></span>
+                        <span class="badge filter badge-green" data-color="green"></span>
+                        <span class="badge filter badge-warning" data-color="orange"></span>
+                        <span class="badge filter badge-danger" data-color="danger"></span>
+                        <span class="badge filter badge-rose active" data-color="rose"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                </a>
+            </li>
+            <li class="header-title">Images</li>
+            <li class="active">
+                <a class="img-holder switch-trigger" href="javascript:void(0)">
+                    <img src="../assets/img/sidebar-1.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a class="img-holder switch-trigger" href="javascript:void(0)">
+                    <img src="../assets/img/sidebar-2.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a class="img-holder switch-trigger" href="javascript:void(0)">
+                    <img src="../assets/img/sidebar-3.jpg" alt="">
+                </a>
+            </li>
+            <li>
+                <a class="img-holder switch-trigger" href="javascript:void(0)">
+                    <img src="../assets/img/sidebar-4.jpg" alt="">
+                </a>
+            </li>
+            <li class="button-container">
+                <a href="https://www.creative-tim.com/product/material-dashboard" target="_blank" class="btn btn-primary btn-block">Free Download</a>
+            </li>
+            <!-- <li class="header-title">Want more components?</li>
+                <li class="button-container">
+                    <a href="https://www.creative-tim.com/product/material-dashboard-pro" target="_blank" class="btn btn-warning btn-block">
+                      Get the pro version
+                    </a>
+                </li> -->
+            <li class="button-container">
+                <a href="https://demos.creative-tim.com/material-dashboard/docs/2.1/getting-started/introduction.html" target="_blank" class="btn btn-default btn-block">
+                    View Documentation
+                </a>
+            </li>
+            <li class="button-container github-star">
+                <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
+            </li>
+            <li class="header-title">Thank you for 95 shares!</li>
+            <li class="button-container text-center">
+                <button id="twitter" class="btn btn-round btn-twitter"><i class="fa fa-twitter"></i> &middot; 45</button>
+                <button id="facebook" class="btn btn-round btn-facebook"><i class="fa fa-facebook-f"></i> &middot; 50</button>
+                <br>
+                <br>
+            </li>
+        </ul>
+    </div>
+</div>
