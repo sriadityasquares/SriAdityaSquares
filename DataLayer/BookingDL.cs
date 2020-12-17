@@ -1958,5 +1958,169 @@ namespace DataLayer
             }
             return lstTopIBO;
         }
+
+        public List<AgentMaster> BindRecentAgents()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<AgentMaster> lstAgents = new List<AgentMaster>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentMaster, AgentMaster>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgents = mapper.Map<List<tblAgentMaster>, List<AgentMaster>>(dbEntity.tblAgentMasters.OrderByDescending(x=>x.CreatedDate).Take(5).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstAgents;
+        }
+
+        public List<BookingInformation> BindRecentBooking()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<BookingInformation> lstBooking = new List<BookingInformation>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblBookingInformation, BookingInformation>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<tblBookingInformation>, List<BookingInformation>>(dbEntity.tblBookingInformations.OrderByDescending(x => x.CreatedDate).Take(5).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            foreach(var booking in lstBooking)
+            {
+                booking.FormattedDate = Convert.ToDateTime(booking.CreatedDate).Date.ToString("dd/MM/yyyy");
+                //booking.AGENT
+            }
+            return lstBooking;
+        }
+
+        public List<BookingInformation> BindRecentPayments()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<BookingInformation> lstBooking = new List<BookingInformation>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetRecentPayments_Result, BookingInformation>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<sp_GetRecentPayments_Result>, List<BookingInformation>>(dbEntity.sp_GetRecentPayments().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            
+            return lstBooking;
+        }
+
+        public List<DailyExpense> BindRecentExpenses()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<DailyExpense> lstBooking = new List<DailyExpense>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetRecentExpenses_Result, DailyExpense>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<sp_GetRecentExpenses_Result>, List<DailyExpense>>(dbEntity.sp_GetRecentExpenses().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+
+            return lstBooking;
+        }
+
+        public List<GetGraphicalPeriodWiseBooking> BindRecentBookingGraph()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<GetGraphicalPeriodWiseBooking> lstBooking = new List<GetGraphicalPeriodWiseBooking>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetRecentBookingGraph_Result, GetGraphicalPeriodWiseBooking>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<sp_GetRecentBookingGraph_Result>, List<GetGraphicalPeriodWiseBooking>>(dbEntity.sp_GetRecentBookingGraph().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+
+            return lstBooking;
+        }
+
+        public List<GetGraphicalPeriodWiseBooking> BindRecentPaymentGraph()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<GetGraphicalPeriodWiseBooking> lstBooking = new List<GetGraphicalPeriodWiseBooking>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetRecentPaymentGraph_Result, GetGraphicalPeriodWiseBooking>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<sp_GetRecentPaymentGraph_Result>, List<GetGraphicalPeriodWiseBooking>>(dbEntity.sp_GetRecentPaymentGraph().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+
+            return lstBooking;
+        }
+
+        public List<GetGraphicalPeriodWiseBooking> BindRecentAddedIBOGraph()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<GetGraphicalPeriodWiseBooking> lstBooking = new List<GetGraphicalPeriodWiseBooking>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetRecentAddedIBOGraph_Result, GetGraphicalPeriodWiseBooking>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<sp_GetRecentAddedIBOGraph_Result>, List<GetGraphicalPeriodWiseBooking>>(dbEntity.sp_GetRecentAddedIBOGraph().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+
+            return lstBooking;
+        }
     }
 }

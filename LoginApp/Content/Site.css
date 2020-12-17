@@ -5364,16 +5364,17 @@ body {
     }
 
 .sidebar {
-    width: 240px !important;
-    height: 110% !important;
-    background: black !important;
-    position: absolute !important;
+    width: 240px;
+    height: 110%;
+    background: black;
+    position: absolute;
     -webkit-transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
     -o-transition: all 0.3s ease-in-out;
     -ms-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
     z-index: 100;
+    font-family: 'Open Sans', sans-serif !important;
 }
 
         .sidebar #leftside-navigation ul,

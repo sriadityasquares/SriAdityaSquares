@@ -354,5 +354,41 @@ namespace BusinessLayer
         {
             return db.BindTopIBO(SAS);
         }
+
+        public List<BookingInformation> BindRecentBooking()
+        {
+            return db.BindRecentBooking();
+        }
+
+        public List<BookingInformation> BindRecentPayments()
+        {
+            return db.BindRecentPayments();
+        }
+
+        public List<DailyExpense> BindRecentExpenses()
+        {
+            return db.BindRecentExpenses();
+        }
+
+
+        public List<AgentMaster> BindRecentAgents()
+        {
+            return db.BindRecentAgents();
+        }
+
+        public List<GetGraphicalPeriodWiseBooking> BindRecentBookingGraph()
+        {
+            return db.BindRecentBookingGraph();
+        }
+
+        public List<GetGraphicalPeriodWiseBooking> BindRecentPaymentGraph()
+        {
+            return db.BindRecentPaymentGraph();
+        }
+
+        public List<GetGraphicalPeriodWiseBooking> BindRecentAddedIBOGraph()
+        {
+            return db.BindRecentAddedIBOGraph();
+        }
     }
 }

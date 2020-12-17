@@ -3,7 +3,10 @@ using ModelLayer;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,6 +19,10 @@ namespace LoginApp.Controllers
         // GET: Sample
         public ActionResult Index()
         {
+            var client = new RestClient("http://msg.msgclub.net/rest/services/transaction/transactionLog?AUTH_KEY=YourAuthKey");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("Cache-Control", "no-cache");
+            IRestResponse response = client.Execute(request);
             return View();
         }
 
@@ -35,20 +42,47 @@ namespace LoginApp.Controllers
                 //rem.CustomerMobile = "9505055755";
                 //rem.AgentMobile = 9492983529;
                 message = message.Replace("#Project", rem.ProjectName).Replace("#Tower", rem.TowerName).Replace("#Flat", rem.FlatName).Replace("#DueDate", rem.DueDate).Replace("#DueAmount", rem.DueAmount);
-                var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=TBTSMS&routeId=1&mobileNos=9951999884" + "&smsContentType=english");
-                var request1 = new RestRequest(Method.GET);
-                request1.AddHeader("Cache-Control", "no-cache");
-                IRestResponse response1 = client1.Execute(request1);
+                var htmlText = System.IO.File.ReadAllText(HttpContext.Server.MapPath("~/Templates/DueAmountReminder.html"));
+                htmlText = htmlText.Replace("#Project", rem.ProjectName).Replace("#Tower", rem.TowerName).Replace("#Flat", rem.FlatName).Replace("#DueDate", rem.DueDate).Replace("#DueAmount", rem.DueAmount);
 
-                var client2 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=TBTSMS&routeId=1&mobileNos=9505055755" + "&smsContentType=english");
-                var request2 = new RestRequest(Method.GET);
-                request1.AddHeader("Cache-Control", "no-cache");
-                IRestResponse response2 = client1.Execute(request2);
+                //var path = Path.Combine(Environment.CurrentDirectory, "/Templates/DueAmountReminder.html");
+                //var htmlText = System.IO.File.ReadAllText(path);
 
-                var client3 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=TBTSMS&routeId=1&mobileNos=9566257752" + "&smsContentType=english");
-                var request3 = new RestRequest(Method.GET);
-                request1.AddHeader("Cache-Control", "no-cache");
-                IRestResponse response3 = client1.Execute(request3);
+                //var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=TBTSMS&routeId=1&mobileNos=9951999884" + "&smsContentType=english");
+                //var request1 = new RestRequest(Method.GET);
+                //request1.AddHeader("Cache-Control", "no-cache");
+                //IRestResponse response1 = client1.Execute(request1);
+
+                //var client2 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=TBTSMS&routeId=1&mobileNos=9505055755" + "&smsContentType=english");
+                //var request2 = new RestRequest(Method.GET);
+                //request1.AddHeader("Cache-Control", "no-cache");
+                //IRestResponse response2 = client1.Execute(request2);
+
+                //var client3 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=TBTSMS&routeId=1&mobileNos=9566257752" + "&smsContentType=english");
+                //var request3 = new RestRequest(Method.GET);
+                //request1.AddHeader("Cache-Control", "no-cache");
+                //IRestResponse response3 = client1.Execute(request3);
+                //var emails = 
+                try
+                {
+                    MailMessage msg = new MailMessage();
+                    SmtpClient smtp = new SmtpClient();
+                    msg.From = new MailAddress("Info@sasinfra.in");
+                    msg.To.Add(new MailAddress(rem.AgentEmail));
+                    msg.To.Add(new MailAddress(rem.CustomerEmail));
+                    msg.To.Add(new MailAddress("nsrinivas78@gmail.com"));
+                    msg.Subject = "Pay Due Reminder";
+                    msg.IsBodyHtml = true; //to make message body as html  
+                    msg.Body = htmlText;
+                    smtp.Port = 587;
+                    smtp.Host = "mail.privateemail.com"; //for gmail host  
+                    smtp.EnableSsl = true;
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = new NetworkCredential("Info@sasinfra.in", "sasinfo@123");
+                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtp.Send(msg);
+                }
+                catch (Exception) { }
             }
             projectList = booking.BindProjects();
             return Json(projectList, JsonRequestBehavior.AllowGet);

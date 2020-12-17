@@ -160,5 +160,7 @@ namespace ModelLayer
 
         public int SchemePercentage { get; set; }
 
+        public string FormattedDate { get; set; }
+
     }
 }

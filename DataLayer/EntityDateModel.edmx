@@ -839,6 +839,11 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="Role" Type="varchar(max)" Mode="In" />
           <Parameter Name="Email" Type="varchar(max)" Mode="In" />
         </Function>
+        <Function Name="sp_GetRecentAddedIBOGraph" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetRecentBookingGraph" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetRecentExpenses" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetRecentPaymentGraph" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetRecentPayments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetSchemeBasedBookings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetTopIBOInMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SAS" Type="bit" Mode="In" />
@@ -1148,10 +1153,15 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="FlatID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="tblSMS" EntityType="salesDBModel.tblSM" />
-          <FunctionImport Name="sp_GetDashboardParameters" ReturnType="Collection(salesDBModel.sp_GetDashboardParameters_Result)" />
           <FunctionImport Name="sp_GetTopIBOInMonth" ReturnType="Collection(salesDBModel.sp_GetTopIBOInMonth_Result)">
-            <Parameter Name="SAS" Mode="In" Type="Boolean" />
+          <Parameter Name="SAS" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <FunctionImport Name="sp_GetRecentPayments" ReturnType="Collection(salesDBModel.sp_GetRecentPayments_Result)" />
+          <FunctionImport Name="sp_GetRecentExpenses" ReturnType="Collection(salesDBModel.sp_GetRecentExpenses_Result)" />
+          <FunctionImport Name="sp_GetRecentBookingGraph" ReturnType="Collection(salesDBModel.sp_GetRecentBookingGraph_Result)" />
+          <FunctionImport Name="sp_GetRecentPaymentGraph" ReturnType="Collection(salesDBModel.sp_GetRecentPaymentGraph_Result)" />
+          <FunctionImport Name="sp_GetDashboardParameters" ReturnType="Collection(salesDBModel.sp_GetDashboardParameters_Result)" />
+          <FunctionImport Name="sp_GetRecentAddedIBOGraph" ReturnType="Collection(salesDBModel.sp_GetRecentAddedIBOGraph_Result)" />
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -2282,6 +2292,38 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="sp_GetTopIBOInMonth_Result">
+          <Property Type="String" Name="AgentID" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="BookingsCount" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetRecentPayments_Result">
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="FlatName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="BookingAmount" Nullable="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetRecentExpenses_Result">
+          <Property Type="Int32" Name="ExpenseID" Nullable="false" />
+          <Property Type="String" Name="ExpenseDate" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Particulars" Nullable="true" />
+          <Property Type="Int32" Name="Amount" Nullable="true" />
+          <Property Type="String" Name="PaidTo" Nullable="true" />
+          <Property Type="String" Name="PaymentMode" Nullable="true" />
+          <Property Type="String" Name="Comments" Nullable="true" />
+          <Property Type="String" Name="TransactionType" Nullable="true" />
+          <Property Type="String" Name="CreatedDate" Nullable="true" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetRecentBookingGraph_Result">
+          <Property Type="String" Name="xaxis" Nullable="true" />
+          <Property Type="String" Name="yaxis" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetRecentPaymentGraph_Result">
+          <Property Type="String" Name="xaxis" Nullable="true" />
+          <Property Type="String" Name="yaxis" Nullable="true" />
+        </ComplexType>
         <ComplexType Name="sp_GetDashboardParameters_Result">
           <Property Type="Int32" Name="ProjectCount" Nullable="true" />
           <Property Type="Int32" Name="LocationCount" Nullable="true" />
@@ -2296,11 +2338,13 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="Int32" Name="TodayCustomerCount" Nullable="true" />
           <Property Type="Int32" Name="YesterdayCustomerCount" Nullable="true" />
           <Property Type="Double" Name="CustomerGrowth" Nullable="true" />
+          <Property Type="Int32" Name="TodayIBOCount" Nullable="true" />
+          <Property Type="Int32" Name="YesterdayIBOCount" Nullable="true" />
+          <Property Type="Double" Name="IBOGrowth" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_GetTopIBOInMonth_Result">
-          <Property Type="String" Name="AgentID" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="250" />
-          <Property Type="Int32" Name="BookingsCount" Nullable="true" />
+        <ComplexType Name="sp_GetRecentAddedIBOGraph_Result">
+          <Property Type="String" Name="xaxis" Nullable="true" />
+          <Property Type="String" Name="yaxis" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3519,6 +3563,58 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetTopIBOInMonth" FunctionName="salesDBModel.Store.sp_GetTopIBOInMonth">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetTopIBOInMonth_Result">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="BookingsCount" ColumnName="BookingsCount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetRecentPayments" FunctionName="salesDBModel.Store.sp_GetRecentPayments">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetRecentPayments_Result">
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetRecentExpenses" FunctionName="salesDBModel.Store.sp_GetRecentExpenses">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetRecentExpenses_Result">
+                <ScalarProperty Name="ExpenseID" ColumnName="ExpenseID" />
+                <ScalarProperty Name="ExpenseDate" ColumnName="ExpenseDate" />
+                <ScalarProperty Name="Particulars" ColumnName="Particulars" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PaidTo" ColumnName="PaidTo" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetRecentBookingGraph" FunctionName="salesDBModel.Store.sp_GetRecentBookingGraph">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetRecentBookingGraph_Result">
+                <ScalarProperty Name="xaxis" ColumnName="xaxis" />
+                <ScalarProperty Name="yaxis" ColumnName="yaxis" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetRecentPaymentGraph" FunctionName="salesDBModel.Store.sp_GetRecentPaymentGraph">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetRecentPaymentGraph_Result">
+                <ScalarProperty Name="xaxis" ColumnName="xaxis" />
+                <ScalarProperty Name="yaxis" ColumnName="yaxis" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_GetDashboardParameters" FunctionName="salesDBModel.Store.sp_GetDashboardParameters">
             <ResultMapping>
               <ComplexTypeMapping TypeName="salesDBModel.sp_GetDashboardParameters_Result">
@@ -3535,15 +3631,17 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
                 <ScalarProperty Name="TodayCustomerCount" ColumnName="TodayCustomerCount" />
                 <ScalarProperty Name="YesterdayCustomerCount" ColumnName="YesterdayCustomerCount" />
                 <ScalarProperty Name="CustomerGrowth" ColumnName="CustomerGrowth" />
+                <ScalarProperty Name="TodayIBOCount" ColumnName="TodayIBOCount" />
+                <ScalarProperty Name="YesterdayIBOCount" ColumnName="YesterdayIBOCount" />
+                <ScalarProperty Name="IBOGrowth" ColumnName="IBOGrowth" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetTopIBOInMonth" FunctionName="salesDBModel.Store.sp_GetTopIBOInMonth">
+          <FunctionImportMapping FunctionImportName="sp_GetRecentAddedIBOGraph" FunctionName="salesDBModel.Store.sp_GetRecentAddedIBOGraph">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="salesDBModel.sp_GetTopIBOInMonth_Result">
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="BookingsCount" ColumnName="BookingsCount" />
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetRecentAddedIBOGraph_Result">
+                <ScalarProperty Name="xaxis" ColumnName="xaxis" />
+                <ScalarProperty Name="yaxis" ColumnName="yaxis" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

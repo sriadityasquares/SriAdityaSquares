@@ -20,6 +20,7 @@
     <link href="~/Scripts/Dashboard/demo.css" rel="stylesheet" />
 
     <script src="~/Scripts/Dashboard/bootstrap-material-design.min.js"></script>
+    <script src="~/Scripts/Dashboard/chartist.min.js"></script>
 </head>
 <div class="jumbotron">
     <div class="content">
@@ -29,7 +30,7 @@
                     <div class="card card-stats">
                         <div class="card-header card-header-warning card-header-icon">
                             <div class="card-icon">
-                                @*<i class="material-icons">content_copy</i>*@
+                                
                                 <i class="fa fa-building"></i>
                             </div>
                             <p style="font-weight:bold !important" class="card-category"><b>PROJECTS</b></p>
@@ -89,11 +90,16 @@
                 <div class="col-md-4">
                     <div class="card card-chart">
                         <div class="card-header card-header-success">
-                            <div class="ct-chart" id="dailySalesChart"></div>
+                            <div class="ct-chart" id="BookingChart"></div>
+                            
+
                         </div>
                         <div class="card-body">
-                            <h3 class="card-title">Daily Sales</h3>
+                            <h3 class="card-title">Daily Bookings</h3>
+
                             <p class="card-category">
+                                
+
                                 @if (!ViewBag.isBookingGrowth)
                                 {
                                     <span style="font-size:14px" class="text-danger"><i class="fa fa-long-arrow-down"></i> @ViewBag.BookingGrowth % </span><span style="font-size:14px">decrease in daily sales.</span>
@@ -115,7 +121,7 @@
                 <div class="col-md-4">
                     <div class="card card-chart">
                         <div class="card-header card-header-warning">
-                            <div class="ct-chart" id="websiteViewsChart"></div>
+                            <div class="ct-chart" id="PaymentChart"></div>
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">Payments Received</h3>
@@ -141,24 +147,24 @@
                 <div class="col-md-4">
                     <div class="card card-chart">
                         <div class="card-header card-header-danger">
-                            <div class="ct-chart" id="completedTasksChart"></div>
+                            <div class="ct-chart" id="IBOChart"></div>
                         </div>
                         <div class="card-body">
-                            <h3 class="card-title">New Customers</h3>
+                            <h3 class="card-title">New IBO</h3>
                             <p class="card-category">
-                                @if (!ViewBag.isCustomerGrowth)
+                                @if (!ViewBag.isIBOGrowth)
                                 {
-                                    <span style="font-size:14px" class="text-danger"><i class="fa fa-long-arrow-down"></i> @ViewBag.CustomerGrowth % </span><span style="font-size:14px">decrease in customers today.</span>
+                                    <span style="font-size:14px" class="text-danger"><i class="fa fa-long-arrow-down"></i> @ViewBag.IBOGrowth % </span><span style="font-size:14px">decrease in IBO today.</span>
                                 }
                                 else
                                 {
-                                    <span style="font-size:14px" class="text-success"><i class="fa fa-long-arrow-up"></i> @ViewBag.CustomerGrowth % </span><span style="font-size:14px">increase in customers today.</span>
+                                    <span style="font-size:14px" class="text-success"><i class="fa fa-long-arrow-up"></i> @ViewBag.IBOGrowth % </span><span style="font-size:14px">increase in IBO today.</span>
                                 }
                             </p>
                         </div>
                         <div class="card-footer">
                             <div class="stats">
-                                <i class="fa fa-users"><b> New Customers added today : @ViewBag.TodayCustomerCount</b></i>
+                                <i class="fa fa-users"><b> New IBO added today : @ViewBag.TodayIBOCount</b></i>
                             </div>
                         </div>
                     </div>
@@ -255,6 +261,172 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-success">
+                            <h4 class="card-title"><b style="font-size:14px;font-weight:bolder">NEW BOOKINGS</b></h4>
+                            <p class="card-category">Last Updated @DateTime.Now</p>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover">
+                                <thead class="text-success">
+                                <th>PROJECT</th>
+                                <th>FLAT</th>
+                                <th>IBO</th>
+                                <th>DATE</th>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in ViewBag.RecentBooking)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.ProjectName
+                                            </td>
+
+                                            <td>
+                                                @item.TowerName-@item.FlatName
+                                            </td>
+                                            <td>
+                                                @item.AgentName
+                                            </td>
+                                            <td>
+                                                @Convert.ToDateTime(@item.CreatedDate).Date.ToString("dd/MM/yyyy")
+                                            </td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-danger">
+                            <h4 class="card-title"><b style="font-size:14px;font-weight:bolder">NEW IBO</b></h4>
+                            <p class="card-category">Last Updated @DateTime.Now</p>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover">
+                                <thead class="text-danger">
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>DATE</th>
+
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.RecentAgents)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.AgentCode
+                                            </td>
+                                            <td>
+                                                @item.AgentName
+                                            </td>
+                                            <td>
+                                                @Convert.ToDateTime(@item.CreatedDate).Date.ToString("dd/MM/yyyy")
+                                            </td>
+
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="row">
+
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-info">
+                                <h4 class="card-title"><b style="font-size:14px;font-weight:bolder">NEW PAYMENTS</b></h4>
+                                <p class="card-category">Last Updated @DateTime.Now</p>
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="text-info">
+                                    <th>PROJECT</th>
+                                    <th>FLAT</th>
+                                    <th>AMOUNT</th>
+                                    @*<th>DATE</th>*@
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in ViewBag.RecentPayments)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.ProjectName
+                                                </td>
+
+                                                <td>
+                                                    @item.TowerName-@item.FlatName
+                                                </td>
+                                                <td>
+                                                    <b style="font-size:12px">&#8377;</b>.@item.BookingAmount
+                                                </td>
+                                                @*<td>
+                                                        @Convert.ToDateTime(@item.CreatedDate).Date.ToString("dd/MM/yyyy")
+                                                    </td>*@
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-warning">
+                                <h4 class="card-title"><b style="font-size:14px;font-weight:bolder">RECENT EXPENSES</b></h4>
+                                <p class="card-category">Last Updated @DateTime.Now</p>
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="text-warning">
+                                    <th>PAID TO</th>
+                                    <th>PARTICULARS</th>
+                                    <th>AMOUNT</th>
+                                    @*<th>DATE</th>*@
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.RecentExpenses)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.PaidTo.ToUpper()
+                                                </td>
+                                                <td>
+                                                    @item.Particulars.ToUpper()
+                                                </td>
+                                                <td>
+                                                    <b style="font-size:12px">&#8377;</b>.@item.Amount
+                                                </td>
+                                                @*<td>
+                                                        @Convert.ToDateTime(@item.CreatedDate).Date.ToString("dd/MM/yyyy")
+                                                    </td>*@
+
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -269,3 +441,100 @@
         font-size: 12px !important;
     }
 </style>
+<script>
+    Charts();
+
+    function Charts() {
+
+        dataBookingChart = {
+            labels: @ViewBag.xBookingGraph,
+            series: [
+                    @ViewBag.yBookingGraph
+            ]
+        };
+
+        optionsBookingChart = {
+            lineSmooth: Chartist.Interpolation.cardinal({
+                tension: 0
+            }),
+            low: 0,
+            high: 5, 
+            chartPadding: {
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0
+            },
+        }
+
+        var BookingChart = new Chartist.Line('#BookingChart', dataBookingChart, optionsBookingChart);
+
+
+        var dataPaymentChart = {
+            labels: @ViewBag.xPaymentGraph,
+            series: [
+                @ViewBag.yPaymentGraph
+            ],
+            distributeSeries: true
+        };
+        var optionsPaymentChart = {
+            axisX: {
+                showGrid: true
+            },
+            low: 0,
+            high: 25,
+            chartPadding: {
+                top: 0,
+                right: 5,
+                bottom: 0,
+                left: 0
+            }
+        };
+        var responsiveOptions = [
+            ['screen and (max-width: 640px)', {
+                seriesBarDistance: 5,
+                axisX: {
+                    labelInterpolationFnc: function (value) {
+                        return value[0];
+                    }
+                }
+            }]
+        ];
+        var PaymentChart = Chartist.Bar('#PaymentChart', dataPaymentChart, optionsPaymentChart);
+
+
+        dataIBOChart = {
+            labels: @ViewBag.xIBOGraph,
+            series: [
+                @ViewBag.yIBOGraph
+            ]
+        };
+
+        optionsIBOChart = {
+            lineSmooth: Chartist.Interpolation.cardinal({
+                tension: 0
+            }),
+            low: 0,
+            high: 35,
+            chartPadding: {
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0
+            }
+        }
+
+        var IBOChart = new Chartist.Line('#IBOChart', dataIBOChart, optionsIBOChart);
+
+    }
+
+
+
+
+
+
+
+
+
+
+</script>

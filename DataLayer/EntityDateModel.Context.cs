@@ -495,11 +495,6 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatWiseAgentCommission_Result>("sp_GetFlatWiseAgentCommission", flatIDParameter);
         }
     
-        public virtual ObjectResult<sp_GetDashboardParameters_Result> sp_GetDashboardParameters()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetDashboardParameters_Result>("sp_GetDashboardParameters");
-        }
-    
         public virtual ObjectResult<sp_GetTopIBOInMonth_Result> sp_GetTopIBOInMonth(Nullable<bool> sAS)
         {
             var sASParameter = sAS.HasValue ?
@@ -507,6 +502,36 @@ namespace DataLayer
                 new ObjectParameter("SAS", typeof(bool));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetTopIBOInMonth_Result>("sp_GetTopIBOInMonth", sASParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetRecentPayments_Result> sp_GetRecentPayments()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetRecentPayments_Result>("sp_GetRecentPayments");
+        }
+    
+        public virtual ObjectResult<sp_GetRecentExpenses_Result> sp_GetRecentExpenses()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetRecentExpenses_Result>("sp_GetRecentExpenses");
+        }
+    
+        public virtual ObjectResult<sp_GetRecentBookingGraph_Result> sp_GetRecentBookingGraph()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetRecentBookingGraph_Result>("sp_GetRecentBookingGraph");
+        }
+    
+        public virtual ObjectResult<sp_GetRecentPaymentGraph_Result> sp_GetRecentPaymentGraph()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetRecentPaymentGraph_Result>("sp_GetRecentPaymentGraph");
+        }
+    
+        public virtual ObjectResult<sp_GetDashboardParameters_Result> sp_GetDashboardParameters()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetDashboardParameters_Result>("sp_GetDashboardParameters");
+        }
+    
+        public virtual ObjectResult<sp_GetRecentAddedIBOGraph_Result> sp_GetRecentAddedIBOGraph()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetRecentAddedIBOGraph_Result>("sp_GetRecentAddedIBOGraph");
         }
     }
 }

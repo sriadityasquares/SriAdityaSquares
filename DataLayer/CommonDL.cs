@@ -140,7 +140,7 @@ namespace DataLayer
                     cfg.CreateMap<tblAgentMaster, AgentDropdown>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstAgent = mapper.Map<List<tblAgentMaster>, List<AgentDropdown>>(dbEntity.tblAgentMasters.Where(x=>x.AgentStatus == "A").ToList()).ToList();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<AgentDropdown>>(dbEntity.tblAgentMasters.Where(x=>x.AgentStatus == "A").OrderBy(x=>x.AgentName).ToList()).ToList();
             }
             catch (Exception ex)
             {

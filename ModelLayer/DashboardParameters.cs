@@ -21,5 +21,9 @@ namespace ModelLayer
         public Nullable<int> TodayCustomerCount { get; set; }
         public Nullable<int> YesterdayCustomerCount { get; set; }
         public Nullable<double> CustomerGrowth { get; set; }
+
+        public Nullable<int> TodayIBOCount { get; set; }
+        public Nullable<int> YesterdayIBOCount { get; set; }
+        public Nullable<double> IBOGrowth { get; set; }
     }
 }
