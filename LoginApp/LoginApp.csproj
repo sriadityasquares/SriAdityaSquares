@@ -1380,6 +1380,7 @@
     <Content Include="Content\Brochures\WoodlandBrochure.pdf" />
     <Content Include="Content\Brochures\AlpineVistasBrochure.pdf" />
     <Content Include="Content\Brochures\ElderadoBrochure.pdf" />
+    <Content Include="Content\Brochures\PVRAnmolBrochure.pdf" />
     <None Include="Properties\PublishProfiles\flatbooking - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\flatsapp - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\LoginApp20200301112104 - Web Deploy.pubxml" />

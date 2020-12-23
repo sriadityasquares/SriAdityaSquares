@@ -98,6 +98,9 @@
     <Compile Include="sp_GetAgentPercentageByProject_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetAgentProjectLevels_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_GetAgentsByProjectID_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>

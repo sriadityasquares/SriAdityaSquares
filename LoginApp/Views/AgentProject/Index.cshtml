@@ -18,7 +18,8 @@
 </div>
 <script>
 
-
+    //$("#grid").data("kendoGrid").hideColumn(1);
+    
     
 
     $(document).ready(function () {
@@ -74,6 +75,7 @@
                 model: {
                     id: "AgentID",
                     fields: {
+                        AgentName: {},
                         //AgentID: { editable: false, nullable: true },
                         //ProjectID: { editable: false, nullable: true },
                         //LevelID: { validation: { required: true } },
@@ -127,9 +129,7 @@
                     //}
                 }
             },
-            //edit: function (e) {
-            //    var x = 1
-            //},
+            
             columns: [
 
                 {
@@ -158,6 +158,18 @@
                             dataSource: agents // bind it to the brands array
                         }).appendTo(container);
                     }
+                },
+                {
+                    title: "AgentName",
+                    width: "200px",
+                    field: "AgentName",
+                    hidden: true
+                },
+                {
+                    title: "ProjectName",
+                    width: "200px",
+                    field: "ProjectName",
+                    hidden: true
                 },
                 {
                     // the brandId column

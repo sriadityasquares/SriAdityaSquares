@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -34,7 +35,9 @@ namespace LoginApp
                                "DueDate: #DueDate" + Environment.NewLine +
                                "DueAmount: #DueAmount" + Environment.NewLine;
                 message = message.Replace("#Project", rem.ProjectName).Replace("#Tower", rem.TowerName).Replace("#Flat", rem.FlatName).Replace("#DueDate", rem.DueDate).Replace("#DueAmount", rem.DueAmount);
-                var htmlText = System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath("~/Templates/DueAmountReminder.html"));
+                var path = System.AppContext.BaseDirectory + @"Templates\DueAmountReminder.html";
+                //var fullPath = System.IO.Path.Combine(path, @"\Templates\DueAmountReminder.html");
+                var htmlText = System.IO.File.ReadAllText(path);
                 htmlText = htmlText.Replace("#Project", rem.ProjectName).Replace("#Tower", rem.TowerName).Replace("#Flat", rem.FlatName).Replace("#DueDate", rem.DueDate).Replace("#DueAmount", rem.DueAmount);
 
                 var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos="+rem.CustomerMobile + "&smsContentType=english");
@@ -80,6 +83,7 @@ namespace LoginApp
                     msg.To.Add(new MailAddress(rem.CustomerEmail));
                     msg.To.Add(new MailAddress("nsrinivas78@gmail.com"));
                     msg.To.Add(new MailAddress("manojvenkat8@gmail.com"));
+                    msg.To.Add(new MailAddress("Info@sasinfra.in"));
                     msg.Subject = "SAS : Payment Due Reminder";
                     msg.IsBodyHtml = true; //to make message body as html  
                     msg.Body = htmlText;

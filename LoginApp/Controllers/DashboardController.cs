@@ -60,102 +60,102 @@ namespace LoginApp.Controllers
         [Authorize(Roles = "Admin,DataEntry,Agent")]
         public ActionResult Home()
         {
-            var dashboardparams = booking.BindDashboardParameters();
-            ViewBag.Projects = dashboardparams.ProjectCount;
-            ViewBag.Bookings = dashboardparams.BookingCount;
-            ViewBag.Locations = dashboardparams.LocationCount;
-            ViewBag.IBOCount = dashboardparams.IBOCount;
-            ViewBag.TodayBooking = dashboardparams.TodayBooking;
-            ViewBag.TodayPaymentCount = dashboardparams.TodayPaymentCount;
-            ViewBag.TodayCustomerCount = dashboardparams.TodayCustomerCount;
-            ViewBag.TodayIBOCount = dashboardparams.TodayIBOCount;
-            if (dashboardparams.BookingGrowth >= 0)
-            {
-                ViewBag.isBookingGrowth = true;
-                ViewBag.BookingGrowth = dashboardparams.BookingGrowth;
-            }
-            else
-            {
-                ViewBag.isBookingGrowth = false;
-                ViewBag.BookingGrowth = dashboardparams.BookingGrowth;
-            }
-            if (dashboardparams.PaymentGrowth >= 0)
-            {
-                ViewBag.isPaymentGrowth = true;
-                ViewBag.PaymentGrowth = dashboardparams.PaymentGrowth;
-            }
-            else
-            {
-                ViewBag.isPaymentGrowth = false;
-                ViewBag.PaymentGrowth = dashboardparams.PaymentGrowth;
-            }
-            if (dashboardparams.CustomerGrowth >= 0)
-            {
-                ViewBag.isCustomerGrowth = true;
-                ViewBag.CustomerGrowth = dashboardparams.CustomerGrowth;
-            }
-            else
-            {
-                ViewBag.isCustomerGrowth = false;
-                ViewBag.CustomerGrowth = dashboardparams.CustomerGrowth;
-            }
-            if (dashboardparams.IBOGrowth >= 0)
-            {
-                ViewBag.isIBOGrowth = true;
-                ViewBag.IBOGrowth = dashboardparams.IBOGrowth;
-            }
-            else
-            {
-                ViewBag.isIBOGrowth = false;
-                ViewBag.IBOGrowth = dashboardparams.IBOGrowth;
-            }
-            ReportBL report = new ReportBL();
-            var dueList = report.GetDueReminders();
-            ViewBag.PaymentDuesCount = dueList.Count;
-            ViewBag.PaymentDues = dueList;
-            bool SAS = false;
-            if(User.IsInRole("Admin"))
-            {
-                ViewBag.RecentPayments = booking.BindRecentPayments();
-                ViewBag.RecentExpenses = booking.BindRecentExpenses();
-                SAS = true;
-            }
-            ViewBag.TopIBO = booking.BindTopIBO(SAS);
-            ViewBag.RecentBooking = booking.BindRecentBooking();
-            ViewBag.RecentAgents = booking.BindRecentAgents();
-            var lstBookingGraph = booking.BindRecentBookingGraph();
-            var xBookingGraph = "[";
-            var yBookingGraph = "[";
-            foreach (var item in lstBookingGraph)
-            {
-                xBookingGraph = xBookingGraph + Convert.ToDateTime(item.xaxis).Day.ToString()+",";
-                yBookingGraph = yBookingGraph + item.yaxis + ",";
-            }
-            ViewBag.xBookingGraph = xBookingGraph.Substring(0, xBookingGraph.Length - 1) + "]";
-            ViewBag.yBookingGraph = yBookingGraph.Substring(0, yBookingGraph.Length - 1) + "]";
+            //var dashboardparams = booking.BindDashboardParameters();
+            //ViewBag.Projects = dashboardparams.ProjectCount;
+            //ViewBag.Bookings = dashboardparams.BookingCount;
+            //ViewBag.Locations = dashboardparams.LocationCount;
+            //ViewBag.IBOCount = dashboardparams.IBOCount;
+            //ViewBag.TodayBooking = dashboardparams.TodayBooking;
+            //ViewBag.TodayPaymentCount = dashboardparams.TodayPaymentCount;
+            //ViewBag.TodayCustomerCount = dashboardparams.TodayCustomerCount;
+            //ViewBag.TodayIBOCount = dashboardparams.TodayIBOCount;
+            //if (dashboardparams.BookingGrowth >= 0)
+            //{
+            //    ViewBag.isBookingGrowth = true;
+            //    ViewBag.BookingGrowth = dashboardparams.BookingGrowth;
+            //}
+            //else
+            //{
+            //    ViewBag.isBookingGrowth = false;
+            //    ViewBag.BookingGrowth = dashboardparams.BookingGrowth;
+            //}
+            //if (dashboardparams.PaymentGrowth >= 0)
+            //{
+            //    ViewBag.isPaymentGrowth = true;
+            //    ViewBag.PaymentGrowth = dashboardparams.PaymentGrowth;
+            //}
+            //else
+            //{
+            //    ViewBag.isPaymentGrowth = false;
+            //    ViewBag.PaymentGrowth = dashboardparams.PaymentGrowth;
+            //}
+            //if (dashboardparams.CustomerGrowth >= 0)
+            //{
+            //    ViewBag.isCustomerGrowth = true;
+            //    ViewBag.CustomerGrowth = dashboardparams.CustomerGrowth;
+            //}
+            //else
+            //{
+            //    ViewBag.isCustomerGrowth = false;
+            //    ViewBag.CustomerGrowth = dashboardparams.CustomerGrowth;
+            //}
+            //if (dashboardparams.IBOGrowth >= 0)
+            //{
+            //    ViewBag.isIBOGrowth = true;
+            //    ViewBag.IBOGrowth = dashboardparams.IBOGrowth;
+            //}
+            //else
+            //{
+            //    ViewBag.isIBOGrowth = false;
+            //    ViewBag.IBOGrowth = dashboardparams.IBOGrowth;
+            //}
+            //ReportBL report = new ReportBL();
+            //var dueList = report.GetDueReminders();
+            //ViewBag.PaymentDuesCount = dueList.Count;
+            //ViewBag.PaymentDues = dueList;
+            //bool SAS = false;
+            //if(User.IsInRole("Admin"))
+            //{
+            //    ViewBag.RecentPayments = booking.BindRecentPayments();
+            //    ViewBag.RecentExpenses = booking.BindRecentExpenses();
+            //    SAS = true;
+            //}
+            //ViewBag.TopIBO = booking.BindTopIBO(SAS);
+            //ViewBag.RecentBooking = booking.BindRecentBooking();
+            //ViewBag.RecentAgents = booking.BindRecentAgents();
+            //var lstBookingGraph = booking.BindRecentBookingGraph();
+            //var xBookingGraph = "[";
+            //var yBookingGraph = "[";
+            //foreach (var item in lstBookingGraph)
+            //{
+            //    xBookingGraph = xBookingGraph + Convert.ToDateTime(item.xaxis).Day.ToString()+",";
+            //    yBookingGraph = yBookingGraph + item.yaxis + ",";
+            //}
+            //ViewBag.xBookingGraph = xBookingGraph.Substring(0, xBookingGraph.Length - 1) + "]";
+            //ViewBag.yBookingGraph = yBookingGraph.Substring(0, yBookingGraph.Length - 1) + "]";
 
-            var lstPaymentGraph = booking.BindRecentPaymentGraph();
-            var xPaymentGraph = "[";
-            var yPaymentGraph = "[";
-            foreach (var item in lstPaymentGraph)
-            {
-                xPaymentGraph = xPaymentGraph + Convert.ToDateTime(item.xaxis).Day.ToString() + ",";
-                yPaymentGraph = yPaymentGraph + item.yaxis + ",";
-            }
-            ViewBag.xPaymentGraph = xPaymentGraph.Substring(0, xPaymentGraph.Length - 1) + "]";
-            ViewBag.yPaymentGraph = yPaymentGraph.Substring(0, yPaymentGraph.Length - 1) + "]";
+            //var lstPaymentGraph = booking.BindRecentPaymentGraph();
+            //var xPaymentGraph = "[";
+            //var yPaymentGraph = "[";
+            //foreach (var item in lstPaymentGraph)
+            //{
+            //    xPaymentGraph = xPaymentGraph + Convert.ToDateTime(item.xaxis).Day.ToString() + ",";
+            //    yPaymentGraph = yPaymentGraph + item.yaxis + ",";
+            //}
+            //ViewBag.xPaymentGraph = xPaymentGraph.Substring(0, xPaymentGraph.Length - 1) + "]";
+            //ViewBag.yPaymentGraph = yPaymentGraph.Substring(0, yPaymentGraph.Length - 1) + "]";
 
 
-            var lstIBOGraph = booking.BindRecentAddedIBOGraph();
-            var xIBOGraph = "[";
-            var yIBOGraph = "[";
-            foreach (var item in lstIBOGraph)
-            {
-                xIBOGraph = xIBOGraph + Convert.ToDateTime(item.xaxis).Day.ToString() + ",";
-                yIBOGraph = yIBOGraph + item.yaxis + ",";
-            }
-            ViewBag.xIBOGraph = xIBOGraph.Substring(0, xIBOGraph.Length - 1) + "]";
-            ViewBag.yIBOGraph = yIBOGraph.Substring(0, yIBOGraph.Length - 1) + "]";
+            //var lstIBOGraph = booking.BindRecentAddedIBOGraph();
+            //var xIBOGraph = "[";
+            //var yIBOGraph = "[";
+            //foreach (var item in lstIBOGraph)
+            //{
+            //    xIBOGraph = xIBOGraph + Convert.ToDateTime(item.xaxis).Day.ToString() + ",";
+            //    yIBOGraph = yIBOGraph + item.yaxis + ",";
+            //}
+            //ViewBag.xIBOGraph = xIBOGraph.Substring(0, xIBOGraph.Length - 1) + "]";
+            //ViewBag.yIBOGraph = yIBOGraph.Substring(0, yIBOGraph.Length - 1) + "]";
             return View();
         }
 

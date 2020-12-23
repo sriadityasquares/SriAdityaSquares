@@ -25,8 +25,9 @@ namespace LoginApp
                     .WithDailyTimeIntervalSchedule
                     (s =>
                             s.OnEveryDay()
+                            //.WithIntervalInMinutes(1)
                             .WithIntervalInHours(24)
-                            .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(00, 05))
+                            .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(06, 45))
                     )
                     .Build();
 

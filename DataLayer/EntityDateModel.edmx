@@ -743,6 +743,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <Function Name="sp_GetAgentPercentageByProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_GetAgentProjectLevels" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetAgentsByProjectID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
@@ -1162,6 +1163,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <FunctionImport Name="sp_GetRecentPaymentGraph" ReturnType="Collection(salesDBModel.sp_GetRecentPaymentGraph_Result)" />
           <FunctionImport Name="sp_GetDashboardParameters" ReturnType="Collection(salesDBModel.sp_GetDashboardParameters_Result)" />
           <FunctionImport Name="sp_GetRecentAddedIBOGraph" ReturnType="Collection(salesDBModel.sp_GetRecentAddedIBOGraph_Result)" />
+          <FunctionImport Name="sp_GetAgentProjectLevels" ReturnType="Collection(salesDBModel.sp_GetAgentProjectLevels_Result)" />
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -2345,6 +2347,18 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <ComplexType Name="sp_GetRecentAddedIBOGraph_Result">
           <Property Type="String" Name="xaxis" Nullable="true" />
           <Property Type="String" Name="yaxis" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetAgentProjectLevels_Result">
+          <Property Type="Int32" Name="AgentID" Nullable="false" />
+          <Property Type="Int32" Name="ProjectID" Nullable="false" />
+          <Property Type="Int32" Name="LevelID" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="128" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="255" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3642,6 +3656,22 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               <ComplexTypeMapping TypeName="salesDBModel.sp_GetRecentAddedIBOGraph_Result">
                 <ScalarProperty Name="xaxis" ColumnName="xaxis" />
                 <ScalarProperty Name="yaxis" ColumnName="yaxis" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentProjectLevels" FunctionName="salesDBModel.Store.sp_GetAgentProjectLevels">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentProjectLevels_Result">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

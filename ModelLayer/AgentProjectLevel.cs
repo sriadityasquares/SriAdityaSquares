@@ -20,6 +20,8 @@ namespace ModelLayer
 
         public string AgentName { get; set; }
 
+        public string ProjectName { get; set; }
+
         public string AgentParent { get; set; }
         public string AgentChild { get; set; }
     }

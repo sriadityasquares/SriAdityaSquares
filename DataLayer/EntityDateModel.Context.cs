@@ -533,5 +533,10 @@ namespace DataLayer
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetRecentAddedIBOGraph_Result>("sp_GetRecentAddedIBOGraph");
         }
+    
+        public virtual ObjectResult<sp_GetAgentProjectLevels_Result> sp_GetAgentProjectLevels()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentProjectLevels_Result>("sp_GetAgentProjectLevels");
+        }
     }
 }

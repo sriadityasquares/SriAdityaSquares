@@ -19,6 +19,7 @@ namespace LoginApp.Controllers.Admin
 
         BookingBL booking = new BookingBL();
         AdminBL agentLevels = new AdminBL();
+        CommonBL common = new CommonBL();
         // GET: AgentProject
         public ActionResult Index()
         {
@@ -30,7 +31,6 @@ namespace LoginApp.Controllers.Admin
             try
             {
                 list = booking.BindAgentProjectLevels();
-
             }
             catch (Exception ex)
             {

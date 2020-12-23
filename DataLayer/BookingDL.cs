@@ -1329,10 +1329,10 @@ namespace DataLayer
                 List<AgentProjectLevel> lstAgents = new List<AgentProjectLevel>();
                 var config = new MapperConfiguration(cfg =>
                 {
-                    cfg.CreateMap<tblAgentProjectLevel, AgentProjectLevel>();
+                    cfg.CreateMap<sp_GetAgentProjectLevels_Result, AgentProjectLevel>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstAgents = mapper.Map<List<tblAgentProjectLevel>, List<AgentProjectLevel>>(dbEntity.tblAgentProjectLevels.ToList()).ToList();
+                lstAgents = mapper.Map<List<sp_GetAgentProjectLevels_Result>, List<AgentProjectLevel>>(dbEntity.sp_GetAgentProjectLevels().ToList()).ToList();
                 return lstAgents;
             }
             catch (Exception ex)
