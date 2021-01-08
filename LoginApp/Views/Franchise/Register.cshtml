@@ -1,0 +1,165 @@
+﻿@model ModelLayer.FranchiseRegistration
+@{
+    ViewBag.Title = "Register";
+}
+
+
+@using (Html.BeginForm("Register", "Franchise", FormMethod.Post, new
+{
+
+    role = "form",
+    id = "submitbtn",
+    enctype = "multipart/form-data"
+}))
+{
+    @Html.HiddenFor(m => m.CountryName)
+    @Html.HiddenFor(m => m.StateName)
+    @Html.HiddenFor(m => m.CityName)
+    @Html.HiddenFor(m => m.AreaName)
+    @Html.HiddenFor(m => m.IBOID)
+    <div class="jumbotron" style="padding-bottom:10px;height:800px;margin-top:20px;">
+
+        <div class="row">
+            <div class="col-md-12 col-xs" style="margin-top:0px">
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">FRANCHISE REGISTRATION</h3>
+                <div class="specialLine col-md-1"></div>
+            </div>
+
+        </div>
+        <hr />
+        <br />
+        <div class="row">
+            @Html.LabelFor(m => m.IBOName, new { @class = "col-md-1" })
+            @Html.TextBoxFor(m => m.IBOName, new { @class = "textbox-control col-md-11", @readonly = true })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Country, new { @class = "col-md-1" })
+            @Html.DropDownListFor(model => model.Country, TempData["CountryList"] as SelectList, "--Select Country--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.State, new { @class = "col-md-1" })
+            @Html.DropDownListFor(model => model.State, new SelectList(" "), "--Select State--", new { @class = "textbox-control col-md-3 col-xs" })
+            @*@Html.ValidationMessageFor(m => m.stateID, "", new { @class = "text-danger" })*@
+            @Html.LabelFor(m => m.City, new { @class = "col-md-1" })
+            @Html.DropDownListFor(model => model.City, new SelectList(" "), "--Select City--", new { @class = "textbox-control col-md-3 col-xs" })
+            @*@Html.ValidationMessageFor(m => m.CityID, "", new { @class = "text-danger" })*@
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Area, new { @class = "col-md-1" })
+            @Html.DropDownListFor(model => model.Area, new SelectList(" "), "--Select Area--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.Amount, new { @class = "col-md-1" })
+            @Html.TextBoxFor(m => m.Amount, new { @class = "textbox-control col-md-3" })
+            @Html.LabelFor(m => m.Duration, new { @class = "col-md-1" })
+            @Html.TextBoxFor(m => m.Duration, new { @class = "textbox-control col-md-3" })
+        </div>
+        <div class="row" style="padding-TOP:20px">
+            <div class="col-md-3">
+                <label>SELECT PAYMENT RECEIPT:</label>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="file" name="Receipt" id="Receipt" />
+            </div>
+
+
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-book"></i>REGISTER</button>
+            </div>
+        </div>
+
+    </div>
+}
+<script>
+    if ('@ViewBag.Result' != null) {
+        toastr.info('@ViewBag.Message');
+    }
+    $("#IBOName").val('@ViewBag.AgentName');
+    $("#IBOID").val('@ViewBag.AgentID');
+    $("#Country").change(function () {
+        if ($("#Country").val() != '') {
+            $.get("/Cascade/GetStateList", { CountryId: $("#Country").val() }, function (data) {
+                $("#State").empty();
+                $("#State").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
+                $("#City").empty();
+                $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
+                $.each(data, function (index, row) {
+
+                    $("#State").append("<option  value='" + row.StateID + "'>" + row.StateName + "</option>")
+
+
+                });
+            });
+        }
+        else {
+            $("#State").empty();
+            $("#State").append("<option value='" + 0 + "'>" + "--Select State--" + "</option>")
+            $("#City").empty();
+            $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
+        }
+    })
+
+
+    $("#State").change(function () {
+        $.get("/Cascade/GetCityList", { StateId: $("#State").val() }, function (data) {
+            $("#City").empty();
+            $("#City").append("<option value='" + 0 + "'>" + "--Select City--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#City").append("<option value='" + row.CityID + "'>" + row.CityName + "</option>")
+            });
+        });
+    });
+
+    $("#City").change(function () {
+        $.get("/Cascade/GetAreaList", { CityId: $("#City").val() }, function (data) {
+            $("#Area").empty();
+            $("#Area").append("<option value='" + 0 + "'>" + "--Select Area--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#Area").append("<option value='" + row.AreaID + "'>" + row.AreaName + "</option>")
+            });
+        });
+    });
+
+    $("#submitbtn").submit(function () {
+        Validations();
+        if (validationsFlag) {
+            SetHiddenFields();
+        }
+        //if (!$('#submitbtn').valid()) {
+        //   $('#ValidationSummaryModal').modal('show');
+        //}
+    });
+
+    function SetHiddenFields() {
+        alert($("#Area").val());
+        $("#CountryName").val($("#Country option:selected").text());
+        $("#StateName").val($("#State option:selected").text());
+        $("#CityName").val($("#City option:selected").text());
+        $("#AreaName").val($("#Area option:selected").text());
+
+
+    }
+
+    function Validations() {
+
+
+        if ($("#Area").val() == '0' || $("#Area").val() == '') {
+            toastr.error("Please Select the Area"); return;
+        }
+        if ($("#Amount").val() == '0' || $("#Amount").val() == '') {
+            toastr.error("Please Enter the Amount"); return;
+            //$("#AgentID").val() = null;
+            return;
+        }
+        if ($("#Duration").val() == '0' || $("#Duration").val() == '') {
+            toastr.error("Please Enter the Duration"); return;
+            //$("#AgentID").val() = null;
+            return;
+        }
+        if ($("#IBO").val() == '') {
+            toastr.error("IBO Name is Required"); return;
+        }
+
+
+        validationsFlag = true;
+    }
+</script>

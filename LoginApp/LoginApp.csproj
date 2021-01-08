@@ -475,6 +475,7 @@
     <Compile Include="Controllers\ChatBotController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\FranchiseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -751,6 +752,14 @@
     <Content Include="Content\Images\Jewels County.PNG" />
     <Content Include="Content\Images\Jogging Path.PNG" />
     <Content Include="Content\Images\MIRCHI VENICE.PNG" />
+    <Content Include="Content\Images\Ornate.jpg" />
+    <Content Include="Content\Images\Ornate.PNG" />
+    <Content Include="Content\Images\Ornate_1920x1000.jpg" />
+    <Content Include="Content\Images\Ornate_1920x1280.jpg" />
+    <Content Include="Content\Images\Ornate_1920x900.jpg" />
+    <Content Include="Content\Images\Ornate_1920x960.jpg" />
+    <Content Include="Content\Images\Ornate_1_1920x1080.jpg" />
+    <Content Include="Content\Images\robot.png" />
     <Content Include="Content\Images\SISHTA ABODE.PNG" />
     <Content Include="Content\Images\Tapovanam.PNG" />
     <Content Include="Content\Images\letterhead2.jpg" />
@@ -853,6 +862,7 @@
     <Content Include="Content\Images\Terrace Seating Lounge.PNG" />
     <Content Include="Content\Images\The Drizzle.PNG" />
     <Content Include="Content\Images\TV Room.PNG" />
+    <Content Include="Content\Images\user.png" />
     <Content Include="Content\Images\wall.JPG" />
     <Content Include="Content\Images\Woodland.PNG" />
     <Content Include="Content\Images\woods.jpg" />
@@ -1255,6 +1265,7 @@
     </Content>
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="Content\Images\robot2.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Dashboard\bootstrap-material-design.min.js" />
@@ -2080,9 +2091,14 @@
     <Content Include="Views\Booking\CheckList.cshtml" />
     <Content Include="Views\Report\SMSLog.cshtml" />
     <Content Include="Views\Dashboard\Home.cshtml" />
+    <Content Include="Views\Franchise\Register.cshtml" />
+    <Content Include="Views\Franchise\AgreementStatus.cshtml" />
+    <Content Include="Views\Franchise\GetAgreements.cshtml" />
+    <Content Include="Views\Franchise\Approval.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Franchise\" />
     <Folder Include="Content\Images\Selfies\" />
     <Folder Include="Views\ChatBot\" />
   </ItemGroup>

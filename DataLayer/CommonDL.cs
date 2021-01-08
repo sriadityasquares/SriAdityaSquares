@@ -45,7 +45,7 @@ namespace DataLayer
                     cfg.CreateMap<tblState, State>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstState = mapper.Map<List<tblState>, List<State>>(dbEntity.tblStates.Where(x=> x.CountryID == countryId).ToList()).ToList();
+                lstState = mapper.Map<List<tblState>, List<State>>(dbEntity.tblStates.Where(x => x.CountryID == countryId).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -54,6 +54,24 @@ namespace DataLayer
             return lstState;
         }
 
+        public List<Area> BindArea(int cityID)
+        {
+            List<Area> lstArea = new List<Area>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblArea, Area>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstArea = mapper.Map<List<tblArea>, List<Area>>(dbEntity.tblAreas.Where(x => x.CityID == cityID).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstArea;
+        }
         public List<Status> BindStatus()
         {
             List<Status> lstStatus = new List<Status>();
@@ -122,7 +140,7 @@ namespace DataLayer
                     cfg.CreateMap<tblAgentMaster, Agent>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstAgent = mapper.Map<List<tblAgentMaster>, List<Agent>>(dbEntity.tblAgentMasters.Where(x => x.AgentStatus == "A" && x.AgentID !=1).ToList()).ToList();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<Agent>>(dbEntity.tblAgentMasters.Where(x => x.AgentStatus == "A" && x.AgentID != 1).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -140,7 +158,7 @@ namespace DataLayer
                     cfg.CreateMap<tblAgentMaster, AgentDropdown>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstAgent = mapper.Map<List<tblAgentMaster>, List<AgentDropdown>>(dbEntity.tblAgentMasters.Where(x=>x.AgentStatus == "A").OrderBy(x=>x.AgentName).ToList()).ToList();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<AgentDropdown>>(dbEntity.tblAgentMasters.Where(x => x.AgentStatus == "A").OrderBy(x => x.AgentName).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -245,7 +263,7 @@ namespace DataLayer
             return lstMonth;
         }
 
-        public void UpdateAgentLocation(double lalitude,double longitude,string email)
+        public void UpdateAgentLocation(double lalitude, double longitude, string email)
         {
             try
             {
@@ -259,11 +277,11 @@ namespace DataLayer
             }
             catch
             {
-                
+
             }
         }
 
-        public MyProfile GetMyProfile(string username,string role)
+        public MyProfile GetMyProfile(string username, string role)
         {
             MyProfile myProfile = new MyProfile();
             try
@@ -274,7 +292,7 @@ namespace DataLayer
                     cfg.CreateMap<sp_GetProfile_Result, MyProfile>();
                 });
                 IMapper mapper = config.CreateMapper();
-                myProfile = mapper.Map<sp_GetProfile_Result, MyProfile>(dbEntity.sp_GetProfile(role,username).FirstOrDefault());
+                myProfile = mapper.Map<sp_GetProfile_Result, MyProfile>(dbEntity.sp_GetProfile(role, username).FirstOrDefault());
             }
             catch (Exception ex)
             {
@@ -315,7 +333,7 @@ namespace DataLayer
                     cfg.CreateMap<tblSM, SMS>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstSMS = mapper.Map<List<tblSM>, List<SMS>>(dbEntity.tblSMS.OrderByDescending(x=>x.CreatedDate).ToList()).ToList();
+                lstSMS = mapper.Map<List<tblSM>, List<SMS>>(dbEntity.tblSMS.OrderByDescending(x => x.CreatedDate).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -324,8 +342,29 @@ namespace DataLayer
             return lstSMS;
         }
 
+        public List<Agent> BindAgentsOnUsername(string username)
+        {
+            List<Agent> lstAgent = new List<Agent>();
+            try
+            {
+
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentMaster, Agent>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<Agent>>(dbEntity.tblAgentMasters.Where(x=>x.AgenteMail == username).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstAgent;
+
+        }
+
 
     }
 }
-    
+
 

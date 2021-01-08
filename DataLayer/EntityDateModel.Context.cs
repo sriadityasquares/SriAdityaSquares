@@ -61,6 +61,9 @@ namespace DataLayer
         public virtual DbSet<tblPaymentInfo> tblPaymentInfoes { get; set; }
         public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
         public virtual DbSet<tblSM> tblSMS { get; set; }
+        public virtual DbSet<tblArea> tblAreas { get; set; }
+        public virtual DbSet<tblFranchiseRegistration> tblFranchiseRegistrations { get; set; }
+        public virtual DbSet<tblFranchiseRegistrationStatu> tblFranchiseRegistrationStatus { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {
@@ -537,6 +540,15 @@ namespace DataLayer
         public virtual ObjectResult<sp_GetAgentProjectLevels_Result> sp_GetAgentProjectLevels()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentProjectLevels_Result>("sp_GetAgentProjectLevels");
+        }
+    
+        public virtual ObjectResult<sp_GetFranchiseStatus_Result> sp_GetFranchiseStatus(Nullable<int> regNo)
+        {
+            var regNoParameter = regNo.HasValue ?
+                new ObjectParameter("RegNo", regNo) :
+                new ObjectParameter("RegNo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFranchiseStatus_Result>("sp_GetFranchiseStatus", regNoParameter);
         }
     }
 }

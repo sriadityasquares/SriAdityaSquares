@@ -53,6 +53,7 @@
     <Compile Include="AgentTotalPayments.cs" />
     <Compile Include="Agreements.cs" />
     <Compile Include="Amenity.cs" />
+    <Compile Include="Area.cs" />
     <Compile Include="BookingInformation.cs" />
     <Compile Include="Cancellation.cs" />
     <Compile Include="Cheque.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="FlatDetails.cs" />
     <Compile Include="Flats.cs" />
     <Compile Include="FlatWiseAgentCommission.cs" />
+    <Compile Include="FranchiseRegistration.cs" />
     <Compile Include="GetAgentFlatWiseCommissionByLogin.cs" />
     <Compile Include="GetAgentLocations.cs" />
     <Compile Include="GetAgentWiseBookingDetails.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="GetFlatLifeCycle.cs" />
     <Compile Include="GetFlatPaymentDetails.cs" />
     <Compile Include="GetFlatWiseTotalAgentCommission.cs" />
+    <Compile Include="GetFranchiseStatus.cs" />
     <Compile Include="GetGraphicalPeriodWiseBooking.cs" />
     <Compile Include="GetMySiteVisits.cs" />
     <Compile Include="GetPaymentInfoByDate.cs" />

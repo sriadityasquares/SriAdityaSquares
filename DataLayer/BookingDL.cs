@@ -98,7 +98,7 @@ namespace DataLayer
                     cfg.CreateMap<tblProject, Projects>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstProjects = mapper.Map<List<tblProject>, List<Projects>>(dbEntity.tblProjects.Where(a => a.ProjectLocation == locationName).ToList()).ToList();
+                lstProjects = mapper.Map<List<tblProject>, List<Projects>>(dbEntity.tblProjects.Where(a => a.ProjectLocation == locationName && a.BookingStatus =="O").ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -2121,6 +2121,131 @@ namespace DataLayer
             }
 
             return lstBooking;
+        }
+
+
+        public bool RegisterFranchise(FranchiseRegistration fr)
+        {
+            try
+            {
+                tblFranchiseRegistration frInfo = new tblFranchiseRegistration();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<FranchiseRegistration, tblFranchiseRegistration>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<FranchiseRegistration, tblFranchiseRegistration>(fr, frInfo);
+                dbEntity.tblFranchiseRegistrations.Add(frInfo);
+
+                tblFranchiseRegistrationStatu frStatusInfo = new tblFranchiseRegistrationStatu();
+                var config1 = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<FranchiseRegistration, tblFranchiseRegistrationStatu>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper1 = config1.CreateMapper();
+                mapper1.Map<FranchiseRegistration, tblFranchiseRegistrationStatu>(fr, frStatusInfo);
+                dbEntity.tblFranchiseRegistrationStatus.Add(frStatusInfo);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public List<FranchiseRegistration> GetFranchiseAgreements()
+        {
+            List<FranchiseRegistration> lstFranchises = new List<FranchiseRegistration>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblFranchiseRegistration, FranchiseRegistration>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstFranchises = mapper.Map<List<tblFranchiseRegistration>, List<FranchiseRegistration>>(dbEntity.tblFranchiseRegistrations.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+
+            return lstFranchises;
+        }
+
+        public FranchiseRegistration GetFranchiseAgreements(int regNo)
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblFranchiseRegistration, FranchiseRegistration>();
+                });
+                IMapper mapper = config.CreateMapper();
+                return mapper.Map<tblFranchiseRegistration, FranchiseRegistration>(dbEntity.tblFranchiseRegistrations.Where(x=>x.RegisterNo == regNo).FirstOrDefault());
+
+                //return mapper.Map<sp_GetDashboardParameters_Result>,<DashboardParameters>(dbEntity.sp_GetDashboardParameters().FirstOrDefault()).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                return new FranchiseRegistration();
+            }
+        }
+
+        public bool UpdateFranchiseAgreements(FranchiseRegistration fr)
+        {
+            try
+            {
+             
+                var oldAgreement = dbEntity.tblFranchiseRegistrations.Where(x => x.RegisterNo == fr.RegisterNo).FirstOrDefault();
+                oldAgreement.Status = fr.Status;
+                oldAgreement.Comments = fr.Comments;
+                oldAgreement.ModifiedBy = fr.CreatedBy;
+                oldAgreement.ModifiedDate = fr.CreatedDate;
+                tblFranchiseRegistrationStatu frStatusInfo = new tblFranchiseRegistrationStatu();
+                var config1 = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<FranchiseRegistration, tblFranchiseRegistrationStatu>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper1 = config1.CreateMapper();
+                mapper1.Map<FranchiseRegistration, tblFranchiseRegistrationStatu>(fr, frStatusInfo);
+                dbEntity.tblFranchiseRegistrationStatus.Add(frStatusInfo);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public List<GetFranchiseStatus> GetFranchiseStatus(int regNO)
+        {
+            List<GetFranchiseStatus> franchiseStatuses = new List<GetFranchiseStatus>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetFranchiseStatus_Result, GetFranchiseStatus>();
+                });
+                IMapper mapper = config.CreateMapper();
+                franchiseStatuses = mapper.Map<List<sp_GetFranchiseStatus_Result>, List<GetFranchiseStatus>>(dbEntity.sp_GetFranchiseStatus(regNO).ToList()).ToList();
+                foreach(var item in franchiseStatuses)
+                {
+                    item.formattedDate = Convert.ToDateTime(item.date).ToString("dddd, dd MMMM yyyy");
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+
+            return franchiseStatuses;
         }
     }
 }

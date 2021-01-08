@@ -133,7 +133,7 @@ namespace BusinessLayer
             return db.UpdateCancellation(comments, id);
         }
 
-        public bool UpdatePaymentDetails(int payID,string details)
+        public bool UpdatePaymentDetails(int payID, string details)
         {
             return db.UpdatePaymentDetails(payID, details);
         }
@@ -254,7 +254,7 @@ namespace BusinessLayer
             return db.GetSelfies(projectID, mobile);
         }
 
-        public bool AddSiteVisit(SiteVisitInfo svi,string username)
+        public bool AddSiteVisit(SiteVisitInfo svi, string username)
         {
             return db.AddSiteVisit(svi, username);
         }
@@ -315,7 +315,7 @@ namespace BusinessLayer
             return db.GetSiteVisitsForApproval();
         }
 
-        public bool UpdateSiteVisitApproval(SiteVisitInfo svi,string username)
+        public bool UpdateSiteVisitApproval(SiteVisitInfo svi, string username)
         {
             return db.UpdateSiteVisitApproval(svi, username);
         }
@@ -389,6 +389,30 @@ namespace BusinessLayer
         public List<GetGraphicalPeriodWiseBooking> BindRecentAddedIBOGraph()
         {
             return db.BindRecentAddedIBOGraph();
+        }
+
+        public bool RegisterFranchise(FranchiseRegistration fr)
+        {
+            return db.RegisterFranchise(fr);
+        }
+
+        public List<FranchiseRegistration> GetFranchiseAgreements()
+        {
+            return db.GetFranchiseAgreements();
+        }
+
+        public FranchiseRegistration GetFranchiseAgreements(int regno)
+        {
+            return db.GetFranchiseAgreements(regno);
+        }
+
+        public bool UpdateFranchiseAgreements(FranchiseRegistration fr)
+        {
+            return db.UpdateFranchiseAgreements(fr);
+        }
+        public List<GetFranchiseStatus> GetFranchiseStatus(int regNO)
+        {
+            return db.GetFranchiseStatus(regNO);
         }
     }
 }

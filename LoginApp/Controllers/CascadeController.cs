@@ -32,6 +32,12 @@ namespace LoginApp.Controllers
 
         }
 
+        public JsonResult GetAreaList(int CityId)
+        {
+            List<Area> AreaList = objCasc.BindArea(CityId);
+            return Json(AreaList, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult GetStatus()
         {
             List<Status> statusList = objCasc.BindStatus();

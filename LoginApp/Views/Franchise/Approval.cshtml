@@ -1,0 +1,96 @@
+﻿@model ModelLayer.FranchiseRegistration
+@{
+    ViewBag.Title = "Approval";
+}
+@using (Html.BeginForm("Approval", "Franchise", FormMethod.Post, new
+{
+
+    role = "form",
+    id = "submitbtn",
+    //enctype = "multipart/form-data"
+}))
+{
+    @Html.HiddenFor(x => x.RegisterNo)
+    @Html.HiddenFor(x => x.ChangedStatus)
+<div class="jumbotron" style="padding-bottom:10px;height:800px;margin-top:20px;">
+
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">APPROVALS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <hr />
+    <br />
+    <div class="row">
+        @Html.LabelFor(m => m.IBOName, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.IBOName, new { @class = "textbox-control col-md-11", @readonly = true })
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.Country, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.CountryName, new { @class = "textbox-control col-md-3", @readonly = true })
+        @Html.LabelFor(m => m.State, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.StateName, new { @class = "textbox-control col-md-3", @readonly = true })
+        @*@Html.ValidationMessageFor(m => m.stateID, "", new { @class = "text-danger" })*@
+        @Html.LabelFor(m => m.City, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.CityName, new { @class = "textbox-control col-md-3", @readonly = true })
+        @*@Html.ValidationMessageFor(m => m.CityID, "", new { @class = "text-danger" })*@
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.Area, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.AreaName, new { @class = "textbox-control col-md-3", @readonly = true })
+        @Html.LabelFor(m => m.Amount, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.Amount, new { @class = "textbox-control col-md-3", @readonly = true })
+        @Html.LabelFor(m => m.Duration, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.Duration, new { @class = "textbox-control col-md-3", @readonly = true })
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.Status, new { @class = "col-md-1" })
+        @Html.DropDownListFor(m => m.Status, new List<SelectListItem>
+{
+
+    new SelectListItem{ Text="FA in progress", Value = "FA in progress" },
+    new SelectListItem{ Text="Submitted", Value = "Submitted"  },
+    new SelectListItem{ Text="FA approved", Value = "FA approved" },
+    new SelectListItem{ Text="FA rejected", Value = "FA rejected" },
+    new SelectListItem{ Text="MDA in progress", Value = "MDA in progress" },
+    new SelectListItem{ Text="MD Approved", Value = "MD Approved" },
+    new SelectListItem{ Text="Agreement in progress", Value = "Agreement in progress" },
+    new SelectListItem{ Text="Completed", Value = "Completed" },
+    new SelectListItem{ Text="Refund initiated", Value = "Refund initiated" },
+    new SelectListItem{ Text="Refund in progress", Value = "Refund in progress" },
+    new SelectListItem{ Text="Refunded", Value = "Refunded" }
+ }, new { @class = "textbox-control col-md-2", @readonly = "readonly" })
+    </div>
+
+    <div class="row">
+        @Html.LabelFor(m => m.Comments, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.Comments, new { @class = "textboxarea-control col-md-6" })
+        <div class="col-md-4">
+            <button style="margin-left:60px" class="btn btn-success"><a style="color:white !important" href="@ViewBag.DownloadURL">DOWNLOAD RECEIPT</a></button>
+
+        </div>
+    </div>
+    @*<br />
+    <div class="row">
+        <div  class="col-md-6">
+            <button style="margin-left:60px" class="btn btn-success"><a style="color:white !important" href="@ViewBag.DownloadURL">DOWNLOAD RECEIPT</a></button>
+
+        </div>
+    </div>*@
+    <br />
+    <div class="row">
+        <div class="col-md-3">
+            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-book"></i>UPDATE STATUS</button>
+        </div>
+    </div>
+
+</div>
+}
+<script>
+    $("#submitbtn").submit(function () {
+        $("#ChangedStatus").val($("#Status option:selected").text());
+    }
+
+</script>

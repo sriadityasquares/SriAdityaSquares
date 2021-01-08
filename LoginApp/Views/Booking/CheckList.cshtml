@@ -50,11 +50,11 @@
                     <table id="tblPayments" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th><span>Amount</span></th>
-                                <th><span>Date</span></th>
+                                <th style="width:100px !important"><span>Amount</span></th>
+                                <th style="width:100px !important" ><span>Date</span></th>
                                 <th><span>Mode</span></th>
                                 <th><span>Ref</span></th>
-
+                                <th><span>Details</span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,7 +62,10 @@
                         </tbody>
                     </table>
                     <p>
+                        <b>PAID    : Rs.  <span id="TotalPaid"></span></b>
+                        <br />
                         <b>BALANCE : Rs.  <span id="TotalBalance"></span></b>
+
                     </p>
                     
                 </div>
@@ -198,7 +201,7 @@
                 /* Dimensions other than px and em should be divided by 1.33 for the proper PDF output */
                 .size-a4 {
                     width: 6.2in;
-                    height: 8.7in;
+                    height: 14.7in;
                 }
 
                 .size-letter {
@@ -259,6 +262,7 @@
             $.get("/Booking/GetPaymentDetails", { flatID: $("#FlatID").val() }, function (data) {
                 var TotalPaid = 0;
                 var BalanceAmount = "";
+                var TotalPaid = 0;
                 var BookingID = "";
                 var Aadhar = "";
                 var DueDate = "";
@@ -267,10 +271,10 @@
                     if (row.ReferenceNo == null) {
                         row.ReferenceNo = "";
                     }
-                    $('#tblPayments tbody').append("<tr><td> <b>Rs.</b> " + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.PaymentMode + "</td><td>" + row.ReferenceNo + "</td></tr>");
+                    $('#tblPayments tbody').append("<tr><td> <b>Rs.</b> " + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.PaymentMode + "</td><td>" + row.ReferenceNo + "</td><td>"+row.Details+"</td></tr>");
                     //$('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td>" + "</td><td><button type='submit'  name='GenerateReceipt' style='padding:3px;margin-bottom: 0px;' id='Generate' value='" + row.PaymentID + "' class='btn btn-default'><i class='fa fa-file-pdf-o'></i>GENERATE RECEIPT</button></td></tr>");
 
-                    //TotalPaid = TotalPaid + Number(row.BookingAmount);
+                    TotalPaid = TotalPaid + Number(row.BookingAmount);
                     BalanceAmount = parseInt(row.BalanceAmount);
                     //BookingID = row.BookingID;
 
@@ -279,7 +283,7 @@
                
                 //$("#TotalBalance").val(BalanceAmount);
                 $('#TotalBalance')[0].textContent = BalanceAmount;
-                
+                $('#TotalPaid')[0].textContent = TotalPaid;
             });
 
         $('#example').show();

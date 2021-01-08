@@ -41,12 +41,12 @@
 
     <div id="body1">
     </div>
-    <section id="hero" class="text-white tm-font-big tm-parallax">
+    <section id="hero">
         <!-- Navigation -->
-        <nav style="padding-bottom:3px;" class="navbar navbar-expand-md tm-navbar" id="tmNav">
+        <nav style="padding-bottom:3px;margin-bottom:0px;" class="navbar navbar-expand-md tm-navbar" id="tmNav">
             <div class="container">
                 <div class="tm-next">
-                    <a href="#hero">
+                    <a href="#hero" style="margin-top:100px;">
                         <img id="logoImagediv" style="object-fit: contain;" src="~/Content/Images/SASBLACKLOGO.png" />
                         <span style="font-family: kilsonburg;font-size:18px;color:black">SRI ADITYA SQUARES</span>
                     </a>
@@ -814,27 +814,27 @@
             $("#Longitude").val(position.coords.longitude);
         }
 
-        document.addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-        });
+        //document.addEventListener('contextmenu', function (e) {
+        //    e.preventDefault();
+        //});
 
-        document.onkeydown = function (e) {
-            if (event.keyCode == 123) {
-                return false;
-            }
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-                return false;
-            }
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
-                return false;
-            }
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-                return false;
-            }
-            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-                return false;
-            }
-        }
+        //document.onkeydown = function (e) {
+        //    if (event.keyCode == 123) {
+        //        return false;
+        //    }
+        //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+        //        return false;
+        //    }
+        //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+        //        return false;
+        //    }
+        //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+        //        return false;
+        //    }
+        //    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+        //        return false;
+        //    }
+        //}
         $.fn.disableScroll = function () {
             window.oldScrollPos = $(window).scrollTop();
 

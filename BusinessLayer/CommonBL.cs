@@ -21,6 +21,11 @@ namespace BusinessLayer
             return db.BindState(CountryID);
         }
 
+        public List<Area> BindArea(int CityID)
+        {
+            return db.BindArea(CityID);
+        }
+
         public List<Status> BindStatus()
         {
             return db.BindStatus();
@@ -83,6 +88,11 @@ namespace BusinessLayer
         public List<SMS> GetSMSLogs()
         {
             return db.GetSMSLogs();
+        }
+
+        public List<Agent> BindAgentsOnUsername(string username)
+        {
+            return db.BindAgentsOnUsername(username);
         }
     }
 }

@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "AgreementStatus";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">FRANCHISE STATUS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <div id="example">
+        <div class="demo-section k-content wide">
+            <div id="main"></div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+
+        $.get("/Franchise/GetAgreementStatus", { id: @ViewBag.RegNo }, function (data) {
+            var html = '';
+            var no = 1;
+            $.each(data, function (index, row) {
+                if (index == 0) {
+                    html = '<div id="timeline" style="background:whitesmoke " data-role="timeline" class="k-timeline k-widget k-timeline-vertical k-timeline-alternating k-timeline-collapsible"><ul>'
+                }
+                if (index % 2 == 0) {
+                    html = html + '<li class="k-timeline-flag-wrap"><span class="k-timeline-flag">' + no + '</span></li><li class="k-timeline-event k-reverse" data-uid="86786261-f21e-4b1c-afdb-ca22e228c829"><div class="k-timeline-date-wrap"><span class="k-timeline-date">' + row.formattedDate+'</span></div><a class="k-timeline-circle"></a><div class="k-timeline-card k-collapsed"><div class="k-card"><span class="k-timeline-card-callout k-card-callout k-callout-e"></span><div class="k-card-header"><h5 class="k-card-title"><span class="k-event-title">'+row.title+'</span><span class="k-event-collapse k-button k-button-icon k-flat"></span></h5><h6 class="k-card-subtitle">'+row.subtitle +'</h6></div><div class="k-card-body"><div class="k-card-description"><p>Touring the East Coast of the United States provides a massive range of entertainment and exploration. To take things in a somewhat chronological order, best to begin your trip in the north, checking out Boston’s Freedom Trail, Fenway Park, the Statue of Liberty, and Niagara Falls. Bring your raincoat to Niagara Falls, which straddles the boarder between Canada and the United States—the majestic sight might have you feeling misty in every sense of the word.</p><img src="https://demos.telerik.com/aspnet-mvc/tripxpert/Images/Gallery/United-States/Boston-Old-South-Church_Ivo-Igov.JPG?width=500&amp;height=500" class="k-card-image"></div></div></div></div></li>'
+                }
+                else {
+                    html = html + '<li class="k-timeline-flag-wrap"><span class="k-timeline-flag">' + no + '</span></li><li class="k-timeline-event" data-uid="86786261-f21e-4b1c-afdb-ca22e228c829"><div class="k-timeline-date-wrap"><span class="k-timeline-date">' + row.formattedDate + '</span></div><a class="k-timeline-circle"></a><div class="k-timeline-card k-collapsed"><div class="k-card"><span class="k-timeline-card-callout k-card-callout k-callout-w"></span><div class="k-card-header"><h5 class="k-card-title"><span class="k-event-title">' + row.title + '</span><span class="k-event-collapse k-button k-button-icon k-flat"></span></h5><h6 class="k-card-subtitle">' + row.subtitle +'</h6></div><div class="k-card-body"><div class="k-card-description"><p>Touring the East Coast of the United States provides a massive range of entertainment and exploration. To take things in a somewhat chronological order, best to begin your trip in the north, checking out Boston’s Freedom Trail, Fenway Park, the Statue of Liberty, and Niagara Falls. Bring your raincoat to Niagara Falls, which straddles the boarder between Canada and the United States—the majestic sight might have you feeling misty in every sense of the word.</p><img src="https://demos.telerik.com/aspnet-mvc/tripxpert/Images/Gallery/United-States/Boston-Old-South-Church_Ivo-Igov.JPG?width=500&amp;height=500" class="k-card-image"></div></div><div class="k-card-actions"><a class="k-button k-flat k-primary" href="https://en.wikipedia.org/wiki/New_York_City">More info about New York City</a></div></div></div></li>'
+
+                }
+                no = no + 1;
+            })
+            html = html + ' </ul></div>';
+
+            //$('#flatProgress').data("kendoProgressBar").value(percentage)
+            $('#main').html(html);
+
+        })
+        @*$("#timeline").kendoTimeline({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "/Franchise/GetAgreementStatus?id="+@ViewBag.RegNo,
+                        dataType: "json"
+                    }
+                },
+                schema: {
+                    model: {
+                        fields: {
+                            date: {
+                                type: "date"
+                            },
+                        }
+                    }
+                }
+            },
+            alternatingMode: true,
+            //collapsibleEvents: true,
+            orientation: "vertical"
+        });*@
+    });
+</script>
+<style>
+    .k-timeline .k-timeline-flag {
+        background-color: #ea4f4c !important;
+        color: #fff;
+    }
+    .k-timeline .k-timeline-circle {
+        background-color: #ea4f4c !important;
+    }
+
+    .k-timeline-card .k-card {
+        border-color: #4caf50 !important
+    }
+</style>

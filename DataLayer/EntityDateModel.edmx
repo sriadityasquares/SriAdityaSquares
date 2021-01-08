@@ -156,6 +156,19 @@
           <Property Name="Amenities" Type="varchar(max)" />
           <Property Name="AmenitesPicUrl" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="tblAreas">
+          <Key>
+            <PropertyRef Name="AreaID" />
+          </Key>
+          <Property Name="AreaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CityID" Type="int" />
+          <Property Name="AreaName" Type="varchar" MaxLength="255" />
+          <Property Name="Status" Type="char" MaxLength="1" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="tblBookingInformation">
           <Key>
             <PropertyRef Name="BookingID" />
@@ -411,6 +424,42 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="AmountPaid" Type="int" />
           <Property Name="NetBalance" Type="int" />
           <Property Name="Discount" Type="int" />
+        </EntityType>
+        <EntityType Name="tblFranchiseRegistration">
+          <Key>
+            <PropertyRef Name="RegisterNo" />
+          </Key>
+          <Property Name="RegisterNo" Type="int" Nullable="false" />
+          <Property Name="IBOID" Type="int" />
+          <Property Name="IBOName" Type="nvarchar(max)" />
+          <Property Name="Country" Type="int" />
+          <Property Name="CountryName" Type="nvarchar(max)" />
+          <Property Name="State" Type="int" />
+          <Property Name="StateName" Type="nvarchar(max)" />
+          <Property Name="City" Type="int" />
+          <Property Name="CityName" Type="nvarchar(max)" />
+          <Property Name="Area" Type="int" />
+          <Property Name="AreaName" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="Duration" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReceiptPath" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tblFranchiseRegistrationStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegisterNo" Type="int" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tblLevelsMaster">
           <Key>
@@ -807,6 +856,9 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="ProjectID" Type="int" Mode="In" />
           <Parameter Name="TowerID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_GetFranchiseStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RegNo" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_GetGraphicalPeriodWiseBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Option" Type="int" Mode="In" />
           <Parameter Name="Project" Type="int" Mode="In" />
@@ -863,6 +915,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblAgentTotalPayments" EntityType="Self.tblAgentTotalPayments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAgreements" EntityType="Self.tblAgreements" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAmenities" EntityType="Self.tblAmenities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAreas" EntityType="Self.tblAreas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBookingInformation" EntityType="Self.tblBookingInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCancellations" EntityType="Self.tblCancellations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblChequeStatus" EntityType="Self.tblChequeStatus" Schema="dbo" store:Type="Tables" />
@@ -875,6 +928,8 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblDailyExpenses" EntityType="Self.tblDailyExpenses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlats" EntityType="Self.tblFlats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlatWiseAgentCommissions" EntityType="Self.tblFlatWiseAgentCommissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblFranchiseRegistration" EntityType="Self.tblFranchiseRegistration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblFranchiseRegistrationStatus" EntityType="Self.tblFranchiseRegistrationStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLevelsMaster" EntityType="Self.tblLevelsMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMonth" EntityType="Self.tblMonth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPaymentInfo" EntityType="Self.tblPaymentInfo" Schema="dbo" store:Type="Tables" />
@@ -1164,6 +1219,12 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <FunctionImport Name="sp_GetDashboardParameters" ReturnType="Collection(salesDBModel.sp_GetDashboardParameters_Result)" />
           <FunctionImport Name="sp_GetRecentAddedIBOGraph" ReturnType="Collection(salesDBModel.sp_GetRecentAddedIBOGraph_Result)" />
           <FunctionImport Name="sp_GetAgentProjectLevels" ReturnType="Collection(salesDBModel.sp_GetAgentProjectLevels_Result)" />
+          <EntitySet Name="tblAreas" EntityType="salesDBModel.tblArea" />
+          <EntitySet Name="tblFranchiseRegistrations" EntityType="salesDBModel.tblFranchiseRegistration" />
+          <EntitySet Name="tblFranchiseRegistrationStatus" EntityType="salesDBModel.tblFranchiseRegistrationStatu" />
+          <FunctionImport Name="sp_GetFranchiseStatus" ReturnType="Collection(salesDBModel.sp_GetFranchiseStatus_Result)">
+            <Parameter Name="RegNo" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -2359,6 +2420,61 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
           <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <EntityType Name="tblArea">
+          <Key>
+            <PropertyRef Name="AreaID" />
+          </Key>
+          <Property Name="AreaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CityID" Type="Int32" />
+          <Property Name="AreaName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblFranchiseRegistration">
+          <Key>
+            <PropertyRef Name="RegisterNo" />
+          </Key>
+          <Property Name="RegisterNo" Type="Int32" Nullable="false" />
+          <Property Name="IBOID" Type="Int32" />
+          <Property Name="IBOName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="Int32" />
+          <Property Name="CountryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="Int32" />
+          <Property Name="StateName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="Int32" />
+          <Property Name="CityName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Area" Type="Int32" />
+          <Property Name="AreaName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="Duration" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReceiptPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblFranchiseRegistrationStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegisterNo" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="sp_GetFranchiseStatus_Result">
+          <Property Type="String" Name="title" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="date" Nullable="true" />
+          <Property Type="String" Name="subtitle" Nullable="true" />
+          <Property Type="String" Name="description" Nullable="false" MaxLength="1" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3672,6 +3788,68 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="AgentName" ColumnName="AgentName" />
                 <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblAreas">
+            <EntityTypeMapping TypeName="salesDBModel.tblArea">
+              <MappingFragment StoreEntitySet="tblAreas">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="AreaID" ColumnName="AreaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFranchiseRegistrations">
+            <EntityTypeMapping TypeName="salesDBModel.tblFranchiseRegistration">
+              <MappingFragment StoreEntitySet="tblFranchiseRegistration">
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ReceiptPath" ColumnName="ReceiptPath" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="IBOName" ColumnName="IBOName" />
+                <ScalarProperty Name="IBOID" ColumnName="IBOID" />
+                <ScalarProperty Name="RegisterNo" ColumnName="RegisterNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFranchiseRegistrationStatus">
+            <EntityTypeMapping TypeName="salesDBModel.tblFranchiseRegistrationStatu">
+              <MappingFragment StoreEntitySet="tblFranchiseRegistrationStatus">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RegisterNo" ColumnName="RegisterNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetFranchiseStatus" FunctionName="salesDBModel.Store.sp_GetFranchiseStatus">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetFranchiseStatus_Result">
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="subtitle" ColumnName="subtitle" />
+                <ScalarProperty Name="description" ColumnName="description" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

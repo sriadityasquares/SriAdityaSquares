@@ -22,7 +22,7 @@
     <script src="~/Scripts/Dashboard/bootstrap-material-design.min.js"></script>
     <script src="~/Scripts/Dashboard/chartist.min.js"></script>
 </head>
-<div class="jumbotron">
+<div style="background-color:black" class="jumbotron">
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -100,7 +100,7 @@
                             <p class="card-category">
                                 
 
-                                @if (!ViewBag.isBookingGrowth)
+                                @if (ViewBag.isBookingGrowth == null || !ViewBag.isBookingGrowth)
                                 {
                                     <span style="font-size:14px" class="text-danger"><i class="fa fa-long-arrow-down"></i> @ViewBag.BookingGrowth % </span><span style="font-size:14px">decrease in daily sales.</span>
                                 }
@@ -126,7 +126,7 @@
                         <div class="card-body">
                             <h3 class="card-title">Payments Received</h3>
                             <p class="card-category">
-                                @if (!ViewBag.isPaymentGrowth)
+                                @if (ViewBag.isPaymentGrowth == null || !ViewBag.isPaymentGrowth)
                                 {
                                     <span style="font-size:14px" class="text-danger"><i class="fa fa-long-arrow-down"></i> @ViewBag.PaymentGrowth % </span><span style="font-size:14px">decrease in payments today.</span>
                                 }
@@ -152,7 +152,7 @@
                         <div class="card-body">
                             <h3 class="card-title">New IBO</h3>
                             <p class="card-category">
-                                @if (!ViewBag.isIBOGrowth)
+                                @if (ViewBag.isIBOGrowth == null || !ViewBag.isIBOGrowth)
                                 {
                                     <span style="font-size:14px" class="text-danger"><i class="fa fa-long-arrow-down"></i> @ViewBag.IBOGrowth % </span><span style="font-size:14px">decrease in IBO today.</span>
                                 }
@@ -174,15 +174,15 @@
                 <div class="col-lg-6 col-md-12">
                     <div class="card">
                         <div class="card-header card-header-info">
-                            <h4 class="card-title"><b style="font-size:14px;font-weight:bolder">PAYMENTS DUE IN 7 DAYS</b></h4>
+                            <h4 class="card-title"><b style="font-size:14px;font-weight:800">PAYMENTS DUE IN 7 DAYS</b></h4>
                             <p class="card-category">Last Updated @DateTime.Now</p>
                         </div>
                         <div class="card-body table-responsive">
                             <table class="table table-hover">
                                 <thead class="text-info">
                                 <th>PROJECT</th>
-                                <th>TOWER</th>
-                                <th>FLAT</th>
+                                @*<th>TOWER</th>*@
+                                <th style="width:100px;">FLAT</th>
                                 <th>CUSTOMER</th>
                                 <th>IBO</th>
                                 </thead>
@@ -196,10 +196,7 @@
                                                     @item.ProjectName
                                                 </td>
                                                 <td>
-                                                    @item.TowerName
-                                                </td>
-                                                <td>
-                                                    @item.FlatName
+                                                    @item.TowerName-@item.FlatName
                                                 </td>
                                                 <td>
                                                     @item.CustomerName
@@ -214,7 +211,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                No Payment Dues in 5 days
+                                                No Payment Dues in 7 days
                                             </td>
 
                                         </tr>
@@ -227,7 +224,7 @@
                 <div class="col-lg-6 col-md-12">
                     <div class="card">
                         <div class="card-header card-header-warning">
-                            <h4 class="card-title"><b style="font-size:14px;font-weight:bolder">TOP 5 IBO IN LAST 30 DAYS</b></h4>
+                            <h4 class="card-title"><b style="font-size:14px;font-weight:800">TOP 5 IBO IN LAST 30 DAYS</b></h4>
                             <p class="card-category">Last Updated @DateTime.Now</p>
                         </div>
                         <div class="card-body table-responsive">
@@ -266,7 +263,7 @@
                 <div class="col-lg-6 col-md-12">
                     <div class="card">
                         <div class="card-header card-header-success">
-                            <h4 class="card-title"><b style="font-size:14px;font-weight:bolder">NEW BOOKINGS</b></h4>
+                            <h4 class="card-title"><b style="font-size:14px;font-weight:800">NEW BOOKINGS</b></h4>
                             <p class="card-category">Last Updated @DateTime.Now</p>
                         </div>
                         <div class="card-body table-responsive">
@@ -307,7 +304,7 @@
                 <div class="col-lg-6 col-md-12">
                     <div class="card">
                         <div class="card-header card-header-danger">
-                            <h4 class="card-title"><b style="font-size:14px;font-weight:bolder">NEW IBO</b></h4>
+                            <h4 class="card-title"><b style="font-size:14px;font-weight:800">NEW IBO</b></h4>
                             <p class="card-category">Last Updated @DateTime.Now</p>
                         </div>
                         <div class="card-body table-responsive">
@@ -348,7 +345,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-header card-header-info">
-                                <h4 class="card-title"><b style="font-size:14px;font-weight:bolder">NEW PAYMENTS</b></h4>
+                                <h4 class="card-title"><b style="font-size:14px;font-weight:800">NEW PAYMENTS</b></h4>
                                 <p class="card-category">Last Updated @DateTime.Now</p>
                             </div>
                             <div class="card-body table-responsive">
@@ -389,7 +386,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-header card-header-warning">
-                                <h4 class="card-title"><b style="font-size:14px;font-weight:bolder">RECENT EXPENSES</b></h4>
+                                <h4 class="card-title"><b style="font-size:14px;font-weight:800">RECENT EXPENSES</b></h4>
                                 <p class="card-category">Last Updated @DateTime.Now</p>
                             </div>
                             <div class="card-body table-responsive">
