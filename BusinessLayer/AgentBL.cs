@@ -20,5 +20,14 @@ namespace BusinessLayer
         {
             return agent.AddAgent(a);
         }
+
+        public List<AgentDropdown> GetAgentMapping(int AgentID, int option)
+        {
+            return agent.GetAgentMapping(AgentID, option);
+        }
+        public bool UpdateAgentMapping(int AgentID, int option, string agentList, string username)
+        {
+            return agent.UpdateAgentMapping(AgentID, option, agentList, username);
+        }
     }
 }

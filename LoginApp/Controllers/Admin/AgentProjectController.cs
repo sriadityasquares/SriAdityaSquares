@@ -26,11 +26,15 @@ namespace LoginApp.Controllers.Admin
             return View();
         }
 
-        public ActionResult Details()
+        public JsonResult Details()
         {
+            var jsonResult = Json(list, JsonRequestBehavior.AllowGet);
             try
             {
                 list = booking.BindAgentProjectLevels();
+                jsonResult = Json(list, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                
             }
             catch (Exception ex)
             {
@@ -38,7 +42,7 @@ namespace LoginApp.Controllers.Admin
 
             }
 
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return jsonResult;
         }
 
         [HttpGet]

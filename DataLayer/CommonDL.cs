@@ -185,6 +185,47 @@ namespace DataLayer
             }
             return lstStatus;
         }
+
+
+        public List<Designations> BindDesignations()
+        {
+            List<Designations> lstDesignations = new List<Designations>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblDesignation, Designations>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstDesignations = mapper.Map<List<tblDesignation>, List<Designations>>(dbEntity.tblDesignations.Where(x => x.Active == true).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstDesignations;
+        }
+
+
+        public List<Designations> GetDesignations(string username)
+        {
+            List<Designations> lstDesignations = new List<Designations>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetDesignations_Result, Designations>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstDesignations = mapper.Map<List<sp_GetDesignations_Result>, List<Designations>>(dbEntity.sp_GetDesignations(username).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstDesignations;
+
+        }
         public List<City> BindCity(int stateId)
         {
             List<City> lstCity = new List<City>();

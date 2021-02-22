@@ -82,6 +82,9 @@
           <Property Name="AgentChild" Type="nvarchar(max)" />
           <Property Name="AgentLatitude" Type="float" />
           <Property Name="AgentLongitude" Type="float" />
+          <Property Name="Designation" Type="int" />
+          <Property Name="OldDesignation" Type="int" />
+          <Property Name="EffectivePercentageDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tblAgentPaymentInfo">
           <Key>
@@ -391,6 +394,21 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="CreatedDate" Type="nvarchar(max)" />
           <Property Name="CreatedBy" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="tblDesignations">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Designation" Type="nvarchar(max)" />
+          <Property Name="ConstructionPercentage" Type="float" />
+          <Property Name="NonConstructionPercentage" Type="float" />
+          <Property Name="ConditionalPercentage" Type="float" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar(max)" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="tblFlats">
           <Key>
             <PropertyRef Name="FlatID" />
@@ -522,6 +540,8 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="LocationURL" Type="nvarchar(max)" />
           <Property Name="ApprovalStatus" Type="nvarchar(max)" />
           <Property Name="Pricing" Type="nvarchar(max)" />
+          <Property Name="BSP" Type="int" />
+          <Property Name="ProjectType" Type="int" />
         </EntityType>
         <EntityType Name="tblSchemeMaster">
           <Key>
@@ -779,15 +799,27 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <Function Name="sp_GetAgentCommissionNdBalanceByAgentLogins" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AgentEmail" Type="nvarchar(max)" Mode="In" />
         </Function>
+        <Function Name="sp_GetAgentCommissionNdBalanceByAgentLogins_Old" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AgentEmail" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="sp_GetAgentFlatWiseCommissionByLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AgentEmail" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="sp_GetAgentLocations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetAgentMapping" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AgentID" Type="int" Mode="In" />
+          <Parameter Name="option" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_GetAgentNumbers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AgentID" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="sp_GetAgentPayBalance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AgentID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetAgentPercentage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AgentID" Type="int" Mode="In" />
+          <Parameter Name="ProjectType" Type="int" Mode="In" />
+          <Parameter Name="BookingDate" Type="date" Mode="In" />
         </Function>
         <Function Name="sp_GetAgentPercentageByProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
@@ -831,6 +863,9 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="Username" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="sp_GetDashboardParameters" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetDesignations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Username" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="sp_GetDueReminders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetEligibleFlatsForCommission" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetFacingWiseBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -903,6 +938,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         </Function>
         <Function Name="sp_GetTowerDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetUsersWithRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_ProjectTransactions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="salesDBModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -926,6 +962,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblCustomerInfo" EntityType="Self.tblCustomerInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCustomerVisitInfo" EntityType="Self.tblCustomerVisitInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblDailyExpenses" EntityType="Self.tblDailyExpenses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDesignations" EntityType="Self.tblDesignations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlats" EntityType="Self.tblFlats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlatWiseAgentCommissions" EntityType="Self.tblFlatWiseAgentCommissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFranchiseRegistration" EntityType="Self.tblFranchiseRegistration" Schema="dbo" store:Type="Tables" />
@@ -1098,9 +1135,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           </FunctionImport>
           <FunctionImport Name="sp_GetAgentLocations" ReturnType="Collection(salesDBModel.sp_GetAgentLocations_Result)" />
           <EntitySet Name="tblFlatWiseAgentCommissions" EntityType="salesDBModel.tblFlatWiseAgentCommission" />
-          <FunctionImport Name="sp_GetAgentCommissionNdBalanceByAgentLogins" ReturnType="Collection(salesDBModel.sp_GetAgentCommissionNdBalanceByAgentLogins_Result)">
-          <Parameter Name="AgentEmail" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_GetUsersWithRoles" ReturnType="Collection(salesDBModel.sp_GetUsersWithRoles_Result)" />
           <FunctionImport Name="sp_GetAgentFlatWiseCommissionByLogin" ReturnType="Collection(salesDBModel.sp_GetAgentFlatWiseCommissionByLogin_Result)">
           <Parameter Name="AgentEmail" Mode="In" Type="String" />
@@ -1125,7 +1159,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
             <Parameter Name="Year" Mode="In" Type="String" />
             <Parameter Name="Month" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="tblAgentMasters" EntityType="salesDBModel.tblAgentMaster" />
           <EntitySet Name="tblAmenities" EntityType="salesDBModel.tblAmenity" />
           <FunctionImport Name="sp_GetCustomerFlats" ReturnType="Collection(salesDBModel.sp_GetCustomerFlats_Result)">
           <Parameter Name="Username" Mode="In" Type="String" />
@@ -1223,7 +1256,28 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblFranchiseRegistrations" EntityType="salesDBModel.tblFranchiseRegistration" />
           <EntitySet Name="tblFranchiseRegistrationStatus" EntityType="salesDBModel.tblFranchiseRegistrationStatu" />
           <FunctionImport Name="sp_GetFranchiseStatus" ReturnType="Collection(salesDBModel.sp_GetFranchiseStatus_Result)">
-            <Parameter Name="RegNo" Mode="In" Type="Int32" />
+          <Parameter Name="RegNo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetAgentMapping" ReturnType="Collection(salesDBModel.sp_GetAgentMapping_Result)">
+            <Parameter Name="AgentID" Mode="In" Type="Int32" />
+            <Parameter Name="option" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProjectTransactions" ReturnType="Collection(salesDBModel.sp_ProjectTransactions_Result)" />
+          <EntitySet Name="tblDesignations" EntityType="salesDBModel.tblDesignation" />
+          <EntitySet Name="tblAgentMasters" EntityType="salesDBModel.tblAgentMaster" />
+          <FunctionImport Name="sp_GetAgentCommissionNdBalanceByAgentLogins_Old" ReturnType="Collection(salesDBModel.sp_GetAgentCommissionNdBalanceByAgentLogins_Old_Result)">
+          <Parameter Name="AgentEmail" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetDesignations" ReturnType="Collection(salesDBModel.sp_GetDesignations_Result)">
+          <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetAgentCommissionNdBalanceByAgentLogins" ReturnType="Collection(salesDBModel.sp_GetAgentCommissionNdBalanceByAgentLogins_Result)">
+          <Parameter Name="AgentEmail" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetAgentPercentage" ReturnType="Collection(Double)">
+            <Parameter Name="AgentID" Mode="In" Type="Int32" />
+            <Parameter Name="ProjectType" Mode="In" Type="Int32" />
+            <Parameter Name="BookingDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="tblCity">
@@ -1638,15 +1692,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="NetBalance" Type="Int32" />
           <Property Name="Discount" Type="Int32" />
         </EntityType>
-        <ComplexType Name="sp_GetAgentCommissionNdBalanceByAgentLogins_Result">
-          <Property Type="Int32" Name="AgentID" Nullable="false" />
-          <Property Type="String" Name="AgentName" Nullable="true" />
-          <Property Type="String" Name="AgentCode" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="AgentCommission" Nullable="true" />
-          <Property Type="String" Name="AgentSponserCode" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="AmountPaid" Nullable="true" />
-          <Property Type="Int32" Name="NetBalance" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="sp_GetUsersWithRoles_Result">
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" />
           <Property Type="String" Name="Role" Nullable="false" MaxLength="256" />
@@ -1727,33 +1772,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="String" Name="xaxis" Nullable="true" />
           <Property Type="String" Name="yaxis" Nullable="true" />
         </ComplexType>
-        <EntityType Name="tblAgentMaster">
-          <Key>
-            <PropertyRef Name="AgentID" />
-          </Key>
-          <Property Name="AgentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AgentCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="AgentName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="AgentMobileNo" Type="Int64" />
-          <Property Name="AgenteMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="AgentStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <Property Name="AgentAadhar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AgentPAN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AgentBankAcctNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AgentBankName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="AgentBankBranch" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="AgentBankIFSC" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="AgentSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AgentSuperSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AgentParent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AgentChild" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AgentLatitude" Type="Double" />
-          <Property Name="AgentLongitude" Type="Double" />
-        </EntityType>
         <EntityType Name="tblAmenity">
           <Key>
             <PropertyRef Name="AmenityID" />
@@ -1995,6 +2013,8 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <NavigationProperty Name="tblFlats1" Relationship="salesDBModel.FK_Flats1_bkp" FromRole="tblProject" ToRole="tblFlat" />
           <NavigationProperty Name="tblFlats2" Relationship="salesDBModel.FK_Flats11_bkp" FromRole="tblProject" ToRole="tblFlat" />
           <NavigationProperty Name="tblTowers" Relationship="salesDBModel.FK_Towers" FromRole="tblProject" ToRole="tblTower" />
+          <Property Name="BSP" Type="Int32" />
+          <Property Name="ProjectType" Type="Int32" />
         </EntityType>
         <Association Name="FK_Flats1">
           <End Type="salesDBModel.tblProject" Role="tblProject" Multiplicity="0..1" />
@@ -2476,6 +2496,95 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="String" Name="subtitle" Nullable="true" />
           <Property Type="String" Name="description" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <ComplexType Name="sp_GetAgentMapping_Result">
+          <Property Type="Int32" Name="AgentID" Nullable="false" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="isSelected" Nullable="false" MaxLength="3" />
+        </ComplexType>
+        <ComplexType Name="sp_ProjectTransactions_Result">
+          <Property Type="Int32" Name="ProjectID" Nullable="false" />
+          <Property Type="Int32" Name="TotalSalesAmount" Nullable="false" />
+          <Property Type="Int32" Name="CollectedAmount" Nullable="false" />
+          <Property Type="Int32" Name="BalanceAmount" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <EntityType Name="tblDesignation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Designation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ConstructionPercentage" Type="Double" />
+          <Property Name="NonConstructionPercentage" Type="Double" />
+          <Property Name="ConditionalPercentage" Type="Double" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblAgentMaster">
+          <Key>
+            <PropertyRef Name="AgentID" />
+          </Key>
+          <Property Name="AgentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgentName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AgentMobileNo" Type="Int64" />
+          <Property Name="AgenteMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AgentStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="AgentAadhar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentPAN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentBankAcctNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentBankName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AgentBankBranch" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AgentBankIFSC" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AgentSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentSuperSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentParent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentChild" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentLatitude" Type="Double" />
+          <Property Name="AgentLongitude" Type="Double" />
+          <Property Name="Designation" Type="Int32" />
+          <Property Name="OldDesignation" Type="Int32" />
+          <Property Name="EffectivePercentageDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="sp_GetAgentCommissionNdBalanceByAgentLogins_Old_Result">
+          <Property Type="Int32" Name="AgentID" Nullable="false" />
+          <Property Type="String" Name="AgentName" Nullable="true" />
+          <Property Type="String" Name="AgentCode" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="AgentCommission" Nullable="true" />
+          <Property Type="String" Name="AgentSponserCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="AmountPaid" Nullable="true" />
+          <Property Type="Int32" Name="NetBalance" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetDesignations_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Designation" Nullable="true" />
+          <Property Type="Double" Name="ConstructionPercentage" Nullable="true" />
+          <Property Type="Double" Name="NonConstructionPercentage" Nullable="true" />
+          <Property Type="Double" Name="ConditionalPercentage" Nullable="true" />
+          <Property Type="Boolean" Name="Active" Nullable="true" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="true" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_GetAgentCommissionNdBalanceByAgentLogins_Result">
+          <Property Type="Int32" Name="AgentID" Nullable="false" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
+          <Property Type="Int64" Name="AgentMobileNo" Nullable="true" />
+          <Property Type="String" Name="AgentCode" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="AgentCommission" Nullable="true" />
+          <Property Type="String" Name="AgentSponserCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="AmountPaid" Nullable="true" />
+          <Property Type="Int32" Name="NetBalance" Nullable="true" />
+          <Property Type="String" Name="Designation" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2913,19 +3022,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetAgentCommissionNdBalanceByAgentLogins" FunctionName="salesDBModel.Store.sp_GetAgentCommissionNdBalanceByAgentLogins">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentCommissionNdBalanceByAgentLogins_Result">
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="AgentCode" ColumnName="AgentCode" />
-                <ScalarProperty Name="AgentCommission" ColumnName="AgentCommission" />
-                <ScalarProperty Name="AgentSponserCode" ColumnName="AgentSponserCode" />
-                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
-                <ScalarProperty Name="NetBalance" ColumnName="NetBalance" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_GetUsersWithRoles" FunctionName="salesDBModel.Store.sp_GetUsersWithRoles">
             <ResultMapping>
               <ComplexTypeMapping TypeName="salesDBModel.sp_GetUsersWithRoles_Result">
@@ -3030,34 +3126,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="tblAgentMasters">
-            <EntityTypeMapping TypeName="salesDBModel.tblAgentMaster">
-              <MappingFragment StoreEntitySet="tblAgentMaster">
-                <ScalarProperty Name="AgentLongitude" ColumnName="AgentLongitude" />
-                <ScalarProperty Name="AgentLatitude" ColumnName="AgentLatitude" />
-                <ScalarProperty Name="AgentChild" ColumnName="AgentChild" />
-                <ScalarProperty Name="AgentParent" ColumnName="AgentParent" />
-                <ScalarProperty Name="AgentSuperSponserCode" ColumnName="AgentSuperSponserCode" />
-                <ScalarProperty Name="AgentSponserCode" ColumnName="AgentSponserCode" />
-                <ScalarProperty Name="AgentBankIFSC" ColumnName="AgentBankIFSC" />
-                <ScalarProperty Name="AgentBankBranch" ColumnName="AgentBankBranch" />
-                <ScalarProperty Name="AgentBankName" ColumnName="AgentBankName" />
-                <ScalarProperty Name="AgentBankAcctNo" ColumnName="AgentBankAcctNo" />
-                <ScalarProperty Name="AgentPAN" ColumnName="AgentPAN" />
-                <ScalarProperty Name="AgentAadhar" ColumnName="AgentAadhar" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="AgentStatus" ColumnName="AgentStatus" />
-                <ScalarProperty Name="AgenteMail" ColumnName="AgenteMail" />
-                <ScalarProperty Name="AgentMobileNo" ColumnName="AgentMobileNo" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="AgentCode" ColumnName="AgentCode" />
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tblAmenities">
             <EntityTypeMapping TypeName="salesDBModel.tblAmenity">
               <MappingFragment StoreEntitySet="tblAmenities">
@@ -3318,6 +3386,8 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySetMapping Name="tblProjects">
             <EntityTypeMapping TypeName="salesDBModel.tblProject">
               <MappingFragment StoreEntitySet="tblProjects">
+                <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
+                <ScalarProperty Name="BSP" ColumnName="BSP" />
                 <ScalarProperty Name="Pricing" ColumnName="Pricing" />
                 <ScalarProperty Name="ApprovalStatus" ColumnName="ApprovalStatus" />
                 <ScalarProperty Name="LocationURL" ColumnName="LocationURL" />
@@ -3853,6 +3923,118 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentMapping" FunctionName="salesDBModel.Store.sp_GetAgentMapping">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentMapping_Result">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="isSelected" ColumnName="isSelected" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProjectTransactions" FunctionName="salesDBModel.Store.sp_ProjectTransactions">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_ProjectTransactions_Result">
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="TotalSalesAmount" ColumnName="TotalSalesAmount" />
+                <ScalarProperty Name="CollectedAmount" ColumnName="CollectedAmount" />
+                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblDesignations">
+            <EntityTypeMapping TypeName="salesDBModel.tblDesignation">
+              <MappingFragment StoreEntitySet="tblDesignations">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ConditionalPercentage" ColumnName="ConditionalPercentage" />
+                <ScalarProperty Name="NonConstructionPercentage" ColumnName="NonConstructionPercentage" />
+                <ScalarProperty Name="ConstructionPercentage" ColumnName="ConstructionPercentage" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblAgentMasters">
+            <EntityTypeMapping TypeName="salesDBModel.tblAgentMaster">
+              <MappingFragment StoreEntitySet="tblAgentMaster">
+                <ScalarProperty Name="EffectivePercentageDate" ColumnName="EffectivePercentageDate" />
+                <ScalarProperty Name="OldDesignation" ColumnName="OldDesignation" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="AgentLongitude" ColumnName="AgentLongitude" />
+                <ScalarProperty Name="AgentLatitude" ColumnName="AgentLatitude" />
+                <ScalarProperty Name="AgentChild" ColumnName="AgentChild" />
+                <ScalarProperty Name="AgentParent" ColumnName="AgentParent" />
+                <ScalarProperty Name="AgentSuperSponserCode" ColumnName="AgentSuperSponserCode" />
+                <ScalarProperty Name="AgentSponserCode" ColumnName="AgentSponserCode" />
+                <ScalarProperty Name="AgentBankIFSC" ColumnName="AgentBankIFSC" />
+                <ScalarProperty Name="AgentBankBranch" ColumnName="AgentBankBranch" />
+                <ScalarProperty Name="AgentBankName" ColumnName="AgentBankName" />
+                <ScalarProperty Name="AgentBankAcctNo" ColumnName="AgentBankAcctNo" />
+                <ScalarProperty Name="AgentPAN" ColumnName="AgentPAN" />
+                <ScalarProperty Name="AgentAadhar" ColumnName="AgentAadhar" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="AgentStatus" ColumnName="AgentStatus" />
+                <ScalarProperty Name="AgenteMail" ColumnName="AgenteMail" />
+                <ScalarProperty Name="AgentMobileNo" ColumnName="AgentMobileNo" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentCode" ColumnName="AgentCode" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentCommissionNdBalanceByAgentLogins_Old" FunctionName="salesDBModel.Store.sp_GetAgentCommissionNdBalanceByAgentLogins_Old">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentCommissionNdBalanceByAgentLogins_Old_Result">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentCode" ColumnName="AgentCode" />
+                <ScalarProperty Name="AgentCommission" ColumnName="AgentCommission" />
+                <ScalarProperty Name="AgentSponserCode" ColumnName="AgentSponserCode" />
+                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+                <ScalarProperty Name="NetBalance" ColumnName="NetBalance" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetDesignations" FunctionName="salesDBModel.Store.sp_GetDesignations">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetDesignations_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="ConstructionPercentage" ColumnName="ConstructionPercentage" />
+                <ScalarProperty Name="NonConstructionPercentage" ColumnName="NonConstructionPercentage" />
+                <ScalarProperty Name="ConditionalPercentage" ColumnName="ConditionalPercentage" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentCommissionNdBalanceByAgentLogins" FunctionName="salesDBModel.Store.sp_GetAgentCommissionNdBalanceByAgentLogins">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentCommissionNdBalanceByAgentLogins_Result">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentMobileNo" ColumnName="AgentMobileNo" />
+                <ScalarProperty Name="AgentCode" ColumnName="AgentCode" />
+                <ScalarProperty Name="AgentCommission" ColumnName="AgentCommission" />
+                <ScalarProperty Name="AgentSponserCode" ColumnName="AgentSponserCode" />
+                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+                <ScalarProperty Name="NetBalance" ColumnName="NetBalance" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentPercentage" FunctionName="salesDBModel.Store.sp_GetAgentPercentage" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -3866,7 +4048,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
     </Connection>
     <Options>
       <DesignerInfoPropertySet>
-        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="ValidateOnBuild" Value="False" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />

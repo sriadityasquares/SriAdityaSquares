@@ -79,19 +79,27 @@
 <script>
 
     var validationsFlag = false;
-    $("#ProjectID").change(function () {
+    //$("#ProjectID").change(function () {
 
-        $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
-            $("#AgentID").empty();
-            AgentList = data;
-            //$("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
-            $.each(data, function (index, row) {
-                $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
-            });
+    //    $.get("/Cascade/GetAgents2", function (data) {
+    //        $("#AgentID").empty();
+    //        AgentList = data;
+    //        //$("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
+    //        $.each(data, function (index, row) {
+    //            $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+    //        });
+    //    });
+
+    //});
+
+    $.getJSON('/Cascade/GetAgents2', function (response) {
+        $("#AgentID").empty();
+        AgentList = response;
+        $("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
+        $.each(response, function (index, row) {
+            $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
         });
-
     });
-
     //document.getElementById("FileAttachment").onchange = function () {
     //    document.getElementById("fileuploadurl").value = this.files[0].name;
     //    //$('#SelfieFile').val(this.files);

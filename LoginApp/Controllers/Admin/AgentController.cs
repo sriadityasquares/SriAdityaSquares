@@ -23,6 +23,7 @@ namespace LoginApp.Controllers.Admin
         public static List<AgentMaster> agentsList = new List<AgentMaster>();
         BookingBL booking = new BookingBL();
         AgentBL agent = new AgentBL();
+        CommonBL common = new CommonBL();
         // GET: Project
         private ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
@@ -88,7 +89,7 @@ namespace LoginApp.Controllers.Admin
                 };
                 List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models, settings);
                 data[0].CreatedBy = User.Identity.Name;
-                data[0].CreatedDate = DateTime.Now.Date;
+                data[0].CreatedDate = DateTime.Now;
                 var result = agent.AddAgent(data[0]);
                 if (result)
                 {
@@ -101,12 +102,12 @@ namespace LoginApp.Controllers.Admin
 
                         var message = "Welcome to Sri Aditya Squares" + Environment.NewLine + "Below are your login credetials:" + Environment.NewLine + "Username :" + data[0].AgenteMail + Environment.NewLine + "Password :" + "Welcome@123" + Environment.NewLine + "Agent Code :" + data[0].AgentCode + Environment.NewLine + "Please use the link to login to the application :" + "https://sasinfra.in";
                         //var message = "Hi";
-                        var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + data[0].AgentMobileNo + "&smsContentType=english");
+                        var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + data[0].AgentMobileNo + "&smsContentType=english");
                         var request = new RestRequest(Method.GET);
                         request.AddHeader("Cache-Control", "no-cache");
                         IRestResponse response = client.Execute(request);
 
-                        var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + 8121751751 + "&smsContentType=english");
+                        var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + 8121751751 + "&smsContentType=english");
                         var request1 = new RestRequest(Method.GET);
                         request1.AddHeader("Cache-Control", "no-cache");
                         IRestResponse response1 = client1.Execute(request1);
@@ -157,7 +158,8 @@ namespace LoginApp.Controllers.Admin
                 ViewData["Exception"] = "Empty";
                 List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models);
                 data[0].UpdatedBy = User.Identity.Name;
-                data[0].UpdatedDate = DateTime.Now.Date;
+                data[0].UpdatedDate = DateTime.Now;
+                
                 var result = agent.UpdateAgent(data[0]);
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
@@ -174,6 +176,24 @@ namespace LoginApp.Controllers.Admin
             return View();
         }
 
+        public ActionResult AgentMapping()
+        {
+            var agentList = common.BindAgents2();
+            TempData["AgentList"] = new SelectList(agentList, "AgentID", "AgentName");
+            return View();
+        }
+
+        public JsonResult GetMapping(int AgentID,int option)
+        {
+            var list = agent.GetAgentMapping(AgentID, option);
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult UpdateMapping(int AgentID, int option,string agentList)
+        {
+            var result = agent.UpdateAgentMapping(AgentID, option, agentList,User.Identity.Name);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
 
     }

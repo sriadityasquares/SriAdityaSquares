@@ -29,6 +29,12 @@
         //var service = "https://demos.telerik.com/kendo-ui/service";
 
         $("#treelist").kendoTreeList({
+            toolbar: ["excel"],
+            excel: {
+                fileName: "Hierarchy.xlsx",
+                proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true
+            },
             dataSource: {
                 transport: {
                     read: {
@@ -47,7 +53,7 @@
                             AgentSponserCode: { field: "AgentSponserCode", nullable: true },
                             //Extension: { field: "Extension", type: "number" }
                         },
-                        expanded: false
+                        expanded: true
                     }
                 }
             },
@@ -61,8 +67,13 @@
                 {
                     field: "AgentName", title: "AgentName", width: "250px",
                 },
+                {
+                    field: "Designation", title: "Designation", width: "250px",
+                },
                 { field: "AgentCode", title: "AgentCode", width: "150px" },
-
+                {
+                    field: "AgentMobileNo", title: "Mobile", width: "100px",
+                },
                 { field: "AgentCommission", width: "150px", template: "#= currency(AgentCommission)#" },
                 { field: "AmountPaid", width: "150px", template: "#= currency(AmountPaid)#" },
                 { field: "NetBalance", width: "150px",template:"#= currency(NetBalance)#" }

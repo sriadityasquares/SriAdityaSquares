@@ -73,6 +73,20 @@ namespace LoginApp.Controllers
             return Json(statusList, JsonRequestBehavior.AllowGet);
 
         }
+
+
+        public JsonResult GetDesignations()
+        {
+            List<Designations> lstDesignations = objCasc.BindDesignations();
+            return Json(lstDesignations, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetDesignationForDisplay()
+        {
+            List<Designations> designation = objCasc.GetDesignations(User.Identity.Name);
+            return Json(designation.Count <=0?"": designation[0].Designation, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetProjects()
         {
             List<Projects> projectList = objBooking.BindProjects();
@@ -158,6 +172,20 @@ namespace LoginApp.Controllers
             if (User.IsInRole("Agent"))
                 objCasc.UpdateAgentLocation(latitude, longitude, User.Identity.Name);
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetProjectType()
+        {
+            List<ProjectTypes> lstpType = new List<ProjectTypes>();
+            ProjectTypes ptype = new ProjectTypes();
+            ptype.ID = 1;
+            ptype.ProjectType = "Construction";
+            lstpType.Add(ptype);
+            ProjectTypes ptype1 = new ProjectTypes();
+            ptype1.ID = 1;
+            ptype1.ProjectType = "Non-Construction";
+            lstpType.Add(ptype1);
+            return Json(lstpType, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ModelLayer
 {
@@ -27,5 +28,7 @@ namespace ModelLayer
         public string TransactionType { get; set; }
         public string CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+
+        public HttpPostedFileBase BulkUpload { get; set; }
     }
 }

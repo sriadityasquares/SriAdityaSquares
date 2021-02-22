@@ -5,16 +5,22 @@
     var message = TempData["successmessage"] ?? string.Empty;
     ViewBag.Admin = "active";
 }
+
+
+
+
 @using (Html.BeginForm("DailyExpenses", "Booking", FormMethod.Post, new
 {
 
     role = "form",
-    id = "submitbtn"
+    id = "submitbtn",
+    enctype = "multipart/form-data"
 
 }))
 {
-@Html.HiddenFor(x=>x.ExpenseDate)
+    @Html.HiddenFor(x => x.ExpenseDate)
 <div class="jumbotron">
+
     <div class="row">
         <div class="col-md-12 col-xs" style="margin-top:0px">
             <h3 style="margin-top:0px;margin-bottom:4px" align="left">ADD DAILY EXPENSES</h3>
@@ -22,51 +28,88 @@
         </div>
 
     </div>
+    <div class="row">
+        <div id="radiodiv" class="col-md-4 col-xs">
 
-    <div class="row" style="padding-top:10px">
-        @Html.LabelFor(m => m.PaidTo, new { @class = "col-md-2" })
-        @Html.TextBoxFor(model => model.PaidTo, new { @class = "textbox-control col-md-4 col-xs" })
-        @Html.LabelFor(m => m.ExpenseDate, new { @class = "col-md-2" })
-        <div class="col-md-2" style="padding-left:0px">
-            <input id="datepicker1" title="datepicker" />
+            <div class="radios">
+                <div class="radio" style="margin-top:0px">
+                    <input type="radio" id="radio1" value="1" name="radio" checked="checked">
+                    <label for="radio1">
+                        <div class="checker"></div>
+                        Single
+                    </label>
+                </div>
+
+                <div class="radio">
+                    <input type="radio" id="radio2" value="2" name="radio">
+                    <label for="radio2">
+                        <div class="checker"></div>
+                        Bulk Upload
+                    </label>
+                </div>
+
+
+            </div>
         </div>
-
-
     </div>
-    <div class="row">
-        @Html.LabelFor(m => m.Particulars, new { @class = "col-md-2" })
-        @Html.TextAreaFor(model => model.Particulars, new { @class = "textboxarea-control col-md-8 col-xs" })
+    <div id="single">
 
 
+        <div class="row" style="padding-top:10px">
+            @Html.LabelFor(m => m.PaidTo, new { @class = "col-md-2" })
+            @Html.TextBoxFor(model => model.PaidTo, new { @class = "textbox-control col-md-4 col-xs" })
+            @Html.LabelFor(m => m.ExpenseDate, new { @class = "col-md-2" })
+            <div class="col-md-2" style="padding-left:0px">
+                <input id="datepicker1" title="datepicker" />
+            </div>
+
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Particulars, new { @class = "col-md-2" })
+            @Html.TextAreaFor(model => model.Particulars, new { @class = "textboxarea-control col-md-8 col-xs" })
+
+
+        </div>
+        <div style="padding-top:10px" class="row">
+            @Html.LabelFor(m => m.Amount, new { @class = "col-md-2" })
+            @Html.TextBoxFor(model => model.Amount, new { @class = "textbox-control col-md-3 col-xs" })
+
+            @Html.LabelFor(m => m.PaymentMode, new { @class = "col-md-2" })
+            @Html.DropDownListFor(m => m.PaymentMode, new List<SelectListItem>
+       {
+            new SelectListItem{ Text="--Mode--", Value = "--Mode--"  },
+           new SelectListItem{ Text="Cheque", Value = "Cheque" },
+           new SelectListItem{ Text="NEFT", Value = "NEFT" },
+           new SelectListItem{ Text="CC", Value = "CC" },
+           new SelectListItem{ Text="Online", Value = "Online" },
+           new SelectListItem{ Text="Cash", Value = "Cash" },
+        }, new { @class = "textbox-control col-md-3 col-xs" })
+
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.Comments, new { @class = "col-md-2" })
+            @Html.TextAreaFor(model => model.Comments, new { @class = "textboxarea-control col-md-3 col-xs" })
+            @*@Html.LabelFor(m => m.TransactionType, new { @class = "col-md-2" })
+                     @Html.DropDownListFor(m => m.TransactionType, new List<SelectListItem>
+                {
+                    new SelectListItem{ Text="Credit", Value = "Credit" },
+                    new SelectListItem{ Text="Debit", Value = "Debit" },
+                 }, new { @class = "textbox-control col-md-3 col-xs" })*@
+
+        </div>
     </div>
-    <div style="padding-top:10px" class="row">
-        @Html.LabelFor(m => m.Amount, new { @class = "col-md-2" })
-        @Html.TextBoxFor(model => model.Amount, new { @class = "textbox-control col-md-3 col-xs" })
+    <div id="bulk">
+        <div class="row" style="padding-TOP:20px">
+            <div class="col-md-3">
+                <label>BULK UPLOAD EXPENSES:</label>
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="file" name="BulkUpload" id="BulkUpload" />
+            </div>
 
-        @Html.LabelFor(m => m.PaymentMode, new { @class = "col-md-2" })
-        @Html.DropDownListFor(m => m.PaymentMode, new List<SelectListItem>
-   {
-        new SelectListItem{ Text="--Mode--", Value = "--Mode--"  },
-       new SelectListItem{ Text="Cheque", Value = "Cheque" },
-       new SelectListItem{ Text="NEFT", Value = "NEFT" },
-       new SelectListItem{ Text="CC", Value = "CC" },
-       new SelectListItem{ Text="Online", Value = "Online" },
-       new SelectListItem{ Text="Cash", Value = "Cash" },
-    }, new { @class = "textbox-control col-md-3 col-xs" })
 
+        </div>
     </div>
-    <div class="row">
-        @Html.LabelFor(m => m.Comments, new { @class = "col-md-2" })
-        @Html.TextAreaFor(model => model.Comments, new { @class = "textboxarea-control col-md-3 col-xs" })
-        @*@Html.LabelFor(m => m.TransactionType, new { @class = "col-md-2" })
-        @Html.DropDownListFor(m => m.TransactionType, new List<SelectListItem>
-   {
-       new SelectListItem{ Text="Credit", Value = "Credit" },
-       new SelectListItem{ Text="Debit", Value = "Debit" },
-    }, new { @class = "textbox-control col-md-3 col-xs" })*@
-
-    </div>
-
     <div class="row" style="padding-top:5px;">
         <div class="col-sm-3 no-pad">
             <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-dollar"></i>ADD</button>
@@ -84,6 +127,23 @@
 }
 
 <script>
+
+    $("#bulk").hide();
+    $('input[type=radio][name=radio]').change(function () {
+        if (this.value == 1) {
+            $("#bulk").hide();
+            $("#single").show();
+        }
+        if (this.value == 2) {
+            $("#bulk").show();
+            $("#single").hide();
+        }
+
+    });
+
+
+
+
     $("#datepicker1").kendoDatePicker();
     var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
     $("#datepicker1").val(todayDate);
@@ -120,7 +180,7 @@
     });
 
     function SetHiddenFields() {
-        
+
         $("#ExpenseDate").val($("#datepicker1").val());
     }
 
@@ -207,5 +267,5 @@
 
 
     });
-   
+
 </script>

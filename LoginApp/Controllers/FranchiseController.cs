@@ -64,7 +64,7 @@ namespace LoginApp.Controllers
                 fr.Receipt.SaveAs(path1);
                 fr.ReceiptPath = path1;
                 fr.CreatedBy = User.Identity.Name;
-                fr.CreatedDate = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                fr.CreatedDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss");
                 fr.Status = "Submitted";
                 fr.Comments = "";
                 var result = booking.RegisterFranchise(fr);
@@ -159,7 +159,7 @@ namespace LoginApp.Controllers
         public ActionResult Approval(FranchiseRegistration fr)
         {
             fr.CreatedBy = User.Identity.Name;
-            fr.CreatedDate = DateTime.Now.Date.ToString("dd/MM/yyyy");
+            fr.CreatedDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss");
             //fr.Status = fr.ChangedStatus;
             var result = booking.UpdateFranchiseAgreements(fr);
             List<Country> countryList = common.BindCountry();

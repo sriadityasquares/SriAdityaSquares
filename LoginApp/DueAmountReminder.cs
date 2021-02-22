@@ -40,23 +40,23 @@ namespace LoginApp
                 var htmlText = System.IO.File.ReadAllText(path);
                 htmlText = htmlText.Replace("#Project", rem.ProjectName).Replace("#Tower", rem.TowerName).Replace("#Flat", rem.FlatName).Replace("#DueDate", rem.DueDate).Replace("#DueAmount", rem.DueAmount);
 
-                var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos="+rem.CustomerMobile + "&smsContentType=english");
+                var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos="+rem.CustomerMobile + "&smsContentType=english");
                 var request1 = new RestRequest(Method.GET);
                 request1.AddHeader("Cache-Control", "no-cache");
                 IRestResponse response1 = client1.Execute(request1);
 
-                var client2 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" +rem.AgentMobile + "&smsContentType=english");
+                var client2 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" +rem.AgentMobile + "&smsContentType=english");
                 var request2 = new RestRequest(Method.GET);
                 request2.AddHeader("Cache-Control", "no-cache");
                 IRestResponse response2 = client2.Execute(request2);
 
-                var client3 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=8121751751" + "&smsContentType=english");
+                var client3 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=8121751751" + "&smsContentType=english");
                 var request3 = new RestRequest(Method.GET);
                 request3.AddHeader("Cache-Control", "no-cache");
                 IRestResponse response3 = client3.Execute(request3);
 
 
-                var client4 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=9505055755" + "&smsContentType=english");
+                var client4 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=9505055755" + "&smsContentType=english");
                 var request4 = new RestRequest(Method.GET);
                 request4.AddHeader("Cache-Control", "no-cache");
                 IRestResponse response4 = client4.Execute(request4);

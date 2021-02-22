@@ -55,7 +55,7 @@ namespace LoginApp.Controllers.Admin
                 };
                 List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
                 data[0].CreatedBy = User.Identity.Name;
-                data[0].CreatedDate = DateTime.Now.Date;
+                data[0].CreatedDate = DateTime.Now;
                 result = flat.AddFlat(data[0]);
             }
             catch (Exception ex)
@@ -81,7 +81,7 @@ namespace LoginApp.Controllers.Admin
                 List<Flats> data = JsonConvert.DeserializeObject<List<Flats>>(models, settings);
                 
                 data[0].UpdatedBy = User.Identity.Name;
-                data[0].UpdatedDate = DateTime.Now.Date;
+                data[0].UpdatedDate = DateTime.Now;
                 result = flat.UpdateFlat(data[0]);
             }
             catch (Exception ex)

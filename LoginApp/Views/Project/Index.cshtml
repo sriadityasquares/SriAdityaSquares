@@ -76,7 +76,9 @@
                         ProjectName: { validation: { required: true } },
                         ProjectLocation: { validation: { required: true } },
                         BookingStatus: { validation: { required: true } },
-                        ClubHouseCharges: { type: "number", validation: { min: 0, required: true } }
+                        ClubHouseCharges: { type: "number", validation: { min: 0, required: true } },
+                        ProjectType: { type: "number", validation: { min: 1,max:2 ,required: true } }
+                        //Designation: { validation: { required: false } },
                     }
                 }
             }
@@ -97,6 +99,23 @@
                 { field: "ApprovalStatus", title: "Approvals", width: "150px" },
                 { field: "LocationURL", title: "Location URL", width: "200px" },
                 { field: "Pricing", title: "Pricing", width: "200px" },
+                { field: "BSP", title: "BSP", width: "200px" },
+                { field: "ProjectType", title: "ProjectType", width: "200px"},
+                //{
+                //    field: "ProjectType", title: "ProjectType", width: "170px", template: $("#template1").html(), editor: function (container) { // use a dropdownlist as an editor
+                //        //create an input element with id and name set as the bound field (brandId)
+                //        var input = $('<input id="ProjectTypes" name="ProjectTypes">');
+                //        // append to the editor container
+                //        input.appendTo(container);
+
+                //        // initialize a dropdownlist
+                //        input.kendoDropDownList({
+                //            dataTextField: "ProjectType",
+                //            dataValueField: "ID",
+                //            dataSource: projectType // bind it to the brands array
+                //        }).appendTo(container);
+                //    }
+                //},
                 {
                     command: [
                         { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
@@ -124,11 +143,45 @@
                     }
                 });
         }
+        $.getJSON('/Cascade/GetProjectType', function (response) {
+            if (response != null) {
+                projectType = response;
+            }
+        });
+        function projectTypeDropDownEditor(container, options) {
+            $('<input required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: true,
+                    dataTextField: "ProjectType",
+                    dataValueField: "ID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetProjectType",
+
+                        }
+                    }
+                });
+        }
 
     });
+
+    function brandName(brandId) {
+        if (brandId != '' || brandId != null) {
+            for (var i = 0; i < projectType.length; i++) {
+
+                if (projectType[i].ID == brandId) {
+                    return projectType[i].ProjectType;
+                }
+            }
+        }
+    }
 </script>
 
-
+<script type="text/x-kendo-template" id="template1">
+    #if(typeof ProjectType === 'undefined') {# #: brandName(0) # #} else {# #: brandName(Designation) # #}#
+</script>
 
 
 

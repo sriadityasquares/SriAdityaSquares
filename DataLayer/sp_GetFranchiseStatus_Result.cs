@@ -17,7 +17,5 @@ namespace DataLayer
         public Nullable<System.DateTime> date { get; set; }
         public string subtitle { get; set; }
         public string description { get; set; }
-
-        
     }
 }

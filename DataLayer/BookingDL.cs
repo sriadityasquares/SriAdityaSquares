@@ -444,10 +444,10 @@ namespace DataLayer
                 //var highestLevel = dbEntity.tblAgentProjectLevels.OrderByDescending(e => e.LevelID).Where(z => z.ProjectID == bookingInfo.ProjectID).Select(z => z.LevelID).FirstOrDefault();
                 //var highestPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == highestLevel).Select(z => z.Percentage).FirstOrDefault();
                 var highestPercentage = dbEntity.sp_GetHighestPercetageInProject(bookingInfo.ProjectID).FirstOrDefault();
+                //var highestPercentage1 
                 var levelPercentage = dbEntity.tblLevelsMasters.Where(z => z.LevelID == bookingInfo.Level).Select(z => z.Percentage).FirstOrDefault();
                 var TotalComm = (bookingInfo.FinalRate * Convert.ToDouble(highestPercentage)) / 100;
                 bookingInfo.TotalComm = TotalComm;
-                
                 if (Convert.ToDouble(levelPercentage) == Convert.ToDouble(highestPercentage))
                 {
                     bookingInfo.SASComm = TotalComm;
@@ -978,6 +978,8 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstPayDetails = mapper.Map<List<tblPaymentInfo>, List<PaymentInformation>>(dbEntity.tblPaymentInfoes.Where(x => x.FlatID == FlatId).ToList()).ToList();
+                var bookingID = lstPayDetails[0].BookingID;
+                lstPayDetails[0].Customer = dbEntity.tblCustomerInfoes.Where(x => x.BookingID == bookingID).Select(x => x.Name).ToList().FirstOrDefault().ToString();
             }
             catch (Exception ex)
             {
@@ -1220,7 +1222,7 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstAgents = mapper.Map<List<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>, List<FlatWiseAgentCommission>>(dbEntity.sp_GetAgentCommissionNdBalanceByAgentLogins(email).ToList()).ToList();
-
+                //lstAgents.IndexOf(lstAgents.Single(i =>i.)
             }
             catch (Exception ex)
             {
@@ -1522,7 +1524,7 @@ namespace DataLayer
                 message = message.Replace("#Project", svi.ProjectName).Replace("#Agent", svi.AgentName).Replace("#SrAgent", svi.ImmediateSeniorName).Replace("#Customer", svi.CustomerName).Replace("#Mobile", svi.CustomerMobile).Replace("#Date", svi.DateOfVisit).Replace("#From", svi.FromAddress).Replace("#To", svi.ToAddress).Replace("#Status", svi.Status);
                 foreach (var agent in agentNumbers)
                 {
-                    var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + agent + "&smsContentType=english");
+                    var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + agent + "&smsContentType=english");
                     var request = new RestRequest(Method.GET);
                     request.AddHeader("Cache-Control", "no-cache");
                     IRestResponse response = client.Execute(request);
@@ -1644,7 +1646,7 @@ namespace DataLayer
                     cfg.CreateMap<tblDailyExpens, DailyExpense>();
                 });
                 IMapper mapper = config.CreateMapper();
-                return mapper.Map<List<tblDailyExpens>, List<DailyExpense>>(dbEntity.tblDailyExpenses.ToList()).ToList();
+                return mapper.Map<List<tblDailyExpens>, List<DailyExpense>>(dbEntity.tblDailyExpenses.OrderByDescending(x=>x.ExpenseID).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -1781,7 +1783,7 @@ namespace DataLayer
                     message = message.Replace("#Project", svi.ProjectName).Replace("#Agent", svi.AgentName).Replace("#SrAgent", svi.ImmediateSeniorName).Replace("#Customer", svi.CustomerName).Replace("#Mobile", svi.CustomerMobile).Replace("#Date", svi.DateOfVisit).Replace("#From", svi.FromAddress).Replace("#To", svi.ToAddress).Replace("#Status", svi.Status);
                     foreach (var agent in agentNumbers)
                     {
-                        var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + agent + "&smsContentType=english");
+                        var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + agent + "&smsContentType=english");
                         var request = new RestRequest(Method.GET);
                         request.AddHeader("Cache-Control", "no-cache");
                         IRestResponse response = client.Execute(request);
@@ -1876,6 +1878,28 @@ namespace DataLayer
             return lstAmenities;
         }
 
+        public List<ProjectTransactions> GetProjectTransactions()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<ProjectTransactions> lstProTransactions = new List<ProjectTransactions>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_ProjectTransactions_Result , ProjectTransactions>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstProTransactions = mapper.Map<List<sp_ProjectTransactions_Result>, List<ProjectTransactions>>(dbEntity.sp_ProjectTransactions().ToList()).ToList();
+                
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstProTransactions;
+        }
         public List<GetGraphicalPeriodWiseBooking> GetAgentBookingGraph(string username, string projectid, string fromDate, string toDate)
         {
             try
@@ -2246,6 +2270,29 @@ namespace DataLayer
             }
 
             return franchiseStatuses;
+        }
+
+        public bool BulkUploadExpenses(List<DailyExpense> lstExpenses)
+        {
+            try
+            {
+                List<tblDailyExpens> newlstExpenses = new List<tblDailyExpens>();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<DailyExpense, tblDailyExpens>();
+                });
+
+                IMapper mapper = config.CreateMapper();
+                newlstExpenses = mapper.Map<List<DailyExpense>, List<tblDailyExpens>>(lstExpenses);
+                dbEntity.tblDailyExpenses.AddRange(newlstExpenses);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using ModelLayer;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -57,7 +58,7 @@ namespace LoginApp.Controllers
         }
 
 
-        [Authorize(Roles = "Admin,DataEntry,Agent")]
+        [Authorize(Roles = "Admin,DataEntry,Agent,Manager,Employee")]
         public ActionResult Home()
         {
             var dashboardparams = booking.BindDashboardParameters();
@@ -69,6 +70,17 @@ namespace LoginApp.Controllers
             ViewBag.TodayPaymentCount = dashboardparams.TodayPaymentCount;
             ViewBag.TodayCustomerCount = dashboardparams.TodayCustomerCount;
             ViewBag.TodayIBOCount = dashboardparams.TodayIBOCount;
+            var lstProTrans = booking.GetProjectTransactions();
+            foreach(var trans in lstProTrans)
+            {
+                trans.TotalSalesAmount = Helper.AmountInIndianCurrency(trans.TotalSalesAmount);
+                trans.CollectedAmount = Helper.AmountInIndianCurrency(trans.CollectedAmount);
+                trans.BalanceAmount = Helper.AmountInIndianCurrency(trans.BalanceAmount);
+
+            }
+
+
+            ViewBag.ProjectTransactions = lstProTrans;
             if (dashboardparams.BookingGrowth >= 0)
             {
                 ViewBag.isBookingGrowth = true;
@@ -161,7 +173,7 @@ namespace LoginApp.Controllers
 
 
 
-        [Authorize(Roles = "Admin,Client,DataEntry,Agent")]
+        [Authorize(Roles = "Admin,Client,DataEntry,Agent,Manager,Employee")]
         public ActionResult Index()
         {
             List<Projects> projectList = new List<Projects>();
@@ -199,17 +211,36 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        public ActionResult GetFlatLifeCycle(int flatID)
+        [Authorize(Roles = "Admin,Customer,Client")]
+        public JsonResult GetFlatLifeCycle(int flatID)
         {
-            var flatLifeCycle = booking.BindFlatLifeCycle(flatID);
-            double TotalAmount = Convert.ToDouble(flatLifeCycle[0].BalanceAmount) + Convert.ToDouble(flatLifeCycle[0].BookingAmount);
-            double BalanceAmount = Convert.ToDouble(flatLifeCycle[flatLifeCycle.Count - 1].BalanceAmount);
-            double TotalPaid = Convert.ToDouble(TotalAmount - BalanceAmount);
-            var percentagePaid = Math.Round(TotalPaid / TotalAmount * 100, 2);
-            flatLifeCycle[0].PercentageCompleted = percentagePaid;
-            return Json(flatLifeCycle, JsonRequestBehavior.AllowGet);
+            var isAuthorised = true;
+            if (User.IsInRole("Customer"))
+            {
+                var flatList = booking.BindCustomerFlats(User.Identity.Name);
+                var exist = flatList.Where(x => x.FlatID == flatID).FirstOrDefault();
+                if (exist == null)
+                    isAuthorised = false;
+                else
+                    isAuthorised = true;
+            }
+            if (isAuthorised)
+            {
+                var flatLifeCycle = booking.BindFlatLifeCycle(flatID);
+
+                double TotalAmount = Convert.ToDouble(flatLifeCycle[0].BalanceAmount) + Convert.ToDouble(flatLifeCycle[0].BookingAmount);
+                double BalanceAmount = Convert.ToDouble(flatLifeCycle[flatLifeCycle.Count - 1].BalanceAmount);
+                double TotalPaid = Convert.ToDouble(TotalAmount - BalanceAmount);
+                var percentagePaid = Math.Round(TotalPaid / TotalAmount * 100, 2);
+                flatLifeCycle[0].PercentageCompleted = percentagePaid;
+
+                return Json(flatLifeCycle, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json("Not Authroized to view other flat details", JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin,Agent")]
         public JsonResult GetAgentCommissionByAgentLogin()
         {
             var email = User.Identity.Name;
@@ -224,7 +255,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "Admin,Agent")]
         public JsonResult GetAgentCommissionByAgentLogins()
         {
             var email = "";
@@ -250,7 +281,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "Admin,Agent")]
         public JsonResult GetAgentGraphicalHierarchy()
         {
             var email = "";
@@ -269,7 +300,7 @@ namespace LoginApp.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-
+        [Authorize(Roles = "Admin,Agent")]
         public JsonResult GetAgentFlatWiseCommissionByAgentLogins()
         {
             var email = "";
@@ -288,7 +319,7 @@ namespace LoginApp.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize(Roles = "Admin,Client,DataEntry,Agent")]
+        [Authorize(Roles = "Admin,Client,DataEntry,Agent,Manager,Employee")]
         public ActionResult BookingStatistics()
         {
             List<Projects> projectList = new List<Projects>();
@@ -302,6 +333,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Client,DataEntry,Agent,Manager,Employee")]
         public JsonResult GetBookingStatistics(int TowerId)
         {
             var list = booking.BindBookingStatistics(TowerId);
@@ -322,6 +354,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin,Agent")]
         public JsonResult GetAgentBookingStats(string projectID, string fromDate, string toDate)
         {
             var email = "";

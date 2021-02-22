@@ -25,5 +25,9 @@ namespace ModelLayer
         public int NetBalance { get; set; }
 
         public Nullable<int> IBOShare { get; set; }
+
+        public Nullable<long> AgentMobileNo { get; set; }
+
+        public string Designation { get; set; }
     }
 }

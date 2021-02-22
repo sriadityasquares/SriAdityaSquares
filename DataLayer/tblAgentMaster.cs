@@ -36,5 +36,8 @@ namespace DataLayer
         public string AgentChild { get; set; }
         public Nullable<double> AgentLatitude { get; set; }
         public Nullable<double> AgentLongitude { get; set; }
+        public Nullable<int> Designation { get; set; }
+        public Nullable<int> OldDesignation { get; set; }
+        public Nullable<System.DateTime> EffectivePercentageDate { get; set; }
     }
 }

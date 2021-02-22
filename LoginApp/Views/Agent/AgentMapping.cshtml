@@ -1,0 +1,287 @@
+﻿@model ModelLayer.AgentDropdown
+@{
+    ViewBag.Title = "IBO Mapping";
+    ViewBag.AgentMapping = "active";
+    ViewBag.Admin = "active";
+}
+<script src="https://www.virtuosoft.eu/code/bootstrap-duallistbox/bootstrap-duallistbox/v3.0.2/jquery.bootstrap-duallistbox.js"></script>
+
+
+<div class="jumbotron" style="padding-bottom:10px;margin-bottom:10px">
+    
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">IBO RELATIONS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <hr />
+    <br />
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.AgentID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.AgentID, TempData["AgentList"] as SelectList, "--Select Agent--", new { @class = "textbox-control col-md-3 col-xs" })
+        <div id="radiodiv" class="col-md-4 col-xs">
+            @*@Html.Label("YEAR");
+                @Html.RadioButtonFor(m => m.TimePeriod, "1",new { @class = "checker" })
+                MONTH
+                @Html.RadioButtonFor(m => m.TimePeriod, "2")
+                DAY
+                @Html.RadioButtonFor(m => m.TimePeriod, "3")*@
+            <div class="radios">
+                <div class="radio" style="margin-top:0px">
+                    <input type="radio" id="radio1" value="1" name="radio" checked="checked">
+                    <label for="radio1">
+                        <div class="checker"></div>
+                        Parent
+                    </label>
+                </div>
+
+                <div class="radio">
+                    <input type="radio" id="radio2" value="2" name="radio">
+                    <label for="radio2">
+                        <div class="checker"></div>
+                        Child
+                    </label>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div class="row" style="margin-top: 40px;">
+            <div class="col">
+
+
+                <h4>IBO PARENT/CHILD SELECTION</h4>
+
+                <hr />
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 40px;">
+            <div class="col">
+
+                <select id="options" multiple="multiple" size="10" class="eItems" name="duallistbox_demo1[]" title="duallistbox_demo1[]">
+                  
+                </select>
+                <br>
+                <div class="row">
+                    <div class="col-md-6 offset-md-6">
+                        <button id="Update" class="btn btn-primary">Update Relationship</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var demo2 = $('.eItems').bootstrapDualListbox({
+        nonselectedlistlabel: 'Non-selected',
+        selectedlistlabel: 'Selected',
+        preserveselectiononmove: 'moved',
+        moveonselect: false,
+        bootstrap2compatible: true,
+        filterTextClear: false,
+
+    });
+    var agents = '';
+    $("#Update").click(function () {
+        
+        agents = '';
+        $('.eItems :selected').each(function (i, selected) {
+            agents = $('.eItems').val();
+
+        });
+        //alert(agentList);
+        if (agents == null) {
+            agents = "";
+        }
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("UpdateMapping", "Agent")',
+            contentType: "application/json; charset=utf-8",
+            data: { AgentID: $("#AgentID").val(), option: $('input[type=radio][name=radio]:checked').val(), agentList: agents.toString() },
+            dataType: "json",
+            success: function (result) {
+
+                toastr.success('IBO Mapping Updated successfully');
+
+            },
+
+            });
+       
+    });
+
+
+    $("#AgentID").change(function () {
+        AgentChange();
+    });
+
+    $('input[type=radio][name=radio]').change(function () {
+        AgentChange();
+    });
+    //$("#main").hide();
+    function AgentChange() {
+        var html = ''
+        $.get("/Agent/GetMapping", { AgentID: $("#AgentID").val(), option: $('input[type=radio][name=radio]:checked').val() }, function (data) {
+            //HideDiv();
+            //html = '<select multiple="multiple" size="10" name="duallistbox_demo1[]" title="duallistbox_demo1[]">'
+            demo2.html('');
+            $.each(data, function (index, row) {
+                if (row.isSelected == 'No') {
+                    demo2.append("<option value=" + row.AgentID + ">" + row.AgentName + "</option>");
+
+                }
+                else {
+                    demo2.append("<option value=" + row.AgentID + " selected='selected' >" + row.AgentName + "</option>");
+
+                }
+            });
+
+
+            demo2.trigger('bootstrapDualListbox.refresh', true);
+
+        });
+    };
+</script>
+
+<style>
+    /*.moveall,
+    .removeall {
+        border: 1px solid #ccc !important;
+    }
+
+        .moveall:hover,
+        .removeall:hover {
+            background: #efefef;
+        }
+
+        .moveall::after {
+            content: attr(title);
+        }
+
+        .removeall::after {
+            content: attr(title);
+        }*/
+
+    .form-control option {
+        padding: 10px;
+        border-bottom: 1px solid #efefef;
+    }
+
+    @@media (min-width: 1200px) {
+        .container11 {
+            max-width: 1140px;
+        }
+    }
+
+    @@media (min-width: 992px) {
+        .container11 {
+            max-width: 960px;
+        }
+    }
+
+    @@media (min-width: 768px) {
+        .container11 {
+            max-width: 720px;
+        }
+    }
+
+    @@media (min-width: 576px) {
+        .container11 {
+            max-width: 540px;
+        }
+    }
+
+    .container11 {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .bootstrap-duallistbox-container1111 .buttons {
+        width: 100%;
+        margin-bottom: -1px
+    }
+
+    .bootstrap-duallistbox-container1111 label {
+        display: block
+    }
+
+    .bootstrap-duallistbox-container1111 .info {
+        display: inline-block;
+        margin-bottom: 5px;
+        font-size: 11px
+    }
+
+    .bootstrap-duallistbox-container1111 .clear1,
+    .bootstrap-duallistbox-container1111 .clear2 {
+        display: none;
+        font-size: 10px
+    }
+
+    .bootstrap-duallistbox-container1111 .box1.filtered .clear1,
+    .bootstrap-duallistbox-container1111 .box2.filtered .clear2 {
+        display: inline-block
+    }
+
+    .bootstrap-duallistbox-container1111 .move,
+    .bootstrap-duallistbox-container1111 .remove {
+        width: 60%
+    }
+
+    .bootstrap-duallistbox-container1111 .btn-group .btn {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0
+    }
+
+    .bootstrap-duallistbox-container1111 select {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0
+    }
+
+    .bootstrap-duallistbox-container1111 .moveall,
+    .bootstrap-duallistbox-container1111 .removeall {
+        width: 40%
+    }
+
+    .bootstrap-duallistbox-container11.bs2compatible .btn-group > .btn + .btn {
+        margin-left: 0
+    }
+
+    .bootstrap-duallistbox-container11 select {
+        width: 100%;
+        height: 300px;
+        padding: 0
+    }
+
+    .bootstrap-duallistbox-container11 .filter {
+        display: inline-block;
+        width: 100%;
+        height: 31px;
+        margin: 0 0 5px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box
+    }
+
+        .bootstrap-duallistbox-container11 .filter.placeholder {
+            color: #aaa
+        }
+
+    .bootstrap-duallistbox-container11.moveonselect .move,
+    .bootstrap-duallistbox-container11.moveonselect .remove {
+        display: none
+    }
+
+    .bootstrap-duallistbox-container11.moveonselect .moveall,
+    .bootstrap-duallistbox-container11.moveonselect .removeall {
+        width: 100%
+    }
+</style>

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer;
 using DataLayer;
+using ExcelDataReader;
 using log4net;
 using LoginApp.Models;
 using Microsoft.AspNet.Identity;
@@ -9,6 +10,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -139,25 +141,25 @@ namespace LoginApp.Controllers
 
                         var user = new ApplicationUser { UserName = b.Email, Email = b.Email, PhoneNumber = b.Mobile.ToString() };
                         var result1 = await UserManager.CreateAsync(user, "Welcome@123");
-                        
+
                         if (result1.Succeeded)
                         {
                             var roleadd = await UserManager.AddToRoleAsync(user.Id, "Customer");
 
                             var message = "Welcome to Sri Aditya Squares" + Environment.NewLine + "Below are your login credetials:" + Environment.NewLine + "Username :" + b.Email + Environment.NewLine + "Password :" + "Welcome@123" + Environment.NewLine + "Please use the link to login to the application :" + "https://sasinfra.in";
-                            var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + b.Mobile + "&smsContentType=english");
+                            var client = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + b.Mobile + "&smsContentType=english");
                             var request = new RestRequest(Method.GET);
                             request.AddHeader("Cache-Control", "no-cache");
                             IRestResponse response = client.Execute(request);
 
-                            var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=05423a92390551e9ff5b1b8836a187f&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + 8121751751 + "&smsContentType=english");
+                            var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=SIGNUP&routeId=1&mobileNos=" + 8121751751 + "&smsContentType=english");
                             var request1 = new RestRequest(Method.GET);
                             request1.AddHeader("Cache-Control", "no-cache");
                             IRestResponse response1 = client1.Execute(request1);
                             SMS sms = new SMS();
                             sms.MessageType = "New Booking";
                             sms.Message = message;
-                            sms.Recipients = b.Mobile+","+ "8121751751";
+                            sms.Recipients = b.Mobile + "," + "8121751751";
                             sms.CreatedBy = User.Identity.Name;
                             TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
                             var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
@@ -196,7 +198,7 @@ namespace LoginApp.Controllers
 
 
 
-
+        
         public JsonResult GetTowers(int ProjectId)
         {
             List<Towers> towerList = new List<Towers>();
@@ -224,6 +226,7 @@ namespace LoginApp.Controllers
 
         }
 
+        [Authorize(Roles = "Admin,DataEntry")]
         public JsonResult GetProjectAgents(int ProjectId)
         {
             List<AgentProjectLevel> AgentList = booking.BindProjectAgents(ProjectId);
@@ -265,10 +268,14 @@ namespace LoginApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,DataEntry")]
         public ActionResult MakePayment(PaymentInformation payInfo)
         {
             try
             {
+                List<Projects> projectList = booking.BindProjects();
+                TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+                TempData.Keep("ProjectList");
                 if (payInfo.BookingAmount != null)
                 {
                     if (Request.Form["GenerateReceipt"] == null)
@@ -308,7 +315,7 @@ namespace LoginApp.Controllers
         public ActionResult GetPaymentDetails(int flatID)
         {
             List<PaymentInformation> lstPayments = booking.BindPaymentDetails(flatID);
-
+            
             foreach (var item in lstPayments)
             {
                 if (item.ChequeDate != null)
@@ -421,7 +428,7 @@ namespace LoginApp.Controllers
         public ActionResult MakeAgentTotalPayment(AgentTotalPayments payInfo)
         {
             payInfo.CreatedBy = User.Identity.Name;
-            payInfo.CreatedDate = DateTime.Now.Date;
+            payInfo.CreatedDate = DateTime.Now;
             var result = booking.SaveNewAgentTotalPayment(payInfo);
             if (result)
                 TempData["successmessage"] = "Payment Successfull";
@@ -583,7 +590,7 @@ namespace LoginApp.Controllers
             siteVisitInfo.TermsAccepted = true;
             siteVisitInfo.CreatedBy = User.Identity.Name;
             siteVisitInfo.CreatedDate = DateTime.Now;
-            var result = booking.AddSiteVisit(siteVisitInfo,User.Identity.Name);
+            var result = booking.AddSiteVisit(siteVisitInfo, User.Identity.Name);
             if (result)
             {
                 TempData["successmessage"] = "Site Visit Added Successfully";
@@ -631,7 +638,7 @@ namespace LoginApp.Controllers
             data[0].ModifiedBy = User.Identity.Name;
             data[0].ModifiedDate = DateTime.Now;
             data[0].ApprovedOrRejectedBy = User.Identity.Name;
-            var result = booking.UpdateSiteVisitApproval(data[0],User.Identity.Name);
+            var result = booking.UpdateSiteVisitApproval(data[0], User.Identity.Name);
             return Json(result, JsonRequestBehavior.AllowGet);
 
         }
@@ -652,12 +659,12 @@ namespace LoginApp.Controllers
             var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
             var sysDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
             var bookingDate = result.ChequeDate != null ? Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy") : "";
-            var amountInWords = AmountInWords(Convert.ToDouble(result.BookingAmount));
+            var amountInWords = Helper.AmountInWords(Convert.ToDouble(result.BookingAmount));
             var bookID = result.BookingID.ToString().Split('-')[0].ToString().ToUpper();
             var html = "<article><address></address><table class=\"meta\"><tr><th><span>Receipt  #</span></th><td><span contenteditable></span></td> </tr><tr><th><span>Date</span></th><td><span contenteditable>#BookingDate</span></td></tr><tr></tr></table><table class=\"inventory\"><tr><th><span>PROJECT :</span></th><td><span>#Project</span></td><th><span>TOWER :</span></th><td><span>#Tower</span></td></tr><tr><th><span>NAME:</span></th><td><span>#CName</span></td><th><span>MOBILE :</span></th><td><span>#CMobile</span></td></tr><tr><th><span>AMOUNT PAID:</span></th><td><span>#BookingAmount</span></td><th><span>FLAT/PLOT NO :</span></th><td><span>#Flat</span></td></tr><tr><th><span>SFT:</span></th><td><span contenteditable>#SFT</span></td><th><span>MODE :</span></th><td><span>#Cheque</span></td></tr><tr><th><span>Ref No:</span></th><td><span>#RefNo</span></td></tr></table></article>" +
                 "<p> Remarks : #Details</p>";
             //var html = "<article><table class=\"inventory\"><tr><th>Project</th><td>#Project</td><th>Tower</ th ><td>#Tower</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><tr><th>Mobile</th><td contenteditable>#CMobile</td><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Payment Date</th><td contenteditable>#BookingDate</td></tr><tr><th >Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td contenteditable >#RefNo</td></tr> <tr><th> Amount in Words </th><td contenteditable colspan = '3' >#amountInWords</td></tr><tr><th> Bank Name </th><td contenteditable colspan = '3' > &nbsp;</td> </tr></table></article>";
-            html = html.Replace("#BookingDate", bookingDate).Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile == null ? "" : result.Mobile.ToString()).Replace("#BookingAmount", "Rs. " + result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo", result.ReferenceNo).Replace("#BHK", result.Bhk.ToString()).Replace("#Date", sysDate).Replace("#amountInWords", amountInWords).Replace("#bookingID", bookID).Replace("#Details",result.Remarks);
+            html = html.Replace("#BookingDate", bookingDate).Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile == null ? "" : result.Mobile.ToString()).Replace("#BookingAmount", "Rs. " + result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo", result.ReferenceNo).Replace("#BHK", result.Bhk.ToString()).Replace("#Date", sysDate).Replace("#amountInWords", amountInWords).Replace("#bookingID", bookID).Replace("#Details", result.Remarks);
             return Json(html, JsonRequestBehavior.AllowGet);
         }
 
@@ -665,6 +672,8 @@ namespace LoginApp.Controllers
         public ActionResult PaymentReceipts()
         {
             List<Projects> projectList = booking.BindProjects();
+            //ViewBag.BackgroundURL = "letterhead_new.jpg";
+            TempData["BackgroundURL"] = "";
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             TempData.Keep("ProjectList");
             return View();
@@ -674,88 +683,21 @@ namespace LoginApp.Controllers
         public JsonResult GetPaymentReceipts(int paymentID)
         {
             var result = booking.GetPaymentInformation(paymentID);
+            
+            
             TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
             var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
             var sysDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
             //var payDate = Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy");
             var payDate = result.ChequeDate != null ? Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy") : "";
-            var amountInWords = AmountInWords(Convert.ToDouble(result.BookingAmount));
+            var amountInWords = Helper.AmountInWords(Convert.ToDouble(result.BookingAmount));
             var html = "<article><address></address><table class=\"meta\"><tr><th> Pay ID:#</th><td><span contenteditable>#PaymentID</span></td></tr><tr><th>Date</th><td><span contenteditable>#Date</span></td></tr></tbody></table><table class=\"inventory\"><tbody><tr><th>Project</th><td>#Project</td><th>Tower</th><td>#Tower</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><th>Mobile</th><td contenteditable>#CMobile</td><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Payment Date</th><td contenteditable>#PaymentDate</td></tr><tr><th >Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td><span contenteditable>#RefNo</span></td></tr><tr><th>Amount in Words</th><td colspan = '3' contenteditable>#amountInWords</td></tr><tr><th>Bank Name</th><td colspan = '3' contenteditable></td></tr><tr><th>Details</th><td colspan = '3' contenteditable>#Details</td></tr></table></article>";
             html = html.Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile == null ? "" : result.Mobile.ToString()).Replace("#BookingAmount", "Rs. " + result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo", result.ReferenceNo).Replace("#PaymentID", result.PaymentID.ToString()).Replace("#PaymentDate", payDate).Replace("#Date", sysDate).Replace("#amountInWords", amountInWords).Replace("#BHK", result.Bhk.ToString()).Replace("#Details", result.Details);
             return Json(html, JsonRequestBehavior.AllowGet);
         }
 
 
-        public string AmountInWords(double? numbers, Boolean paisaconversion = false)
-        {
-            var pointindex = numbers.ToString().IndexOf(".");
-            var paisaamt = 0;
-            if (pointindex > 0)
-                paisaamt = Convert.ToInt32(numbers.ToString().Substring(pointindex + 1, 2));
-
-            int number = Convert.ToInt32(numbers);
-
-            if (number == 0) return "Zero";
-            if (number == -2147483648) return "Minus Two Hundred and Fourteen Crore Seventy Four Lakh Eighty Three Thousand Six Hundred and Forty Eight";
-            int[] num = new int[4];
-            int first = 0;
-            int u, h, t;
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            if (number < 0)
-            {
-                sb.Append("Minus ");
-                number = -number;
-            }
-            string[] words0 = { "", "One ", "Two ", "Three ", "Four ", "Five ", "Six ", "Seven ", "Eight ", "Nine " };
-            string[] words1 = { "Ten ", "Eleven ", "Twelve ", "Thirteen ", "Fourteen ", "Fifteen ", "Sixteen ", "Seventeen ", "Eighteen ", "Nineteen " };
-            string[] words2 = { "Twenty ", "Thirty ", "Forty ", "Fifty ", "Sixty ", "Seventy ", "Eighty ", "Ninety " };
-            string[] words3 = { "Thousand ", "Lakh ", "Crore " };
-            num[0] = number % 1000; // units
-            num[1] = number / 1000;
-            num[2] = number / 100000;
-            num[1] = num[1] - 100 * num[2]; // thousands
-            num[3] = number / 10000000; // crores
-            num[2] = num[2] - 100 * num[3]; // lakhs
-            for (int i = 3; i > 0; i--)
-            {
-                if (num[i] != 0)
-                {
-                    first = i;
-                    break;
-                }
-            }
-            for (int i = first; i >= 0; i--)
-            {
-                if (num[i] == 0) continue;
-                u = num[i] % 10; // ones
-                t = num[i] / 10;
-                h = num[i] / 100; // hundreds
-                t = t - 10 * h; // tens
-                if (h > 0) sb.Append(words0[h] + "Hundred ");
-                if (u > 0 || t > 0)
-                {
-                    if (h > 0 || i == 0) sb.Append("and ");
-                    if (t == 0)
-                        sb.Append(words0[u]);
-                    else if (t == 1)
-                        sb.Append(words1[u]);
-                    else
-                        sb.Append(words2[t - 2] + words0[u]);
-                }
-                if (i != 0) sb.Append(words3[i - 1]);
-            }
-
-            if (paisaamt == 0 && paisaconversion == false)
-            {
-                sb.Append("rupees only");
-            }
-            else if (paisaamt > 0)
-            {
-                var paisatext = AmountInWords(paisaamt, true);
-                sb.AppendFormat("rupees {0} paise only", paisatext);
-            }
-            return sb.ToString().TrimEnd();
-        }
+        
         [Authorize(Roles = "Admin")]
         public ActionResult ClientPayments()
         {
@@ -809,7 +751,28 @@ namespace LoginApp.Controllers
             TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
             var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
             dailyExpense.CreatedDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
-            var result = booking.AddDailyExpense(dailyExpense);
+            var result = false;
+            if (dailyExpense.BulkUpload != null)
+            {
+                try
+                {
+                    var lstdailyExpenses = GetDataFromCSVFile(dailyExpense.BulkUpload.InputStream);
+                    result = booking.BulkUploadExpenses(lstdailyExpenses);
+                    ModelState.Clear();
+                    //return Json(new { Status = 1, Message = "Intents Uploaded Successfully " });
+                }
+                catch (Exception ex)
+                {
+                    ModelState.Clear();
+                    result = false;
+                    //return Json(new { Status = 0, Message = ex.Message });
+                }
+            }
+
+            else
+            {
+                result = booking.AddDailyExpense(dailyExpense);
+            }
             if (result)
             {
                 TempData["successmessage"] = "Expense Added Successfully";
@@ -823,6 +786,51 @@ namespace LoginApp.Controllers
             return View();
         }
 
+        private List<DailyExpense> GetDataFromCSVFile(Stream stream)
+        {
+            var lstExpenses = new List<DailyExpense>();
+            try
+            {
+                using (var reader = ExcelReaderFactory.CreateCsvReader(stream))
+                {
+                    var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
+                    {
+                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                        {
+                            UseHeaderRow = true // To set First Row As Column Names  
+                        }
+                    });
+
+                    if (dataSet.Tables.Count > 0)
+                    {
+                        var dataTable = dataSet.Tables[0];
+                        foreach (DataRow objDataRow in dataTable.Rows)
+                        {
+                            if (objDataRow.ItemArray.All(x => string.IsNullOrEmpty(x?.ToString()))) continue;
+                            lstExpenses.Add(new DailyExpense()
+                            {
+                                ExpenseDate = objDataRow["ExpenseDate"].ToString(),
+                                PaidTo = objDataRow["PaidTo"].ToString(),
+                                Particulars = objDataRow["Particulars"].ToString(),
+                                Amount = Convert.ToInt32(objDataRow["Amount"]),
+                                PaymentMode = objDataRow["PaymentMode"].ToString(),
+                                Comments = objDataRow["Comments"].ToString(),
+                                CreatedDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"),
+                                CreatedBy = User.Identity.Name
+                                
+                            });
+                        }
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return lstExpenses;
+        }
         public JsonResult GetDailyExpenses()
         {
             var result = booking.GetDailyExpenses();
@@ -1005,21 +1013,21 @@ namespace LoginApp.Controllers
             var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
             var sysDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
             var bookingDate = result.ChequeDate != null ? Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy") : "";
-            var amountInWords = AmountInWords(Convert.ToDouble(result.BookingAmount));
+            var amountInWords = Helper.AmountInWords(Convert.ToDouble(result.BookingAmount));
             var bookID = result.BookingID.ToString().Split('-')[0].ToString().ToUpper();
             //var html = "<article><address></address><table class=\"meta\"><tr><th><span>Receipt  #</span></th><td><span contenteditable></span></td> </tr><tr><th><span>Date</span></th><td><span contenteditable>#BookingDate</span></td></tr><tr></tr></table><table class=\"inventory\"><tr><th><span>PROJECT :</span></th><td><span>#Project</span></td><th><span>TOWER :</span></th><td><span>#Tower</span></td></tr><tr><th><span>NAME:</span></th><td><span>#CName</span></td><th><span>MOBILE :</span></th><td><span>#CMobile</span></td></tr><tr><th><span>AMOUNT PAID:</span></th><td><span>#BookingAmount</span></td><th><span>FLAT/PLOT NO :</span></th><td><span>#Flat</span></td></tr><tr><th><span>SFT:</span></th><td><span contenteditable>#SFT</span></td><th><span>MODE :</span></th><td><span>#Cheque</span></td></tr><tr><th><span>Ref No:</span></th><td><span>#RefNo</span></td></tr></table></article>";
-            var html = "<table id='tblBookingDetails' class=\"table table-condensed\"><tr><th>Name</th><td>#CName</td><th>Contact</th><td>#Mobile</td></tr><tr><th>Aadhar</th><td>#Aadhar</td><th>Pan No</th><td>#PanNo</td></tr><tr><th>Project</th><td>#Project</td><th>Scheme</th><td>#SchemePercentage %</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Sft Rate</th><td>#SftRate</td></tr><tr><th>Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr> <tr><th>Discount</th><td>#discount</td><th>Final Rate</th><td><b>Rs.</b> #finalRate</td></tr><tr><th>ClubHouse</th><td><b>Rs.</b> #ClubHouse</td><th>Oth Charges</th><td><b>Rs.</b> #OtherCharges</td></tr><tr><th>Total</th><td><b>Rs.</b> #GrandRate</td><th>Scheme Due</th><td><b>Rs.</b> #SchemeDue</td></tr><tr><th>IBO Name</th><td colspan='3'>#AgentName</td></tr><tr><th>Remarks</th><td colspan='3'>#Remarks</td></tr><tr><th>IBO Share</th><td><b>Rs.</b> #IBOShare</td><th>Comp Share</th><td><b>Rs.</b> #Company</td></tr></table>";
+            var html = "<table id='tblBookingDetails' class=\"table table-condensed\"><tr><th>Name</th><td>#CName</td><th>Contact</th><td>#Mobile</td></tr><tr><th>Aadhar</th><td>#Aadhar</td><th>Pan No</th><td>#PanNo</td></tr><tr><th>Project</th><td>#Project</td><th>Scheme</th><td>#SchemePercentage %</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Sft Rate</th><td>#SftRate</td></tr><tr><th>Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr> <tr><th>Discount</th><td>#discount</td><th>Final Rate</th><td><b>Rs.</b> #finalRate</td></tr><tr><th>ClubHouse</th><td><b>Rs.</b> #ClubHouse</td><th>Oth Charges</th><td><b>Rs.</b> #OtherCharges</td></tr><tr><th>Total</th><td><b>Rs.</b> #GrandRate</td><th>Scheme Due</th><td><b>Rs.</b> #SchemeDue</td></tr><tr><th>IBO Name</th><td>#AgentName</td><th>Booking Date</th><td>#BookingDate</td></tr><tr><th>Remarks</th><td colspan='3'>#Remarks</td></tr><tr><th>IBO Share</th><td><b>Rs.</b> #IBOShare</td><th>Comp Share</th><td><b>Rs.</b> #Company</td></tr></table>";
             html = html.Replace("#CName", result.Name)
                 .Replace("#Project", result.ProjectName)
                 .Replace("#Tower", result.TowerName)
                 .Replace("#Aadhar", result.Aadhar == null ? "" : result.Aadhar.ToString())
                 .Replace("#PanNo", result.Pan == null ? "" : result.Pan.ToString())
                 .Replace("#Mobile", result.Mobile == null ? "" : result.Mobile.ToString())
-                //.Replace("#BookingAmount", "<b>Rs.</b>" + result.BookingAmount.ToString())
-                .Replace("#Flat", result.TowerName +"-"+result.FlatName)
+                .Replace("#BookingDate", result.ChequeDate != null ? Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy") : "")
+                .Replace("#Flat", result.TowerName + "-" + result.FlatName)
                 .Replace("#SFT", result.Area.ToString())
                 .Replace("#SchemePercentage", result.SchemePercentage.ToString())
-                .Replace("#Address",result.Address == null?"": result.Address.ToString())
+                .Replace("#Address", result.Address == null ? "" : result.Address.ToString())
                 .Replace("#Cheque", result.PaymentMode.ToString())
                 .Replace("#RefNo", result.ReferenceNo)
                 .Replace("#BHK", result.Bhk.ToString())
@@ -1030,19 +1038,19 @@ namespace LoginApp.Controllers
                 //.Replace("#Date", sysDate)
                 //.Replace("#amountInWords", amountInWords)
                 //.Replace("#bookingID", bookID)
-                .Replace("#Company",result.CompanyShare.ToString() !="0"? result.CompanyShare.ToString("#,#", new CultureInfo(0x0439)): "0")
-                .Replace("#IBOShare", result.IBOShare.ToString() != "0" ? result.IBOShare.ToString("#,#", new CultureInfo(0x0439)): "0")
-                .Replace("#SchemeDue",result.DueAmount.ToString() != "0" ? result.DueAmount.ToString("#,#", new CultureInfo(0x0439)): "0")
+                .Replace("#Company", result.CompanyShare.ToString() != "0" ? result.CompanyShare.ToString("#,#", new CultureInfo(0x0439)) : "0")
+                .Replace("#IBOShare", result.IBOShare.ToString() != "0" ? result.IBOShare.ToString("#,#", new CultureInfo(0x0439)) : "0")
+                .Replace("#SchemeDue", result.DueAmount.ToString() != "0" ? result.DueAmount.ToString("#,#", new CultureInfo(0x0439)) : "0")
                 //.Replace("#GrandRate", "<b>Rs.</b>" + result.GrandRate.ToString())
                 .Replace("#SftRate", result.SftRate.ToString())
-                .Replace("#OtherCharges",result.OtherCharges.ToString() != "0"? string.Format(inr, "{0:#,#}", result.OtherCharges): "0")
+                .Replace("#OtherCharges", result.OtherCharges.ToString() != "0" ? string.Format(inr, "{0:#,#}", result.OtherCharges) : "0")
                 .Replace("#ClubHouse", result.ClubHouseCharges.ToString() != "0" ? string.Format(inr, "{0:#,#}", result.ClubHouseCharges) : "0")
                 .Replace("#AgentName", result.AgentName);
             return Json(html, JsonRequestBehavior.AllowGet);
         }
 
 
-        
+
 
 
     }

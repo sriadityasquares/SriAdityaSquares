@@ -56,8 +56,8 @@
 
                 <ul class="nano-content">
                     @*<li>
-                            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
-                        </li>*@
+                <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+            </li>*@
                     <li class="sub-menu @(ViewBag.Dashboard)">
                         <a href="javascript:void(0);"><i class="fa fa-bar-chart"></i><span>DASHBOARD</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
@@ -79,10 +79,10 @@
                             @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
                             {
                                 <li>
-                                    <a class="@(ViewBag.AgentDashboard)" href="@Url.Action("Agents", "Dashboard")">AGENT HIERARCHY</a>
+                                    <a class="@(ViewBag.AgentDashboard)" href="@Url.Action("Agents", "Dashboard")">IBO HIERARCHY</a>
                                 </li>
                                 <li>
-                                    <a class="@(ViewBag.AgentGraphicalHierarchy)" href="@Url.Action("AgentGraphicalHierarchy", "Dashboard")">AGENT GRAPHICAL HIERARCHY</a>
+                                    <a class="@(ViewBag.AgentGraphicalHierarchy)" href="@Url.Action("AgentGraphicalHierarchy", "Dashboard")">IBO GRAPHICAL HIERARCHY</a>
                                 </li>
                                 <li>
                                     <a class="@(ViewBag.MyCommission)" href="@Url.Action("FlatWiseAgentCommission", "Dashboard")">MY COMMISSIONS</a>
@@ -122,14 +122,16 @@
                                     <a class="@(ViewBag.Schemes)" href="@Url.Action("Index", "Scheme")">SCHEMES</a>
                                 </li>
                                 <li>
-                                    <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">AGENTS</a>
-                                </li>
-
-                                <li>
-                                    <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">AGENT PROJECT LEVELS</a>
+                                    <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">IBO</a>
                                 </li>
                                 <li>
-                                    <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeFlatWiseAgentPayments", "Booking")">AGENT PAYMENTS</a>
+                                    <a class="@(ViewBag.AgentMapping)" href="@Url.Action("AgentMapping", "Agent")">IBO MAPPING</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">IBO PROJECT LEVELS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeFlatWiseAgentPayments", "Booking")">IBO PAYMENTS</a>
                                 </li>
                                 <li>
                                     <a class="@(ViewBag.ClientPayments)" href="@Url.Action("ClientPayments", "Booking")">CLIENT PAYMENTS</a>
@@ -150,8 +152,8 @@
                                     <a class="@(ViewBag.Offers)" href="@Url.Action("Offers", "Booking")">OFFERS</a>
                                 </li>
                                 @*<li>
-                                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                                    </li>*@
+                            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+                        </li>*@
                             </ul>
                         </li>
                     }
@@ -179,7 +181,7 @@
                             </ul>
                         </li>
                     }
-                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent") || this.User.IsInRole("Client"))
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent") || this.User.IsInRole("Client") || this.User.IsInRole("Manager"))
                     {
                         <li class="sub-menu @(ViewBag.Reports)">
                             <a href="javascript:void(0);"><i class="fa fa-table"></i><span>REPORTS</span><i class="arrow fa fa-angle-right pull-right"></i></a>
@@ -199,7 +201,7 @@
                                         <a class="@(ViewBag.PaymentInfoReport)" href="@Url.Action("PaymentInfoReport", "Report")">PAYMENT INFORMATION</a>
                                     </li>
                                     <li>
-                                        <a class="@(ViewBag.AgentWiseBookingReport)" href="@Url.Action("AgentWiseBookingReport", "Report")">AGENT WISE BOOKING</a>
+                                        <a class="@(ViewBag.AgentWiseBookingReport)" href="@Url.Action("AgentWiseBookingReport", "Report")">IBO WISE BOOKING</a>
                                     </li>
                                     <li>
                                         <a class="@(ViewBag.BhkWiseBookingReport)" href="@Url.Action("BhkWiseBookingReport", "Report")">BHK WISE BOOKING</a>
@@ -225,17 +227,23 @@
                                     <li>
                                         <a class="@(ViewBag.Percentages)" href="@Url.Action("AgentPercentages", "Report")">AGENT PERCENTAGES</a>
                                     </li>
-                                    <li>
-                                        <a class="@(ViewBag.CheckList)" href="@Url.Action("CheckList", "Booking")">CHECK LIST</a>
-                                    </li>
+
+
                                     <li>
                                         <a class="@(ViewBag.SMSLog)" href="@Url.Action("SMSLog", "Report")">SMS LOG</a>
+                                    </li>
+
+                                }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Manager"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.CheckList)" href="@Url.Action("CheckList", "Booking")">CHECK LIST</a>
                                     </li>
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
                                 {
                                     <li>
-                                        <a class="@(ViewBag.AgentBookingStats)" href="@Url.Action("AgentBookingStats", "Dashboard")">AGENT BOOKING STATISTICS</a>
+                                        <a class="@(ViewBag.AgentBookingStats)" href="@Url.Action("AgentBookingStats", "Dashboard")">IBO BOOKING STATISTICS</a>
                                     </li>
                                 }
                                 @if (this.User.IsInRole("Client"))
@@ -247,7 +255,7 @@
                             </ul>
                         </li>
                     }
-                    @if (!this.User.IsInRole("Client") && !this.User.IsInRole("Customer"))
+                    @if (!this.User.IsInRole("Client") && !this.User.IsInRole("Customer") && !this.User.IsInRole("Manager") && !this.User.IsInRole("Employee"))
                     {
                         <li class="sub-menu @(ViewBag.Selfie)">
                             <a href="javascript:void(0);"><i class="fa fa-photo"></i><span>SELFIE</span><i class="arrow fa fa-angle-right pull-right"></i></a>
@@ -283,6 +291,29 @@
                             </ul>
                         </li>
                     }
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
+                    {
+                        <li class="sub-menu @(ViewBag.Franchise)">
+                            <a href="javascript:void(0);"><i class="fa fa-handshake-o"></i><span>FRANCHISE</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                            <ul>
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.Registration)" href="@Url.Action("Register", "Franchise")">FRANCHISE REGISTRATION</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.Approvals)" href="@Url.Action("GetAgreements", "Franchise")">FRANCHISE APPROVALS</a>
+                                    </li>
+                                }
+
+
+
+                            </ul>
+                        </li>
+                    }
                 </ul>
 
 
@@ -303,6 +334,9 @@
                                 }
                                 <li>
                                     @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                                </li>
+                                <li id="Designation">
+
                                 </li>
                                 <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                             </ul>
@@ -325,8 +359,8 @@
 
                 <ul class="nano-content">
                     @*<li>
-                            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
-                        </li>*@
+                    <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+                </li>*@
                     <li class="sub-menu @(ViewBag.Dashboard)">
                         <a href="javascript:void(0);"><i class="fa fa-bar-chart"></i><span>DASHBOARD</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
@@ -348,14 +382,15 @@
                             @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
                             {
                                 <li>
-                                    <a class="@(ViewBag.AgentDashboard)" href="@Url.Action("Agents", "Dashboard")">AGENT HIERARCHY</a>
+                                    <a class="@(ViewBag.AgentDashboard)" href="@Url.Action("Agents", "Dashboard")">IBO HIERARCHY</a>
                                 </li>
                                 <li>
-                                    <a class="@(ViewBag.AgentGraphicalHierarchy)" href="@Url.Action("AgentGraphicalHierarchy", "Dashboard")">AGENT GRAPHICAL HIERARCHY</a>
+                                    <a class="@(ViewBag.AgentGraphicalHierarchy)" href="@Url.Action("AgentGraphicalHierarchy", "Dashboard")">IBO GRAPHICAL HIERARCHY</a>
                                 </li>
                                 <li>
                                     <a class="@(ViewBag.MyCommission)" href="@Url.Action("FlatWiseAgentCommission", "Dashboard")">MY COMMISSIONS</a>
                                 </li>
+
                             }
                             @if (this.User.IsInRole("Admin") || this.User.IsInRole("Customer") || this.User.IsInRole("Client"))
                             {
@@ -390,14 +425,16 @@
                                     <a class="@(ViewBag.Schemes)" href="@Url.Action("Index", "Scheme")">SCHEMES</a>
                                 </li>
                                 <li>
-                                    <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">AGENTS</a>
-                                </li>
-
-                                <li>
-                                    <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">AGENT PROJECT LEVELS</a>
+                                    <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">IBO</a>
                                 </li>
                                 <li>
-                                    <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeFlatWiseAgentPayments", "Booking")">AGENT PAYMENTS</a>
+                                    <a class="@(ViewBag.AgentMapping)" href="@Url.Action("AgentMapping", "Agent")">IBO MAPPING</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">IBO PROJECT LEVELS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeFlatWiseAgentPayments", "Booking")">IBO PAYMENTS</a>
                                 </li>
                                 <li>
                                     <a class="@(ViewBag.ClientPayments)" href="@Url.Action("ClientPayments", "Booking")">CLIENT PAYMENTS</a>
@@ -418,8 +455,8 @@
                                     <a class="@(ViewBag.Offers)" href="@Url.Action("Offers", "Booking")">OFFERS</a>
                                 </li>
                                 @*<li>
-                                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                                    </li>*@
+                                <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+                            </li>*@
                             </ul>
                         </li>
                     }
@@ -447,7 +484,7 @@
                             </ul>
                         </li>
                     }
-                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent") || this.User.IsInRole("Client"))
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent") || this.User.IsInRole("Client") || this.User.IsInRole("Manager"))
                     {
                         <li class="sub-menu @(ViewBag.Reports)">
                             <a href="javascript:void(0);"><i class="fa fa-table"></i><span>REPORTS</span><i class="arrow fa fa-angle-right pull-right"></i></a>
@@ -467,7 +504,7 @@
                                         <a class="@(ViewBag.PaymentInfoReport)" href="@Url.Action("PaymentInfoReport", "Report")">PAYMENT INFORMATION</a>
                                     </li>
                                     <li>
-                                        <a class="@(ViewBag.AgentWiseBookingReport)" href="@Url.Action("AgentWiseBookingReport", "Report")">AGENT WISE BOOKING</a>
+                                        <a class="@(ViewBag.AgentWiseBookingReport)" href="@Url.Action("AgentWiseBookingReport", "Report")">IBO WISE BOOKING</a>
                                     </li>
                                     <li>
                                         <a class="@(ViewBag.BhkWiseBookingReport)" href="@Url.Action("BhkWiseBookingReport", "Report")">BHK WISE BOOKING</a>
@@ -493,17 +530,23 @@
                                     <li>
                                         <a class="@(ViewBag.Percentages)" href="@Url.Action("AgentPercentages", "Report")">AGENT PERCENTAGES</a>
                                     </li>
-                                    <li>
-                                        <a class="@(ViewBag.CheckList)" href="@Url.Action("CheckList", "Booking")">CHECK LIST</a>
-                                    </li>
+
+
                                     <li>
                                         <a class="@(ViewBag.SMSLog)" href="@Url.Action("SMSLog", "Report")">SMS LOG</a>
+                                    </li>
+
+                                }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Manager"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.CheckList)" href="@Url.Action("CheckList", "Booking")">CHECK LIST</a>
                                     </li>
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
                                 {
                                     <li>
-                                        <a class="@(ViewBag.AgentBookingStats)" href="@Url.Action("AgentBookingStats", "Dashboard")">AGENT BOOKING STATISTICS</a>
+                                        <a class="@(ViewBag.AgentBookingStats)" href="@Url.Action("AgentBookingStats", "Dashboard")">IBO BOOKING STATISTICS</a>
                                     </li>
                                 }
                                 @if (this.User.IsInRole("Client"))
@@ -515,7 +558,7 @@
                             </ul>
                         </li>
                     }
-                    @if (!this.User.IsInRole("Client") && !this.User.IsInRole("Customer"))
+                    @if (!this.User.IsInRole("Client") && !this.User.IsInRole("Customer") && !this.User.IsInRole("Manager") && !this.User.IsInRole("Employee"))
                     {
                         <li class="sub-menu @(ViewBag.Selfie)">
                             <a href="javascript:void(0);"><i class="fa fa-photo"></i><span>SELFIE</span><i class="arrow fa fa-angle-right pull-right"></i></a>
@@ -551,6 +594,29 @@
                             </ul>
                         </li>
                     }
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
+                    {
+                        <li class="sub-menu @(ViewBag.Franchise)">
+                            <a href="javascript:void(0);"><i class="fa fa-handshake-o"></i><span>FRANCHISE</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                            <ul>
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.Registration)" href="@Url.Action("Register", "Franchise")">FRANCHISE REGISTRATION</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.Approvals)" href="@Url.Action("GetAgreements", "Franchise")">FRANCHISE APPROVALS</a>
+                                    </li>
+                                }
+
+
+
+                            </ul>
+                        </li>
+                    }
                 </ul>
 
 
@@ -571,6 +637,9 @@
                                 }
                                 <li>
                                     @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                                </li>
+                                <li id="Designation">
+                                   <a id="des"></a>
                                 </li>
                                 <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                             </ul>
@@ -601,7 +670,9 @@
 </html>
 
 <style>
-    #navigation-container1 {
+
+
+    #navigation-container {
         width: 1200px;
         margin: 0 auto;
         height: 70px;
@@ -628,6 +699,12 @@
     }
 </script>
 <script>
+
+    $.getJSON('/Cascade/GetDesignationForDisplay', function (response) {
+        if (response != null) {
+            $("#des").text(response)
+        }
+    });
     $("#leftside-navigation .sub-menu > a").click(function (e) {
         $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown()
     });
@@ -636,26 +713,26 @@
         $('li.sub-menu active').removeClass('active');
         $(this).addClass('sub-menu active');
     });
-    //document.addEventListener('contextmenu', function (e) {
-    //    e.preventDefault();
-    //});
-    //document.onkeydown = function (e) {
-    //    if (event.keyCode == 123) {
-    //        return false;
-    //    }
-    //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-    //        return false;
-    //    }
-    //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
-    //        return false;
-    //    }
-    //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-    //        return false;
-    //    }
-    //    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-    //        return false;
-    //    }
-    //}
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+    document.onkeydown = function (e) {
+        if (event.keyCode == 123) {
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+            return false;
+        }
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+            return false;
+        }
+    }
 
 </script>
 

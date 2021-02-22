@@ -32,6 +32,8 @@ namespace DataLayer
                     projectOld.ApprovalStatus = p.ApprovalStatus;
                     projectOld.Pricing = p.Pricing;
                     projectOld.UpdatedDate = DateTime.Now;
+                    projectOld.BSP = p.BSP;
+                    projectOld.ProjectType = p.ProjectType;
                     dbEntity.SaveChanges();
                 }
                 return true;

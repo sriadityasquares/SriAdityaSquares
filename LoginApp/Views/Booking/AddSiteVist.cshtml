@@ -113,24 +113,37 @@
     var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
     $("#datepicker1").val(todayDate);
     var validationsFlag = false;
-    $("#ProjectID").change(function () {
+    //$("#ProjectID").change(function () {
 
-        $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
-            $("#AgentID").empty();
-            $("#ImmediateSeniorID").empty();
-            AgentList = data;
-            //$("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
-            $.each(data, function (index, row) {
-                $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
-            });
-            $("#ImmediateSeniorID").append("<option value='" + 0 + "'>" + "None" + "</option>")
-            $.each(data, function (index, row) {
-                $("#ImmediateSeniorID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
-            });
+    //    $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
+    //        $("#AgentID").empty();
+    //        $("#ImmediateSeniorID").empty();
+    //        AgentList = data;
+    //        //$("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
+    //        $.each(data, function (index, row) {
+    //            $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+    //        });
+    //        $("#ImmediateSeniorID").append("<option value='" + 0 + "'>" + "None" + "</option>")
+    //        $.each(data, function (index, row) {
+    //            $("#ImmediateSeniorID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+    //        });
+    //    });
+
+    //});
+
+    $.getJSON('/Cascade/GetAgents2', function (data) {
+        $("#AgentID").empty();
+        $("#ImmediateSeniorID").empty();
+        AgentList = data;
+        $("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
+        $.each(data, function (index, row) {
+            $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
         });
-
+        $("#ImmediateSeniorID").append("<option value='" + 0 + "'>" + "--Select Sr. Agent--" + "</option>")
+        $.each(data, function (index, row) {
+            $("#ImmediateSeniorID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+        });
     });
-
 
 
     $("#submitbtn").submit(function () {

@@ -350,6 +350,11 @@ namespace BusinessLayer
             return db.BindDashboardParameters();
         }
 
+        public List<ProjectTransactions> GetProjectTransactions()
+        {
+            return db.GetProjectTransactions();
+        }
+
         public List<GetTopIBOInMonth> BindTopIBO(bool SAS)
         {
             return db.BindTopIBO(SAS);
@@ -413,6 +418,11 @@ namespace BusinessLayer
         public List<GetFranchiseStatus> GetFranchiseStatus(int regNO)
         {
             return db.GetFranchiseStatus(regNO);
+        }
+
+        public bool BulkUploadExpenses(List<DailyExpense> lstExpenses)
+        {
+            return db.BulkUploadExpenses(lstExpenses);
         }
     }
 }

@@ -50,6 +50,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -272,6 +278,7 @@
       <HintPath>..\packages\System.Diagnostics.StackTrace.4.0.1\lib\net46\System.Diagnostics.StackTrace.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.FileSystem, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.FileSystem.4.0.1\lib\net46\System.IO.FileSystem.dll</HintPath>
     </Reference>
@@ -693,6 +700,9 @@
     <Content Include="Content\Images\14Avenue.JPG" />
     <Content Include="Content\Images\159862874088521280 %281%29.png" />
     <Content Include="Content\Images\2918.jpg" />
+    <Content Include="Content\Images\aaView.jpg" />
+    <Content Include="Content\Images\ADITYA ARIEL VIEW %281%29.jpg" />
+    <Content Include="Content\Images\ADITYA ARIEL.jpg" />
     <Content Include="Content\Images\Advertisements.png" />
     <Content Include="Content\Images\Alpine Square.png" />
     <Content Include="Content\Images\Alpine Vistas.png" />
@@ -751,9 +761,11 @@
     <Content Include="Content\Images\In the Woods.png" />
     <Content Include="Content\Images\Jewels County.PNG" />
     <Content Include="Content\Images\Jogging Path.PNG" />
+    <Content Include="Content\Images\letterhead_new_Mirchi.jpg" />
     <Content Include="Content\Images\MIRCHI VENICE.PNG" />
     <Content Include="Content\Images\Ornate.jpg" />
     <Content Include="Content\Images\Ornate.PNG" />
+    <Content Include="Content\Images\OrnateImage1.jpeg" />
     <Content Include="Content\Images\Ornate_1920x1000.jpg" />
     <Content Include="Content\Images\Ornate_1920x1280.jpg" />
     <Content Include="Content\Images\Ornate_1920x900.jpg" />
@@ -1392,6 +1404,12 @@
     <Content Include="Content\Brochures\AlpineVistasBrochure.pdf" />
     <Content Include="Content\Brochures\ElderadoBrochure.pdf" />
     <Content Include="Content\Brochures\PVRAnmolBrochure.pdf" />
+    <Content Include="Content\Brochures\OrnateBrochure.pdf" />
+    <Content Include="Content\Brochures\MirchiVeniceBrochure.pdf" />
+    <Content Include="Content\LegalOpinion\OrnateLO.pdf" />
+    <Content Include="Content\LegalOpinion\PVRAnmolLO.pdf" />
+    <Content Include="Content\LegalOpinion\AlpineSquareLO.pdf" />
+    <Content Include="Content\LegalOpinion\AlpineVistasLO.pdf" />
     <None Include="Properties\PublishProfiles\flatbooking - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\flatsapp - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\LoginApp20200301112104 - Web Deploy.pubxml" />
@@ -1972,7 +1990,6 @@
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Report\BookingInfoReport.cshtml" />
     <Content Include="Views\Report\PeriodWiseBookingReport.cshtml" />
-    <Content Include="Views\Sample\Index.cshtml" />
     <Content Include="Scripts\kendo\2014.1.318\kendo.window.min.js.map" />
     <Content Include="Scripts\kendo\2014.1.318\kendo.web.min.js.map" />
     <Content Include="Scripts\kendo\2014.1.318\kendo.view.min.js.map" />
@@ -2063,7 +2080,6 @@
     <Content Include="Views\Customer\Enquiry.cshtml" />
     <Content Include="Views\Booking\MakeFlatWiseAgentPayments.cshtml" />
     <Content Include="Views\Dashboard\FlatWiseAgentCommission.cshtml" />
-    <Content Include="Views\Home\Portfolio.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Booking\Selfie.cshtml" />
     <Content Include="Views\Booking\SelfiePoint.cshtml" />
@@ -2095,6 +2111,8 @@
     <Content Include="Views\Franchise\AgreementStatus.cshtml" />
     <Content Include="Views\Franchise\GetAgreements.cshtml" />
     <Content Include="Views\Franchise\Approval.cshtml" />
+    <Content Include="Views\Agent\AgentMapping.cshtml" />
+    <Content Include="Views\Sample\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

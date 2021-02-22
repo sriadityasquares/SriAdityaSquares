@@ -30,7 +30,7 @@
                     <div class="card card-stats">
                         <div class="card-header card-header-warning card-header-icon">
                             <div class="card-icon">
-                                
+
                                 <i class="fa fa-building"></i>
                             </div>
                             <p style="font-weight:bold !important" class="card-category"><b>PROJECTS</b></p>
@@ -86,19 +86,28 @@
                     </div>
                 </div>
             </div>
+            @if (User.IsInRole("Agent"))
+            {
+                <div class="row">
+                    <div style="background-color:white" class="scroll-left">
+                        <a style="font-size:x-large;font-weight:bolder;" href="/Franchise/Register">Click to Navigate to Franchise Registration!</a>
+
+                    </div>
+                </div>
+            }
             <div class="row">
                 <div class="col-md-4">
                     <div class="card card-chart">
                         <div class="card-header card-header-success">
                             <div class="ct-chart" id="BookingChart"></div>
-                            
+
 
                         </div>
                         <div class="card-body">
                             <h3 class="card-title">Daily Bookings</h3>
 
                             <p class="card-category">
-                                
+
 
                                 @if (ViewBag.isBookingGrowth == null || !ViewBag.isBookingGrowth)
                                 {
@@ -170,6 +179,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-lg-6 col-md-12">
                     <div class="card">
@@ -338,8 +348,51 @@
                     </div>
                 </div>
             </div>
+
             @if (User.IsInRole("Admin"))
             {
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-rose">
+                                <h4 class="card-title"><b style="font-size:14px;font-weight:800">PROJECT WISE TRANSACTIONS</b></h4>
+                                <p class="card-category">Last Updated @DateTime.Now</p>
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="text-rose">
+                                    <th>PROJECT</th>
+                                    <th>SALES AMOUNT</th>
+                                    <th>COLLECTED AMOUNT</th>
+                                    <th>BALANCE AMOUNT</th>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in ViewBag.ProjectTransactions)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.ProjectName
+                                                </td>
+                                                <td>
+                                                    @item.TotalSalesAmount
+                                                </td>
+                                                <td>
+                                                    @item.CollectedAmount
+                                                </td>
+                                                <td>
+                                                    @item.BalanceAmount
+                                                </td>
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
 
                     <div class="col-lg-6 col-md-12">
@@ -371,9 +424,7 @@
                                                 <td>
                                                     <b style="font-size:12px">&#8377;</b>.@item.BookingAmount
                                                 </td>
-                                                @*<td>
-                                                        @Convert.ToDateTime(@item.CreatedDate).Date.ToString("dd/MM/yyyy")
-                                                    </td>*@
+                                               
                                             </tr>
                                         }
 
@@ -411,8 +462,8 @@
                                                     <b style="font-size:12px">&#8377;</b>.@item.Amount
                                                 </td>
                                                 @*<td>
-                                                        @Convert.ToDateTime(@item.CreatedDate).Date.ToString("dd/MM/yyyy")
-                                                    </td>*@
+                                                @Convert.ToDateTime(@item.CreatedDate).Date.ToString("dd/MM/yyyy")
+                                            </td>*@
 
                                             </tr>
                                         }
@@ -455,7 +506,7 @@
                 tension: 0
             }),
             low: 0,
-            high: 5, 
+            high: 10,
             chartPadding: {
                 top: 0,
                 right: 0,

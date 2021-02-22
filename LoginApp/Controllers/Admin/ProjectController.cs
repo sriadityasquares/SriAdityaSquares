@@ -41,6 +41,15 @@ namespace LoginApp.Controllers.Admin
                             item.BookingStatusName = "CLOSED";
                             break;
                     }
+                    //switch(item.ProjectType)
+                    //{
+                    //    case 1:
+                    //        item.ProjectTypeName = "Construction";
+                    //        break;
+                    //    case 2:
+                    //        item.ProjectTypeName = "Non-Construction";
+                    //        break;
+                    //}
                 }
             }
             catch (Exception ex)

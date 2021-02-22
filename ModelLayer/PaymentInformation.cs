@@ -54,5 +54,7 @@ namespace ModelLayer
         public Nullable<System.DateTime> ChequeDate { get; set; }
 
         public string Details { get; set; }
+
+        public string Customer { get; set; }
     }
 }

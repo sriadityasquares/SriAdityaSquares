@@ -135,7 +135,7 @@ a:focus {
 
 #hero {
     /*background-image: url('../Images/heroPage.jpg');*/
-    background-image: url('../Images/Ornate_1920x960.jpg');
+    background-image: url('../Images/aaView.jpg');
     background-repeat: no-repeat;
     height: 105vh;
     /*object-fit: contain !important;*/
@@ -146,7 +146,7 @@ a:focus {
 
 @media (min-height: 830px) {
   #hero {
-    background-position: center 10px;
+    background-position: center 100px;
   }
 }
 

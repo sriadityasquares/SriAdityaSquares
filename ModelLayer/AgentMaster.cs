@@ -32,11 +32,13 @@ namespace ModelLayer
         public string AgentParent { get; set; }
         public string AgentChild { get; set; }
 
-        public int[] arrayListParent { get; set; }
+        //public int[] arrayListParent { get; set; }
 
         public Nullable<double> AgentLatitude { get; set; }
         public Nullable<double> AgentLongitude { get; set; }
 
         public bool isDuplicateAgentCode { get; set; }
+
+        public int Designation { get; set; }
     }
 }

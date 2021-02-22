@@ -38,6 +38,7 @@
     <br />
     
     <br />
+    
     <div id="paydetails">
         <div id="example">
 
@@ -69,14 +70,14 @@
             </div>
 
             <div id="scrollPagePDF" style="overflow:auto;height:500px" class="page-container hidden-on-narrow">
-                <div style="background-image: url('../../Content/Images/letterhead_new.jpg');background-size: cover;" class="pdf-page size-a4">
+                <div id="bgImage" style="background-image: url('../../Content/Images/letterhead_new.jpg');background-size: cover;" class="pdf-page size-a4">
                     <div class="inner-page">
                         @*<div class="pdf-header">
-                            <span class="company-logo">
-                                <img style="height:130px" src="~/Content/Images/SASFullLogo1.png" />
-                            </span>
+            <span class="company-logo">
+                <img style="height:130px" src="~/Content/Images/SASFullLogo1.png" />
+            </span>
 
-                        </div>*@
+        </div>*@
                         <br />
                         <br />
                         <br />
@@ -95,10 +96,15 @@
                                 </p>
                             </div>
                             @*<div class="col-md-6">
-                                <img  style="height:150px;width:150px;" src="~/Content/Images/Sasstamp.png" />
+                <img  style="height:150px;width:150px;" src="~/Content/Images/Sasstamp.png" />
 
-                            </div>*@
+            </div>*@
 
+                        </div>
+                        <div class="pdf-footer">
+                            <p style="color:black" class="mb-0">
+                                <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3rd floor,above Nissan showroom,peddamma temple metro station,Jubilee Hills,Hyderabad, 500033</b>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -263,6 +269,9 @@
 
             </div>
         </div>
+        <div class="row">
+            <b>CUSTOMER NAME :</b>   <label style="font-size:medium" id="CustomerName"></label>
+        </div>
         <div class="row justify-content-center" style="padding-top:20px">
             <div class="table-responsive">
                 <table id="table" style="width:100% !important;margin-left: 0px !important;" class="table table-bordered">
@@ -358,6 +367,13 @@
     $("#cqDatePicker").kendoDatePicker();
     HideDiv();
     $("#ProjectID").change(function () {
+        if ($("#ProjectID").val() == 22) {
+            $("#bgImage").css("background-image", "url('../../Content/Images/letterhead_new_Mirchi.jpg')");
+        }
+        else {
+            $("#bgImage").css("background-image", "url('../../Content/Images/letterhead_new.jpg')");
+
+        }
         $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
             HideDiv();
             $("#TowerID").empty();
@@ -393,10 +409,14 @@
             var BookingID = "";
             var Aadhar = "";
             var DueDate = "";
+
             $('#table tbody tr').remove();
             $.each(data, function (index, row) {
                 if (row.ReferenceNo == null) {
                     row.ReferenceNo = "";
+                }
+                if (index == 0) {
+                    $("#CustomerName").text(row.Customer);
                 }
                 $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.PaymentMode + "</td><td>" + row.ChequeStatus + "</td><td>" + row.ReferenceNo + "</td><td contenteditable id='" + row.PaymentID + "'>" + row.Details + "</td><td><a class ='btn' onclick='UpdateDetails(" + row.PaymentID + ")'><i class='fa fa-save'></i></a>" + "<td><a class ='btn' onClick=GetReceipt('" + row.PaymentID + "')> <i class='fa fa-file-pdf-o'></i></a ></td ></tr>");
                 //$('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td>" + "</td><td><button type='submit'  name='GenerateReceipt' style='padding:3px;margin-bottom: 0px;' id='Generate' value='" + row.PaymentID + "' class='btn btn-default'><i class='fa fa-file-pdf-o'></i>GENERATE RECEIPT</button></td></tr>");

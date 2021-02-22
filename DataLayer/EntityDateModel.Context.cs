@@ -47,7 +47,6 @@ namespace DataLayer
         public virtual DbSet<tblFlatWiseAgentCommission> tblFlatWiseAgentCommissions { get; set; }
         public virtual DbSet<tblCustomerVisitInfo> tblCustomerVisitInfoes { get; set; }
         public virtual DbSet<tblSiteVisitInfo> tblSiteVisitInfoes { get; set; }
-        public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
         public virtual DbSet<tblAmenity> tblAmenities { get; set; }
         public virtual DbSet<tblClientPayment> tblClientPayments { get; set; }
         public virtual DbSet<tblCustomerInfo> tblCustomerInfoes { get; set; }
@@ -64,6 +63,8 @@ namespace DataLayer
         public virtual DbSet<tblArea> tblAreas { get; set; }
         public virtual DbSet<tblFranchiseRegistration> tblFranchiseRegistrations { get; set; }
         public virtual DbSet<tblFranchiseRegistrationStatu> tblFranchiseRegistrationStatus { get; set; }
+        public virtual DbSet<tblDesignation> tblDesignations { get; set; }
+        public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
     
         public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
         {
@@ -237,15 +238,6 @@ namespace DataLayer
         public virtual ObjectResult<sp_GetAgentLocations_Result> sp_GetAgentLocations()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentLocations_Result>("sp_GetAgentLocations");
-        }
-    
-        public virtual ObjectResult<sp_GetAgentCommissionNdBalanceByAgentLogins_Result> sp_GetAgentCommissionNdBalanceByAgentLogins(string agentEmail)
-        {
-            var agentEmailParameter = agentEmail != null ?
-                new ObjectParameter("AgentEmail", agentEmail) :
-                new ObjectParameter("AgentEmail", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>("sp_GetAgentCommissionNdBalanceByAgentLogins", agentEmailParameter);
         }
     
         public virtual ObjectResult<sp_GetUsersWithRoles_Result> sp_GetUsersWithRoles()
@@ -549,6 +541,68 @@ namespace DataLayer
                 new ObjectParameter("RegNo", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFranchiseStatus_Result>("sp_GetFranchiseStatus", regNoParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetAgentMapping_Result> sp_GetAgentMapping(Nullable<int> agentID, Nullable<int> option)
+        {
+            var agentIDParameter = agentID.HasValue ?
+                new ObjectParameter("AgentID", agentID) :
+                new ObjectParameter("AgentID", typeof(int));
+    
+            var optionParameter = option.HasValue ?
+                new ObjectParameter("option", option) :
+                new ObjectParameter("option", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentMapping_Result>("sp_GetAgentMapping", agentIDParameter, optionParameter);
+        }
+    
+        public virtual ObjectResult<sp_ProjectTransactions_Result> sp_ProjectTransactions()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ProjectTransactions_Result>("sp_ProjectTransactions");
+        }
+    
+        public virtual ObjectResult<sp_GetAgentCommissionNdBalanceByAgentLogins_Old_Result> sp_GetAgentCommissionNdBalanceByAgentLogins_Old(string agentEmail)
+        {
+            var agentEmailParameter = agentEmail != null ?
+                new ObjectParameter("AgentEmail", agentEmail) :
+                new ObjectParameter("AgentEmail", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentCommissionNdBalanceByAgentLogins_Old_Result>("sp_GetAgentCommissionNdBalanceByAgentLogins_Old", agentEmailParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetDesignations_Result> sp_GetDesignations(string username)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("Username", username) :
+                new ObjectParameter("Username", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetDesignations_Result>("sp_GetDesignations", usernameParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetAgentCommissionNdBalanceByAgentLogins_Result> sp_GetAgentCommissionNdBalanceByAgentLogins(string agentEmail)
+        {
+            var agentEmailParameter = agentEmail != null ?
+                new ObjectParameter("AgentEmail", agentEmail) :
+                new ObjectParameter("AgentEmail", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentCommissionNdBalanceByAgentLogins_Result>("sp_GetAgentCommissionNdBalanceByAgentLogins", agentEmailParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<double>> sp_GetAgentPercentage(Nullable<int> agentID, Nullable<int> projectType, Nullable<System.DateTime> bookingDate)
+        {
+            var agentIDParameter = agentID.HasValue ?
+                new ObjectParameter("AgentID", agentID) :
+                new ObjectParameter("AgentID", typeof(int));
+    
+            var projectTypeParameter = projectType.HasValue ?
+                new ObjectParameter("ProjectType", projectType) :
+                new ObjectParameter("ProjectType", typeof(int));
+    
+            var bookingDateParameter = bookingDate.HasValue ?
+                new ObjectParameter("BookingDate", bookingDate) :
+                new ObjectParameter("BookingDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<double>>("sp_GetAgentPercentage", agentIDParameter, projectTypeParameter, bookingDateParameter);
         }
     }
 }

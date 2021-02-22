@@ -104,8 +104,47 @@
             pageable: true,
             
             filterable: true,
-            toolbar: ["create", "search"],
-            
+            toolbar: ["create", "search", "excel"],
+            excel: {
+                fileName: "AgentLevels.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
+            excelExport: function (e) {
+
+                var i;
+                for (i = 0; i < e.data.length; i++) {
+                    var j;
+                    for (j = 0; j < projects.length; j++) {
+                        if (projects[j].ProjectID == e.data[i].ProjectID) {
+                            e.workbook.sheets[0].rows[i + 1].cells[1].value = projects[j].ProjectName
+                        }
+                    }
+                    var k;
+                    for (k = 0; k < agents.length; k++) {
+                        if (agents[k].AgentID == e.data[i].AgentID) {
+                            e.workbook.sheets[0].rows[i+1].cells[0].value = agents[k].AgentName
+                        }
+                    }
+                    var l;
+                    for (l = 0; l < percentages.length; l++) {
+                        if (percentages[l].LevelID == e.data[i].LevelID) {
+                            e.workbook.sheets[0].rows[i + 1].cells[2].value = percentages[l].percentage
+                        }
+                    }
+                }
+                var workbook = e.workbook;
+                var sheet = workbook.sheets[0];
+
+                //workbook.rtl = true;
+                //for (var i = 0; i < sheet.rows.length; i++) {
+                //    for (var ci = 0; ci < sheet.rows[i].cells.length; ci++) {
+                //        sheet.rows[i].cells[ci].hAlign = "left";
+                //    }
+                //}
+            },
             edit: function (e) {
                 if (!e.model.isNew()) {
                     $("#ProjectID").data("kendoDropDownList").readonly();

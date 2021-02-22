@@ -44,5 +44,11 @@ namespace ModelLayer
         public string ApprovalStatus { get; set; }
 
         public string Pricing { get; set; }
+
+        public Nullable<int> BSP { get; set; }
+        public Nullable<int> ProjectType { get; set; }
+
+        //public string ProjectTypeName { get; set; }
+        //public List<ProjectTypes> ProjectTypes { get; set; }
     }
 }

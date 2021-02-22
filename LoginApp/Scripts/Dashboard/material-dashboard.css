@@ -19753,4 +19753,58 @@ Copyright (c) 2015 Daniel Eden
   }
 }
 
+.scroll-left {
+    overflow: hidden;
+    height: 40px;
+    position: relative;
+    width: 100%;
+}
+
+    .scroll-left a {
+        position: absolute;
+        white-space: nowrap;
+        height: 100%;
+        margin: 0;
+        font-size:larger;
+        line-height: 20px;
+        text-align: center;
+        /* Apply animation to this element */
+        -moz-animation: scroll-left 8s linear infinite;
+        -webkit-animation: scroll-left 8s linear infinite;
+        animation: scroll-left 8s linear infinite;
+    }
+/* Move it (define the animation) */
+@-moz-keyframes scroll-left {
+    0% {
+        -moz-transform: translateX(100%);
+    }
+
+    100% {
+        -moz-transform: translateX(-100%);
+    }
+}
+
+@-webkit-keyframes scroll-left {
+    0% {
+        -webkit-transform: translateX(100%);
+    }
+
+    100% {
+        -webkit-transform: translateX(-100%);
+    }
+}
+
+@keyframes scroll-left {
+    0% {
+        -moz-transform: translateX(100%); /* Browser bug fix */
+        -webkit-transform: translateX(100%); /* Browser bug fix */
+        transform: translateX(200px);
+    }
+
+    100% {
+        -moz-transform: translateX(-100%); /* Browser bug fix */
+        -webkit-transform: translateX(-100%); /* Browser bug fix */
+        transform: translateX(-100%);
+    }
+}
 /*# sourceMappingURL=dashboard-free.css.map */
