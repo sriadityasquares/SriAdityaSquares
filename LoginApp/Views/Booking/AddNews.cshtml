@@ -1,0 +1,142 @@
+﻿@model ModelLayer.NewsDetails
+
+@{
+    ViewBag.Title = "Add News";
+    ViewBag.AddNews = "active";
+    ViewBag.Admin = "active";
+
+}
+
+@Html.AntiForgeryToken()
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">UPLOAD NEWS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <div class="row" style="padding-top:5px">
+        @Html.LabelFor(m => m.News, new { @class = "col-md-2 required" })
+        @Html.TextAreaFor(m => m.News, new { @class = "textboxarea-control col-md-3 col-xs" })
+        @*@Html.ValidationMessageFor(m=>m.Name ,"",new { @class = "text-danger" })*@
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.NewsDate, new { @class = "col-md-2" })
+        <div class="col-md-2" style="padding-left:0px">
+            <input id="NewsDate" title="datepicker" />
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <button type="submit" id="submitbtn" value="New" name="submit" class="btn btn-default orangebg pull-right"><i class="fa fa-check"></i>UPLOAD</button>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">EXISTING NEWS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+
+</div>
+
+
+<script>
+    $("#NewsDate").kendoDatePicker();
+    $("#submitbtn").click(function () {
+        var news = $("#News").val();
+        var newsDate = kendo.toString($("#NewsDate").data("kendoDatePicker").value(), 'dd/MM/yyyy');
+        //alert(news);
+        //alert(newsDate);
+        $.get("/Booking/AddNewsDetails", { news: news, newsDate: newsDate }, function (data) {
+            if (data) {
+                toastr.success("News Added Successfully");
+            }
+            else {
+                toastr.error("Failed to add news");
+            }
+        })
+    });
+
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Booking/GetNews",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Booking/UpdateNews",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 5,
+            schema: {
+                model: {
+                    id: "NewsID",
+                    fields: {
+                        NewsID: { editable: false, nullable: true },
+                        News: { validation: { required: true } },
+                        NewsDate: { validation: { required: true } }
+                        
+                        //Designation: { validation: { required: false } },
+                    }
+                }
+            }
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 350,
+            toolbar: ["search", "excel"],
+            excel: {
+                fileName: "News.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
+            columns: [
+                { field: "News", title: "News", width: "240px" },
+                { field: "NewsDate", title: "News Date", width: "120px" },
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "60px"
+                }],
+            editable: "inline",
+            
+        });
+
+
+    });
+</script>

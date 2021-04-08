@@ -15,7 +15,30 @@
         </div>
 
     </div>
+    <div class="row">
+        <div id="radiodiv" class="col-md-6 col-xs">
 
+            <div class="radios">
+                <div class="radio" style="margin-top:0px">
+                    <input type="radio" id="radio1" value="1" name="radio" checked="checked">
+                    <label for="radio1">
+                        <div class="checker"></div>
+                        Cheque Date
+                    </label>
+                </div>
+
+                <div class="radio">
+                    <input type="radio" id="radio2" value="2" name="radio">
+                    <label for="radio2">
+                        <div class="checker"></div>
+                        Created Date
+                    </label>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
     <div class="row" style="margin-top:20px">
         @Html.LabelFor(m => m.Project, new { @class = "col-md-1" })
         <div class="col-md-3 col-xs">
@@ -120,6 +143,8 @@
                     { field: "BookingAmount", title: "AMOUNT PAID" ,width: 140 },
                     { field: "BalanceAmount", title: "AMOUNT REM" ,width: 140},
                     { field: "ChequeDate", title: "CHEQUE DATE", width: 140, template: '#= kendo.toString(kendo.parseDate(ChequeDate), "dd/MM/yyyy")#' },
+                    { field: "PaidDate", title: "CREATED DATE", width: 150, template: '#= kendo.toString(kendo.parseDate(PaidDate), "dd/MM/yyyy")#' },
+
                     { field: "DueDate", title: "DUE DATE", width: 120, template: '#= kendo.toString(kendo.parseDate(DueDate), "dd/MM/yyyy")#' },
                     { field: "year" ,title: "YEAR" , width :90},
                     { field: "month" ,title: "MONTH" , width :90},
@@ -192,11 +217,12 @@
 
             var fromDate = kendo.toString($("#datepicker1").data("kendoDatePicker").value(), 'MM/dd/yyyy');
             var toDate = kendo.toString($("#datepicker2").data("kendoDatePicker").value(), 'MM/dd/yyyy');
+            var type = $('input[type=radio][name=radio]:checked').val();
             $.ajax({
             type: "GET",
             url: '@Url.Action("GetPaymentReportbyDate", "Report")',
                 contentType: "application/json; charset=utf-8",
-                data: { start: fromDate, end: toDate, projectID: $("#Project").val().toString() },
+                data: { start: fromDate, end: toDate, projectID: $("#Project").val().toString(), type: type },
             dataType: "json",
             success: function (result) {
 

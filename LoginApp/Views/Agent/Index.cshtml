@@ -100,6 +100,9 @@
                         AgentSuperSponserCode: { validation: { required: false } },
                         AgentStatus: { validation: { required: false } },
                         Designation: { validation: { required: false } },
+                        OldDesignation: { validation: { required: false } },
+                        EffectivePercentageDate: { validation: { required: false } },
+                        //EffectivePercentageDate: { type: "number" },
                        // AgentParent: { validation: { required: false } },
                         //AgentChild: { validation: { required: false }, maxlength: "999" }
                     }
@@ -123,6 +126,8 @@
                 //if (y.length > 0) { e.model.AgentChild = y.join(","); } else {
                 //    e.model.AgentChild = '';
                 //}
+                if (e.model.OldDesignation.ID != null)
+                    e.model.OldDesignation = e.model.OldDesignation.ID;
             },
 
             toolbar: ["create", "search", "excel"],
@@ -160,7 +165,34 @@
                             dataValueField: "ID",
                             dataSource: designations // bind it to the brands array
                         }).appendTo(container);
-                    } },
+                    }
+                },
+
+                {
+                    field: "OldDesignation", title: "Old Designation", width: "170px", template: $("#template2").html(), editor: function (container) { // use a dropdownlist as an editor
+                        //create an input element with id and name set as the bound field (brandId)
+                        var input = $('<input id="OldDesignation" name="OldDesignation">');
+                        // append to the editor container
+                        input.appendTo(container);
+
+                        // initialize a dropdownlist
+                        input.kendoDropDownList({
+                            dataTextField: "Designation",
+                            dataValueField: "ID",
+                            dataSource: designations // bind it to the brands array
+                        }).appendTo(container);
+                    }
+                },
+                {
+                    field: "EffectivePercentageDate",
+                    title: "Effective % Date",
+                    width: "150px",
+                    //type: "number",
+                    template: '#= kendo.toString(kendo.parseDate(EffectivePercentageDate), "dd/MM/yyyy")#',
+                    //format: "{0:yyyy-MM-dd HH:mm}",
+                    editor: dateTimeEditor
+                },
+                //{ field: "EffectivePercentageDate", title: "Effective % Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(EffectivePercentageDate), "dd/MM/yyyy")#'},
                 //{ field: "AgentParent", title: "Agent Parent", width: "240px", editor: parentDropDownEditor },
                 //{ field: "AgentChild", title: "Agent Child", width: "240px", editor: childDropDownEditor },
                 //{
@@ -216,6 +248,8 @@
                 designations = response;
             }
         });
+
+       
         function designationDropDownEditor(container, options) {
             $('<input required name="' + options.field + '"/>')
                 .appendTo(container)
@@ -230,6 +264,21 @@
                         }
                     }
                 });
+        }
+
+        function dateTimeEditor2(container, options) {
+            $('<input type="text" />')
+                .appendTo(container)
+                .kendoDateTimePicker({
+                    format: "dd/MM/yyyy",
+                    value: kendo.toString(new Date(options.model.EffectivePercentageDate), 'dd/MM/yyyy')
+                });
+        }
+
+        function dateTimeEditor(container, options) {
+            $('<input data-text-field="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + "dd/MM/yyyy" + '"/>')
+                .appendTo(container)
+                .kendoDateTimePicker({});
         }
         function parentDropDownEditor(container, options) {
             if (!options.model.isNew()) {
@@ -314,6 +363,8 @@
             }
         }
     }
+
+
 </script>
 
 <script type="text/kendo" id="territoriesTemplate">
@@ -328,7 +379,9 @@
 <script type="text/x-kendo-template" id="template1">
     #if(typeof Designation === 'undefined') {# #: brandName(0) # #} else {# #: brandName(Designation) # #}#
 </script>
-
+<script type="text/x-kendo-template" id="template2">
+    #if(typeof OldDesignation === 'undefined') {# #: brandName(0) # #} else {# #: brandName(OldDesignation) # #}#
+</script>
 
 <style>
     .specialLine {

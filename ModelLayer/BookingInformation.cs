@@ -23,7 +23,7 @@ namespace ModelLayer
         [Required]
         public Nullable<int> Floor { get; set; }
         [Required]
-        public Nullable<int> Bhk { get; set; }
+        public Nullable<double> Bhk { get; set; }
         [Required]
         public Nullable<int> Area { get; set; }
         [Required]
@@ -161,6 +161,11 @@ namespace ModelLayer
         public int SchemePercentage { get; set; }
 
         public string FormattedDate { get; set; }
+
+        public Nullable<double> GSTPercentage { get; set; }
+        public Nullable<int> GSTAmount { get; set; }
+
+        public Nullable<int> FranchiseID { get; set; }
 
     }
 }

@@ -43,6 +43,8 @@
     @Html.HiddenFor(m => m.BookingDate)
     @Html.HiddenFor(m => m.ChequeDateMod)
     @Html.HiddenFor(m => m.SchemePercentage)
+    @Html.HiddenFor(m => m.GSTPercentage)
+    @Html.HiddenFor(m => m.GSTAmount)
     <div class="row" style="padding-top:5px">
         @Html.LabelFor(m => m.Name, new { @class = "col-md-1 required" })
         @Html.TextBoxFor(m => m.Name, new { @class = "textbox-control col-md-11 col-xs" })
@@ -146,14 +148,37 @@
     <div class="row">
 
         @Html.LabelFor(m => m.PaymentModeID, new { @class = "col-md-1" })
-        @Html.DropDownListFor(m => m.PaymentModeID, new List<SelectListItem>
+
+        @if (!User.IsInRole("Franchise Owner"))
+        {
+            @Html.DropDownListFor(m => m.PaymentModeID, new List<SelectListItem>
+    {
+         new SelectListItem{ Text="--Mode--", Value = "0"  },
+        new SelectListItem{ Text="Cheque", Value = "1" },
+        new SelectListItem{ Text="NEFT", Value = "2" },
+        new SelectListItem{ Text="CC", Value = "3" },
+        new SelectListItem{ Text="Cash", Value = "4" },
+        new SelectListItem{ Text="GPAY", Value = "5" },
+        new SelectListItem{ Text="PhonePe", Value = "6" },
+        new SelectListItem{ Text="IMPS", Value = "7" },
+        new SelectListItem{ Text="RTGS", Value = "8" },
+     }, new { @class = "textbox-control col-md-2 col-xs", @readonly = "readonly" })
+        }
+        else
+        {
+            @Html.DropDownListFor(m => m.PaymentModeID, new List<SelectListItem>
 {
      new SelectListItem{ Text="--Mode--", Value = "0"  },
     new SelectListItem{ Text="Cheque", Value = "1" },
     new SelectListItem{ Text="NEFT", Value = "2" },
     new SelectListItem{ Text="CC", Value = "3" },
-    new SelectListItem{ Text="Cash", Value = "4" },
+    new SelectListItem{ Text="GPAY", Value = "5" },
+    new SelectListItem{ Text="PhonePe", Value = "6" },
+    new SelectListItem{ Text="IMPS", Value = "7" },
+    new SelectListItem{ Text="RTGS", Value = "8" },
  }, new { @class = "textbox-control col-md-2 col-xs", @readonly = "readonly" })
+        }
+
         @Html.LabelFor(m => m.ReferenceNo, new { @class = "col-md-1" })
         @Html.TextBoxFor(m => m.ReferenceNo, new { @class = "textbox-control col-md-1 col-xs" })
         @Html.LabelFor(m => m.BookingAmount, new { @class = "col-md-2" })
@@ -161,13 +186,13 @@
         @Html.LabelFor(m => m.GrandRate, new { @class = "col-md-2" })
         @Html.TextBoxFor(m => m.GrandRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
         @*@Html.LabelFor(m => m.BookingDate, new { @class = "col-md-1" })
-            <div class="col-md-2" style="padding-left:0px">
-                <input id="datepicker1" title="datepicker" />
-            </div>
-            @Html.LabelFor(m => m.ChequeDate, new { @class = "col-md-1" })
-            <div class="col-md-2" style="padding-left:0px">
-                <input id="cqDatePicker" title="datepicker" />
-            </div>*@
+        <div class="col-md-2" style="padding-left:0px">
+            <input id="datepicker1" title="datepicker" />
+        </div>
+        @Html.LabelFor(m => m.ChequeDate, new { @class = "col-md-1" })
+        <div class="col-md-2" style="padding-left:0px">
+            <input id="cqDatePicker" title="datepicker" />
+        </div>*@
 
     </div>
     <div class="row">
@@ -288,10 +313,10 @@
 
                 });
             });
-            $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
+            $.getJSON('/Cascade/GetAgents2', function (data) {
                 $("#AgentID").empty();
                 AgentList = data;
-                //$("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
+                $("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
                 $.each(data, function (index, row) {
                     //$("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
                     if (row.AgentID != agentID1) {
@@ -483,10 +508,10 @@
                 });
             });
 
-            $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
+            $.getJSON('/Cascade/GetAgents2', function (data) {
                 $("#AgentID").empty();
                 AgentList = data;
-                //$("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
+                $("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
                 $.each(data, function (index, row) {
                     $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
                 });
@@ -519,6 +544,7 @@
         var downDuePeriod = 0;
         var DuePeriod = 0;
         var payPercentage = 0;
+
         $("#SchemeID").change(function () {
             var SortedSchemeList = SchemeList.filter(function (e) {
                 return e.SchemeID == $("#SchemeID").val();
@@ -589,7 +615,11 @@
                 //$("#OtherCharges").val(0);
             }
         }
-
+        $("#PaymentModeID").change(function () {
+            SetTotalRate();
+            SetBalanceAmount();
+            SetDueAmount();
+        });
         $("#SftRate").keyup(function () {
             SetTotalRate();
             SetBalanceAmount();
@@ -629,6 +659,27 @@
                 if ($("#OtherCharges").val() != '') {
                     $("#GrandRate").val(parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val()) + parseInt($("#OtherCharges").val()))
                 }
+               
+                if ($("#PaymentModeID option:selected").val() != 4 && $("#PaymentModeID option:selected").val() != 0) {
+                    var gstPercentage = 5.0;
+                    var gstAmount = gstPercentage * (parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val())) / 100;
+                    if ($("#OtherCharges").val() == '') {
+                        $("#OtherCharges").val('0');
+                    }
+                    $("#GrandRate").val(parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val()) + parseInt($("#OtherCharges").val()) + gstAmount)
+                    $("#GSTPercentage").val(gstPercentage);
+                    $("#GSTAmount").val(gstAmount);
+                }
+                if ($("#PaymentModeID option:selected").val() == 4 && $("#PaymentModeID option:selected").val() == 0) {
+                    var gstPercentage = 0.0;
+                    var gstAmount = gstPercentage * (parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val())) / 100;
+                    if ($("#OtherCharges").val() == '') {
+                        $("#OtherCharges").val('0');
+                    }
+                    $("#GrandRate").val(parseInt($("#FinalRate").val()) + parseInt($("#ClubHouseCharges").val()) + parseInt($("#OtherCharges").val()) + gstAmount)
+                    $("#GSTPercentage").val(gstPercentage);
+                    $("#GSTAmount").val(gstAmount);
+                }
             }
             else {
                 $("#TotalRate").val('');
@@ -636,6 +687,8 @@
                 $("#GrandRate").val('');
                 $("#BookingAmount").val('');
                 $("#BalanceAmount").val('');
+                $("#GSTPercentage").val('');
+                $("#GSTAmount").val('');
             }
         }
 
@@ -789,9 +842,12 @@
                  //$("#AgentID").val() = null;
                 return;
             }
-            //if ($("#AgentID").val() == 0) {
-            //    toastr.error("Agent is Required"); return;
-            //}
+            if ($("#PaymentModeID option:selected").val() == '0') {
+                toastr.error("Please select payment option"); return;
+            }
+            if ($("#ReferenceNo").val() == '') {
+                toastr.error("Please enter reference no"); return;
+            }
             validationsFlag = true;
         }
 

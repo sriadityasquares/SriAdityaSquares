@@ -57,6 +57,8 @@ namespace BusinessLayer
             return db.BindDesignations();
         }
 
+        
+
         public List<Designations> GetDesignations(string username)
         {
             return db.GetDesignations(username);

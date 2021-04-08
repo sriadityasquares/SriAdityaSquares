@@ -18,6 +18,8 @@ namespace DataLayer
         public tblTower()
         {
             this.tblFlats = new HashSet<tblFlat>();
+            this.tblFlats1 = new HashSet<tblFlat>();
+            this.tblFlats2 = new HashSet<tblFlat>();
         }
     
         public int TowerID { get; set; }
@@ -30,8 +32,12 @@ namespace DataLayer
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     
+        public virtual tblProject tblProject { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblFlat> tblFlats { get; set; }
-        public virtual tblProject tblProject { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblFlat> tblFlats1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblFlat> tblFlats2 { get; set; }
     }
 }

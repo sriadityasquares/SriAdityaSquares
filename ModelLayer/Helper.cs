@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ModelLayer
@@ -86,6 +87,20 @@ namespace ModelLayer
             CultureInfo hindi = new CultureInfo("hi-IN");
             return string.Format(hindi, "{0:c}", parsed);
             //return  string.Format(hindi, "{0:c}", parsed).Replace(".00","");
+        }
+
+        public static string GetYouTubeId(string url)
+        {
+            var regex = @"(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|watch)\/|.*[?&amp;]v=)|youtu\.be\/)([^""&amp;?\/ ]{11})";
+
+            var match = Regex.Match(url, regex);
+
+            if (match.Success)
+            {
+                return match.Groups[1].Value;
+            }
+
+            return url;
         }
     }
 }

@@ -18,5 +18,7 @@ namespace ModelLayer
         public string SalePrice { get; set; }
         public Nullable<int> Paid { get; set; }
         public Nullable<int> Balance { get; set; }
+
+        public Nullable<int> Sft { get; set; }
     }
 }

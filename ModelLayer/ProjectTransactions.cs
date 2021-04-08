@@ -12,6 +12,7 @@ namespace ModelLayer
         public string TotalSalesAmount { get; set; }
         public string CollectedAmount { get; set; }
         public string BalanceAmount { get; set; }
+        public string SchemeWiseDue { get; set; }
         public string ProjectName { get; set; }
     }
 }

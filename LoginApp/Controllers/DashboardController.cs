@@ -76,7 +76,7 @@ namespace LoginApp.Controllers
                 trans.TotalSalesAmount = Helper.AmountInIndianCurrency(trans.TotalSalesAmount);
                 trans.CollectedAmount = Helper.AmountInIndianCurrency(trans.CollectedAmount);
                 trans.BalanceAmount = Helper.AmountInIndianCurrency(trans.BalanceAmount);
-
+                trans.SchemeWiseDue = Helper.AmountInIndianCurrency(trans.SchemeWiseDue);
             }
 
 
@@ -168,12 +168,16 @@ namespace LoginApp.Controllers
             }
             ViewBag.xIBOGraph = xIBOGraph.Substring(0, xIBOGraph.Length - 1) + "]";
             ViewBag.yIBOGraph = yIBOGraph.Substring(0, yIBOGraph.Length - 1) + "]";
+
+
+            ViewBag.PastDue = booking.GetPastDue();
+            ViewBag.AreaRem = booking.GetProjectWiseArea();
             return View();
         }
 
 
 
-        [Authorize(Roles = "Admin,Client,DataEntry,Agent,Manager,Employee")]
+        [Authorize(Roles = "Admin,Client,DataEntry,Agent,Manager,Employee,Franchise Owner")]
         public ActionResult Index()
         {
             List<Projects> projectList = new List<Projects>();
@@ -183,6 +187,11 @@ namespace LoginApp.Controllers
             }
             else
                 projectList = booking.BindProjects();
+            TempData["UserRole"] = "";
+            if (User.IsInRole("Franchise Owner"))
+            {
+                TempData["UserRole"] = "FO";
+            }
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             return View();
         }
@@ -197,6 +206,7 @@ namespace LoginApp.Controllers
         public ActionResult FlatLifeCycle()
         {
             List<Projects> projectList = new List<Projects>();
+            ViewBag.News = booking.GetNewsUpdates();
             if (User.IsInRole("Client"))
             {
                 projectList = booking.BindClientProjects(User.Identity.Name);
@@ -215,6 +225,7 @@ namespace LoginApp.Controllers
         public JsonResult GetFlatLifeCycle(int flatID)
         {
             var isAuthorised = true;
+            ViewBag.News = booking.GetNewsUpdates();
             if (User.IsInRole("Customer"))
             {
                 var flatList = booking.BindCustomerFlats(User.Identity.Name);
@@ -224,6 +235,7 @@ namespace LoginApp.Controllers
                 else
                     isAuthorised = true;
             }
+            
             if (isAuthorised)
             {
                 var flatLifeCycle = booking.BindFlatLifeCycle(flatID);
@@ -233,7 +245,7 @@ namespace LoginApp.Controllers
                 double TotalPaid = Convert.ToDouble(TotalAmount - BalanceAmount);
                 var percentagePaid = Math.Round(TotalPaid / TotalAmount * 100, 2);
                 flatLifeCycle[0].PercentageCompleted = percentagePaid;
-
+                
                 return Json(flatLifeCycle, JsonRequestBehavior.AllowGet);
             }
             else

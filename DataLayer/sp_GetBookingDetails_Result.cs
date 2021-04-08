@@ -18,7 +18,7 @@ namespace DataLayer
         public Nullable<int> TowerID { get; set; }
         public Nullable<int> FlatID { get; set; }
         public Nullable<int> Floor { get; set; }
-        public Nullable<int> Bhk { get; set; }
+        public Nullable<double> Bhk { get; set; }
         public Nullable<int> Area { get; set; }
         public string Facing { get; set; }
         public Nullable<int> SftRate { get; set; }

@@ -16,9 +16,9 @@ namespace BusinessLayer
             return db.BindBookingInfo(start, end, projectID);
         }
 
-        public List<GetPaymentInfoByDate> BindPaymentInfo(string start, string end, string projectID)
+        public List<GetPaymentInfoByDate> BindPaymentInfo(string start, string end, string projectID,int type)
         {
-            return db.BindPaymentInfo(start, end, projectID);
+            return db.BindPaymentInfo(start, end, projectID, type);
         }
 
 

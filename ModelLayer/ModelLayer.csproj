@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Agent.cs" />
     <Compile Include="AgentDropdown.cs" />
+    <Compile Include="AgentGraphicalMapping.cs" />
     <Compile Include="AgentLevel.cs" />
     <Compile Include="AgentMaster.cs" />
     <Compile Include="AgentPaymentInformation.cs" />
@@ -60,9 +61,11 @@
     <Compile Include="City.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="ClientPayments.cs" />
+    <Compile Include="ConstructionPic.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="CreateFlat.cs" />
     <Compile Include="CustomerEnquiry.cs" />
+    <Compile Include="CustomerInfo.cs" />
     <Compile Include="CustomerVisitInfo.cs" />
     <Compile Include="DailyExpense.cs" />
     <Compile Include="Dashboard.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="FlatDetails.cs" />
     <Compile Include="Flats.cs" />
     <Compile Include="FlatWiseAgentCommission.cs" />
+    <Compile Include="FranchiseBookings.cs" />
     <Compile Include="FranchiseRegistration.cs" />
     <Compile Include="GetAgentFlatWiseCommissionByLogin.cs" />
     <Compile Include="GetAgentLocations.cs" />
@@ -92,6 +96,7 @@
     <Compile Include="GetPaymentsDetails.cs" />
     <Compile Include="GetPercentages.cs" />
     <Compile Include="GetPeriodWiseBookingDetails.cs" />
+    <Compile Include="GetProjectWiseArea.cs" />
     <Compile Include="GetTopIBOInMonth.cs" />
     <Compile Include="GetTowerDetails.cs" />
     <Compile Include="GetUsersWithRoles.cs" />
@@ -99,6 +104,8 @@
     <Compile Include="LevelsMaster.cs" />
     <Compile Include="Month.cs" />
     <Compile Include="MyProfile.cs" />
+    <Compile Include="News.cs" />
+    <Compile Include="PastDue.cs" />
     <Compile Include="PaymentInformation.cs" />
     <Compile Include="Projects.cs" />
     <Compile Include="ProjectTransactions.cs" />

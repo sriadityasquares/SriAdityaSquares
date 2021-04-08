@@ -17,10 +17,10 @@ namespace DataLayer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblProject()
         {
+            this.tblTowers = new HashSet<tblTower>();
             this.tblFlats = new HashSet<tblFlat>();
             this.tblFlats1 = new HashSet<tblFlat>();
             this.tblFlats2 = new HashSet<tblFlat>();
-            this.tblTowers = new HashSet<tblTower>();
         }
     
         public int ProjectID { get; set; }
@@ -40,12 +40,12 @@ namespace DataLayer
         public Nullable<int> ProjectType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblTower> tblTowers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblFlat> tblFlats { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblFlat> tblFlats1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblFlat> tblFlats2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblTower> tblTowers { get; set; }
     }
 }

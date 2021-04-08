@@ -82,6 +82,13 @@ namespace LoginApp.Controllers
 
         }
 
+        //public JsonResult GetOldDesignations()
+        //{
+        //    List<Designations> lstDesignations = objCasc.BindOldDesignations();
+        //    return Json(lstDesignations, JsonRequestBehavior.AllowGet);
+
+        //}
+
         public JsonResult GetDesignationForDisplay()
         {
             List<Designations> designation = objCasc.GetDesignations(User.Identity.Name);

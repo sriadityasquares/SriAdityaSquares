@@ -16,6 +16,11 @@ namespace BusinessLayer
             return db.BindProjects();
         }
 
+        public List<Projects> BindFranchiseProjects(string username)
+        {
+            return db.BindFranchiseProjects(username);
+        }
+
 
         public List<Projects> BindClientProjects(string username)
         {
@@ -47,6 +52,11 @@ namespace BusinessLayer
         {
             return db.BindCustomerTowers(username);
         }
+
+        public List<Towers> BindFranchiseTowers(int projectID, string username)
+        {
+            return db.BindFranchiseTowers(projectID, username);
+        }
         public List<Flats> BindFlats(int towerID)
         {
             return db.BindFlats(towerID);
@@ -69,6 +79,11 @@ namespace BusinessLayer
         public List<Flats> BindFlatsInProgress(int towerID)
         {
             return db.BindFlatsInProgress(towerID);
+        }
+
+        public List<Flats> BindFranchiseFlatsInProgress(int towerID, string username)
+        {
+            return db.BindFranchiseFlatsInProgress(towerID, username);
         }
 
         public List<Flats> BindFlatsExceptOpen(int towerID)
@@ -102,7 +117,13 @@ namespace BusinessLayer
         }
         public bool SaveNewBooking(BookingInformation b)
         {
+
             return db.SaveNewBooking(b);
+        }
+
+        public bool SaveNewFranchiseBooking(BookingInformation b)
+        {
+            return db.SaveNewFranchiseBooking(b);
         }
 
         public bool UpdateBooking(BookingInformation b)
@@ -133,14 +154,19 @@ namespace BusinessLayer
             return db.UpdateCancellation(comments, id);
         }
 
-        public bool UpdatePaymentDetails(int payID, string details)
+        public bool UpdatePaymentDetails(int payID, string details, string Ref)
         {
-            return db.UpdatePaymentDetails(payID, details);
+            return db.UpdatePaymentDetails(payID, details, Ref);
         }
 
         public List<PaymentInformation> BindPaymentDetails(int FlatId)
         {
             return db.BindPaymentDetails(FlatId);
+        }
+
+        public List<PaymentInformation> BindPaymentDetailsForCancelled(int FlatId)
+        {
+            return db.BindPaymentDetailsForCancelledFlats(FlatId);
         }
 
         public List<AgentPaymentInformation> BindAgentPaymentDetails(int FlatId)
@@ -205,9 +231,24 @@ namespace BusinessLayer
             return db.GetBookingInformation(FlatID);
         }
 
+        public BookingInformation GetBookingInformationForCancelledFlats(int FlatID)
+        {
+            return db.GetBookingInformationForCancelledFlats(FlatID);
+        }
+
         public GetPaymentsDetails GetPaymentInformation(int paymentID)
         {
             return db.GetPaymentInformation(paymentID);
+        }
+
+        public int? GetFranchiseNoWithPaymentID(int payID)
+        {
+            return db.GetFranchiseNoWithPaymentID(payID);
+        }
+
+        public int? GetFranchiseNoWithFlatID(int flatID)
+        {
+            return db.GetFranchiseNoWithFlatID(flatID);
         }
 
         public List<AgentProjectLevel> BindAgentProjectLevels()
@@ -288,6 +329,11 @@ namespace BusinessLayer
         public List<DailyExpense> GetDailyExpenses()
         {
             return db.GetDailyExpenses();
+        }
+
+        public bool UpdateDailyExpenses(DailyExpense de)
+        {
+            return db.UpdateDailyExpenses(de);
         }
 
         public List<Agreements> GetAgreements()
@@ -396,6 +442,14 @@ namespace BusinessLayer
             return db.BindRecentAddedIBOGraph();
         }
 
+        public List<PastDue> GetPastDue()
+        {
+            return db.GetPastDue();
+        }
+        public List<GetProjectWiseArea> GetProjectWiseArea()
+        {
+            return db.GetProjectWiseArea();
+        }
         public bool RegisterFranchise(FranchiseRegistration fr)
         {
             return db.RegisterFranchise(fr);
@@ -411,9 +465,28 @@ namespace BusinessLayer
             return db.GetFranchiseAgreements(regno);
         }
 
+        public List<FranchiseBookings> GetFranchiseBookings()
+        {
+            return db.GetFranchiseBookings();
+        }
+
+        public bool UpdateFranchiseBookings(FranchiseBookings fb)
+        {
+            return db.UpdateFranchiseBookings(fb);
+        }
+
+        public CustomerInfo GetCustomerInfo(Guid? bookingID)
+        {
+            return db.GetCustomerInfo(bookingID);
+        }
         public bool UpdateFranchiseAgreements(FranchiseRegistration fr)
         {
             return db.UpdateFranchiseAgreements(fr);
+        }
+
+        public string GetFranchiseOwnerEmail(FranchiseRegistration fr)
+        {
+            return db.GetFranchiseOwnerEmail(fr);
         }
         public List<GetFranchiseStatus> GetFranchiseStatus(int regNO)
         {
@@ -424,5 +497,29 @@ namespace BusinessLayer
         {
             return db.BulkUploadExpenses(lstExpenses);
         }
+        public bool SaveProjectGallery(ConstructionPic cp)
+        {
+            return db.SaveProjectGallery(cp);
+        }
+
+        public List<ConstructionPic> GetProjectGallery(string username)
+        {
+            return db.GetProjectGallery(username);
+        }
+        public bool SaveNews(NewsDetails nd)
+        {
+            return db.SaveNews(nd);
+        }
+
+        public List<NewsDetails> GetNewsUpdates()
+        {
+            return db.GetNewsUpdates();
+        }
+
+        public bool UpdateNews(NewsDetails nd)
+        {
+            return db.UpdateNews(nd);
+        }
+
     }
 }

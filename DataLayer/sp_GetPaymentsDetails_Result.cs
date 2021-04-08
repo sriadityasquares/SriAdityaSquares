@@ -22,7 +22,7 @@ namespace DataLayer
         public string Mobile { get; set; }
         public string FlatName { get; set; }
         public Nullable<int> BookingAmount { get; set; }
-        public Nullable<int> Bhk { get; set; }
+        public Nullable<double> Bhk { get; set; }
         public Nullable<int> Area { get; set; }
         public string PaymentMode { get; set; }
         public string ReferenceNo { get; set; }

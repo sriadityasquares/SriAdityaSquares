@@ -19,7 +19,7 @@ namespace DataLayer
         public Nullable<int> ProjectID { get; set; }
         public Nullable<int> TowerID { get; set; }
         public Nullable<int> Floor { get; set; }
-        public Nullable<int> Bhk { get; set; }
+        public Nullable<double> Bhk { get; set; }
         public Nullable<int> Sft { get; set; }
         public string Facing { get; set; }
         public string BookingStatus { get; set; }
@@ -29,9 +29,11 @@ namespace DataLayer
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public string FlatPlanURL { get; set; }
     
-        public virtual tblTower tblTower { get; set; }
         public virtual tblProject tblProject { get; set; }
         public virtual tblProject tblProject1 { get; set; }
         public virtual tblProject tblProject2 { get; set; }
+        public virtual tblTower tblTower { get; set; }
+        public virtual tblTower tblTower1 { get; set; }
+        public virtual tblTower tblTower2 { get; set; }
     }
 }

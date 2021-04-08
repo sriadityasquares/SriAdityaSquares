@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry"))
+                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry") || this.User.IsInRole("Franchise Owner"))
                 {
                     <button onclick="GoToBooking()" type="button" class="btn btn-default orangebg pull-right" data-dismiss="modal">BOOK/MODIFY</button>
                 }
@@ -30,7 +30,7 @@
 
     </div>
 </div>
-<div   class="jumbotron">
+<div class="jumbotron">
     <div class="row">
         <div class="col-md-1 col-xs">
             <h3 align="center" style="margin-bottom:2px">DASHBOARD</h3>
@@ -79,11 +79,14 @@
         <div class="col-md-2">
             <div style="background:#8e438e" class="seat"><label for="4C"> HOLD</label> </div>
         </div>
+        <div class="col-md-2">
+            <div style="background: #ff9966;background: -webkit-linear-gradient(to right, #ff5e62, #ff9966); /* Chrome 10-25, Safari 5.1-6 */ background: linear-gradient(to right, #ff5e62, #ff9966);" class="seat"><label for="4C">FRANCHISE</label> </div>
+        </div>
     </div>
 
     <br />
     <div class="row">
-        <div id="bookingDashboard" class="col-md-auto" >
+        <div id="bookingDashboard" class="col-md-auto">
 
             <br />
             <br />
@@ -94,12 +97,11 @@
 </div>
 
 <script>
-   $(document).ready(function () {
+    var role = "";
+    $(document).ready(function () {
 
-    //$("#myBtn").click(function(){
-    //     $('#myModal').modal('show');
-    //});
-});
+        role = '@TempData["UserRole"]';
+    });
     $("#Project").change(function () {
         $.get("/Booking/GetTowers", { ProjectId: $("#Project").val() }, function (data) {
             $("#Tower").empty();
@@ -156,12 +158,23 @@
                         html = html + '<div style="background:linear-gradient(to bottom,#7AD7F0, white);"   class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                     }
                     if (row.BookingStatus == 'P') {
-                        html = html + '<div style="background:linear-gradient(to bottom,#FFD700, white);" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\'' + ')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                        if (role != "FO") {
+                            html = html + '<div style="background:linear-gradient(to bottom,#FFD700, white);" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\'' + ')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+
+                        }
+                        else {
+                            html = html + '<div style="background:linear-gradient(to bottom,#FFD700, white);" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+
+                        }
+
                     }
                     if (row.BookingStatus == 'H') {
                         html = html + '<div style="background:#8e438e" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\'' + ')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                     }
+                    if (row.BookingStatus == 'F') {
+                        html = html + '<div style="background: #ff9966;background: linear-gradient(to right, #ff5e62, #ff9966);" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
 
+                    }
 
 
                 });
@@ -179,7 +192,7 @@
         });
     });
 
-    function ShowBookingScreen(FlatID, FlatPlanURL,BookingStatus) {
+    function ShowBookingScreen(FlatID, FlatPlanURL, BookingStatus) {
         flatNo = FlatID;
         bookingStatus = BookingStatus;
         var imgBasePath = "../../Content/Images/";
@@ -195,7 +208,7 @@
 
     function ShowFlatDetails(Facing, Sft, Bhk, Flat) {
 
-        window.location.href ="/Booking/New?ProjectID=" + $("#Project").val() + "&TowerID=" +  $("#Tower").val()+ "&FlatID=" + 535;
+        window.location.href = "/Booking/New?ProjectID=" + $("#Project").val() + "&TowerID=" + $("#Tower").val() + "&FlatID=" + 535;
 
         toastr.options = {
             //"closeButton": true,
@@ -223,7 +236,7 @@
 <script>
     $(document).ready(function () {
         $('[data-toggle="popover"]').popover();
-        
+
     });
     window.onload = function () {
         getLocation();
@@ -245,6 +258,4 @@
 
 </script>
 <style>
-   
-
 </style>

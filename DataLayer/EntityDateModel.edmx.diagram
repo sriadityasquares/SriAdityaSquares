@@ -16,8 +16,6 @@
         <EntityTypeShape EntityType="salesDBModel.tblSchemeMaster" Width="1.5" PointX="10.375" PointY="3.75" />
         <EntityTypeShape EntityType="salesDBModel.tblAgentProjectLevel" Width="1.5" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="salesDBModel.tblAgentPaymentInfo" Width="1.5" PointX="7.375" PointY="14.75" />
-        <EntityTypeShape EntityType="salesDBModel.tblFlat" Width="1.5" PointX="5.25" PointY="0.75" />
-        <AssociationConnector Association="salesDBModel.FK_Flats2" />
         <EntityTypeShape EntityType="salesDBModel.AspNetRole" Width="1.5" PointX="15.375" PointY="13.5" />
         <EntityTypeShape EntityType="salesDBModel.AspNetUserClaim" Width="1.5" PointX="19.875" PointY="12" />
         <EntityTypeShape EntityType="salesDBModel.AspNetUserLogin" Width="1.5" PointX="19.875" PointY="14.75" />
@@ -38,19 +36,32 @@
         <EntityTypeShape EntityType="salesDBModel.tblCustomerEnquiry" Width="1.5" PointX="12.375" PointY="3.75" />
         <EntityTypeShape EntityType="salesDBModel.tblChequeStatu" Width="1.5" PointX="12.375" PointY="7.75" />
         <EntityTypeShape EntityType="salesDBModel.tblProject" Width="1.5" PointX="0.75" PointY="4.5" />
-        <AssociationConnector Association="salesDBModel.FK_Flats1" />
-        <AssociationConnector Association="salesDBModel.FK_Flats1_bkp" />
-        <AssociationConnector Association="salesDBModel.FK_Flats11_bkp" />
         <AssociationConnector Association="salesDBModel.FK_Towers" />
         <EntityTypeShape EntityType="salesDBModel.tblAgreement" Width="1.5" PointX="18.375" PointY="5.75" />
         <EntityTypeShape EntityType="salesDBModel.tblPaymentInfo" Width="1.5" PointX="5.375" PointY="19.75" />
-        <EntityTypeShape EntityType="salesDBModel.tblBookingInformation" Width="1.5" PointX="0.75" PointY="17.75" />
         <EntityTypeShape EntityType="salesDBModel.tblSM" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblArea" Width="1.5" PointX="7.375" PointY="19.75" />
         <EntityTypeShape EntityType="salesDBModel.tblFranchiseRegistration" Width="1.5" PointX="9.375" PointY="19.75" />
         <EntityTypeShape EntityType="salesDBModel.tblFranchiseRegistrationStatu" Width="1.5" PointX="3.375" PointY="13.75" />
         <EntityTypeShape EntityType="salesDBModel.tblDesignation" Width="1.5" PointX="19.375" PointY="17.75" />
         <EntityTypeShape EntityType="salesDBModel.tblAgentMaster" Width="1.5" PointX="20.375" PointY="0.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblFlat" Width="1.5" PointX="5.625" PointY="0.75" />
+        <AssociationConnector Association="salesDBModel.FK_Flats1" />
+        <AssociationConnector Association="salesDBModel.FK_Flats1_bkp" />
+        <AssociationConnector Association="salesDBModel.FK_Flats11_bkp" />
+        <AssociationConnector Association="salesDBModel.FK_Flats2" />
+        <AssociationConnector Association="salesDBModel.FK_Flats2_bkp" />
+        <AssociationConnector Association="salesDBModel.FK_Flats22_bkp" />
+        <EntityTypeShape EntityType="salesDBModel.tblConstructionPic" Width="1.5" PointX="20.375" PointY="7.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblNew" Width="1.5" PointX="13.375" PointY="10.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblBookingInformation" Width="1.5" PointX="0.75" PointY="17.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblAgentPaymentInfo_Franchise" Width="1.5" PointX="21.375" PointY="17.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblBookingInformation_Franchise" Width="1.5" PointX="22.375" PointY="0.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblCustomerInfo_Franchise" Width="1.5" PointX="11.375" PointY="22.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblFlatWiseAgentCommissions_Franchise" Width="1.5" PointX="19.375" PointY="22.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblPaymentInfo_Franchise" Width="1.5" PointX="21.375" PointY="22.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblFranchiseBooking" Width="1.5" PointX="13.375" PointY="23.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblBookingInformationAudit" Width="1.5" PointX="23.375" PointY="14.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

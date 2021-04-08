@@ -56,8 +56,8 @@
 
                 <ul class="nano-content">
                     @*<li>
-                <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
-            </li>*@
+                            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+                        </li>*@
                     <li class="sub-menu @(ViewBag.Dashboard)">
                         <a href="javascript:void(0);"><i class="fa fa-bar-chart"></i><span>DASHBOARD</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
@@ -67,6 +67,7 @@
                                     <a class="@(ViewBag.Statistics)" href="@Url.Action("Home", "Dashboard")">STATISTICS</a>
                                 </li>
                             }
+
                             @if (!this.User.IsInRole("Customer"))
                             {
                                 <li>
@@ -93,6 +94,12 @@
                             {
                                 <li>
                                     <a class="@(ViewBag.FlatLifeCycle)" href="@Url.Action("FlatLifeCycle", "Dashboard")">FLAT LIFECYCLE</a>
+                                </li>
+                            }
+                            @if (this.User.IsInRole("Customer") || this.User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    <a class="@(ViewBag.DisplayGallery)" href="@Url.Action("DisplayProjectGallery", "Booking")">PROJECT GALLERY</a>
                                 </li>
                             }
                         </ul>
@@ -151,33 +158,53 @@
                                 <li>
                                     <a class="@(ViewBag.Offers)" href="@Url.Action("Offers", "Booking")">OFFERS</a>
                                 </li>
+                                <li>
+                                    <a class="@(ViewBag.ConstructionGallery)" href="@Url.Action("ProjectGallery", "Booking")">UPLOAD SITE PICS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.AddNews)" href="@Url.Action("AddNews", "Booking")">UPLOAD NEWS</a>
+                                </li>
                                 @*<li>
-                            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                        </li>*@
+                                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+                                    </li>*@
                             </ul>
                         </li>
                     }
-                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry"))
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry") || this.User.IsInRole("Franchise Owner"))
                     {
                         <li class="sub-menu @(ViewBag.Booking)">
                             <a href="javascript:void(0);"><i class="fa fa-ticket"></i><span>BOOKING</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                             <ul>
-
-                                <li>
-                                    <a class="@(ViewBag.NewBooking)" href="@Url.Action("New", "Booking")">NEW BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.CancelBooking)" href="@Url.Action("CancelBooking", "Booking")">CANCEL BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.MakePayment)" href="@Url.Action("MakePayment", "Booking")">PAYMENTS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.Receipt)" href="@Url.Action("Invoice", "Booking")">BOOKING RECEIPTS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.PReceipt)" href="@Url.Action("PaymentReceipts", "Booking")">PAYMENT RECEIPTS</a>
-                                </li>
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.NewBooking)" href="@Url.Action("New", "Booking")">NEW BOOKING</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.CancelBooking)" href="@Url.Action("CancelBooking", "Booking")">CANCEL BOOKING</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry") || this.User.IsInRole("Franchise Owner"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.MakePayment)" href="@Url.Action("MakePayment", "Booking")">PAYMENTS</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry") || this.User.IsInRole("Franchise Owner"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.Receipt)" href="@Url.Action("Invoice", "Booking")">BOOKING RECEIPTS</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.PReceipt)" href="@Url.Action("PaymentReceipts", "Booking")">PAYMENT RECEIPTS</a>
+                                    </li>
+                                }
                             </ul>
                         </li>
                     }
@@ -306,6 +333,9 @@
                                 {
                                     <li>
                                         <a class="@(ViewBag.Approvals)" href="@Url.Action("GetAgreements", "Franchise")">FRANCHISE APPROVALS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.FranchiseBookings)" href="@Url.Action("FranchiseBookingApproval", "Franchise")">FRANCHISE BOOKING APPROVALS</a>
                                     </li>
                                 }
 
@@ -359,8 +389,8 @@
 
                 <ul class="nano-content">
                     @*<li>
-                    <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
-                </li>*@
+            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+        </li>*@
                     <li class="sub-menu @(ViewBag.Dashboard)">
                         <a href="javascript:void(0);"><i class="fa fa-bar-chart"></i><span>DASHBOARD</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
@@ -370,6 +400,7 @@
                                     <a class="@(ViewBag.Statistics)" href="@Url.Action("Home", "Dashboard")">STATISTICS</a>
                                 </li>
                             }
+
                             @if (!this.User.IsInRole("Customer"))
                             {
                                 <li>
@@ -396,6 +427,12 @@
                             {
                                 <li>
                                     <a class="@(ViewBag.FlatLifeCycle)" href="@Url.Action("FlatLifeCycle", "Dashboard")">FLAT LIFECYCLE</a>
+                                </li>
+                            }
+                            @if (this.User.IsInRole("Customer") || this.User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    <a class="@(ViewBag.DisplayGallery)" href="@Url.Action("DisplayProjectGallery", "Booking")">PROJECT GALLERY</a>
                                 </li>
                             }
                         </ul>
@@ -454,33 +491,53 @@
                                 <li>
                                     <a class="@(ViewBag.Offers)" href="@Url.Action("Offers", "Booking")">OFFERS</a>
                                 </li>
+                                <li>
+                                    <a class="@(ViewBag.ConstructionGallery)" href="@Url.Action("ProjectGallery", "Booking")">UPLOAD SITE PICS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.AddNews)" href="@Url.Action("AddNews", "Booking")">UPLOAD NEWS</a>
+                                </li>
                                 @*<li>
-                                <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                            </li>*@
+                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+                    </li>*@
                             </ul>
                         </li>
                     }
-                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry"))
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry") || this.User.IsInRole("Franchise Owner"))
                     {
                         <li class="sub-menu @(ViewBag.Booking)">
                             <a href="javascript:void(0);"><i class="fa fa-ticket"></i><span>BOOKING</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                             <ul>
-
-                                <li>
-                                    <a class="@(ViewBag.NewBooking)" href="@Url.Action("New", "Booking")">NEW BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.CancelBooking)" href="@Url.Action("CancelBooking", "Booking")">CANCEL BOOKING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.MakePayment)" href="@Url.Action("MakePayment", "Booking")">PAYMENTS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.Receipt)" href="@Url.Action("Invoice", "Booking")">BOOKING RECEIPTS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.PReceipt)" href="@Url.Action("PaymentReceipts", "Booking")">PAYMENT RECEIPTS</a>
-                                </li>
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.NewBooking)" href="@Url.Action("New", "Booking")">NEW BOOKING</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.CancelBooking)" href="@Url.Action("CancelBooking", "Booking")">CANCEL BOOKING</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry") || this.User.IsInRole("Franchise Owner"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.MakePayment)" href="@Url.Action("MakePayment", "Booking")">PAYMENTS</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry") || this.User.IsInRole("Franchise Owner"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.Receipt)" href="@Url.Action("Invoice", "Booking")">BOOKING RECEIPTS</a>
+                                    </li>
+                                }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.PReceipt)" href="@Url.Action("PaymentReceipts", "Booking")">PAYMENT RECEIPTS</a>
+                                    </li>
+                                }
                             </ul>
                         </li>
                     }
@@ -610,6 +667,9 @@
                                     <li>
                                         <a class="@(ViewBag.Approvals)" href="@Url.Action("GetAgreements", "Franchise")">FRANCHISE APPROVALS</a>
                                     </li>
+                                    <li>
+                                        <a class="@(ViewBag.FranchiseBookings)" href="@Url.Action("FranchiseBookingApproval", "Franchise")">FRANCHISE BOOKING APPROVALS</a>
+                                    </li>
                                 }
 
 
@@ -639,7 +699,7 @@
                                     @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                                 </li>
                                 <li id="Designation">
-                                   <a id="des"></a>
+                                    <a id="des"></a>
                                 </li>
                                 <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                             </ul>

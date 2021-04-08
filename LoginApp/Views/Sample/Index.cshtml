@@ -1,7 +1,76 @@
 ﻿
-@{
-    ViewBag.Title = "Index";
-}
 
-<h2>Index</h2>
 
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<style>
+    #twitter-widget-holder, .twitter-timeline {
+        height: 800px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 3px;
+        box-shadow: 2px 2px 3px rgba(0,0,0,.1);
+        
+    }
+
+    #twitter-widget-holder {
+        max-height: 400px;
+        max-width: 900px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 3px;
+        box-shadow: 2px 2px 3px rgba(0,0,0,.1);
+    }
+
+    .SandboxRoot.env-bp-430 .timeline-Tweet-text {
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: 300;
+    }
+
+    .twitter-timeline {
+        max-width: 100%;
+        max-height: 1000px;
+    }
+
+    .fa {
+        font-size: 25px;
+        color: #FFFFFF;
+    }
+
+    .panel-title {
+        font-size: 25px;
+        color: #FFFFFF;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .panel-heading {
+        background-color: #1da1f2 !important;
+        color: #1da1f2 !important;
+    }
+
+    .panel {
+        margin-top: 25px;
+    }
+</style>
+<div class="row">
+    <div class="col-md-6"></div>
+    <div class="container">
+        <div class="col-md-6">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa fa-twitter-square" aria-hidden="true"></i>
+                        SAS INFRA
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <a class="twitter-timeline" href="https://twitter.com/sas_infra_?ref_src=twsrc%5Etfw" width="100%" height="600" data-chrome="transparent noscrollbar">Tweets by SAS</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>

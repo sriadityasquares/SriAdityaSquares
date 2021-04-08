@@ -875,6 +875,7 @@
     <Content Include="Content\Images\The Drizzle.PNG" />
     <Content Include="Content\Images\TV Room.PNG" />
     <Content Include="Content\Images\user.png" />
+    <Content Include="Content\Images\VideoImage.png" />
     <Content Include="Content\Images\wall.JPG" />
     <Content Include="Content\Images\Woodland.PNG" />
     <Content Include="Content\Images\woods.jpg" />
@@ -1217,6 +1218,7 @@
     <Content Include="Content\kendo\2019.3.917\Uniform\sprite_2x.png" />
     <Content Include="Content\kendo\2019.3.917\Uniform\sprite_kpi.png" />
     <Content Include="Content\kendo\2019.3.917\Uniform\sprite_kpi_2x.png" />
+    <Content Include="Content\magnific-popup.css" />
     <Content Include="Content\Potfolio\all.min.css" />
     <Content Include="Content\Potfolio\bootstrap.min.css" />
     <Content Include="Content\Potfolio\bootstrap.min.js" />
@@ -1487,6 +1489,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery.magnific-popup.js" />
+    <Content Include="Scripts\jquery.magnific-popup.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -2113,6 +2117,10 @@
     <Content Include="Views\Franchise\Approval.cshtml" />
     <Content Include="Views\Agent\AgentMapping.cshtml" />
     <Content Include="Views\Sample\Index.cshtml" />
+    <Content Include="Views\Booking\ProjectGallery.cshtml" />
+    <Content Include="Views\Booking\DisplayProjectGallery.cshtml" />
+    <Content Include="Views\Booking\AddNews.cshtml" />
+    <Content Include="Views\Franchise\FranchiseBookingApproval.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

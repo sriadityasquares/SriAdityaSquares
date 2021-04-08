@@ -48,9 +48,9 @@
             @Html.LabelFor(m => m.Area, new { @class = "col-md-1" })
             @Html.DropDownListFor(model => model.Area, new SelectList(" "), "--Select Area--", new { @class = "textbox-control col-md-3 col-xs" })
             @Html.LabelFor(m => m.Amount, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.Amount, new { @class = "textbox-control col-md-3" })
+            @Html.TextBoxFor(m => m.Amount, new { @class = "textbox-control col-md-3",@readonly = true,@placeholder = "5 LAKHS (REFUNDABLE ADVANCE)" })
             @Html.LabelFor(m => m.Duration, new { @class = "col-md-1" })
-            @Html.TextBoxFor(m => m.Duration, new { @class = "textbox-control col-md-3" })
+            @Html.TextBoxFor(m => m.Duration, new { @class = "textbox-control col-md-3",@readonly = true,@placeholder ="3 YEARS" })
         </div>
         <div class="row" style="padding-TOP:20px">
             <div class="col-md-3">
@@ -132,7 +132,7 @@
     });
 
     function SetHiddenFields() {
-        alert($("#Area").val());
+        //alert($("#Area").val());
         $("#CountryName").val($("#Country option:selected").text());
         $("#StateName").val($("#State option:selected").text());
         $("#CityName").val($("#City option:selected").text());
@@ -147,16 +147,16 @@
         if ($("#Area").val() == '0' || $("#Area").val() == '') {
             toastr.error("Please Select the Area"); return;
         }
-        if ($("#Amount").val() == '0' || $("#Amount").val() == '') {
-            toastr.error("Please Enter the Amount"); return;
-            //$("#AgentID").val() = null;
-            return;
-        }
-        if ($("#Duration").val() == '0' || $("#Duration").val() == '') {
-            toastr.error("Please Enter the Duration"); return;
-            //$("#AgentID").val() = null;
-            return;
-        }
+        //if ($("#Amount").val() == '0' || $("#Amount").val() == '') {
+        //    toastr.error("Please Enter the Amount"); return;
+        //    //$("#AgentID").val() = null;
+        //    return;
+        //}
+        //if ($("#Duration").val() == '0' || $("#Duration").val() == '') {
+        //    toastr.error("Please Enter the Duration"); return;
+        //    //$("#AgentID").val() = null;
+        //    return;
+        //}
         if ($("#IBO").val() == '') {
             toastr.error("IBO Name is Required"); return;
         }

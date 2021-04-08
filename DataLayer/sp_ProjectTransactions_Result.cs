@@ -16,6 +16,7 @@ namespace DataLayer
         public int ProjectID { get; set; }
         public int TotalSalesAmount { get; set; }
         public int CollectedAmount { get; set; }
+        public int SchemeWiseDue { get; set; }
         public int BalanceAmount { get; set; }
         public string ProjectName { get; set; }
     }

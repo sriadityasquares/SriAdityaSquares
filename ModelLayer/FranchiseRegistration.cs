@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,8 @@ namespace ModelLayer
         public string AreaName { get; set; }
 
         public int IBOID { get; set; }
+
+        [Display(Name = "IBO")]
         public string IBOName { get; set; }
 
         public int Amount { get; set; }

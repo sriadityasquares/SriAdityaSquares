@@ -69,6 +69,12 @@ namespace LoginApp
                     role.Name = "Employee";
                     roleManager.Create(role);
                 }
+                if (!roleManager.RoleExists("Franchise Owner"))
+                {
+                    var role = new IdentityRole();
+                    role.Name = "Franchise Owner";
+                    roleManager.Create(role);
+                }
 
             }
             catch { }

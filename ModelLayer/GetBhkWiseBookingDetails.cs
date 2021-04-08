@@ -8,7 +8,7 @@ namespace ModelLayer
 {
     public class GetBhkWiseBookingDetails
     {
-        public Nullable<int> Bhk { get; set; }
+        public Nullable<double> Bhk { get; set; }
         public Nullable<int> TotalBookingamount { get; set; }
         public string CreatedDate { get; set; }
         public Nullable<int> Year { get; set; }

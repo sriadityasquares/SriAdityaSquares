@@ -208,6 +208,21 @@
                     dataType: "json",
                     type: "POST"
                 },
+                update: {
+                    url: "/Booking/UpdateDailyExpenses",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
                 destroy: {
                     url: "/Booking/DeleteDailyExpense",
                     dataType: "json",
@@ -260,7 +275,7 @@
                 { field: "Amount", title: "Amount", width: "100px" },
                 { field: "PaymentMode", title: "Mode of Payment", width: "120px" },
                 { field: "Comments", title: "Comments", width: "100px" },
-                { command: ["destroy"], title: "&nbsp;", width: "100px" }
+                { command: ["edit","destroy"], title: "&nbsp;", width: "100px" }
             ],
             editable: "inline"
         });

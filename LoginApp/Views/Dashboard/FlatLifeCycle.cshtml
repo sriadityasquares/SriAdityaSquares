@@ -5,7 +5,80 @@
     ViewBag.Dashboard = "active";
 
 }
+<style>
+    .holder {
+        /*            //background-color: #ccc;
+    */ width: 300px;
+        height: 250px;
+        overflow: hidden;
+        padding: 10px;
+        font-family: Helvetica;
+    }
 
+        .holder .mask {
+            position: fixed;
+            top: 50px !important;
+            right: 10px !important;
+            width: 300px;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .holder ul {
+            list-style: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            position: relative !important;
+        }
+
+            .holder ul li {
+                padding: 10px 0px;
+            }
+
+                .holder ul li a {
+                    color: darkred;
+                    text-decoration: none;
+                }
+</style>
+
+<script>
+    jQuery.fn.liScroll = function (settings) {
+        settings = jQuery.extend({
+            travelocity: 0.03
+        }, settings);
+        return this.each(function () {
+            var $strip = jQuery(this);
+            $strip.addClass("newsticker")
+            var stripHeight = 1;
+            $strip.find("li").each(function (i) {
+                stripHeight += jQuery(this, i).outerHeight(true); // thanks to Michael Haszprunar and Fabien Volpi
+            });
+            var $mask = $strip.wrap("<div class='mask'></div>");
+            var $tickercontainer = $strip.parent().wrap("<div class='tickercontainer'></div>");
+            var containerHeight = $strip.parent().parent().height();	//a.k.a. 'mask' width
+            $strip.height(stripHeight);
+            var totalTravel = stripHeight;
+            var defTiming = totalTravel / settings.travelocity;	// thanks to Scott Waye
+            function scrollnews(spazio, tempo) {
+                $strip.animate({ top: '-=' + spazio }, tempo, "linear", function () { $strip.css("top", containerHeight); scrollnews(totalTravel, defTiming); });
+            }
+            scrollnews(totalTravel, defTiming);
+            $strip.hover(function () {
+                jQuery(this).stop();
+            },
+                function () {
+                    var offset = jQuery(this).offset();
+                    var residualSpace = offset.top + stripHeight;
+                    var residualTime = residualSpace / settings.travelocity;
+                    scrollnews(residualSpace, residualTime);
+                });
+        });
+    };
+
+    $(function () {
+        $("ul#ticker01").liScroll();
+    });
+</script>
 <div id="jumbo" class="jumbotron" style="padding-bottom:2px;margin-bottom:2px;">
     @*<div class="row">
             <div class="col-md-1 col-xs">
@@ -31,7 +104,8 @@
     </div>
     <div class="row" style="padding-top:10px">
         <div style="align-items:center;align-content:center" class="col-md-6 col-xs">
-            <label> Name :
+            <label>
+                Name :
             </label>
             <label id="spanNAME">
             </label>
@@ -43,7 +117,7 @@
             <label id="spanScheme">
             </label>
         </div>
-        
+
     </div>
     <div class="row">
         <ul class="poll-results">
@@ -51,17 +125,35 @@
                 <h4>Completion Percentage</h4>
                 <div id="flatProgress"></div>
             </li>
-            
+
         </ul>
     </div>
     <div class="row" style="padding-top:20px">
-        
+
         <div class="col-md-12 col-sm-12 col-xs-12" id="timelinePosition">
             <br />
             <div style="overflow:auto;height:700px;" id="bookingstatus"></div>
         </div>
     </div>
 </div>
+
+
+<div class="holder">
+    <ul id="ticker01">
+        @if (ViewBag.News != null)
+        {
+            foreach (var item in ViewBag.News)
+            {
+                <li>
+                    <span style="color:cornflowerblue;font-size:18px">@item.NewsDate</span>
+                    <br><a style="font-size: 18px" href="#">@item.News</a>
+                </li>
+            }
+
+        }
+    </ul>
+</div>
+
 <script>
     var html = '';
     var progressbars = [];
@@ -127,7 +219,7 @@
 
             })
             html = html + ' </ul></div>';
-            
+
             $('#flatProgress').data("kendoProgressBar").value(percentage)
             $('#bookingstatus').html(html);
 
@@ -135,16 +227,15 @@
     });
 </script>
 <style>
-    #bookingstatus{
-        height :550px;
+    #bookingstatus {
+        height: 550px;
     }
-   
+
     @@media screen and (max-width: 700px) {
         #bookingstatus {
             height: 250px;
         }
-        
-}
+    }
 
     .demo-section h2 {
         font-weight: normal;
@@ -196,5 +287,4 @@
     .k-progress-status {
         font-weight: 800;
     }
-
 </style>

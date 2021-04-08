@@ -13,7 +13,7 @@ namespace ModelLayer
         public List<Projects> ProjectID { get; set; }
         public List<Towers> TowerID { get; set; }
         public Nullable<int> Floor { get; set; }
-        public Nullable<int> Bhk { get; set; }
+        public Nullable<double> Bhk { get; set; }
         public Nullable<int> Sft { get; set; }
         public string Facing { get; set; }
         public string BookingStatus { get; set; }

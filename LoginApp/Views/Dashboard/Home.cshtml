@@ -365,6 +365,7 @@
                                     <th>SALES AMOUNT</th>
                                     <th>COLLECTED AMOUNT</th>
                                     <th>BALANCE AMOUNT</th>
+                                    <th>SCHEMEWISE DUE</th>
                                     </thead>
                                     <tbody>
 
@@ -383,6 +384,53 @@
                                                 <td>
                                                     @item.BalanceAmount
                                                 </td>
+                                                <td>
+                                                    @item.SchemeWiseDue
+                                                </td>
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-success">
+                                <h4 class="card-title"><b style="font-size:14px;font-weight:800">PROJECT WISE AREA DETAILS</b></h4>
+                                <p class="card-category">Last Updated @DateTime.Now</p>
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="text-success">
+                                    <th>PROJECT</th>
+                                    <th>TOTAL SFT</th>
+                                    <th>SOLD SFT</th>
+                                    <th>REMAINING SFT</th>
+                                    
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in ViewBag.AreaRem)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.ProjectName
+                                                </td>
+                                                <td>
+                                                    @item.TotalSft
+                                                </td>
+                                                <td>
+                                                    @item.SoldSft
+                                                </td>
+                                                <td>
+                                                    @item.RemSft
+                                                </td>
+                                                
                                             </tr>
                                         }
 
@@ -424,7 +472,7 @@
                                                 <td>
                                                     <b style="font-size:12px">&#8377;</b>.@item.BookingAmount
                                                 </td>
-                                               
+
                                             </tr>
                                         }
 
@@ -474,6 +522,52 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-danger">
+                                <h4 class="card-title"><b style="font-size:14px;font-weight:800">PAST DUE DATE(NO PAYMENT RECEIVED)</b></h4>
+                                <p class="card-category">Last Updated @DateTime.Now</p>
+                            </div>
+                            <div style="overflow-y:scroll;height:400px;" class="card-body table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="text-danger">
+                                    <th>PROJECT</th>
+                                    <th>TOWER</th>
+                                    <th>FLAT</th>
+                                    <th>AGENT</th>
+                                    <th>DUE AMOUNT</th>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in ViewBag.PastDue)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.ProjectName
+                                                </td>
+                                                <td>
+                                                    @item.TowerName
+                                                </td>
+                                                <td>
+                                                    @item.FlatName
+                                                </td>
+                                                <td>
+                                                    @item.AgentName
+                                                </td>
+                                                <td>
+                                                    <b style="font-size:12px">&#8377;</b>.@item.DueAmount
+                                                </td>
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
         </div>
     </div>
@@ -500,13 +594,15 @@
                     @ViewBag.yBookingGraph
             ]
         };
+        var str = '@ViewBag.yBookingGraph'
+        var max1 = Math.max(...str.match(/\d+/g).map(Number));
 
         optionsBookingChart = {
             lineSmooth: Chartist.Interpolation.cardinal({
                 tension: 0
             }),
             low: 0,
-            high: 10,
+            high: max1,
             chartPadding: {
                 top: 0,
                 right: 0,
@@ -525,12 +621,15 @@
             ],
             distributeSeries: true
         };
+
+        var str = '@ViewBag.yPaymentGraph'
+        var max2 = Math.max(...str.match(/\d+/g).map(Number));
         var optionsPaymentChart = {
             axisX: {
                 showGrid: true
             },
             low: 0,
-            high: 25,
+            high: max2,
             chartPadding: {
                 top: 0,
                 right: 5,
@@ -558,12 +657,16 @@
             ]
         };
 
+        var str = '@ViewBag.yIBOGraph'
+        var max3 = Math.max(...str.match(/\d+/g).map(Number));
+
+
         optionsIBOChart = {
             lineSmooth: Chartist.Interpolation.cardinal({
                 tension: 0
             }),
             low: 0,
-            high: 35,
+            high: max3,
             chartPadding: {
                 top: 0,
                 right: 0,

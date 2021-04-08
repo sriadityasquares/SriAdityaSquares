@@ -17,7 +17,7 @@ namespace ModelLayer
         public string FlatName { get; set; }
         public Nullable<System.DateTime> ChequeDate { get; set; }
         public Nullable<int> BookingAmount { get; set; }
-        public Nullable<int> Bhk { get; set; }
+        public Nullable<double> Bhk { get; set; }
         public Nullable<int> Area { get; set; }
         public string PaymentMode { get; set; }
         public string ReferenceNo { get; set; }

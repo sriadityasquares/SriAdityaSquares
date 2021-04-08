@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewBag.Title = "FranchiseBookingApproval";
+    ViewBag.FranchiseBookings = "active";
+    ViewBag.Franchise = "active";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">FRANCHISE BOOKING APPROVALS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Franchise/GetFranchiseBookings",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Franchise/UpdateFranchiseBookings",
+                    dataType: "json",
+                    
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                destroy: {
+                    url: "/Sample/Destroy",
+                    dataType: "jsonp"
+                },
+
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "ID",
+                    fields: {
+                        ID: { editable: false, nullable: true },
+                        ProjectName: { editable: false, nullable: true },
+                        TowerName: { editable: false, nullable: true },
+                        FlatName: { editable: false, nullable: true },
+                        CustomerName: { editable: false, nullable: true },
+                        Floor: { editable: false, nullable: true },
+                        Bhk: { editable: false, nullable: true },
+                        Area: { editable: false, nullable: true },
+                        Facing: { editable: false, nullable: true },
+                        SftRate: { editable: false, nullable: true },
+                        HighRiseCharges: { editable: false, nullable: true },
+                        Discount: { editable: false, nullable: true },
+                        TotalRate: { editable: false, nullable: true },
+                        FinalRate: { editable: false, nullable: true },
+                        ClubHouseCharges: { editable: false, nullable: true },
+                        GrandRate: { editable: false, nullable: true },
+                        PaymentMode: { editable: false, nullable: true },
+                        ReferenceNo: { editable: false, nullable: true },
+                        Status: { validation: { required: true } },
+                    }
+                }
+            }
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 550,
+            toolbar: ["search"],
+            columns: [
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " }, visible: false },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "80px"
+                },
+               { field: "Status", title: "Status", width: "120px", editor: statusDropDownEditor },
+                { field: "ProjectName", title: "Project Name", width: "150px" },
+                { field: "TowerName", title: "Tower Name", width: "150px" },
+                { field: "FlatName", title: "Flat Name", width: "150px" },
+                { field: "CustomerName", title: "Customer Name", width: "150px" },
+                { field: "Floor", title: "Floor", width: "70px" },
+                { field: "Bhk", title: "Bhk", width: "120px" },
+                { field: "Area", title: "Area", width: "90px" },
+                { field: "Facing", title: "Facing", width: "150px" },
+                { field: "SftRate", title: "SftRate", width: "150px" },
+                { field: "HighRiseCharges", title: "HighRise Charges", width: "90px" },
+                { field: "Discount", title: "Discount", width: "150px" },
+                { field: "TotalRate", title: "Total Rate", width: "150px" },
+                { field: "FinalRate", title: "Final Rate", width: "150px" },
+                { field: "ClubHouseCharges", title: "ClubHouse Charges", width: "150px" },
+                { field: "GrandRate", title: "Grand Rate", width: "150px" },
+                { field: "PaymentMode", title: "Paymen tMode", width: "150px" },
+                { field: "ReferenceNo", title: "Reference No", width: "150px" },
+            ],
+            editable: "inline",
+        });
+
+
+
+        function statusDropDownEditor(container, options) {
+            $('<input required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: true,
+                    dataTextField: "Status",
+                    dataValueField: "ID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetApprovalType",
+
+                        }
+                    }
+                });
+        }
+
+    });
+</script>

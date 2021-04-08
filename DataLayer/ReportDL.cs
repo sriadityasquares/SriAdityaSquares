@@ -34,7 +34,7 @@ namespace DataLayer
             return lstBooking;
         }
 
-        public List<GetPaymentInfoByDate> BindPaymentInfo(string fromDate, string toDate, string projectID)
+        public List<GetPaymentInfoByDate> BindPaymentInfo(string fromDate, string toDate, string projectID,int type)
         {
             List<GetPaymentInfoByDate> lstPayments = new List<GetPaymentInfoByDate>();
             try
@@ -45,7 +45,7 @@ namespace DataLayer
                     cfg.CreateMap<sp_getPaymentInfoByDates_Result, GetPaymentInfoByDate>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstPayments = mapper.Map<List<sp_getPaymentInfoByDates_Result>, List<GetPaymentInfoByDate>>(dbEntity.sp_getPaymentInfoByDates(fromDate, toDate, projectID).ToList()).ToList();
+                lstPayments = mapper.Map<List<sp_getPaymentInfoByDates_Result>, List<GetPaymentInfoByDate>>(dbEntity.sp_getPaymentInfoByDates(fromDate, toDate, projectID,type).ToList()).ToList();
             }
             catch (Exception ex)
             {

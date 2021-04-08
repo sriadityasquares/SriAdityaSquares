@@ -17,5 +17,7 @@ namespace ModelLayer
 
         public int Year { get; set; }
         public int Month { get; set; }
+
+        public int Type { get; set; }
     }
 }

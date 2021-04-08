@@ -121,7 +121,7 @@ namespace LoginApp.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetPaymentReportbyDate(string start, string end, string projectID)
+        public JsonResult GetPaymentReportbyDate(string start, string end, string projectID,int type)
         {
             ReportBL rep = new ReportBL();
             if (projectID.Contains("9999"))
@@ -144,7 +144,7 @@ namespace LoginApp.Controllers
                 }
 
             }
-            List<GetPaymentInfoByDate> list = rep.BindPaymentInfo(start, end, projectID);
+            List<GetPaymentInfoByDate> list = rep.BindPaymentInfo(start, end, projectID, type);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 

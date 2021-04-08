@@ -78,8 +78,7 @@
             </span>
 
         </div>*@
-                        <br />
-                        <br />
+                        
                         <br />
                         <br />
                         <br />
@@ -311,14 +310,36 @@
         </div>
         <div id="paydetails3" style="padding-top:5px" class="row">
             @Html.LabelFor(m => m.PaymentModeID, new { @class = "col-md-2" })
-            @Html.DropDownListFor(m => m.PaymentModeID, new List<SelectListItem>
-        {
-             new SelectListItem{ Text="--Mode--", Value = "0"  },
-            new SelectListItem{ Text="Cheque", Value = "1" },
-            new SelectListItem{ Text="NEFT", Value = "2" },
-            new SelectListItem{ Text="CC", Value = "3" },
-            new SelectListItem{ Text="Cash", Value = "4" },
-         }, new { @class = "textbox-control col-md-3 col-xs", @readonly = "readonly" })
+            @if (!User.IsInRole("Franchise Owner"))
+            {
+                @Html.DropDownListFor(m => m.PaymentModeID, new List<SelectListItem>
+            {
+                 new SelectListItem{ Text="--Mode--", Value = "0"  },
+                new SelectListItem{ Text="Cheque", Value = "1" },
+                new SelectListItem{ Text="NEFT", Value = "2" },
+                new SelectListItem{ Text="CC", Value = "3" },
+                new SelectListItem{ Text="Cash", Value = "4" },
+                new SelectListItem{ Text="GPAY", Value = "5" },
+                new SelectListItem{ Text="PhonePe", Value = "6" },
+                new SelectListItem{ Text="IMPS", Value = "7" },
+                new SelectListItem{ Text="RTGS", Value = "8" },
+             }, new { @class = "textbox-control col-md-3 col-xs", @readonly = "readonly" })
+            }
+            else
+            {
+                @Html.DropDownListFor(m => m.PaymentModeID, new List<SelectListItem>
+       {
+            new SelectListItem{ Text="--Mode--", Value = "0"  },
+           new SelectListItem{ Text="Cheque", Value = "1" },
+           new SelectListItem{ Text="NEFT", Value = "2" },
+           new SelectListItem{ Text="CC", Value = "3" },
+           //new SelectListItem{ Text="Cash", Value = "4" },
+           new SelectListItem{ Text="GPAY", Value = "5" },
+           new SelectListItem{ Text="PhonePe", Value = "6" },
+           new SelectListItem{ Text="IMPS", Value = "7" },
+           new SelectListItem{ Text="RTGS", Value = "8" },
+        }, new { @class = "textbox-control col-md-3 col-xs", @readonly = "readonly" })
+            }
             @Html.LabelFor(m => m.ReferenceNo, new { @class = "col-md-2" })
             @Html.TextBoxFor(m => m.ReferenceNo, new { @class = "textbox-control col-md-3 col-xs" })
         </div>
@@ -418,7 +439,7 @@
                 if (index == 0) {
                     $("#CustomerName").text(row.Customer);
                 }
-                $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.PaymentMode + "</td><td>" + row.ChequeStatus + "</td><td>" + row.ReferenceNo + "</td><td contenteditable id='" + row.PaymentID + "'>" + row.Details + "</td><td><a class ='btn' onclick='UpdateDetails(" + row.PaymentID + ")'><i class='fa fa-save'></i></a>" + "<td><a class ='btn' onClick=GetReceipt('" + row.PaymentID + "')> <i class='fa fa-file-pdf-o'></i></a ></td ></tr>");
+                $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.PaymentMode + "</td><td>" + row.ChequeStatus + "</td><td contenteditable id='Ref" + row.PaymentID + "'>" + row.ReferenceNo + "</td><td contenteditable id='" + row.PaymentID + "'>" + row.Details + "</td><td><a class ='btn' onclick='UpdateDetails(" + row.PaymentID + ")'><i class='fa fa-save'></i></a>" + "<td><a class ='btn' onClick=GetReceipt('" + row.PaymentID + "')> <i class='fa fa-file-pdf-o'></i></a ></td ></tr>");
                 //$('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td>" + "</td><td><button type='submit'  name='GenerateReceipt' style='padding:3px;margin-bottom: 0px;' id='Generate' value='" + row.PaymentID + "' class='btn btn-default'><i class='fa fa-file-pdf-o'></i>GENERATE RECEIPT</button></td></tr>");
 
                 TotalPaid = TotalPaid + Number(row.BookingAmount);
@@ -466,7 +487,8 @@
     function UpdateDetails(payID) {
         ShowReceipt();
         var Details = $("#" + payID)[0].innerHTML;
-        $.get("/Booking/UpdatePaymentDetails", { payID: payID, Details: Details }, function (data) {
+        var Ref = $("#Ref" + payID)[0].innerHTML;
+        $.get("/Booking/UpdatePaymentDetails", { payID: payID, Details: Details, Ref : Ref }, function (data) {
             if (data) {
                 toastr.success("Payment details updated");
             }

@@ -35,12 +35,95 @@
     <script src="~/Content/Potfolio/jquery.singlePageNav.min.js"></script>
     <script src="~/Content/Potfolio/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0BLFFZ00RV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-0BLFFZ00RV');
+    </script>
 </head>
 <body>
     <!-- Hero section -->
 
     <div id="body1">
     </div>
+    <style>
+        .holder {
+            /*            //background-color: #ccc;
+        */ width: 300px;
+            height: 250px;
+            overflow: hidden;
+            padding: 10px;
+            font-family: Helvetica;
+        }
+
+            .holder .mask {
+                position: fixed;
+                right: 0px !important;
+                top: 100px;
+                width: 300px;
+                height: 240px;
+                overflow: hidden;
+            }
+
+            .holder ul {
+                list-style: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                position: relative !important;
+            }
+
+                .holder ul li {
+                    padding: 10px 0px;
+                }
+
+                    .holder ul li a {
+                        color: darkred;
+                        text-decoration: none;
+                    }
+    </style>
+
+
+    <script>
+        jQuery.fn.liScroll = function (settings) {
+            settings = jQuery.extend({
+                travelocity: 0.03
+            }, settings);
+            return this.each(function () {
+                var $strip = jQuery(this);
+                $strip.addClass("newsticker")
+                var stripHeight = 1;
+                $strip.find("li").each(function (i) {
+                    stripHeight += jQuery(this, i).outerHeight(true); // thanks to Michael Haszprunar and Fabien Volpi
+                });
+                var $mask = $strip.wrap("<div class='mask'></div>");
+                var $tickercontainer = $strip.parent().wrap("<div class='tickercontainer'></div>");
+                var containerHeight = $strip.parent().parent().height();	//a.k.a. 'mask' width
+                $strip.height(stripHeight);
+                var totalTravel = stripHeight;
+                var defTiming = totalTravel / settings.travelocity;	// thanks to Scott Waye
+                function scrollnews(spazio, tempo) {
+                    $strip.animate({ top: '-=' + spazio }, tempo, "linear", function () { $strip.css("top", containerHeight); scrollnews(totalTravel, defTiming); });
+                }
+                scrollnews(totalTravel, defTiming);
+                $strip.hover(function () {
+                    jQuery(this).stop();
+                },
+                    function () {
+                        var offset = jQuery(this).offset();
+                        var residualSpace = offset.top + stripHeight;
+                        var residualTime = residualSpace / settings.travelocity;
+                        scrollnews(residualSpace, residualTime);
+                    });
+            });
+        };
+
+        $(function () {
+            $("ul#ticker01").liScroll();
+        });
+    </script>
     <section id="hero">
         <!-- Navigation -->
         <nav style="padding-bottom:3px;margin-bottom:0px;" class="navbar navbar-expand-md tm-navbar" id="tmNav">
@@ -85,9 +168,11 @@
                 <i class="fa fa-3x fa-caret-down tm-down-arrow"></i>
             </a>
         </div>
+
     </section>
     <section id="introduction" class="tm-section-pad-top">
         <div class="container">
+
             <div class="row">
                 <div class="col-lg-6">
 
@@ -235,8 +320,8 @@
 
                                     </div>
                                     <span class="k-card-action">-->
-                                        @*<span class="k-button k-flat k-primary">Download Brochure</span>*@
-                                    <!--</span>
+                                @*<span class="k-button k-flat k-primary">Download Brochure</span>*@
+                                <!--</span>
                                 </div>-->
 
                                 <div class="k-card k-card-type-rich">
@@ -270,8 +355,8 @@
 
                                     </div>
                                     <span class="k-card-action">-->
-                                        @*<span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=AlpineSquareBrochure.pdf">Download Brochure</a></span>*@
-                                    <!--</span>
+                                @*<span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=AlpineSquareBrochure.pdf">Download Brochure</a></span>*@
+                                <!--</span>
                                 </div>-->
 
 
@@ -755,24 +840,179 @@
 
                 </div>
             </div>
-        </div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <footer class="text-center small tm-footer">
-            <p style="color:black" class="mb-0">
-                <b>
-                    <b>SRI ADITYA SQUARES</b> <br />
-                </b>
-                3rd floor,above Nissan showroom,peddamma temple metro station,Jubilee Hills,Hyderabad, 500033<br />
-                Reach us at : <b>info@sasinfra.in</b><br />
-                <b>Copyright &copy; 2020 SRI ADITYA SQUARES</b> <br />
-            </p>
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+            <style>
+                #twitter-widget-holder, .twitter-timeline {
+                    height: 800px;
+                    padding: 20px;
+                    background: #fff;
+                    border-radius: 3px;
+                    box-shadow: 2px 2px 3px rgba(0,0,0,.1);
+                }
 
-        </footer>
+                #twitter-widget-holder {
+                    max-height: 400px;
+                    max-width: 900px;
+                    padding: 20px;
+                    background: #fff;
+                    border-radius: 3px;
+                    box-shadow: 2px 2px 3px rgba(0,0,0,.1);
+                }
+
+
+                .twitter-timeline {
+                    max-width: 100%;
+                    max-height: 1000px;
+                }
+
+
+
+                .panel-title {
+                    font-size: 25px;
+                    color: #FFFFFF;
+                    font-family: 'Open Sans', sans-serif;
+                }
+
+                .panel-heading {
+                    background-color: #1da1f2 !important;
+                    color: #1da1f2 !important;
+                }
+
+                .panel {
+                    margin-top: 25px;
+                }
+            </style>
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div id="tfeed" class="container">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="panel panel-danger">
+
+                                <div class="panel-body">
+                                  
+                                    @*<a style="font-size:12px;" class="twitter-timeline" href="https://twitter.com/sas_infra_?ref_src=twsrc%5Etfw" width="100%" height="600" data-chrome="transparent noscrollbar">Twitter</a>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <script>
+                
+            </script>
+            <style>
+                                #twitter-widget-holder {
+                                    max-height: 400px;
+                                    max-width: 320px;
+                                    padding: 20px;
+                                    background: #fff;
+                                    border-radius: 3px;
+                                    box-shadow: 2px 2px 3px rgba(0,0,0,.1);
+                                }
+
+                                /*                style="margin-left:270px;"
+                */
+                                @@media screen and (min-width: 800px) {
+                                    #tfeed {
+                                        margin-left: 270px;
+                                    }
+                                }
+            </style>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="tfeed" class="container">
+                        <div class="col-md-6">
+                            <div class="panel panel-danger">
+
+                                <div  class="panel-body">
+                                    @*<div id="instagram-feed-demo" class="instagram_feed"></div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <script src="https://www.jqueryscript.net/demo/Instagram-Photos-Without-API-instagramFeed/jquery.instagramFeed.js"></script>
+
+            <script>
+                (function ($) {
+                    $(window).on('load', function () {
+                        $.instagramFeed({
+                            'username': 'sri_aditya_squares',
+                            'container': "#instagram-feed-demo",
+                            'display_captions': false,
+                            'display_profile': true,
+                            'image_size': 640,
+                            'display_biography': false,
+                            'display_gallery': true,
+                            'get_raw_json': false,
+                            'callback': null,
+                            'styling': true,
+                            'items': 36,
+                            'items_per_row': 2,
+                            'margin': 0.2,
+                            'lazy_load': true,
+                        });
+                    });
+                })(jQuery);
+
+                $(function () {
+                    var div = document.getElementsByClassName("instagram_gallery");
+                    var scroll = div.scrollTop;
+                    // increase the scroll position by 10 px every 10th of a second
+                    var original = div.scrollTop; //save the original position
+                    setInterval(function () {
+                        // make sure it's not at the bottom
+                        if (div.scrollTop < div.scrollHeight - div.clientHeight) {
+                            $(".instagram_gallery").animate({ scrollTop: scroll + $(".instagram_gallery").height() + 5 }, 3000); // move down one image
+                            scroll += $(".instagram_gallery").height() + 5;
+                        }
+                        else { //if it's at the bottom
+                            $(".instagram_gallery").animate({
+                                scrollTop: original
+                            }, 1000); // move down one image
+                            scroll = original;
+                        }
+                    }, 5000); // 5 second intervals between change so user has two seconds to look a flyer
+                });
+
+               
+
+            </script>
+            <style>
+                .instagram_username {
+                    font-size: 15px !important;
+                    color: indianred !important;
+                }
+
+                .instagram_gallery {
+                    overflow-y: scroll;
+                    height:250px;
+                }
+
+
+            </style>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <footer class="text-center small tm-footer">
+                <p style="color:black" class="mb-0">
+                    <b>
+                        <b>SRI ADITYA SQUARES</b> <br />
+                    </b>
+                    3rd floor,above Nissan showroom,peddamma temple metro station,Jubilee Hills,Hyderabad, 500033<br />
+                    Reach us at : <b>info@sasinfra.in</b><br />
+                    Follow us at : <span><a href="https://www.facebook.com/Sri-Aditya-Squares-100662462080075"><i class="fa fa-facebook fa-lg"></i></a></span>&nbsp; <span><a href="https://www.instagram.com/sri_aditya_squares/"><i class="fa fa-instagram fa-lg"></i></a></span>&nbsp; <span><a href="https://twitter.com/sas_infra_"><i class="fa fa-twitter fa-lg"></i></a></span>&nbsp; <span><a href="https://www.linkedin.com/in/sri-aditya-squares-234949207/"><i class="fa fa-linkedin fa-lg"></i></a></span><br />
+                    <b>Copyright &copy; 2020 SRI ADITYA SQUARES</b> <br />
+                </p>
+
+            </footer>
 
     </section>
     <script>
@@ -857,27 +1097,27 @@
             $("#Longitude").val(position.coords.longitude);
         }
 
-        document.addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-        });
+        //document.addEventListener('contextmenu', function (e) {
+        //    e.preventDefault();
+        //});
 
-        document.onkeydown = function (e) {
-            if (event.keyCode == 123) {
-                return false;
-            }
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-                return false;
-            }
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
-                return false;
-            }
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-                return false;
-            }
-            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-                return false;
-            }
-        }
+        //document.onkeydown = function (e) {
+        //    if (event.keyCode == 123) {
+        //        return false;
+        //    }
+        //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+        //        return false;
+        //    }
+        //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+        //        return false;
+        //    }
+        //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+        //        return false;
+        //    }
+        //    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+        //        return false;
+        //    }
+        //}
         $.fn.disableScroll = function () {
             window.oldScrollPos = $(window).scrollTop();
 
@@ -975,4 +1215,114 @@
             alert('File Downloading' + data);
         })
     };
+</script>
+<script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script>
+    // # seconds to animation end
+    var animTime = 480000; // ~8 minutes for all tweets with pics, reduce for text-only tweets
+
+    $(function () {
+        loadTwitterWidget();
+    });
+
+    function loadTwitterWidget() {
+        var timelineData = [
+            {
+                sourceType: "profile",
+                screenName: "sas_infra_"
+            },
+            $("#twit")[0],
+            {
+                chrome: "noheader nofooter noscrollbar noborders transparent",
+                height: 400,
+                width: 600
+            }
+        ];
+
+        // injected iframe element(s) after twitter API finds widgets
+        var iframe;
+
+        // element(s) we want to scroll
+        var viewport;
+
+        // initial scroll distance
+        var initialDistance;
+
+        // restart scroll on new tweet since twttr does not have a new tweet event
+        var newTweetObserver = new MutationObserver(scroll);
+
+        // hide elements we do not want to see
+        function getElemsToHide() {
+            return [
+                $(".timeline-InformationCircle", iframe),
+                $(".timeline-LoadMore", iframe),
+                $(".timeline-NewTweetsNotification", iframe)
+            ];
+        }
+
+        function hideElements(elems) {
+            for (var i = 0; i < elems.length; i++) {
+                elems[i].hide();
+            }
+        }
+
+        function scroll() {
+            // reset to top
+            viewport.stop().scrollTop(0);
+
+            hideElements(getElemsToHide());
+
+            // calculate new distance assuming height is varied
+            var distance =
+                viewport.prop("scrollHeight") -
+                viewport.prop("scrollTop") -
+                viewport.height();
+
+            // calculate duration based on initial speed to ensure uniform scroll speed
+            var duration = animTime * (distance / initialDistance);
+
+            // if there is something to scroll
+            if (viewport.prop("scrollHeight") > viewport.height()) {
+                viewport.animate(
+                    {
+                        scrollTop: distance
+                    },
+                    {
+                        easing: "linear",
+                        duration: duration,
+                        done: scroll
+                    }
+                );
+            }
+        }
+
+        twttr.ready(function (twttr) {
+            // create twitter timeline
+            // IE11 can't handle Rest parameters. If you want to support IE11, use the following line instead:
+            // twttr.widgets.createTimeline.apply(this, timelineData);
+            twttr.widgets.createTimeline(...timelineData);
+
+            // twitter widgets are rendered
+            twttr.events.bind("rendered", function (event) {
+                // hide "more tweets" links/info buttons that may be injected
+                hideElements(getElemsToHide());
+
+                // injected iframe element(s) after twitter API finds widgets
+                iframe = $(event.target).contents();
+
+                // element(s) we want to scroll
+                viewport = $(".timeline-Viewport", iframe);
+
+                // initial scroll distance
+                initialDistance = viewport.prop("scrollHeight") - viewport.height();
+
+                // pass in the target node, as well as the observer options
+                newTweetObserver.observe($(".timeline-TweetList", iframe)[0], {
+                    childList: true
+                });
+
+                scroll();
+            });
+        });
+    }
 </script>
