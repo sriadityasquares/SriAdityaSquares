@@ -49,8 +49,8 @@ namespace DataLayer
             try
             {
                 this.dbEntity.Configuration.ProxyCreationEnabled = false;
-                var franchiseID = dbEntity.tblFranchiseRegistrations.Where(x => x.CreatedBy == username).Select(x => x.RegisterNo).FirstOrDefault();
-                if (franchiseID > 0)
+                var franchise = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == username).FirstOrDefault();
+                if (franchise.FranchiseID > 0)
                 {
                     //lstCountry = dbEntity.tblProjects.ToList();
                     var config = new MapperConfiguration(cfg =>
@@ -58,7 +58,7 @@ namespace DataLayer
                         cfg.CreateMap<sp_GetFranchiseProjects_Result, Projects>();
                     });
                     IMapper mapper = config.CreateMapper();
-                    lstProjects = mapper.Map<List<sp_GetFranchiseProjects_Result>, List<Projects>>(dbEntity.sp_GetFranchiseProjects(franchiseID).ToList()).ToList();
+                    lstProjects = mapper.Map<List<sp_GetFranchiseProjects_Result>, List<Projects>>(dbEntity.sp_GetFranchiseProjects(franchise.FranchiseID).ToList()).ToList();
                 }
             }
             catch (Exception ex)
@@ -225,15 +225,15 @@ namespace DataLayer
             {
                 //lstCountry = dbEntity.tblProjects.ToList();
                 this.dbEntity.Configuration.ProxyCreationEnabled = false;
-                var franchiseID = dbEntity.tblFranchiseRegistrations.Where(x => x.CreatedBy == username).Select(x => x.RegisterNo).FirstOrDefault();
-                if (franchiseID > 0)
+                var franchise = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == username).FirstOrDefault();
+                if (franchise.FranchiseID > 0)
                 {
                     var config = new MapperConfiguration(cfg =>
                     {
                         cfg.CreateMap<sp_GetFranchiseTowers_Result, Towers>();
                     });
                     IMapper mapper = config.CreateMapper();
-                    lstTowers = mapper.Map<List<sp_GetFranchiseTowers_Result>, List<Towers>>(dbEntity.sp_GetFranchiseTowers(franchiseID, projectID).ToList()).ToList();
+                    lstTowers = mapper.Map<List<sp_GetFranchiseTowers_Result>, List<Towers>>(dbEntity.sp_GetFranchiseTowers(franchise.FranchiseID, projectID).ToList()).ToList();
                 }
             }
             catch (Exception ex)
@@ -382,15 +382,15 @@ namespace DataLayer
             try
             {
                 //lstCountry = dbEntity.tblProjects.ToList();
-                var franchiseID = dbEntity.tblFranchiseRegistrations.Where(x => x.CreatedBy == username).Select(x => x.RegisterNo).FirstOrDefault();
-                if (franchiseID > 0)
+                var franchise = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == username).FirstOrDefault();
+                if (franchise.FranchiseID > 0)
                 {
                     var config = new MapperConfiguration(cfg =>
                     {
                         cfg.CreateMap<sp_GetFranchiseFlatsInProgress_Result, Flats>();
                     });
                     IMapper mapper = config.CreateMapper();
-                    lstFlats = mapper.Map<List<sp_GetFranchiseFlatsInProgress_Result>, List<Flats>>(dbEntity.sp_GetFranchiseFlatsInProgress(franchiseID,towerID).ToList()).ToList();
+                    lstFlats = mapper.Map<List<sp_GetFranchiseFlatsInProgress_Result>, List<Flats>>(dbEntity.sp_GetFranchiseFlatsInProgress(franchise.FranchiseID, towerID).ToList()).ToList();
                 }
             }
             catch (Exception ex)
@@ -517,9 +517,10 @@ namespace DataLayer
         {
             try
             {
-                var franchiseOwnerID = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == bookingInfo.CreatedBy).Select(x => x.AgentID).FirstOrDefault();
-                var franchiseOwnerName = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == bookingInfo.CreatedBy).Select(x => x.AgentName).FirstOrDefault();
-                bookingInfo.FranchiseID = dbEntity.tblFranchiseRegistrations.Where(x => x.IBOID == franchiseOwnerID).Select(x => x.RegisterNo).FirstOrDefault();
+                var franchise = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == bookingInfo.CreatedBy).FirstOrDefault();
+                bookingInfo.FranchiseID = franchise.FranchiseID;
+                //var franchiseOwnerName = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == bookingInfo.CreatedBy).Select(x => x.AgentName).FirstOrDefault();
+                //bookingInfo.FranchiseID = dbEntity.tblFranchiseRegistrations.Where(x => x.IBOID == franchiseOwnerID).Select(x => x.RegisterNo).FirstOrDefault();
 
                 var projectType = dbEntity.tblProjects.Where(x => x.ProjectID == bookingInfo.ProjectID).Select(x => x.ProjectType).FirstOrDefault();
                 var BSP = dbEntity.tblProjects.Where(x => x.ProjectID == bookingInfo.ProjectID).Select(x => x.BSP).FirstOrDefault();
@@ -693,8 +694,8 @@ namespace DataLayer
                 IMapper mapper9 = config9.CreateMapper();
                 mapper9.Map<BookingInformation, tblFranchiseBooking>(bookingInfo, tblFranchiseBooking);
                 tblFranchiseBooking.FranchiseID = bookingInfo.FranchiseID;
-                tblFranchiseBooking.FranchiseOwnerID = franchiseOwnerID;
-                tblFranchiseBooking.FranchiseOwnerName = franchiseOwnerName;
+                tblFranchiseBooking.FranchiseOwnerID = franchise.AgentID;
+                tblFranchiseBooking.FranchiseOwnerName = franchise.AgentName;
                 tblFranchiseBooking.Status = "Pending";
                 tblFranchiseBooking.CustomerName = bookingInfo.Name;
                 dbEntity.tblFranchiseBookings.Add(tblFranchiseBooking);
@@ -712,9 +713,9 @@ namespace DataLayer
         {
             try
             {
-                var franchiseOwnerID = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == bookingInfo.CreatedBy).Select(x => x.AgentID).FirstOrDefault();
-                var franchiseOwnerName = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == bookingInfo.CreatedBy).Select(x => x.AgentName).FirstOrDefault();
-                bookingInfo.FranchiseID = dbEntity.tblFranchiseRegistrations.Where(x => x.IBOID == franchiseOwnerID).Select(x => x.RegisterNo).FirstOrDefault();
+                //var franchiseOwnerID = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == bookingInfo.CreatedBy).Select(x => x.AgentID).FirstOrDefault();
+                //var franchiseOwnerName = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == bookingInfo.CreatedBy).Select(x => x.AgentName).FirstOrDefault();
+                //bookingInfo.FranchiseID = dbEntity.tblFranchiseRegistrations.Where(x => x.IBOID == franchiseOwnerID).Select(x => x.RegisterNo).FirstOrDefault();
                 var projectType = dbEntity.tblProjects.Where(x => x.ProjectID == bookingInfo.ProjectID).Select(x => x.ProjectType).FirstOrDefault();
                 var BSP = dbEntity.tblProjects.Where(x => x.ProjectID == bookingInfo.ProjectID).Select(x => x.BSP).FirstOrDefault();
                 var highestPercentage = dbEntity.sp_GetAgentPercentage(1, projectType, Convert.ToDateTime(bookingInfo.BookingDate)).FirstOrDefault();
@@ -874,7 +875,7 @@ namespace DataLayer
                     dbEntity.tblFlatWiseAgentCommissions.Add(fwac);
                 }
 
-
+                dbEntity.SaveChanges();
                 return true;
             }
             catch (Exception ex)
@@ -1261,7 +1262,7 @@ namespace DataLayer
         }
 
 
-        public List<PaymentInformation> BindPaymentDetailsForCancelledFlats(int FlatId)
+        public List<PaymentInformation> BindPaymentDetailsForCancelledFlats(Guid BookingID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
 
@@ -1275,7 +1276,7 @@ namespace DataLayer
                     cfg.CreateMap<sp_GetPaymentsForCancelledFlats_Result, PaymentInformation>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstPayDetails = mapper.Map<List<sp_GetPaymentsForCancelledFlats_Result>, List<PaymentInformation>>(dbEntity.sp_GetPaymentsForCancelledFlats(FlatId).ToList()).ToList();
+                lstPayDetails = mapper.Map<List<sp_GetPaymentsForCancelledFlats_Result>, List<PaymentInformation>>(dbEntity.sp_GetPaymentsForCancelledFlats(BookingID).ToList()).ToList();
                 //var bookingID = lstPayDetails[0].BookingID;
                 //lstPayDetails[0].Customer = dbEntity.tblCustomerInfoes.Where(x => x.BookingID == bookingID).Select(x => x.Name).ToList().FirstOrDefault().ToString();
             }
@@ -1450,6 +1451,32 @@ namespace DataLayer
             return lstAgents;
         }
 
+        public List<AgentMaster> BindFranchiseAgents(string username)
+        {
+            List<AgentMaster> lstAgents = new List<AgentMaster>();
+
+            try
+            {
+                var franchise = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == username).FirstOrDefault();
+                if (franchise.FranchiseID > 0)
+                {
+                    //lstCountry = dbEntity.tblProjects.ToList();
+                    var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentMaster, AgentMaster>();
+                });
+                    IMapper mapper = config.CreateMapper();
+                    lstAgents = mapper.Map<List<tblAgentMaster>, List<AgentMaster>>(dbEntity.tblAgentMasters.Where(x => x.FranchiseID == franchise.FranchiseID && x.AgenteMail != username).ToList()).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+
+            }
+            return lstAgents;
+        }
+
         public List<FlatWiseAgentCommission> BindAgentDashboard(string email)
         {
             List<FlatWiseAgentCommission> lstAgents = new List<FlatWiseAgentCommission>();
@@ -1585,7 +1612,7 @@ namespace DataLayer
             return lstAgents;
         }
 
-        public BookingInformation GetBookingInformationForCancelledFlats(int FlatID)
+        public BookingInformation GetBookingInformationForCancelledFlats(Guid bookingID)
         {
             try
             {
@@ -1596,7 +1623,7 @@ namespace DataLayer
                     cfg.CreateMap<sp_GetBookingInfoForCancelledFlats_Result, BookingInformation>();
                 });
                 IMapper mapper = config.CreateMapper();
-                return mapper.Map<sp_GetBookingInfoForCancelledFlats_Result, BookingInformation>(dbEntity.sp_GetBookingInfoForCancelledFlats(FlatID).FirstOrDefault());
+                return mapper.Map<sp_GetBookingInfoForCancelledFlats_Result, BookingInformation>(dbEntity.sp_GetBookingInfoForCancelledFlats(bookingID).FirstOrDefault());
             }
             catch (Exception ex)
             {
@@ -2718,12 +2745,16 @@ namespace DataLayer
             try
             {
                 var IBOID = dbEntity.tblFranchiseRegistrations.Where(x => x.RegisterNo == fr.RegisterNo).Select(x => x.IBOID).FirstOrDefault();
-                var email = dbEntity.tblAgentMasters.Where(x => x.AgentID == IBOID).Select(x => x.AgenteMail).FirstOrDefault();
-                var userID = dbEntity.AspNetUsers.Where(x => x.Email == email).Select(x => x.Id).FirstOrDefault();
+                //var agentFranchise = dbEntity.tblAgentMasters.Where(x => x.)
+
+
+                var agent = dbEntity.tblAgentMasters.Where(x => x.AgentID == IBOID).FirstOrDefault();
+                var userID = dbEntity.AspNetUsers.Where(x => x.Email == agent.AgenteMail).Select(x => x.Id).FirstOrDefault();
                 var roleID = dbEntity.AspNetRoles.Where(x => x.Name == "Franchise Owner").Select(x => x.Id).FirstOrDefault();
                 dbEntity.sp_CreateUserRole(userID, roleID);
+                agent.FranchiseID = fr.RegisterNo;
                 dbEntity.SaveChanges();
-                return email;
+                return agent.AgenteMail;
             }
             catch
             {
@@ -2878,6 +2909,37 @@ namespace DataLayer
             {
                 return false;
             }
+        }
+
+        public bool CheckFranchiseRegistered(string username)
+        {
+            try
+            {
+                var existingFranchise = dbEntity.tblFranchiseRegistrations.Where(x => x.CreatedBy == username && x.Status == "MD Approved").FirstOrDefault();
+                if (existingFranchise != null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public int? GetFranchiseID(string username)
+        {
+            var franchise = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == username).FirstOrDefault();
+            if (franchise != null)
+            {
+                return franchise.FranchiseID;
+            }
+            else
+                return null;
         }
     }
 }

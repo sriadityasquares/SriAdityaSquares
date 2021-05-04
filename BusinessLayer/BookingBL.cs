@@ -164,9 +164,9 @@ namespace BusinessLayer
             return db.BindPaymentDetails(FlatId);
         }
 
-        public List<PaymentInformation> BindPaymentDetailsForCancelled(int FlatId)
+        public List<PaymentInformation> BindPaymentDetailsForCancelled(Guid BookingID)
         {
-            return db.BindPaymentDetailsForCancelledFlats(FlatId);
+            return db.BindPaymentDetailsForCancelledFlats(BookingID);
         }
 
         public List<AgentPaymentInformation> BindAgentPaymentDetails(int FlatId)
@@ -202,6 +202,11 @@ namespace BusinessLayer
             return db.BindAgents();
         }
 
+        public List<AgentMaster> BindFranchiseAgents(string username)
+        {
+            return db.BindFranchiseAgents(username);
+        }
+
         public List<FlatWiseAgentCommission> BindAgentDashboard(string email)
         {
             return db.BindAgentDashboard(email);
@@ -231,9 +236,9 @@ namespace BusinessLayer
             return db.GetBookingInformation(FlatID);
         }
 
-        public BookingInformation GetBookingInformationForCancelledFlats(int FlatID)
+        public BookingInformation GetBookingInformationForCancelledFlats(Guid bookingID)
         {
-            return db.GetBookingInformationForCancelledFlats(FlatID);
+            return db.GetBookingInformationForCancelledFlats(bookingID);
         }
 
         public GetPaymentsDetails GetPaymentInformation(int paymentID)
@@ -521,5 +526,14 @@ namespace BusinessLayer
             return db.UpdateNews(nd);
         }
 
+        public bool CheckFranchiseRegistered(string username)
+        {
+            return db.CheckFranchiseRegistered(username);
+        }
+
+        public int? GetFranchiseID(string username)
+        {
+            return db.GetFranchiseID(username);
+        }
     }
 }

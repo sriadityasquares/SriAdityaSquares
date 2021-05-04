@@ -233,6 +233,22 @@ namespace LoginApp.Controllers
 
         }
 
+
+        public JsonResult GetTowersforDashBoard(int ProjectId)
+        {
+            List<Towers> towerList = new List<Towers>();
+            if (!User.IsInRole("Customer"))
+            {
+                towerList = booking.BindTowers(ProjectId);
+            }
+            else
+            {
+                towerList = booking.BindCustomerTowers(User.Identity.Name);
+            }
+            return Json(towerList, JsonRequestBehavior.AllowGet);
+
+        }
+
         public JsonResult GetFlats(int TowerId)
         {
             List<Flats> CityList = booking.BindFlats(TowerId);
@@ -347,8 +363,24 @@ namespace LoginApp.Controllers
             List<PaymentInformation> lstPayments = new List<PaymentInformation>();
             if (!backup)
                 lstPayments = booking.BindPaymentDetails(flatID);
-            else
-                lstPayments = booking.BindPaymentDetailsForCancelled(flatID);
+            
+
+            foreach (var item in lstPayments)
+            {
+                if (item.ChequeDate != null)
+                    item.FormattedDate = Convert.ToDateTime(item.ChequeDate).Date.ToShortDateString();
+                else
+                    item.FormattedDate = "";
+
+            }
+            return Json(lstPayments, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetPaymentsForCancelledFlats(string BookingID)
+        {
+            List<PaymentInformation> lstPayments = new List<PaymentInformation>();
+         
+            lstPayments = booking.BindPaymentDetailsForCancelled(Guid.Parse(BookingID));
 
             foreach (var item in lstPayments)
             {
@@ -702,13 +734,13 @@ namespace LoginApp.Controllers
             List<Projects> projectList = new List<Projects>();
             if (!User.IsInRole("Franchise Owner"))
             {
-                projectList  = booking.BindProjects();
+                projectList = booking.BindProjects();
             }
             else
             {
                 projectList = booking.BindFranchiseProjects(User.Identity.Name);
             }
-            
+
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             TempData.Keep("ProjectList");
             return View();
@@ -1126,7 +1158,8 @@ namespace LoginApp.Controllers
             if (!backup)
                 result = booking.GetBookingInformation(flatID);
             else
-                result = booking.GetBookingInformationForCancelledFlats(flatID);
+                //result = booking.GetBookingInformationForCancelledFlats(flatID);
+                result = new ModelLayer.BookingInformation();
             TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
             CultureInfo inr = new CultureInfo("hi-IN");
             var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
@@ -1167,13 +1200,17 @@ namespace LoginApp.Controllers
                 .Replace("#OtherCharges", result.OtherCharges.ToString() != "0" ? string.Format(inr, "{0:#,#}", result.OtherCharges) : "0")
                 .Replace("#ClubHouse", result.ClubHouseCharges.ToString() != "0" ? string.Format(inr, "{0:#,#}", result.ClubHouseCharges) : "0")
                 .Replace("#AgentName", result.AgentName);
+            if(result.GSTAmount !=null)
+            {
+                html = html + "<p style='color:red;'>*Total amount is inclusive of 5% GST*</p>";
+            }
             return Json(html, JsonRequestBehavior.AllowGet);
         }
 
 
-        public JsonResult GetCheckListForCancelledFlats(int flatID)
+        public JsonResult GetCheckListForCancelledFlats(string BookingID)
         {
-            var result = booking.GetBookingInformation(flatID);
+            var result = booking.GetBookingInformationForCancelledFlats(Guid.Parse(BookingID));
             TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
             CultureInfo inr = new CultureInfo("hi-IN");
             var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);

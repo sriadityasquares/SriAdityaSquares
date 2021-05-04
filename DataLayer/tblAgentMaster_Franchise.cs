@@ -12,9 +12,9 @@ namespace DataLayer
     using System;
     using System.Collections.Generic;
     
-    public partial class tblAgentMaster
+    public partial class tblAgentMaster_Franchise
     {
-        public int AgentID { get; set; }
+        public int ID { get; set; }
         public string AgentCode { get; set; }
         public string AgentName { get; set; }
         public Nullable<long> AgentMobileNo { get; set; }

@@ -47,6 +47,11 @@ namespace BusinessLayer
         {
             return db.BindAgents2();
         }
+
+        public List<AgentDropdown> BindAgents2Franchise(string username)
+        {
+            return db.BindAgents2Franchise(username);
+        }
         public List<Status> BindStatus2()
         {
             return db.BindStatus2();
@@ -57,7 +62,10 @@ namespace BusinessLayer
             return db.BindDesignations();
         }
 
-        
+        public List<Designations> BindDesignationsForFranchise()
+        {
+            return db.BindDesignationsForFranchise();
+        }
 
         public List<Designations> GetDesignations(string username)
         {

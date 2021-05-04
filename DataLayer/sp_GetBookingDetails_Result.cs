@@ -68,6 +68,9 @@ namespace DataLayer
         public Nullable<int> IBOShare { get; set; }
         public Nullable<int> CompanyShare { get; set; }
         public Nullable<int> SchemePercentage { get; set; }
+        public Nullable<double> GSTPercentage { get; set; }
+        public Nullable<int> GSTAmount { get; set; }
+        public Nullable<int> FranchiseID { get; set; }
         public Nullable<int> Pincode { get; set; }
         public string Address { get; set; }
         public Nullable<int> Age { get; set; }

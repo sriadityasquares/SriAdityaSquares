@@ -297,7 +297,7 @@
             // $("#ProjectID").val() = 1;
             document.getElementById('ProjectID').value = proID;
             //element.value = proID;
-            $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+            $.get("/Booking/GetTowersforDashBoard", { ProjectId: $("#ProjectID").val() }, function (data) {
                 $("#TowerID").empty();
                 $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
                 //$("#FlatID").empty();
@@ -497,7 +497,7 @@
         var SchemeList;
         $("#ProjectID").change(function () {
 
-            $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+            $.get("/Booking/GetTowersforDashBoard", { ProjectId: $("#ProjectID").val() }, function (data) {
                 $("#TowerID").empty();
                 $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
                 $("#FlatID").empty();

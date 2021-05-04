@@ -2,14 +2,14 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Admin = "active";
-    ViewBag.Agent = "active";
+    ViewBag.Franchise = "active";
+    ViewBag.FranchiseAgents = "active";
 }
 
 <div class="jumbotron">
     <div class="row">
         <div class="col-md-1 col-xs">
-            <h3 align="center" style="margin-bottom:2px">AGENTS</h3>
+            <h3 align="center" style="margin-bottom:2px">FRANCHISE AGENTS</h3>
             <div class="specialLine"></div>
         </div>
 
@@ -25,13 +25,13 @@
     </script>*@
 <script>
         var exception = '@ViewData["Exception"]';
-  
+
     var designations = [];
     $(document).ready(function () {
         dataSource = new kendo.data.DataSource({
             transport: {
                 read: {
-                    url: "/Agent/Details",
+                    url: "/Agent/FranchiseAgentDetails",
                     contentType: "application/json",
                     dataType: "json",
                     type: "POST"
@@ -60,16 +60,16 @@
                     url: "/Agent/CreateAgent",
                     dataType: "json",
                     complete: function (jqXhr, textStatus) {
-                       
+
                         if (jqXhr.responseText == "true") {
                             toastr.success('Added Successfull');
                             $("#grid").data("kendoGrid").dataSource.read();
                         }
                         else {
-                            
-                            toastr.error('Error in Adding agent because of Duplicate Agent Code or while Creating Agent login');
+
+                            toastr.error('Error in Adding agent because of Duplicate Agent Code/Email/Mobile');
                                 $("#grid").data("kendoGrid").dataSource.read();
-                            
+
                         }
                     }
                 },
@@ -98,14 +98,11 @@
                         AgentBankIFSC: { validation: { required: false } },
                         AgentSponserCode: { validation: { required: false } },
                         AgentSuperSponserCode: { validation: { required: false } },
-                        AgentStatus: { validation: { required: false } },
+                        //AgentStatus: { validation: { required: false } },
                         Designation: { validation: { required: false } },
                         OldDesignation: { validation: { required: false } },
                         EffectivePercentageDate: { validation: { required: false } },
-                        FranchiseID: { validation: { required: false } },
-                        //EffectivePercentageDate: { type: "number" },
-                       // AgentParent: { validation: { required: false } },
-                        //AgentChild: { validation: { required: false }, maxlength: "999" }
+                        
                     }
                 }
             }
@@ -152,7 +149,7 @@
                 { field: "AgentBankIFSC", title: "IFSC", width: "80px" },
                 { field: "AgentSponserCode", title: "SP Code", width: "100px" },
                 { field: "AgentSuperSponserCode", title: "SSP Code", width: "100px" },
-                { field: "AgentStatus", title: "Status", width: "100px", editor: statusDropDownEditor },
+                //{ field: "AgentStatus", title: "Status", width: "100px", editor: statusDropDownEditor },
                 {
                     field: "Designation", title: "Designation", width: "170px", template: $("#template1").html(), editor: function (container) { // use a dropdownlist as an editor
                         //create an input element with id and name set as the bound field (brandId)
@@ -193,7 +190,6 @@
                     //format: "{0:yyyy-MM-dd HH:mm}",
                     editor: dateTimeEditor
                 },
-                { field: "FranchiseID", title: "Franchise ID", width: "130px" },
                 //{ field: "EffectivePercentageDate", title: "Effective % Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(EffectivePercentageDate), "dd/MM/yyyy")#'},
                 //{ field: "AgentParent", title: "Agent Parent", width: "240px", editor: parentDropDownEditor },
                 //{ field: "AgentChild", title: "Agent Child", width: "240px", editor: childDropDownEditor },
@@ -243,15 +239,15 @@
                     }
                 });
         }
-        
-        
-        $.getJSON('/Cascade/GetDesignations', function (response) {
+
+
+        $.getJSON('/Cascade/GetDesignationsForFranchise', function (response) {
             if (response != null) {
                 designations = response;
             }
         });
 
-       
+
         function designationDropDownEditor(container, options) {
             $('<input required name="' + options.field + '"/>')
                 .appendTo(container)

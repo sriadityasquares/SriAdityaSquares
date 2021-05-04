@@ -167,6 +167,26 @@ namespace DataLayer
             return lstAgent;
         }
 
+        public List<AgentDropdown> BindAgents2Franchise(string username)
+        {
+            List<AgentDropdown> lstAgent = new List<AgentDropdown>();
+            try
+            {
+                var franchiseID = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == username).Select(x => x.FranchiseID).FirstOrDefault();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentMaster, AgentDropdown>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<AgentDropdown>>(dbEntity.tblAgentMasters.Where(x => x.AgentStatus == "A" && x.FranchiseID == franchiseID).OrderBy(x => x.AgentName).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstAgent;
+        }
+
         public List<Status> BindStatus2()
         {
             List<Status> lstStatus = new List<Status>();
@@ -198,6 +218,25 @@ namespace DataLayer
                 });
                 IMapper mapper = config.CreateMapper();
                 lstDesignations = mapper.Map<List<tblDesignation>, List<Designations>>(dbEntity.tblDesignations.Where(x => x.Active == true).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstDesignations;
+        }
+
+        public List<Designations> BindDesignationsForFranchise()
+        {
+            List<Designations> lstDesignations = new List<Designations>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblDesignation, Designations>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstDesignations = mapper.Map<List<tblDesignation>, List<Designations>>(dbEntity.tblDesignations.Where(x => x.Active == true && x.ConstructionPercentage >=4 && x.ConstructionPercentage <=6.75).ToList()).ToList();
             }
             catch (Exception ex)
             {

@@ -39,12 +39,18 @@ namespace ModelLayer
 
         public bool isDuplicateAgentCode { get; set; }
 
+        public bool isDuplicateAgentEmail { get; set; }
+
+        public bool isDuplicateAgentMobile { get; set; }
+
         public int Designation { get; set; }
 
         public Nullable<int> OldDesignation { get; set; }
         public Nullable<System.DateTime> EffectivePercentageDate { get; set; }
 
+        public Nullable<int> FranchiseID { get; set; }
 
-        
+
+
     }
 }

@@ -2121,6 +2121,7 @@
     <Content Include="Views\Booking\DisplayProjectGallery.cshtml" />
     <Content Include="Views\Booking\AddNews.cshtml" />
     <Content Include="Views\Franchise\FranchiseBookingApproval.cshtml" />
+    <Content Include="Views\Agent\FranchiseAgents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

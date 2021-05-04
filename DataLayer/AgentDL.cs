@@ -34,11 +34,12 @@ namespace DataLayer
                         cfg.CreateMap<AgentMaster, tblAgentMaster>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
                     });
                     IMapper mapper = config.CreateMapper();
+                    agentOld.FranchiseID = a.FranchiseID;
                     //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
                     mapper.Map<AgentMaster, tblAgentMaster>(a, agentOld);
 
                     dbEntity.SaveChanges();
-                   
+
                 }
                 return true;
             }
@@ -53,8 +54,13 @@ namespace DataLayer
         {
             try
             {
+                a.isDuplicateAgentCode = false;
+                a.isDuplicateAgentEmail = false;
+                a.isDuplicateAgentMobile = false;
                 var checkDuplicateAgentCode = dbEntity.tblAgentMasters.Where(x => x.AgentCode == a.AgentCode).FirstOrDefault();
-                if (checkDuplicateAgentCode == null)
+                var checkDuplicateEmail = dbEntity.tblAgentMasters.Where(x => x.AgenteMail == a.AgenteMail).FirstOrDefault();
+                var checkDuplicateMobile = dbEntity.tblAgentMasters.Where(x => x.AgentMobileNo == a.AgentMobileNo).FirstOrDefault();
+                if (checkDuplicateAgentCode == null && checkDuplicateEmail == null && checkDuplicateMobile == null)
                 {
                     a.BookingStatusName = null;
                     tblAgentMaster agentNew = new tblAgentMaster();
@@ -136,16 +142,25 @@ namespace DataLayer
                 }
                 else
                 {
-                    a.isDuplicateAgentCode = true;
-                    return false;
+                    //a.isDuplicateAgentCode = true;
+                    if (checkDuplicateAgentCode != null)
+                        a.isDuplicateAgentCode = true;
+                    else
+                        if (checkDuplicateEmail != null)
+                        a.isDuplicateAgentEmail = true;
+                    else
+                        if (checkDuplicateMobile != null)
+                        a.isDuplicateAgentMobile = true;
+                        return false;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Error :" + ex);
                 return false;
             }
         }
+
 
         public List<AgentDropdown> GetAgentMapping(int AgentID, int option)
         {
@@ -157,7 +172,7 @@ namespace DataLayer
                     cfg.CreateMap<sp_GetAgentMapping_Result, AgentDropdown>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstAgents = mapper.Map<List<sp_GetAgentMapping_Result>, List<AgentDropdown>>(dbEntity.sp_GetAgentMapping(AgentID,option).ToList()).ToList();
+                lstAgents = mapper.Map<List<sp_GetAgentMapping_Result>, List<AgentDropdown>>(dbEntity.sp_GetAgentMapping(AgentID, option).ToList()).ToList();
 
             }
             catch (Exception ex)
@@ -168,13 +183,13 @@ namespace DataLayer
             return lstAgents;
         }
 
-        public bool UpdateAgentMapping(int AgentID, int option, string agentList,string username)
+        public bool UpdateAgentMapping(int AgentID, int option, string agentList, string username)
         {
             try
             {
                 //a.BookingStatusName = null;
                 tblAgentMaster agentOld = dbEntity.tblAgentMasters.Where(x => x.AgentID == AgentID).FirstOrDefault();
-                
+
                 if (agentOld != null)
                 {
                     if (option == 1)

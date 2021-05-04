@@ -62,7 +62,16 @@ namespace LoginApp.Controllers
 
         public JsonResult GetAgents2()
         {
-            List<AgentDropdown> agentList = objCasc.BindAgents2();
+            List<AgentDropdown> agentList = new List<AgentDropdown>();
+            if (!User.IsInRole("Franchise Owner"))
+            {
+                agentList = objCasc.BindAgents2();
+            }
+            else
+            {
+                agentList = objCasc.BindAgents2Franchise(User.Identity.Name);
+            }
+            
             return Json(agentList, JsonRequestBehavior.AllowGet);
 
         }
@@ -78,6 +87,13 @@ namespace LoginApp.Controllers
         public JsonResult GetDesignations()
         {
             List<Designations> lstDesignations = objCasc.BindDesignations();
+            return Json(lstDesignations, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetDesignationsForFranchise()
+        {
+            List<Designations> lstDesignations = objCasc.BindDesignationsForFranchise();
             return Json(lstDesignations, JsonRequestBehavior.AllowGet);
 
         }

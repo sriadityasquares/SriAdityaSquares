@@ -27,5 +27,6 @@ namespace DataLayer
         public Nullable<System.DateTime> BookingDate { get; set; }
         public Nullable<System.DateTime> CancelDate { get; set; }
         public string Comments { get; set; }
+        public Nullable<System.Guid> BookingID { get; set; }
     }
 }

@@ -8,16 +8,14 @@
     <link rel="icon" src="~/Content/Images/SASBLACKLOGO.ico" href="~/Content/Images/SASBLACKLOGO.ico" sizes="192x192">
 
     <link rel="apple-touch-icon-precomposed" href="">
-    @*<link href="~/Content/kendo/2013.1.319/kendo.common.min.css" rel="stylesheet" />
-        <link href="~/Content/kendo/2013.1.319/kendo.default.min.css" rel="stylesheet" />*@
-    @*<link href="~/Content/kendo/2014.1.318/kendo.common.min.css" rel="stylesheet" />*@
+   
     <link href="~/Content/kendo/2019.3.917/kendo.common.min.css" rel="stylesheet" />
-    @*<link href="~/Content/kendo/2014.1.318/kendo.default.min.css" rel="stylesheet" />*@
+   
     <link href="~/Content/kendo/2019.3.917/kendo.default.min.css" rel="stylesheet" />
     <link href="~/Content/css/select2.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
-    @*@Styles.Render("~/Content/css")*@
+    
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -338,7 +336,13 @@
                                         <a class="@(ViewBag.FranchiseBookings)" href="@Url.Action("FranchiseBookingApproval", "Franchise")">FRANCHISE BOOKING APPROVALS</a>
                                     </li>
                                 }
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Franchise Owner"))
+                                {
 
+                                    <li>
+                                        <a class="@(ViewBag.FranchiseAgents)" href="@Url.Action("FranchiseAgents", "Agent")">ADD FRANCHISE AGENTS</a>
+                                    </li>
+                                }
 
 
                             </ul>
@@ -651,7 +655,7 @@
                             </ul>
                         </li>
                     }
-                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent") )
                     {
                         <li class="sub-menu @(ViewBag.Franchise)">
                             <a href="javascript:void(0);"><i class="fa fa-handshake-o"></i><span>FRANCHISE</span><i class="arrow fa fa-angle-right pull-right"></i></a>
@@ -671,7 +675,13 @@
                                         <a class="@(ViewBag.FranchiseBookings)" href="@Url.Action("FranchiseBookingApproval", "Franchise")">FRANCHISE BOOKING APPROVALS</a>
                                     </li>
                                 }
-
+                                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Franchise Owner"))
+                                {
+                                    
+                                    <li>
+                                        <a class="@(ViewBag.FranchiseAgents)" href="@Url.Action("FranchiseAgents", "Agent")">ADD FRANCHISE AGENTS</a>
+                                    </li>
+                                }
 
 
                             </ul>
@@ -773,26 +783,26 @@
         $('li.sub-menu active').removeClass('active');
         $(this).addClass('sub-menu active');
     });
-    document.addEventListener('contextmenu', function (e) {
-        e.preventDefault();
-    });
-    document.onkeydown = function (e) {
-        if (event.keyCode == 123) {
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-            return false;
-        }
-        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-            return false;
-        }
-    }
+    //document.addEventListener('contextmenu', function (e) {
+    //    e.preventDefault();
+    //});
+    //document.onkeydown = function (e) {
+    //    if (event.keyCode == 123) {
+    //        return false;
+    //    }
+    //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+    //        return false;
+    //    }
+    //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+    //        return false;
+    //    }
+    //    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+    //        return false;
+    //    }
+    //    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+    //        return false;
+    //    }
+    //}
 
 </script>
 

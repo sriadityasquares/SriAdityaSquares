@@ -21,6 +21,11 @@ namespace BusinessLayer
             return agent.AddAgent(a);
         }
 
+        //public bool AddFranchiseAgent(AgentMaster_Franchise a)
+        //{
+        //    return agent.AddFranchiseAgent(a);
+        //}
+
         public List<AgentDropdown> GetAgentMapping(int AgentID, int option)
         {
             return agent.GetAgentMapping(AgentID, option);

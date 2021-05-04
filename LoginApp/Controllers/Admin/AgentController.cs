@@ -15,7 +15,7 @@ using System.Web.Mvc;
 
 namespace LoginApp.Controllers.Admin
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Franchise Owner")]
     public class AgentController : Controller
     {
         private static readonly ILog log =
@@ -37,6 +37,8 @@ namespace LoginApp.Controllers.Admin
                 _userManager = value;
             }
         }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View();
@@ -90,6 +92,11 @@ namespace LoginApp.Controllers.Admin
                 List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models, settings);
                 data[0].CreatedBy = User.Identity.Name;
                 data[0].CreatedDate = DateTime.Now;
+                if(User.IsInRole("Franchise Owner"))
+                {
+                    data[0].AgentStatus = "I";
+                    data[0].FranchiseID = booking.GetFranchiseID(User.Identity.Name);
+                }
                 var result = agent.AddAgent(data[0]);
                 if (result)
                 {
@@ -137,6 +144,20 @@ namespace LoginApp.Controllers.Admin
                         ViewData["Exception"] = "Duplicate Agent Code";
                         Convert.ToInt32("Duplicate Agent Code");
                     }
+
+                    else
+                        if (data[0].isDuplicateAgentEmail) {
+                        ViewData["Exception"] = "Duplicate Agent Email";
+                        Convert.ToInt32("Duplicate Agent Email");
+                    }
+
+                     
+                    else
+                        if (data[0].isDuplicateAgentMobile){
+                        ViewData["Exception"] = "Duplicate Agent Mobile";
+                        Convert.ToInt32("Duplicate Agent Mobile");
+                    }
+                       
                 }
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -157,6 +178,11 @@ namespace LoginApp.Controllers.Admin
                
                 ViewData["Exception"] = "Empty";
                 List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models);
+                if (User.IsInRole("Franchise Owner"))
+                {
+                    data[0].AgentStatus = "I";
+                    data[0].FranchiseID = booking.GetFranchiseID(User.Identity.Name);
+                }
                 data[0].UpdatedBy = User.Identity.Name;
                 data[0].UpdatedDate = DateTime.Now;
                 
@@ -195,6 +221,61 @@ namespace LoginApp.Controllers.Admin
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Admin,Franchise Owner")]
+        public ActionResult FranchiseAgents()
+        {
+            return View();
+        }
 
+        public ActionResult FranchiseAgentDetails()
+        {
+            var agentsList = new List<AgentMaster>();
+            try
+            {
+                agentsList = booking.BindFranchiseAgents(User.Identity.Name);
+                ViewData["Exception"] = "Empty";
+                foreach (var item in agentsList)
+                {
+                    switch (item.AgentStatus)
+                    {
+                        case "A":
+                            item.BookingStatusName = "ACTIVE";
+                            break;
+                        case "I":
+                            item.BookingStatusName = "INACTIVE";
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return Json(agentsList, JsonRequestBehavior.AllowGet);
+        }
+        
+
+
+        // POST: Project/Edit/5
+        [HttpGet]
+        public ActionResult UpdateFranchiseAgent(string models)
+        {
+            try
+            {
+
+                ViewData["Exception"] = "Empty";
+                List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models);
+                data[0].UpdatedBy = User.Identity.Name;
+                data[0].UpdatedDate = DateTime.Now;
+
+                var result = agent.UpdateAgent(data[0]);
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

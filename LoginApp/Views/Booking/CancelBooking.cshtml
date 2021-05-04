@@ -356,6 +356,8 @@
                         Project: { editable: false },
                         Tower: { editable: false },
                         Flat: { editable: false },
+                        FlatID: { editable: false },
+                        BookingID: { editable: false },
                         CustomerName: { editable: false },
                         AgentName: { editable: false },
                         BookingAmount: { editable: false },
@@ -382,8 +384,10 @@
                 allPages: true
             },
             columns: [
-                { field: "FlatID", title: "FlatID", width: "100px", template: '<button  onclick="GetCheckList(#=FlatID#)">#=FlatID#</button>' },
+                
+                { field: "FlatID", title: "Flat ID", width: "180px", template: '<button  onclick="GetCheckList(\'' + '#=BookingID#' +'\')">#=FlatID#</button>'},
 
+                
                 { field: "Project", title: "Project", width: "100px", editable: false },
                 { field: "Tower", title: "Tower", width: "80px", editable: false },
                 { field: "Flat", title: "Flat", width: "80px" },
@@ -406,12 +410,13 @@
 
     });
 
-        function GetCheckList(flatID) {
-            $.get("/Booking/GetCheckList", { flatID: flatID,backup: true }, function (data) {
+        function GetCheckList(BookingID) {
+            
+            $.get("/Booking/GetCheckListForCancelledFlats", { BookingID: BookingID }, function (data) {
                 $("#content").empty();
                 $("#content").append(data);
 
-                $.get("/Booking/GetPaymentDetails", { flatID: flatID, backup: true }, function (data) {
+                $.get("/Booking/GetPaymentsForCancelledFlats", { BookingID: BookingID }, function (data) {
                     var TotalPaid = 0;
                     var BalanceAmount = "";
                     var TotalPaid = 0;

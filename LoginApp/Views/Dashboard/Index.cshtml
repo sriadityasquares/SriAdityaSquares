@@ -103,7 +103,7 @@
         role = '@TempData["UserRole"]';
     });
     $("#Project").change(function () {
-        $.get("/Booking/GetTowers", { ProjectId: $("#Project").val() }, function (data) {
+        $.get("/Booking/GetTowersforDashBoard", { ProjectId: $("#Project").val() }, function (data) {
             $("#Tower").empty();
             $("#Tower").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
 

@@ -62,70 +62,82 @@ namespace LoginApp.Controllers
         [HttpPost]
         public ActionResult Register(FranchiseRegistration fr)
         {
-            Random generator = new Random();
-            int r = generator.Next(0, 1000000);
-            fr.RegisterNo = r;
+
+
+            
 
             //var path = System.AppContext.BaseDirectory + @"Content\Franchise\"+ fr.Receipt.FileName;
             try
             {
-                var path = Server.MapPath("~/Franchise/");
-
-                if (!System.IO.Directory.Exists(path))
+                if (!booking.CheckFranchiseRegistered(User.Identity.Name))
                 {
-                    System.IO.Directory.CreateDirectory(path);
-                }
-                string extension = Path.GetExtension(fr.Receipt.FileName);
-                string path1 = path + r + extension;
-                fr.Receipt.SaveAs(path1);
-                fr.ReceiptPath = path1;
-                fr.CreatedBy = User.Identity.Name;
-                fr.CreatedDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss");
-                fr.Status = "Submitted";
-                fr.Comments = "";
-                fr.Amount = 500000;
-                fr.Duration = "5";
+                    Random generator = new Random();
+                    int r = generator.Next(0, 1000000);
+                    fr.RegisterNo = r;
+                    var path = Server.MapPath("~/Franchise/");
 
-                var result = booking.RegisterFranchise(fr);
-                if (result)
-                {
-                    ViewBag.Result = true;
-                    ViewBag.Message = "Your Franchise has been successfully Registered with Reg no : " + r + " .Please check the status of approval with the same reg no.";
-                    try
+                    if (!System.IO.Directory.Exists(path))
                     {
-                        MailMessage msg = new MailMessage();
-                        SmtpClient smtp = new SmtpClient();
-                        msg.From = new MailAddress("Info@sasinfra.in");
-                        msg.To.Add(new MailAddress(User.Identity.Name));
-                        msg.To.Add(new MailAddress("nsrinivas78@gmail.com"));
-                        msg.To.Add(new MailAddress("manojvenkat8@gmail.com"));
-                        //msg.To.Add(new MailAddress("Info@sasinfra.in"));
-                        msg.Subject = "SAS : Franchise Registration";
-                        //Attachment attachment = new Attachment();
-                        //attachment.
-                        if (fr.Receipt != null)
-                        {
-                            msg.Attachments.Add(new Attachment(fr.Receipt.InputStream, fr.Receipt.FileName));
-                        }
-                        msg.IsBodyHtml = true; //to make message body as html  
-                        msg.Body = "<html><b>Your Franchise has been successfully Registered with Reg no : " + r + " <b><br/>" +
-                            "<b>You can check the status of your franchise approval using the link : <a href='https://sasinfra.in/Franchise/AgreementStatus?id=" + r + "'>CHECK STATUS</a></b></html> ";
-                        smtp.Port = 587;
-                        smtp.Host = "mail.privateemail.com"; //for gmail host  
-                        smtp.EnableSsl = true;
-                        smtp.UseDefaultCredentials = false;
-                        smtp.Credentials = new NetworkCredential("Info@sasinfra.in", "sasinfo@123");
-                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtp.Send(msg);
+                        System.IO.Directory.CreateDirectory(path);
                     }
-                    catch (Exception ex) {
-                        ViewBag.Message = ex.Message;
+                    string extension = Path.GetExtension(fr.Receipt.FileName);
+                    string path1 = path + r + extension;
+                    fr.Receipt.SaveAs(path1);
+                    fr.ReceiptPath = path1;
+                    fr.CreatedBy = User.Identity.Name;
+                    fr.CreatedDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss");
+                    fr.Status = "Submitted";
+                    fr.Comments = "";
+                    fr.Amount = 500000;
+                    fr.Duration = "5";
+
+                    var result = booking.RegisterFranchise(fr);
+                    if (result)
+                    {
+                        ViewBag.Result = true;
+                        ViewBag.Message = "Your Franchise has been successfully Registered with Reg no : " + r + " .Please check the status of approval with the same reg no.";
+                        try
+                        {
+                            MailMessage msg = new MailMessage();
+                            SmtpClient smtp = new SmtpClient();
+                            msg.From = new MailAddress("Info@sasinfra.in");
+                            msg.To.Add(new MailAddress(User.Identity.Name));
+                            msg.To.Add(new MailAddress("nsrinivas78@gmail.com"));
+                            msg.To.Add(new MailAddress("manojvenkat8@gmail.com"));
+                            //msg.To.Add(new MailAddress("Info@sasinfra.in"));
+                            msg.Subject = "SAS : Franchise Registration";
+                            //Attachment attachment = new Attachment();
+                            //attachment.
+                            if (fr.Receipt != null)
+                            {
+                                msg.Attachments.Add(new Attachment(fr.Receipt.InputStream, fr.Receipt.FileName));
+                            }
+                            msg.IsBodyHtml = true; //to make message body as html  
+                            msg.Body = "<html><b>Your Franchise has been successfully Registered with Reg no : " + r + " <b><br/>" +
+                                "<b>You can check the status of your franchise approval using the link : <a href='https://sasinfra.in/Franchise/AgreementStatus?id=" + r + "'>CHECK STATUS</a></b></html> ";
+                            smtp.Port = 587;
+                            smtp.Host = "mail.privateemail.com"; //for gmail host  
+                            smtp.EnableSsl = true;
+                            smtp.UseDefaultCredentials = false;
+                            smtp.Credentials = new NetworkCredential("Info@sasinfra.in", "sasinfo@123");
+                            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                            smtp.Send(msg);
+                        }
+                        catch (Exception ex)
+                        {
+                            ViewBag.Message = ex.Message;
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Result = false;
+                        ViewBag.Message = "Franchise Registration failed";
                     }
                 }
                 else
                 {
                     ViewBag.Result = false;
-                    ViewBag.Message = "Franchise Registration failed";
+                    ViewBag.Message = "There is already a franchise registered for your login. You cannot register for multiple franchises";
                 }
             }
             catch (Exception ex)

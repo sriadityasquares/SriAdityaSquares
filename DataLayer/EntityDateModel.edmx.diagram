@@ -44,7 +44,6 @@
         <EntityTypeShape EntityType="salesDBModel.tblFranchiseRegistration" Width="1.5" PointX="9.375" PointY="19.75" />
         <EntityTypeShape EntityType="salesDBModel.tblFranchiseRegistrationStatu" Width="1.5" PointX="3.375" PointY="13.75" />
         <EntityTypeShape EntityType="salesDBModel.tblDesignation" Width="1.5" PointX="19.375" PointY="17.75" />
-        <EntityTypeShape EntityType="salesDBModel.tblAgentMaster" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblFlat" Width="1.5" PointX="5.625" PointY="0.75" />
         <AssociationConnector Association="salesDBModel.FK_Flats1" />
         <AssociationConnector Association="salesDBModel.FK_Flats1_bkp" />
@@ -62,6 +61,8 @@
         <EntityTypeShape EntityType="salesDBModel.tblPaymentInfo_Franchise" Width="1.5" PointX="21.375" PointY="22.75" />
         <EntityTypeShape EntityType="salesDBModel.tblFranchiseBooking" Width="1.5" PointX="13.375" PointY="23.75" />
         <EntityTypeShape EntityType="salesDBModel.tblBookingInformationAudit" Width="1.5" PointX="23.375" PointY="14.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblAgentMaster" Width="1.5" PointX="15.375" PointY="23.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblAgentMaster_Franchise" Width="1.5" PointX="24.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

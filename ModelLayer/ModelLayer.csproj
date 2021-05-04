@@ -49,6 +49,7 @@
     <Compile Include="AgentGraphicalMapping.cs" />
     <Compile Include="AgentLevel.cs" />
     <Compile Include="AgentMaster.cs" />
+    <Compile Include="AgentMaster_Franchise.cs" />
     <Compile Include="AgentPaymentInformation.cs" />
     <Compile Include="AgentProjectLevel.cs" />
     <Compile Include="AgentTotalPayments.cs" />
