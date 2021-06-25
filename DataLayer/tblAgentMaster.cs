@@ -40,5 +40,10 @@ namespace DataLayer
         public Nullable<int> OldDesignation { get; set; }
         public Nullable<System.DateTime> EffectivePercentageDate { get; set; }
         public Nullable<int> FranchiseID { get; set; }
+        public string Gender { get; set; }
+        public string MaritalStatus { get; set; }
+        public string Dob { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
     }
 }

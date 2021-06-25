@@ -328,6 +328,11 @@ namespace LoginApp.Controllers
                     {
                         //payInfo.CreatedDate = DateTime.ParseExact(payInfo.PaymentDate, "dd/MM/yyyy", null);
                         payInfo.CreatedBy = User.Identity.Name;
+                        if (User.IsInRole("Franchise Owner"))
+                            payInfo.ViewReceipt = false;
+                        else
+                            payInfo.ViewReceipt = true;
+                        
                         if (payInfo.PaymentModeID == "1")
                             payInfo.ChequeStatus = "Received";
                         else
@@ -1359,5 +1364,69 @@ namespace LoginApp.Controllers
 
         }
 
+        public ActionResult ApprovePaymentReceipt()
+        {
+            return View();
+        }
+
+        public JsonResult GetPaymentReceiptsForApproval()
+        {
+            var result = booking.GetPaymentReceiptsForApproval();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult UpdatePaymentReceiptsForApproval(string models)
+        {
+            List<GetPaymentReceiptApproval> data = JsonConvert.DeserializeObject<List<GetPaymentReceiptApproval>>(models);
+            
+            var result = booking.UpdatePaymentReceiptsForApproval(data[0]);
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult IBOAdvance()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            List<AgentMaster> agentList = booking.BindAgents();
+            TempData["AgentList"] = new SelectList(agentList, "AgentID", "AgentName");
+            TempData.Keep("ProjectList");
+            TempData.Keep("AgentList");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult IBOAdvance(IBOAdvanceForm advanceForm)
+        {
+
+            advanceForm.CreatedBy = User.Identity.Name;
+            advanceForm.CreatedDate = DateTime.Now;
+
+            var result = booking.ADDIBOAdvance(advanceForm);
+            if (result)
+            {
+                TempData["successmessage"] = "IBO Advance Added Successfully";
+
+            }
+            else
+            {
+                TempData["successmessage"] = "IBO Advance Adding Failed, the flat selected in invalid for the selected IBO";
+            }
+            ModelState.Clear();
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            List<AgentMaster> agentList = booking.BindAgents();
+            TempData["AgentList"] = new SelectList(agentList, "AgentID", "AgentName");
+            TempData.Keep("ProjectList");
+            TempData.Keep("AgentList");
+            return View();
+        }
+
+        public JsonResult GetIBOAdvances()
+        {
+            var result = booking.GetIBOAdvances();
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

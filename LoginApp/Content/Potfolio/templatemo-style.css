@@ -236,7 +236,7 @@ a:focus {
 }
 
 /* Introduction */
-#introduction {
+#introduction, #companyProfile {
     /*background-image: url('../Images/fantasy-2543658.jpg');*/
     background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)),url('../Images/joana.jpg');
     background-size: cover;

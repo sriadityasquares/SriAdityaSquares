@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "ApprovePaymentReceipt";
+    ViewBag.ApprovePaymentReceipt = "true";
+    ViewBag.Admin = "true";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">PAYMENT RECEIPT APPROVALS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Booking/GetPaymentReceiptsForApproval",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Booking/UpdatePaymentReceiptsForApproval",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                destroy: {
+                    url: "/Sample/Destroy",
+                    dataType: "jsonp"
+                },
+
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "PaymentID",
+                    fields: {
+                        PaymentID: { editable: false, nullable: true },
+                        ProjectName: { editable: false, nullable: true },
+                        TowerName: { editable: false, nullable: true },
+                        FlatName: { editable: false, nullable: true },
+                        Name: { editable: false, nullable: true },
+                        AgentName: { editable: false, nullable: true },
+                        PaymentMode: { editable: false, nullable: true },
+                        ReferenceNo: { editable: false, nullable: true },
+                       
+                        BookingAmount: { editable: false, nullable: true },
+                        BalanceAmount: { editable: false, nullable: true },
+                        ViewReceipt: { validation: { required: true } },
+                    }
+                }
+            }
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 550,
+            toolbar: ["search"],
+            columns: [
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " }, visible: false },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "80px"
+                },
+               { field: "ViewReceipt", title: "VIEW RECEIPT", width: "120px", editor: statusDropDownEditor },
+                { field: "ProjectName", title: "PROJECT", width: 120 },
+                { field: "TowerName", title: "TOWER", width: 120 },
+                { field: "FlatName", title: "FLAT", width: 120 },
+                { field: "Name", title: "CUSTOMER", width: 120 },
+
+                { field: "AgentName", title: "AGENT", width: 120 },
+                
+
+                { field: "BookingAmount", title: "AMOUNT PAID", width: 140 },
+                { field: "BalanceAmount", title: "AMOUNT REM", width: 140 },
+                { field: "PaymentMode", title: "PAY MODE", width: 120 },
+                { field: "ReferenceNo", title: "REF NO", width: 120 },
+                { field: "PaymentDate", title: "PAYMENT DATE", width: 120, template: '#= kendo.toString(kendo.parseDate(PaymentDate), "dd/MM/yyyy")#' }
+            ],
+            editable: "inline",
+        });
+
+
+
+        function statusDropDownEditor(container, options) {
+            $('<input required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: true,
+                    dataTextField: "ViewReceipt",
+                    dataValueField: "ViewReceipt",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetReceiptApprovalType",
+
+                        }
+                    }
+                });
+        }
+
+    });
+</script>
+

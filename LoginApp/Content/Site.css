@@ -145,7 +145,6 @@
     src: local('Montserrat SemiBold'), local('Montserrat-SemiBold'), url(https://fonts.gstatic.com/s/montserrat/v11/q2OIMsAtXEkOulLQVdSl06VlZKEoJGujTpfWnQT9bUY.woff2) format('woff2');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
-/* vietnamese */
 @font-face {
     font-family: 'Montserrat';
     font-style: normal;
@@ -5365,7 +5364,7 @@ body {
 
 .sidebar {
     width: 240px;
-    height: 110%;
+    height: 130%;
     background: black;
     position: absolute;
     -webkit-transition: all 0.3s ease-in-out;

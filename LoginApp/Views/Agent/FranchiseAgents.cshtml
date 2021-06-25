@@ -102,7 +102,11 @@
                         Designation: { validation: { required: false } },
                         OldDesignation: { validation: { required: false } },
                         EffectivePercentageDate: { validation: { required: false } },
-                        
+                        Gender: { validation: { required: false } },
+                        MaritalStatus: { validation: { required: false } },
+                        Dob: { validation: { required: false } },
+                        City: { validation: { required: false } },
+                        State: { validation: { required: false } },
                     }
                 }
             }
@@ -190,6 +194,11 @@
                     //format: "{0:yyyy-MM-dd HH:mm}",
                     editor: dateTimeEditor
                 },
+                { field: "Gender", title: "Gender", width: "130px" },
+                { field: "MaritalStatus", title: "MaritalStatus", width: "130px" },
+                { field: "Dob", title: "Dob", width: "130px" },
+                { field: "City", title: "City", width: "130px" },
+                { field: "State", title: "State", width: "130px" },
                 //{ field: "EffectivePercentageDate", title: "Effective % Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(EffectivePercentageDate), "dd/MM/yyyy")#'},
                 //{ field: "AgentParent", title: "Agent Parent", width: "240px", editor: parentDropDownEditor },
                 //{ field: "AgentChild", title: "Agent Child", width: "240px", editor: childDropDownEditor },

@@ -1316,6 +1316,8 @@ namespace DataLayer
             {
                 //payInfo.CreatedBy = "";
                 //payInfo.CreatedDate = System.DateTime.Now.Date;
+
+                
                 payInfo.CreatedDate = Convert.ToDateTime(payInfo.PaymentDate);
                 payInfo.Day = Convert.ToDateTime(payInfo.CreatedDate).Day;
                 payInfo.Month = Convert.ToDateTime(payInfo.CreatedDate).Month;
@@ -1476,7 +1478,30 @@ namespace DataLayer
             }
             return lstAgents;
         }
+        public List<AgentMaster> BindTeamAgents(string username)
+        {
+            List<AgentMaster> lstAgents = new List<AgentMaster>();
 
+            try
+            {
+
+
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentMaster, AgentMaster>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgents = mapper.Map<List<tblAgentMaster>, List<AgentMaster>>(dbEntity.tblAgentMasters.Where(x => x.CreatedBy == username).ToList());
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+
+            }
+            return lstAgents;
+        }
         public List<FlatWiseAgentCommission> BindAgentDashboard(string email)
         {
             List<FlatWiseAgentCommission> lstAgents = new List<FlatWiseAgentCommission>();
@@ -2873,7 +2898,26 @@ namespace DataLayer
             return lstNews;
         }
 
+        public List<GetPaymentReceiptApproval> GetPaymentReceiptsForApproval()
+        {
+            List<GetPaymentReceiptApproval> lstReceiptsForApproval = new List<GetPaymentReceiptApproval>();
 
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetPaymentsForReceiptApproval_Result, GetPaymentReceiptApproval>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstReceiptsForApproval = mapper.Map<List<sp_GetPaymentsForReceiptApproval_Result>, List<GetPaymentReceiptApproval>>(dbEntity.sp_GetPaymentsForReceiptApproval().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return lstReceiptsForApproval;
+        }
         public bool UpdateNews(NewsDetails nd)
         {
             try
@@ -2884,6 +2928,22 @@ namespace DataLayer
                 //newsTable.CreatedDate = nd.CreatedDate;
                 //newsTable.CreatedBy = nd.CreatedBy;
                 //dbEntity.tblNews.Add(newsTable);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool UpdatePaymentReceiptsForApproval(GetPaymentReceiptApproval payInfo)
+        {
+            try
+            {
+                tblPaymentInfo tblPaymentInfo = dbEntity.tblPaymentInfoes.Where(x => x.PaymentID == payInfo.PaymentID).FirstOrDefault();
+                tblPaymentInfo.ViewReceipt = payInfo.ViewReceipt;
+                
                 dbEntity.SaveChanges();
                 return true;
             }
@@ -2940,6 +3000,60 @@ namespace DataLayer
             }
             else
                 return null;
+        }
+
+        public bool ADDIBOAdvance(IBOAdvanceForm advanceForm)
+        {
+            var result = false;
+            try
+            {
+                
+                tblIBOAdvanceForm advInfo = new tblIBOAdvanceForm();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<IBOAdvanceForm, tblIBOAdvanceForm>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<IBOAdvanceForm, tblIBOAdvanceForm>(advanceForm, advInfo);
+                dbEntity.tblIBOAdvanceForms.Add(advInfo);
+
+                var flatWiseAgentCommission = dbEntity.tblFlatWiseAgentCommissions.Where(x => x.AgentID == advanceForm.IBOID && x.FlatID == advanceForm.FlatID).FirstOrDefault();
+                if (flatWiseAgentCommission != null)
+                {
+                    flatWiseAgentCommission.AmountPaid = Convert.ToInt32(advanceForm.AmountPaid);
+                    flatWiseAgentCommission.NetBalance = flatWiseAgentCommission.NetBalance - Convert.ToInt32(advanceForm.AmountPaid);
+                    result = true;
+                    dbEntity.SaveChanges();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                result = false;
+            }
+            return result;
+        }
+
+        public List<IBOAdvanceForm> GetIBOAdvances()
+        {
+            List<IBOAdvanceForm> lstIBOAdvances = new List<IBOAdvanceForm>();
+
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblIBOAdvanceForm, IBOAdvanceForm>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstIBOAdvances = mapper.Map<List<tblIBOAdvanceForm>, List<IBOAdvanceForm>>(dbEntity.tblIBOAdvanceForms.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return lstIBOAdvances;
         }
     }
 }

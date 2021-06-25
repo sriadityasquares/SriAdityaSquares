@@ -33,5 +33,6 @@ namespace DataLayer
         public string ChequeStatus { get; set; }
         public Nullable<System.DateTime> ChequeDate { get; set; }
         public string Details { get; set; }
+        public Nullable<bool> ViewReceipt { get; set; }
     }
 }

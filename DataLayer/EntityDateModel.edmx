@@ -86,6 +86,11 @@
           <Property Name="OldDesignation" Type="int" />
           <Property Name="EffectivePercentageDate" Type="datetime" />
           <Property Name="FranchiseID" Type="int" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="50" />
+          <Property Name="MaritalStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="Dob" Type="nvarchar" MaxLength="50" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tblAgentMaster_Franchise">
           <Key>
@@ -756,6 +761,30 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="CreatedBy" Type="nvarchar(max)" />
           <Property Name="CreatedDate" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="tblIBOAdvanceForm">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IBOID" Type="int" />
+          <Property Name="IBOName" Type="nvarchar(max)" />
+          <Property Name="SeniorID" Type="int" />
+          <Property Name="SeniorName" Type="nvarchar(max)" />
+          <Property Name="DirectorID" Type="int" />
+          <Property Name="DirectorName" Type="nvarchar(max)" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="ProjectName" Type="nvarchar(max)" />
+          <Property Name="TowerID" Type="int" />
+          <Property Name="TowerName" Type="nvarchar(max)" />
+          <Property Name="FlatID" Type="int" />
+          <Property Name="FlatName" Type="nvarchar(max)" />
+          <Property Name="AmountPaid" Type="money" />
+          <Property Name="ApprovedByDirector" Type="bit" Nullable="false" />
+          <Property Name="PaidThrough" Type="nvarchar(max)" />
+          <Property Name="PaidDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="tblLevelsMaster">
           <Key>
             <PropertyRef Name="LevelID" />
@@ -809,6 +838,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="ChequeStatus" Type="nvarchar" MaxLength="250" />
           <Property Name="ChequeDate" Type="datetime" />
           <Property Name="Details" Type="nvarchar" MaxLength="250" />
+          <Property Name="ViewReceipt" Type="bit" />
         </EntityType>
         <EntityType Name="tblPaymentInfo_Franchise">
           <Key>
@@ -1264,6 +1294,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <Function Name="sp_GetPaymentsForCancelledFlats" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BookingID" Type="uniqueidentifier" Mode="In" />
         </Function>
+        <Function Name="sp_GetPaymentsForReceiptApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetPercentages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetPeriodWiseBookingDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Option" Type="int" Mode="In" />
@@ -1326,6 +1357,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblFranchiseBookings" EntityType="Self.tblFranchiseBookings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFranchiseRegistration" EntityType="Self.tblFranchiseRegistration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFranchiseRegistrationStatus" EntityType="Self.tblFranchiseRegistrationStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblIBOAdvanceForm" EntityType="Self.tblIBOAdvanceForm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLevelsMaster" EntityType="Self.tblLevelsMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMonth" EntityType="Self.tblMonth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblNews" EntityType="Self.tblNews" Schema="dbo" store:Type="Tables" />
@@ -1614,7 +1646,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="Username" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_GetSchemeBasedBookings" ReturnType="Collection(salesDBModel.sp_GetSchemeBasedBookings_Result)" />
-          <EntitySet Name="tblPaymentInfoes" EntityType="salesDBModel.tblPaymentInfo" />
           <FunctionImport Name="sp_GetAgentPercentageByProject" ReturnType="Collection(salesDBModel.sp_GetAgentPercentageByProject_Result)">
           <Parameter Name="ProjectID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1753,7 +1784,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
             <Parameter Name="franchiseID" Mode="In" Type="Int32" />
             <Parameter Name="towerID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="tblAgentMasters" EntityType="salesDBModel.tblAgentMaster" />
           <EntitySet Name="tblAgentMaster_Franchise" EntityType="salesDBModel.tblAgentMaster_Franchise" />
           <FunctionImport Name="sp_GetBookingInfoForCancelledFlats" ReturnType="Collection(salesDBModel.sp_GetBookingInfoForCancelledFlats_Result)">
           <Parameter Name="BookingID" Mode="In" Type="Guid" />
@@ -1762,8 +1792,12 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="BookingID" Mode="In" Type="Guid" />
           </FunctionImport>
           <FunctionImport Name="sp_GetBookingDetails" ReturnType="Collection(salesDBModel.sp_GetBookingDetails_Result)">
-            <Parameter Name="FlatID" Mode="In" Type="Int32" />
+          <Parameter Name="FlatID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="tblAgentMasters" EntityType="salesDBModel.tblAgentMaster" />
+          <EntitySet Name="tblPaymentInfoes" EntityType="salesDBModel.tblPaymentInfo" />
+          <FunctionImport Name="sp_GetPaymentsForReceiptApproval" ReturnType="Collection(salesDBModel.sp_GetPaymentsForReceiptApproval_Result)" />
+          <EntitySet Name="tblIBOAdvanceForms" EntityType="salesDBModel.tblIBOAdvanceForm" />
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -2501,30 +2535,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="Int32" Name="value" Nullable="true" />
           <Property Type="String" Name="color" Nullable="false" MaxLength="10" />
         </ComplexType>
-        <EntityType Name="tblPaymentInfo">
-          <Key>
-            <PropertyRef Name="PaymentID" />
-          </Key>
-          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookingID" Type="Guid" />
-          <Property Name="FlatID" Type="Int32" />
-          <Property Name="BookingAmount" Type="Int32" />
-          <Property Name="BalanceAmount" Type="Int32" />
-          <Property Name="PaymentModeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentMode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ReferenceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Aadhar" Type="Int32" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Year" Type="Int32" />
-          <Property Name="Month" Type="Int32" />
-          <Property Name="Day" Type="Int32" />
-          <Property Name="ChequeStatus" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="ChequeDate" Type="DateTime" Precision="3" />
-          <Property Name="Details" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-        </EntityType>
         <ComplexType Name="sp_GetAgentPercentageByProject_Result">
           <Property Type="String" Name="xaxis" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="yaxis" Nullable="true" MaxLength="30" />
@@ -3347,37 +3357,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="DateTime" Name="UpdatedDate" Nullable="true" Precision="23" />
           <Property Type="String" Name="FlatPlanURL" Nullable="true" MaxLength="500" />
         </ComplexType>
-        <EntityType Name="tblAgentMaster">
-          <Key>
-            <PropertyRef Name="AgentID" />
-          </Key>
-          <Property Name="AgentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AgentCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="AgentName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="AgentMobileNo" Type="Int64" />
-          <Property Name="AgenteMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="AgentStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <Property Name="AgentAadhar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AgentPAN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AgentBankAcctNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AgentBankName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="AgentBankBranch" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="AgentBankIFSC" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="AgentSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AgentSuperSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AgentParent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AgentChild" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AgentLatitude" Type="Double" />
-          <Property Name="AgentLongitude" Type="Double" />
-          <Property Name="Designation" Type="Int32" />
-          <Property Name="OldDesignation" Type="Int32" />
-          <Property Name="EffectivePercentageDate" Type="DateTime" Precision="3" />
-          <Property Name="FranchiseID" Type="Int32" />
-        </EntityType>
         <EntityType Name="tblAgentMaster_Franchise">
           <Key>
             <PropertyRef Name="ID" />
@@ -3562,6 +3541,111 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="String" Name="Mobile" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Email" Nullable="true" MaxLength="250" />
         </ComplexType>
+        <EntityType Name="tblAgentMaster">
+          <Key>
+            <PropertyRef Name="AgentID" />
+          </Key>
+          <Property Name="AgentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AgentCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AgentName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AgentMobileNo" Type="Int64" />
+          <Property Name="AgenteMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AgentStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="AgentAadhar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentPAN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentBankAcctNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentBankName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AgentBankBranch" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AgentBankIFSC" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AgentSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentSuperSponserCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentParent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentChild" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentLatitude" Type="Double" />
+          <Property Name="AgentLongitude" Type="Double" />
+          <Property Name="Designation" Type="Int32" />
+          <Property Name="OldDesignation" Type="Int32" />
+          <Property Name="EffectivePercentageDate" Type="DateTime" Precision="3" />
+          <Property Name="FranchiseID" Type="Int32" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaritalStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dob" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblPaymentInfo">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingID" Type="Guid" />
+          <Property Name="FlatID" Type="Int32" />
+          <Property Name="BookingAmount" Type="Int32" />
+          <Property Name="BalanceAmount" Type="Int32" />
+          <Property Name="PaymentModeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentMode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Aadhar" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Day" Type="Int32" />
+          <Property Name="ChequeStatus" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ChequeDate" Type="DateTime" Precision="3" />
+          <Property Name="Details" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ViewReceipt" Type="Boolean" />
+        </EntityType>
+        <ComplexType Name="sp_GetPaymentsForReceiptApproval_Result">
+          <Property Type="Int32" Name="PaymentID" Nullable="false" />
+          <Property Type="DateTime" Name="PaymentDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="FranchiseID" Nullable="true" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="ChequeDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FlatName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="BookingAmount" Nullable="true" />
+          <Property Type="Double" Name="Bhk" Nullable="true" />
+          <Property Type="Int32" Name="Area" Nullable="true" />
+          <Property Type="Int32" Name="BalanceAmount" Nullable="true" />
+          <Property Type="String" Name="PaymentMode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ReferenceNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Details" Nullable="true" MaxLength="250" />
+          <Property Type="Boolean" Name="ViewReceipt" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="tblIBOAdvanceForm">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IBOID" Type="Int32" />
+          <Property Name="IBOName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SeniorID" Type="Int32" />
+          <Property Name="SeniorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DirectorID" Type="Int32" />
+          <Property Name="DirectorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TowerID" Type="Int32" />
+          <Property Name="TowerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FlatID" Type="Int32" />
+          <Property Name="FlatName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AmountPaid" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ApprovedByDirector" Type="Boolean" Nullable="false" />
+          <Property Name="PaidThrough" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PaidDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4383,31 +4467,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="tblPaymentInfoes">
-            <EntityTypeMapping TypeName="salesDBModel.tblPaymentInfo">
-              <MappingFragment StoreEntitySet="tblPaymentInfo">
-                <ScalarProperty Name="Details" ColumnName="Details" />
-                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
-                <ScalarProperty Name="ChequeStatus" ColumnName="ChequeStatus" />
-                <ScalarProperty Name="Day" ColumnName="Day" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
-                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
-                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
-                <ScalarProperty Name="PaymentModeID" ColumnName="PaymentModeID" />
-                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
-                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
-                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
-                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_GetAgentPercentageByProject" FunctionName="salesDBModel.Store.sp_GetAgentPercentageByProject">
             <ResultMapping>
               <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentPercentageByProject_Result">
@@ -5290,38 +5349,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="tblAgentMasters">
-            <EntityTypeMapping TypeName="salesDBModel.tblAgentMaster">
-              <MappingFragment StoreEntitySet="tblAgentMaster">
-                <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
-                <ScalarProperty Name="EffectivePercentageDate" ColumnName="EffectivePercentageDate" />
-                <ScalarProperty Name="OldDesignation" ColumnName="OldDesignation" />
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="AgentLongitude" ColumnName="AgentLongitude" />
-                <ScalarProperty Name="AgentLatitude" ColumnName="AgentLatitude" />
-                <ScalarProperty Name="AgentChild" ColumnName="AgentChild" />
-                <ScalarProperty Name="AgentParent" ColumnName="AgentParent" />
-                <ScalarProperty Name="AgentSuperSponserCode" ColumnName="AgentSuperSponserCode" />
-                <ScalarProperty Name="AgentSponserCode" ColumnName="AgentSponserCode" />
-                <ScalarProperty Name="AgentBankIFSC" ColumnName="AgentBankIFSC" />
-                <ScalarProperty Name="AgentBankBranch" ColumnName="AgentBankBranch" />
-                <ScalarProperty Name="AgentBankName" ColumnName="AgentBankName" />
-                <ScalarProperty Name="AgentBankAcctNo" ColumnName="AgentBankAcctNo" />
-                <ScalarProperty Name="AgentPAN" ColumnName="AgentPAN" />
-                <ScalarProperty Name="AgentAadhar" ColumnName="AgentAadhar" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="AgentStatus" ColumnName="AgentStatus" />
-                <ScalarProperty Name="AgenteMail" ColumnName="AgenteMail" />
-                <ScalarProperty Name="AgentMobileNo" ColumnName="AgentMobileNo" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="AgentCode" ColumnName="AgentCode" />
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tblAgentMaster_Franchise">
             <EntityTypeMapping TypeName="salesDBModel.tblAgentMaster_Franchise">
               <MappingFragment StoreEntitySet="tblAgentMaster_Franchise">
@@ -5519,6 +5546,118 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblAgentMasters">
+            <EntityTypeMapping TypeName="salesDBModel.tblAgentMaster">
+              <MappingFragment StoreEntitySet="tblAgentMaster">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+                <ScalarProperty Name="MaritalStatus" ColumnName="MaritalStatus" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+                <ScalarProperty Name="EffectivePercentageDate" ColumnName="EffectivePercentageDate" />
+                <ScalarProperty Name="OldDesignation" ColumnName="OldDesignation" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="AgentLongitude" ColumnName="AgentLongitude" />
+                <ScalarProperty Name="AgentLatitude" ColumnName="AgentLatitude" />
+                <ScalarProperty Name="AgentChild" ColumnName="AgentChild" />
+                <ScalarProperty Name="AgentParent" ColumnName="AgentParent" />
+                <ScalarProperty Name="AgentSuperSponserCode" ColumnName="AgentSuperSponserCode" />
+                <ScalarProperty Name="AgentSponserCode" ColumnName="AgentSponserCode" />
+                <ScalarProperty Name="AgentBankIFSC" ColumnName="AgentBankIFSC" />
+                <ScalarProperty Name="AgentBankBranch" ColumnName="AgentBankBranch" />
+                <ScalarProperty Name="AgentBankName" ColumnName="AgentBankName" />
+                <ScalarProperty Name="AgentBankAcctNo" ColumnName="AgentBankAcctNo" />
+                <ScalarProperty Name="AgentPAN" ColumnName="AgentPAN" />
+                <ScalarProperty Name="AgentAadhar" ColumnName="AgentAadhar" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="AgentStatus" ColumnName="AgentStatus" />
+                <ScalarProperty Name="AgenteMail" ColumnName="AgenteMail" />
+                <ScalarProperty Name="AgentMobileNo" ColumnName="AgentMobileNo" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentCode" ColumnName="AgentCode" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPaymentInfoes">
+            <EntityTypeMapping TypeName="salesDBModel.tblPaymentInfo">
+              <MappingFragment StoreEntitySet="tblPaymentInfo">
+                <ScalarProperty Name="ViewReceipt" ColumnName="ViewReceipt" />
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
+                <ScalarProperty Name="ChequeStatus" ColumnName="ChequeStatus" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="PaymentModeID" ColumnName="PaymentModeID" />
+                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetPaymentsForReceiptApproval" FunctionName="salesDBModel.Store.sp_GetPaymentsForReceiptApproval">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetPaymentsForReceiptApproval_Result">
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+                <ScalarProperty Name="FranchiseID" ColumnName="FranchiseID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="Bhk" ColumnName="Bhk" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="BalanceAmount" ColumnName="BalanceAmount" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="ViewReceipt" ColumnName="ViewReceipt" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblIBOAdvanceForms">
+            <EntityTypeMapping TypeName="salesDBModel.tblIBOAdvanceForm">
+              <MappingFragment StoreEntitySet="tblIBOAdvanceForm">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="PaidThrough" ColumnName="PaidThrough" />
+                <ScalarProperty Name="ApprovedByDirector" ColumnName="ApprovedByDirector" />
+                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+                <ScalarProperty Name="TowerID" ColumnName="TowerID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="DirectorName" ColumnName="DirectorName" />
+                <ScalarProperty Name="DirectorID" ColumnName="DirectorID" />
+                <ScalarProperty Name="SeniorName" ColumnName="SeniorName" />
+                <ScalarProperty Name="SeniorID" ColumnName="SeniorID" />
+                <ScalarProperty Name="IBOName" ColumnName="IBOName" />
+                <ScalarProperty Name="IBOID" ColumnName="IBOID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -94,6 +94,7 @@
     <Compile Include="GetGraphicalPeriodWiseBooking.cs" />
     <Compile Include="GetMySiteVisits.cs" />
     <Compile Include="GetPaymentInfoByDate.cs" />
+    <Compile Include="GetPaymentReceiptApproval.cs" />
     <Compile Include="GetPaymentsDetails.cs" />
     <Compile Include="GetPercentages.cs" />
     <Compile Include="GetPeriodWiseBookingDetails.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="GetTowerDetails.cs" />
     <Compile Include="GetUsersWithRoles.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="IBOAdvanceForm.cs" />
     <Compile Include="LevelsMaster.cs" />
     <Compile Include="Month.cs" />
     <Compile Include="MyProfile.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="ProjectTransactions.cs" />
     <Compile Include="ProjectTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReceiptApproval.cs" />
     <Compile Include="Report.cs" />
     <Compile Include="Schemes.cs" />
     <Compile Include="SiteVisitInfo.cs" />

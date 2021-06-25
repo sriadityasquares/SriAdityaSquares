@@ -1,0 +1,399 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Team = "active";
+    ViewBag.TeamAgents = "active";
+}
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">TEAM AGENTS</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+@*<script type="text/x-kendo-template" id="searchtemplate">
+        <div class="toolbar">
+            <div>
+                <a data-toggle="tooltip" title="Export to Excel" class="k-button k-button-icontext k-grid-excel" href="\#"><i class="fa fa-file-excel-o fa-lg"></i></a>
+            </div>
+        </div>
+    </script>*@
+<script>
+        var exception = '@ViewData["Exception"]';
+
+    var designations = [];
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Agent/TeamAgentDetails",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Agent/UpdateAgent",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+
+                            toastr.error('Error in Updating');
+
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                destroy: {
+                    url: "/Sample/Destroy",
+                    dataType: "jsonp"
+                },
+                create: {
+                    url: "/Agent/CreateAgent",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+
+                        if (jqXhr.responseText == "true") {
+                            toastr.success('Added Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+
+                            toastr.error('Error in Adding agent because of Duplicate Agent Code/Email/Mobile');
+                                $("#grid").data("kendoGrid").dataSource.read();
+
+                        }
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 25,
+            schema: {
+                model: {
+                    id: "AgentID",
+                    fields: {
+                        AgentID: { editable: false, nullable: true },
+                        AgentCode: { editable: true, nullable: true },
+                        AgentName: { editable: true, nullable: true },
+                        AgentAadhar: { validation: { required: false } },
+                        AgentPAN: { validation: { required: false } },
+                        AgentMobileNo: { validation: { required: false } },
+                        AgenteMail: { validation: { required: false } },
+                        AgentBankAcctNo: { validation: { required: false } },
+                        AgentBankName: { validation: { required: false } },
+                        AgentBankBranch: { validation: { required: false } },
+                        AgentBankIFSC: { validation: { required: false } },
+                        AgentSponserCode: { validation: { required: false } },
+                        AgentSuperSponserCode: { validation: { required: false } },
+                        //AgentStatus: { validation: { required: false } },
+                        Designation: { validation: { required: false } },
+                        OldDesignation: { validation: { required: false } },
+                        EffectivePercentageDate: { validation: { required: false } },
+                        Gender: { validation: { required: false } },
+                        MaritalStatus: { validation: { required: false } },
+                        Dob: { validation: { required: false } },
+                        City: { validation: { required: false } },
+                        State: { validation: { required: false } },
+                    }
+                }
+            }
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 700,
+            save: function (e) {
+                //var x = $("#parent").data("kendoMultiSelect").value();
+                //var y = $("#child").data("kendoMultiSelect").value();
+                //$("#child").data("kendoMultiSelect").value(["1"]);
+                //$("#parent").data("kendoMultiSelect").value(["1"]);
+
+                //if (x.length > 0) { e.model.AgentParent = x.join(","); }
+                //else { e.model.AgentParent = ''; }
+                //if (y.length > 0) { e.model.AgentChild = y.join(","); } else {
+                //    e.model.AgentChild = '';
+                //}
+                if (e.model.OldDesignation.ID != null)
+                    e.model.OldDesignation = e.model.OldDesignation.ID;
+            },
+
+            toolbar: ["create", "search", "excel"],
+            excel: {
+                fileName: "AgentMaster.xlsx",
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
+
+            columns: [
+                { field: "AgentCode", title: "Code", width: "100px" },
+                { field: "AgentName", title: "Name", width: "200px" },
+                { field: "AgentAadhar", title: "Aadhar", width: "200px" },
+                { field: "AgentMobileNo", title: "Mobile", width: "100px" },
+                { field: "AgenteMail", title: "Email", width: "200px" },
+                { field: "AgentPAN", title: "Pan", width: "100px" },
+                { field: "AgentBankAcctNo", title: "Account No.", width: "150px" },
+                { field: "AgentBankName", title: "Bank Name", width: "100px" },
+                { field: "AgentBankBranch", title: "Bank Branch", width: "100px" },
+                { field: "AgentBankIFSC", title: "IFSC", width: "80px" },
+                { field: "AgentSponserCode", title: "SP Code", width: "100px" },
+                { field: "AgentSuperSponserCode", title: "SSP Code", width: "100px" },
+                //{ field: "AgentStatus", title: "Status", width: "100px", editor: statusDropDownEditor },
+                {
+                    field: "Designation", title: "Designation", width: "170px", template: $("#template1").html(), editor: function (container) { // use a dropdownlist as an editor
+                        //create an input element with id and name set as the bound field (brandId)
+                        var input = $('<input id="Designation" name="Designation">');
+                        // append to the editor container
+                        input.appendTo(container);
+
+                        // initialize a dropdownlist
+                        input.kendoDropDownList({
+                            dataTextField: "Designation",
+                            dataValueField: "ID",
+                            dataSource: designations // bind it to the brands array
+                        }).appendTo(container);
+                    }
+                },
+
+                {
+                    field: "OldDesignation", title: "Old Designation", width: "170px", template: $("#template2").html(), editor: function (container) { // use a dropdownlist as an editor
+                        //create an input element with id and name set as the bound field (brandId)
+                        var input = $('<input id="OldDesignation" name="OldDesignation">');
+                        // append to the editor container
+                        input.appendTo(container);
+
+                        // initialize a dropdownlist
+                        input.kendoDropDownList({
+                            dataTextField: "Designation",
+                            dataValueField: "ID",
+                            dataSource: designations // bind it to the brands array
+                        }).appendTo(container);
+                    }
+                },
+                {
+                    field: "EffectivePercentageDate",
+                    title: "Effective % Date",
+                    width: "150px",
+                    //type: "number",
+                    template: '#= kendo.toString(kendo.parseDate(EffectivePercentageDate), "dd/MM/yyyy")#',
+                    //format: "{0:yyyy-MM-dd HH:mm}",
+                    editor: dateTimeEditor
+                },
+                { field: "Gender", title: "Gender", width: "130px" },
+                { field: "MaritalStatus", title: "MaritalStatus", width: "130px" },
+                { field: "Dob", title: "Dob", width: "130px" },
+                { field: "City", title: "City", width: "130px" },
+                { field: "State", title: "State", width: "130px" },
+                //{ field: "EffectivePercentageDate", title: "Effective % Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(EffectivePercentageDate), "dd/MM/yyyy")#'},
+                //{ field: "AgentParent", title: "Agent Parent", width: "240px", editor: parentDropDownEditor },
+                //{ field: "AgentChild", title: "Agent Child", width: "240px", editor: childDropDownEditor },
+                //{
+                //    field: "arrayListParent", title: "Agent Parent", width: "240px", editor: parentDropDownEditor, template: "#= arrayListParent.join(',') #"
+                //},
+
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "140px"
+                }],
+            editable: "inline",
+        });
+
+        function citiesEditor(container, options) {
+            $("<select multiple='multiple' data-bind='value : arrayListParent'/>")
+                .appendTo(container)
+                .kendoMultiSelect({
+                    autoBind: true,
+                    autoClose: false,
+                    tagMode: "single",
+                    dataTextField: "AgentName",
+                    dataValueField: "AgentID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetAgents2/",
+                        }
+                    }
+                });
+        }
+
+        function statusDropDownEditor(container, options) {
+            $('<input required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: true,
+                    dataTextField: "BookingStatus",
+                    dataValueField: "ID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetStatus2/",
+                        }
+                    }
+                });
+        }
+
+
+        $.getJSON('/Cascade/GetDesignationsForFranchise', function (response) {
+            if (response != null) {
+                designations = response;
+            }
+        });
+
+
+        function designationDropDownEditor(container, options) {
+            $('<input required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: true,
+                    dataTextField: "Designation",
+                    dataValueField: "ID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetDesignations/",
+                        }
+                    }
+                });
+        }
+
+        function dateTimeEditor2(container, options) {
+            $('<input type="text" />')
+                .appendTo(container)
+                .kendoDateTimePicker({
+                    format: "dd/MM/yyyy",
+                    value: kendo.toString(new Date(options.model.EffectivePercentageDate), 'dd/MM/yyyy')
+                });
+        }
+
+        function dateTimeEditor(container, options) {
+            $('<input data-text-field="' + options.field + '" data-value-field="' + options.field + '" data-bind="value:' + options.field + '" data-format="' + "dd/MM/yyyy" + '"/>')
+                .appendTo(container)
+                .kendoDateTimePicker({});
+        }
+        function parentDropDownEditor(container, options) {
+            if (!options.model.isNew()) {
+                if (options.model.AgentParent != null && options.model.AgentParent != '') {
+                    options.model.AgentParent = options.model.AgentParent.split(',')
+                }
+                else {
+                    options.model.AgentParent = 0;
+                }
+            }
+            $('<input id="parent" name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoMultiSelect({
+                    autoBind: true,
+                    autoClose: false,
+                    tagMode: "single",
+                    dataTextField: "AgentName",
+                    dataValueField: "AgentID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetAgentsExceptSAS/",
+                        }
+                    }
+                });
+        }
+
+        function childDropDownEditor(container, options) {
+            if (!options.model.isNew()) {
+                if (options.model.AgentChild != null && options.model.AgentChild != '') {
+                    options.model.AgentChild = options.model.AgentChild.split(',')
+                }
+                else {
+                    options.model.AgentChild = 0;
+                }
+            }
+            $('<input id="child" name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoMultiSelect({
+                    autoBind: true,
+                    autoClose: false,
+                    tagMode: "single",
+
+                    dataTextField: "AgentName",
+                    dataValueField: "AgentID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetAgentsExceptSAS/",
+                        }
+                    }
+                });
+        }
+
+        function territoriesEditor(container, options) {
+            if (!options.model.isNew()) {
+                options.model.AgentParent = options.model.AgentParent.split(',')
+            }
+            $('<input name="AgentParent">').appendTo(container)
+                .kendoMultiSelect({
+                    dataValueField: "AgentID",
+                    dataTextField: "AgentName",
+                    autoBind: true,
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetAgents/",
+                        }
+                    }
+                });
+        }
+    });
+
+
+    function brandName(brandId) {
+        if (brandId != '' || brandId != null) {
+            for (var i = 0; i < designations.length; i++) {
+
+                if (designations[i].ID == brandId) {
+                    return designations[i].Designation;
+                }
+            }
+        }
+    }
+
+
+</script>
+
+<script type="text/kendo" id="territoriesTemplate">
+    <ul>
+        # for(var i = 0; i< AgentParent.length; i++){ #
+        <li>#: AgentParent[i].AgentName #</li>
+        # } #
+    </ul>
+
+
+</script>
+<script type="text/x-kendo-template" id="template1">
+    #if(typeof Designation === 'undefined') {# #: brandName(0) # #} else {# #: brandName(Designation) # #}#
+</script>
+<script type="text/x-kendo-template" id="template2">
+    #if(typeof OldDesignation === 'undefined') {# #: brandName(0) # #} else {# #: brandName(OldDesignation) # #}#
+</script>
+
+<style>
+    .specialLine {
+        box-sizing: border-box;
+        border-top: 3px solid rgba(227, 63, 14, 1);
+        margin-bottom: 10px;
+    }
+</style>

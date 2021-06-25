@@ -92,10 +92,15 @@ namespace LoginApp.Controllers.Admin
                 List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models, settings);
                 data[0].CreatedBy = User.Identity.Name;
                 data[0].CreatedDate = DateTime.Now;
-                if(User.IsInRole("Franchise Owner"))
+                if (User.IsInRole("Franchise Owner"))
                 {
                     data[0].AgentStatus = "I";
                     data[0].FranchiseID = booking.GetFranchiseID(User.Identity.Name);
+                }
+                else
+                    if (User.IsInRole("Agent"))
+                {
+                    data[0].AgentStatus = "I";
                 }
                 var result = agent.AddAgent(data[0]);
                 if (result)
@@ -135,7 +140,7 @@ namespace LoginApp.Controllers.Admin
                     {
                         result = false;
                     }
-                    
+
                 }
                 else
                 {
@@ -146,18 +151,20 @@ namespace LoginApp.Controllers.Admin
                     }
 
                     else
-                        if (data[0].isDuplicateAgentEmail) {
+                        if (data[0].isDuplicateAgentEmail)
+                    {
                         ViewData["Exception"] = "Duplicate Agent Email";
                         Convert.ToInt32("Duplicate Agent Email");
                     }
 
-                     
+
                     else
-                        if (data[0].isDuplicateAgentMobile){
+                        if (data[0].isDuplicateAgentMobile)
+                    {
                         ViewData["Exception"] = "Duplicate Agent Mobile";
                         Convert.ToInt32("Duplicate Agent Mobile");
                     }
-                       
+
                 }
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -175,7 +182,7 @@ namespace LoginApp.Controllers.Admin
         {
             try
             {
-               
+
                 ViewData["Exception"] = "Empty";
                 List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models);
                 if (User.IsInRole("Franchise Owner"))
@@ -183,9 +190,14 @@ namespace LoginApp.Controllers.Admin
                     data[0].AgentStatus = "I";
                     data[0].FranchiseID = booking.GetFranchiseID(User.Identity.Name);
                 }
+                else
+                    if (User.IsInRole("Agent"))
+                {
+                    data[0].AgentStatus = "I";
+                }
                 data[0].UpdatedBy = User.Identity.Name;
                 data[0].UpdatedDate = DateTime.Now;
-                
+
                 var result = agent.UpdateAgent(data[0]);
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
@@ -209,15 +221,15 @@ namespace LoginApp.Controllers.Admin
             return View();
         }
 
-        public JsonResult GetMapping(int AgentID,int option)
+        public JsonResult GetMapping(int AgentID, int option)
         {
             var list = agent.GetAgentMapping(AgentID, option);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult UpdateMapping(int AgentID, int option,string agentList)
+        public JsonResult UpdateMapping(int AgentID, int option, string agentList)
         {
-            var result = agent.UpdateAgentMapping(AgentID, option, agentList,User.Identity.Name);
+            var result = agent.UpdateAgentMapping(AgentID, option, agentList, User.Identity.Name);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -253,12 +265,70 @@ namespace LoginApp.Controllers.Admin
             }
             return Json(agentsList, JsonRequestBehavior.AllowGet);
         }
-        
+
 
 
         // POST: Project/Edit/5
         [HttpGet]
         public ActionResult UpdateFranchiseAgent(string models)
+        {
+            try
+            {
+
+                ViewData["Exception"] = "Empty";
+                List<AgentMaster> data = JsonConvert.DeserializeObject<List<AgentMaster>>(models);
+                data[0].UpdatedBy = User.Identity.Name;
+                data[0].UpdatedDate = DateTime.Now;
+
+                var result = agent.UpdateAgent(data[0]);
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [Authorize(Roles = "Admin,Agent")]
+        public ActionResult TeamAgents()
+        {
+            return View();
+        }
+
+        public ActionResult TeamAgentDetails()
+        {
+            var agentsList = new List<AgentMaster>();
+            try
+            {
+                agentsList = booking.BindTeamAgents(User.Identity.Name);
+                ViewData["Exception"] = "Empty";
+                foreach (var item in agentsList)
+                {
+                    switch (item.AgentStatus)
+                    {
+                        case "A":
+                            item.BookingStatusName = "ACTIVE";
+                            break;
+                        case "I":
+                            item.BookingStatusName = "INACTIVE";
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return Json(agentsList, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        // POST: Project/Edit/5
+        [HttpGet]
+        public ActionResult TeamUpdateAgent(string models)
         {
             try
             {

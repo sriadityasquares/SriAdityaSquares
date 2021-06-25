@@ -190,6 +190,19 @@ namespace LoginApp.Controllers
             return Json(statusList, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetReceiptApprovalType()
+        {
+            List<ReceiptApproval> receiptApproveList = new List<ReceiptApproval>();
+            ReceiptApproval s = new ReceiptApproval();
+            s.ViewReceipt = true;
+
+            receiptApproveList.Add(s);
+            ReceiptApproval s1 = new ReceiptApproval();
+            s1.ViewReceipt = false;
+            receiptApproveList.Add(s1);
+            return Json(receiptApproveList, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult UpdateAgentLocation(double latitude, double longitude)
         {
             if (User.IsInRole("Agent"))

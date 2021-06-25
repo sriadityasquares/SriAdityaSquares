@@ -56,7 +56,6 @@ namespace DataLayer
         public virtual DbSet<tblChequeStatu> tblChequeStatus { get; set; }
         public virtual DbSet<tblProject> tblProjects { get; set; }
         public virtual DbSet<tblAgreement> tblAgreements { get; set; }
-        public virtual DbSet<tblPaymentInfo> tblPaymentInfoes { get; set; }
         public virtual DbSet<tblSM> tblSMS { get; set; }
         public virtual DbSet<tblArea> tblAreas { get; set; }
         public virtual DbSet<tblFranchiseRegistration> tblFranchiseRegistrations { get; set; }
@@ -73,8 +72,10 @@ namespace DataLayer
         public virtual DbSet<tblPaymentInfo_Franchise> tblPaymentInfo_Franchise { get; set; }
         public virtual DbSet<tblFranchiseBooking> tblFranchiseBookings { get; set; }
         public virtual DbSet<tblBookingInformationAudit> tblBookingInformationAudits { get; set; }
-        public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
         public virtual DbSet<tblAgentMaster_Franchise> tblAgentMaster_Franchise { get; set; }
+        public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
+        public virtual DbSet<tblPaymentInfo> tblPaymentInfoes { get; set; }
+        public virtual DbSet<tblIBOAdvanceForm> tblIBOAdvanceForms { get; set; }
     
         public virtual ObjectResult<sp_GetPeriodWiseBookingDetails_Result> sp_GetPeriodWiseBookingDetails(Nullable<int> option, string project, string year, string month, string fromdate, string todate)
         {
@@ -746,6 +747,11 @@ namespace DataLayer
                 new ObjectParameter("FlatID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetBookingDetails_Result>("sp_GetBookingDetails", flatIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetPaymentsForReceiptApproval_Result> sp_GetPaymentsForReceiptApproval()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetPaymentsForReceiptApproval_Result>("sp_GetPaymentsForReceiptApproval");
         }
     }
 }

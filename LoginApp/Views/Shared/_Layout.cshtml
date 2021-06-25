@@ -54,8 +54,8 @@
 
                 <ul class="nano-content">
                     @*<li>
-                            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
-                        </li>*@
+            <img style="height:0px;object-fit: contain;" src="~/Content/Images/SASFullLogo1.png" />
+        </li>*@
                     <li class="sub-menu @(ViewBag.Dashboard)">
                         <a href="javascript:void(0);"><i class="fa fa-bar-chart"></i><span>DASHBOARD</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
@@ -162,9 +162,15 @@
                                 <li>
                                     <a class="@(ViewBag.AddNews)" href="@Url.Action("AddNews", "Booking")">UPLOAD NEWS</a>
                                 </li>
+                                <li>
+                                    <a class="@(ViewBag.ApprovePaymentReceipt)" href="@Url.Action("ApprovePaymentReceipt", "Booking")">APPROVE PAYMENT RECEIPTS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.IBOAdvance)" href="@Url.Action("IBOAdvance", "Booking")">IBO ADVANCE</a>
+                                </li>
                                 @*<li>
-                                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                                    </li>*@
+            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+        </li>*@
                             </ul>
                         </li>
                     }
@@ -348,6 +354,23 @@
                             </ul>
                         </li>
                     }
+                    @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Agent") && !this.User.IsInRole("Franchise Owner")))
+                    {
+                        <li class="sub-menu @(ViewBag.Team)">
+                            <a href="javascript:void(0);"><i class="fa fa-users"></i><span>TEAM</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                            <ul>
+                                @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Agent") && this.User.IsInRole("Franchise Owner")))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.TeamAgents)" href="@Url.Action("TeamAgents", "Agent")">ADD TEAM</a>
+                                    </li>
+                                }
+
+
+
+                            </ul>
+                        </li>
+                    }
                 </ul>
 
 
@@ -501,9 +524,15 @@
                                 <li>
                                     <a class="@(ViewBag.AddNews)" href="@Url.Action("AddNews", "Booking")">UPLOAD NEWS</a>
                                 </li>
+                                <li>
+                                    <a class="@(ViewBag.ApprovePaymentReceipt)" href="@Url.Action("ApprovePaymentReceipt", "Booking")">APPROVE PAYMENT RECEIPTS</a>
+                                </li>
+                                <li>
+                                    <a class="@(ViewBag.IBOAdvance)" href="@Url.Action("IBOAdvance", "Booking")">IBO ADVANCE</a>
+                                </li>
                                 @*<li>
-                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-                    </li>*@
+            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+        </li>*@
                             </ul>
                         </li>
                     }
@@ -655,7 +684,7 @@
                             </ul>
                         </li>
                     }
-                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent") )
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Agent"))
                     {
                         <li class="sub-menu @(ViewBag.Franchise)">
                             <a href="javascript:void(0);"><i class="fa fa-handshake-o"></i><span>FRANCHISE</span><i class="arrow fa fa-angle-right pull-right"></i></a>
@@ -677,11 +706,29 @@
                                 }
                                 @if (this.User.IsInRole("Admin") || this.User.IsInRole("Franchise Owner"))
                                 {
-                                    
+
                                     <li>
                                         <a class="@(ViewBag.FranchiseAgents)" href="@Url.Action("FranchiseAgents", "Agent")">ADD FRANCHISE AGENTS</a>
                                     </li>
                                 }
+
+
+                            </ul>
+                        </li>
+                    }
+
+                    @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Agent") && !this.User.IsInRole("Franchise Owner")))
+                    {
+                        <li class="sub-menu @(ViewBag.Team)">
+                            <a href="javascript:void(0);"><i class="fa fa-users"></i><span>TEAM</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                            <ul>
+                                @if (this.User.IsInRole("Admin") || (this.User.IsInRole("Agent") && this.User.IsInRole("Franchise Owner")))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.TeamAgents)" href="@Url.Action("TeamAgents", "Agent")">ADD TEAM</a>
+                                    </li>
+                                }
+
 
 
                             </ul>

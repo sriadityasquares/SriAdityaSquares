@@ -207,6 +207,11 @@ namespace BusinessLayer
             return db.BindFranchiseAgents(username);
         }
 
+        public List<AgentMaster> BindTeamAgents(string username)
+        {
+            return db.BindTeamAgents(username);
+        }
+
         public List<FlatWiseAgentCommission> BindAgentDashboard(string email)
         {
             return db.BindAgentDashboard(email);
@@ -526,6 +531,11 @@ namespace BusinessLayer
             return db.UpdateNews(nd);
         }
 
+        public bool UpdatePaymentReceiptsForApproval(GetPaymentReceiptApproval viewReceipt)
+        {
+            return db.UpdatePaymentReceiptsForApproval(viewReceipt);
+        }
+
         public bool CheckFranchiseRegistered(string username)
         {
             return db.CheckFranchiseRegistered(username);
@@ -535,5 +545,21 @@ namespace BusinessLayer
         {
             return db.GetFranchiseID(username);
         }
+
+        public List<GetPaymentReceiptApproval> GetPaymentReceiptsForApproval()
+        {
+            return db.GetPaymentReceiptsForApproval();
+        }
+
+        public bool ADDIBOAdvance(IBOAdvanceForm advanceForm)
+        {
+            return db.ADDIBOAdvance(advanceForm);
+        }
+
+        public List<IBOAdvanceForm> GetIBOAdvances()
+        {
+            return db.GetIBOAdvances();
+        }
+
     }
 }

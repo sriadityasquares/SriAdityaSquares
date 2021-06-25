@@ -206,6 +206,9 @@
     <Compile Include="sp_GetPaymentsForCancelledFlats_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetPaymentsForReceiptApproval_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_GetPercentages_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
@@ -342,6 +345,9 @@
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblFranchiseRegistrationStatu.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblIBOAdvanceForm.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblLevelsMaster.cs">

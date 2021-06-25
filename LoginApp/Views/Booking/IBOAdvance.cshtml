@@ -1,0 +1,298 @@
+﻿
+@model ModelLayer.IBOAdvanceForm
+@{
+    ViewBag.IBOAdvance = "active";
+    ViewBag.Title = "IBO Advance";
+    var message = TempData["successmessage"] ?? string.Empty;
+    ViewBag.Admin = "active";
+}
+@using (Html.BeginForm("IBOAdvance", "Booking", FormMethod.Post, new
+{
+
+    role = "form",
+    id = "submitbtn"
+
+}))
+{
+    @Html.HiddenFor(m => m.ProjectName)
+    @Html.HiddenFor(m => m.TowerName)
+    @Html.HiddenFor(m => m.FlatName)
+    @Html.HiddenFor(m => m.IBOName)
+    @Html.HiddenFor(m => m.SeniorName)
+    @Html.HiddenFor(m => m.DirectorName)
+    @Html.HiddenFor(m => m.PaidDate)
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">ADD IBO ADVANCE</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+
+
+    <div class="row">
+        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-2" })
+        @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.TowerID, new { @class = "col-md-2" })
+        @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.FlatID, new { @class = "col-md-2" })
+        @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.IBOID, new { @class = "col-md-2" })
+        @Html.DropDownListFor(model => model.IBOID, TempData["AgentList"] as SelectList, "--Select IBO--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+    <div class="row">
+
+        @Html.LabelFor(m => m.SeniorID, new { @class = "col-md-2" })
+        @Html.DropDownListFor(model => model.SeniorID, TempData["AgentList"] as SelectList, "--Select Senior--", new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.DirectorID, new { @class = "col-md-2" })
+        @Html.DropDownListFor(model => model.DirectorID, TempData["AgentList"] as SelectList, "--Select Director--", new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.AmountPaid, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.AmountPaid, new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.PaidDate, new { @class = "col-md-2" })
+        <div class="col-md-2" style="padding-left:0px">
+            <input id="datepicker1" title="datepicker" />
+        </div>
+        @*@Html.LabelFor(m => m.PaidThrough, new { @class = "col-md-3" })
+            @Html.TextAreaFor(model => model.PaidThrough, new { @class = "textboxarea-control col-md-3 col-xs" })*@
+    </div>
+    <div class="row">
+        @*@Html.LabelFor(m => m.ApprovedByDirector, new { @class = "col-md-2" })*@
+        @*@Html.CheckBoxFor(m => m.ApprovedByDirector, new { @class = "col-md-4" })
+            @Html.LabelFor(m => m.ApprovedByDirector, new { @class = "col-md-2" })*@
+        @Html.LabelFor(m => m.PaidThrough, new { @class = "col-md-2" })
+        @Html.TextAreaFor(model => model.PaidThrough, new { @class = "textboxarea-control col-md-3 col-xs" })
+        <label class="col-md-3">@Html.CheckBoxFor(x => x.ApprovedByDirector)&nbsp;@Html.DisplayNameFor(x => x.ApprovedByDirector)</label>
+
+    </div>
+
+    <div class="row" style="padding-top:5px;">
+        <div class="col-sm-3 no-pad">
+            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i style="color:white" class="fa fa-dollar"></i>ADD</button>
+        </div>
+    </div>
+    <br />
+    <hr />
+    <br />
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">IBO ADVANCE</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+}
+
+<script>
+    $("#datepicker1").kendoDatePicker();
+    var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
+    $("#datepicker1").val(todayDate);
+    $("#ProjectID").change(function () {
+        $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
+            //HideDiv();
+            $("#TowerID").empty();
+            $("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#TowerID").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+            });
+        });
+
+        $.get("/Booking/GetProjectAgents", { ProjectId: $("#ProjectID").val() }, function (data) {
+            $("#AgentID").empty();
+            AgentList = data;
+            //$("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
+            $.each(data, function (index, row) {
+                //$("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+
+                    $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+
+            });
+        });
+    });
+
+    $("#TowerID").change(function () {
+
+        $.get("/Booking/GetFlatsExceptOpen", { TowerID: $("#TowerID").val() }, function (data) {
+            //$("#TowerID").empty();
+            //$("#TowerID").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+            //HideDiv();
+            $("#FlatID").empty();
+            $("#FlatID").append("<option value='" + 0 + "'>" + "--Select Flat/Villa--" + "</option>")
+            $.each(data, function (index, row) {
+                $("#FlatID").append("<option value='" + row.FlatID + "'>" + row.FlatName + "</option>")
+            });
+        });
+    });
+    $("#submitbtn").submit(function () {
+
+        SetHiddenFields();
+
+    });
+
+    function SetHiddenFields() {
+        $("#ProjectName").val($("#ProjectID option:selected").text());
+        $("#TowerName").val($("#TowerID option:selected").text());
+        $("#FlatName").val($("#FlatID option:selected").text());
+        $("#IBOName").val($("#IBOID option:selected").text());
+        $("#SeniorName").val($("#SeniorID option:selected").text());
+        $("#DirectorName").val($("#DirectorID option:selected").text());
+        $("#PaidDate").val($("#datepicker1").val());
+    }
+
+
+    $(window).load(function () {
+        var tempdataval = '@TempData["successmessage"]';
+        if (tempdataval != '') {
+            if (tempdataval == 'IBO Advance Added Successfully')
+                toastr.success(tempdataval);
+            else {
+                toastr.error(tempdataval);
+            }
+        }
+
+    });
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Booking/GetIBOAdvances",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+
+                },
+                //destroy: {
+                //    url: "/Booking/DeleteAgreement",
+                //    type: "POST",
+                //    dataType: "json",
+
+                //},
+                //destroy: {
+                //    url: "/Booking/DeleteAgreement",
+                //    dataType: "json",
+                //    complete: function (jqXhr, textStatus) {
+                //        if (textStatus == 'success') {
+                //            toastr.success('Deleted Successfull');
+                //            $("#grid").data("kendoGrid").dataSource.read();
+                //        }
+                //        else {
+                //            toastr.error('Error in Deleting');
+                //            $("#grid").data("kendoGrid").dataSource.read();
+                //        }
+                //    }
+                //},
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 5,
+
+            schema: {
+                model: {
+                    id: "ID",
+                    fields: {
+                        //ID: { editable: false, nullable: true },
+                        ProjectName: { validation: { required: true } },
+                        TowerName: { validation: { required: true } },
+                        FlatName: { validation: { required: true } },
+                        IBOName: { validation: { required: true } },
+                        SeniorName: { validation: { required: true } },
+                        DirectorName: { validation: { required: true } },
+                        //DirectorName: { validation: { required: true } },
+                        AmountPaid: { validation: { required: true } },
+                        PaidThrough: { validation: { required: true } },
+                        PaidDate: { validation: { required: true } }
+                    }
+                }
+            }
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 350,
+            toolbar: ["search", "excel"],
+            excelExport: exportGridWithTemplatesContent,
+            excel: {
+                fileName: "IBOAdvances.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
+            columns: [
+
+                { field: "ProjectName", title: "Project", width: "140px" },
+                { field: "TowerName", title: "Tower/Plot", width: "120px" },
+                { field: "FlatName", title: "Flat/Villa", width: "120px" },
+                { field: "IBOName", title: "IBO", width: "120px" },
+                { field: "SeniorName", title: "Senior", width: "120px" },
+                { field: "DirectorName", title: "Director", width: "120px" },
+                { field: "AmountPaid", title: "Amount Paid", width: "120px" },
+                { field: "PaidDate", title: "Paid Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(PaidDate), "dd/MM/yyyy")#' },
+                { field: "PaidThrough", title: "Paid Through", width: "150px" },
+                //{ command: ["destroy"], title: "&nbsp;", width: "100px" }
+            ],
+            editable: "inline"
+        });
+
+
+    });
+
+    function exportGridWithTemplatesContent(e) {
+        var data = e.data;
+        var gridColumns = e.sender.columns;
+        var sheet = e.workbook.sheets[0];
+        var visibleGridColumns = [];
+        var columnTemplates = [];
+        var dataItem;
+        // Create element to generate templates in.
+        var elem = document.createElement('div');
+
+        // Get a list of visible columns
+        for (var i = 0; i < gridColumns.length; i++) {
+            if (!gridColumns[i].hidden) {
+                visibleGridColumns.push(gridColumns[i]);
+            }
+        }
+
+        // Create a collection of the column templates, together with the current column index
+        for (var i = 0; i < visibleGridColumns.length; i++) {
+            if (visibleGridColumns[i].template) {
+                columnTemplates.push({ cellIndex: i, template: kendo.template(visibleGridColumns[i].template) });
+            }
+        }
+
+        // Traverse all exported rows.
+        for (var i = 1; i < sheet.rows.length; i++) {
+            var row = sheet.rows[i];
+            // Traverse the column templates and apply them for each row at the stored column position.
+
+            // Get the data item corresponding to the current row.
+            var dataItem = data[i - 1];
+            for (var j = 0; j < columnTemplates.length; j++) {
+                var columnTemplate = columnTemplates[j];
+                // Generate the template content for the current cell.
+                elem.innerHTML = columnTemplate.template(dataItem);
+                if (row.cells[columnTemplate.cellIndex] != undefined)
+                    // Output the text content of the templated cell into the exported cell.
+                    row.cells[columnTemplate.cellIndex].value = elem.textContent || elem.innerText || "";
+            }
+        }
+    }
+</script>
+

@@ -56,5 +56,7 @@ namespace ModelLayer
         public string Details { get; set; }
 
         public string Customer { get; set; }
+
+        public Nullable<bool> ViewReceipt { get; set; }
     }
 }

@@ -25,7 +25,7 @@
     </script>*@
 <script>
         var exception = '@ViewData["Exception"]';
-  
+
     var designations = [];
     $(document).ready(function () {
         dataSource = new kendo.data.DataSource({
@@ -60,16 +60,16 @@
                     url: "/Agent/CreateAgent",
                     dataType: "json",
                     complete: function (jqXhr, textStatus) {
-                       
+
                         if (jqXhr.responseText == "true") {
                             toastr.success('Added Successfull');
                             $("#grid").data("kendoGrid").dataSource.read();
                         }
                         else {
-                            
+
                             toastr.error('Error in Adding agent because of Duplicate Agent Code or while Creating Agent login');
                                 $("#grid").data("kendoGrid").dataSource.read();
-                            
+
                         }
                     }
                 },
@@ -103,6 +103,11 @@
                         OldDesignation: { validation: { required: false } },
                         EffectivePercentageDate: { validation: { required: false } },
                         FranchiseID: { validation: { required: false } },
+                        Gender: { validation: { required: false } },
+                        MaritalStatus: { validation: { required: false } },
+                        Dob: { validation: { required: false } },
+                        City: { validation: { required: false } },
+                        State: { validation: { required: false } },
                         //EffectivePercentageDate: { type: "number" },
                        // AgentParent: { validation: { required: false } },
                         //AgentChild: { validation: { required: false }, maxlength: "999" }
@@ -194,6 +199,11 @@
                     editor: dateTimeEditor
                 },
                 { field: "FranchiseID", title: "Franchise ID", width: "130px" },
+                { field: "Gender", title: "Gender", width: "130px" },
+                { field: "MaritalStatus", title: "MaritalStatus", width: "130px" },
+                { field: "Dob", title: "Dob", width: "130px" },
+                { field: "City", title: "City", width: "130px" },
+                { field: "State", title: "State", width: "130px" },
                 //{ field: "EffectivePercentageDate", title: "Effective % Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(EffectivePercentageDate), "dd/MM/yyyy")#'},
                 //{ field: "AgentParent", title: "Agent Parent", width: "240px", editor: parentDropDownEditor },
                 //{ field: "AgentChild", title: "Agent Child", width: "240px", editor: childDropDownEditor },
@@ -243,15 +253,15 @@
                     }
                 });
         }
-        
-        
+
+
         $.getJSON('/Cascade/GetDesignations', function (response) {
             if (response != null) {
                 designations = response;
             }
         });
 
-       
+
         function designationDropDownEditor(container, options) {
             $('<input required name="' + options.field + '"/>')
                 .appendTo(container)
