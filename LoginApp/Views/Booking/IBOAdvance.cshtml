@@ -21,76 +21,95 @@
     @Html.HiddenFor(m => m.SeniorName)
     @Html.HiddenFor(m => m.DirectorName)
     @Html.HiddenFor(m => m.PaidDate)
-<div class="jumbotron">
-    <div class="row">
-        <div class="col-md-12 col-xs" style="margin-top:0px">
-            <h3 style="margin-top:0px;margin-bottom:4px" align="left">ADD IBO ADVANCE</h3>
-            <div class="specialLine col-md-1"></div>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12 col-xs" style="margin-top:0px">
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">ADD IBO ADVANCE</h3>
+                <div class="specialLine col-md-1"></div>
+            </div>
+
         </div>
 
-    </div>
 
+        <div class="row">
+            @*@Html.LabelFor(m => m.ProjectID, new { @class = "col-md-2" })
+                @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+                @Html.LabelFor(m => m.TowerID, new { @class = "col-md-2" })
+                @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })*@
 
-    <div class="row">
-        @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-2" })
-        @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
-        @Html.LabelFor(m => m.TowerID, new { @class = "col-md-2" })
-        @Html.DropDownListFor(model => model.TowerID, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
-
-    </div>
-    <div class="row">
-        @Html.LabelFor(m => m.FlatID, new { @class = "col-md-2" })
-        @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })
-        @Html.LabelFor(m => m.IBOID, new { @class = "col-md-2" })
-        @Html.DropDownListFor(model => model.IBOID, TempData["AgentList"] as SelectList, "--Select IBO--", new { @class = "textbox-control col-md-3 col-xs" })
-    </div>
-    <div class="row">
-
-        @Html.LabelFor(m => m.SeniorID, new { @class = "col-md-2" })
-        @Html.DropDownListFor(model => model.SeniorID, TempData["AgentList"] as SelectList, "--Select Senior--", new { @class = "textbox-control col-md-3 col-xs" })
-        @Html.LabelFor(m => m.DirectorID, new { @class = "col-md-2" })
-        @Html.DropDownListFor(model => model.DirectorID, TempData["AgentList"] as SelectList, "--Select Director--", new { @class = "textbox-control col-md-3 col-xs" })
-    </div>
-    <div class="row">
-        @Html.LabelFor(m => m.AmountPaid, new { @class = "col-md-2" })
-        @Html.TextBoxFor(m => m.AmountPaid, new { @class = "textbox-control col-md-3 col-xs" })
-        @Html.LabelFor(m => m.PaidDate, new { @class = "col-md-2" })
-        <div class="col-md-2" style="padding-left:0px">
-            <input id="datepicker1" title="datepicker" />
         </div>
-        @*@Html.LabelFor(m => m.PaidThrough, new { @class = "col-md-3" })
-            @Html.TextAreaFor(model => model.PaidThrough, new { @class = "textboxarea-control col-md-3 col-xs" })*@
-    </div>
-    <div class="row">
-        @*@Html.LabelFor(m => m.ApprovedByDirector, new { @class = "col-md-2" })*@
-        @*@Html.CheckBoxFor(m => m.ApprovedByDirector, new { @class = "col-md-4" })
-            @Html.LabelFor(m => m.ApprovedByDirector, new { @class = "col-md-2" })*@
-        @Html.LabelFor(m => m.PaidThrough, new { @class = "col-md-2" })
-        @Html.TextAreaFor(model => model.PaidThrough, new { @class = "textboxarea-control col-md-3 col-xs" })
-        <label class="col-md-3">@Html.CheckBoxFor(x => x.ApprovedByDirector)&nbsp;@Html.DisplayNameFor(x => x.ApprovedByDirector)</label>
-
-    </div>
-
-    <div class="row" style="padding-top:5px;">
-        <div class="col-sm-3 no-pad">
-            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i style="color:white" class="fa fa-dollar"></i>ADD</button>
+        <div class="row">
+            @*@Html.LabelFor(m => m.FlatID, new { @class = "col-md-2" })
+                @Html.DropDownListFor(model => model.FlatID, new SelectList(" "), "--Select Flat--", new { @class = "textbox-control col-md-3 col-xs" })*@
+            @Html.LabelFor(m => m.IBOID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.IBOID, TempData["AgentList"] as SelectList, "--Select IBO--", new { @class = "textbox-control col-md-3 col-xs" })
         </div>
-    </div>
-    <br />
-    <hr />
-    <br />
-    <div class="row">
-        <div class="col-md-12 col-xs" style="margin-top:0px">
-            <h3 style="margin-top:0px;margin-bottom:4px" align="left">IBO ADVANCE</h3>
-            <div class="specialLine col-md-1"></div>
+        <div class="row">
+
+            @Html.LabelFor(m => m.SeniorID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.SeniorID, TempData["AgentList"] as SelectList, "--Select Senior--", new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.DirectorID, new { @class = "col-md-2" })
+            @Html.DropDownListFor(model => model.DirectorID, TempData["AgentList"] as SelectList, "--Select Director--", new { @class = "textbox-control col-md-3 col-xs" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.AmountPaid, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.AmountPaid, new { @class = "textbox-control col-md-3 col-xs" })
+            @Html.LabelFor(m => m.PaidDate, new { @class = "col-md-2" })
+            <div class="col-md-2" style="padding-left:0px">
+                <input id="datepicker1" title="datepicker" />
+            </div>
+            @*@Html.LabelFor(m => m.PaidThrough, new { @class = "col-md-3" })
+                @Html.TextAreaFor(model => model.PaidThrough, new { @class = "textboxarea-control col-md-3 col-xs" })*@
+        </div>
+        <div class="row">
+            @*@Html.LabelFor(m => m.ApprovedByDirector, new { @class = "col-md-2" })*@
+            @*@Html.CheckBoxFor(m => m.ApprovedByDirector, new { @class = "col-md-4" })
+                @Html.LabelFor(m => m.ApprovedByDirector, new { @class = "col-md-2" })*@
+            @Html.LabelFor(m => m.PaidThrough, new { @class = "col-md-2" })
+            @Html.TextAreaFor(model => model.PaidThrough, new { @class = "textboxarea-control col-md-3 col-xs" })
+            <label class="col-md-3">@Html.CheckBoxFor(x => x.ApprovedByDirector)&nbsp;@Html.DisplayNameFor(x => x.ApprovedByDirector)</label>
+
         </div>
 
+        <div class="row" style="padding-top:5px;">
+            <div class="col-sm-3 no-pad">
+                <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i style="color:white" class="fa fa-dollar"></i>ADD</button>
+            </div>
+        </div>
+        <br />
+        <hr />
+        <br />
+        <div class="row">
+            <div class="col-md-12 col-xs" style="margin-top:0px">
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">IBO ADVANCE</h3>
+                <div class="specialLine col-md-1"></div>
+            </div>
+
+        </div>
+        <div id="grid"></div>
     </div>
-    <div id="grid"></div>
-</div>
 }
 
 <script>
+
+    var projects = [];
+    var towers = [];
+    var flats = [];
+    $.getJSON('/Cascade/GetAllProjects', function (response) {
+        if (response != null) {
+            projects = response;
+        }
+    });
+    $.getJSON('/Tower/Details', function (response) {
+        if (response != null) {
+            towers = response;
+        }
+    });
+    $.getJSON('/Flat/Details', function (response) {
+        if (response != null) {
+            flats = response;
+        }
+    });
     $("#datepicker1").kendoDatePicker();
     var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
     $("#datepicker1").val(todayDate);
@@ -139,9 +158,9 @@
     });
 
     function SetHiddenFields() {
-        $("#ProjectName").val($("#ProjectID option:selected").text());
-        $("#TowerName").val($("#TowerID option:selected").text());
-        $("#FlatName").val($("#FlatID option:selected").text());
+        //$("#ProjectName").val($("#ProjectID option:selected").text());
+        //$("#TowerName").val($("#TowerID option:selected").text());
+        //$("#FlatName").val($("#FlatID option:selected").text());
         $("#IBOName").val($("#IBOID option:selected").text());
         $("#SeniorName").val($("#SeniorID option:selected").text());
         $("#DirectorName").val($("#DirectorID option:selected").text());
@@ -170,6 +189,21 @@
                     dataType: "json",
                     type: "POST"
 
+                },
+                update: {
+                    url: "/Booking/UpdateIBOAdvances",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
                 },
                 //destroy: {
                 //    url: "/Booking/DeleteAgreement",
@@ -204,17 +238,18 @@
                 model: {
                     id: "ID",
                     fields: {
-                        //ID: { editable: false, nullable: true },
-                        ProjectName: { validation: { required: true } },
-                        TowerName: { validation: { required: true } },
-                        FlatName: { validation: { required: true } },
-                        IBOName: { validation: { required: true } },
-                        SeniorName: { validation: { required: true } },
-                        DirectorName: { validation: { required: true } },
+                        ID: { editable: false, nullable: true,hidden :true },
+                        ProjectID: { validation: { required: true } },
+                        TowerID: { validation: { required: true } },
+                        FlatID: { validation: { required: true } },
+                        IBOName: { validation: { required: true }, editable: false },
+                        SeniorName: { validation: { required: true }, editable: false },
+                        DirectorName: { validation: { required: true }, editable: false },
                         //DirectorName: { validation: { required: true } },
-                        AmountPaid: { validation: { required: true } },
-                        PaidThrough: { validation: { required: true } },
-                        PaidDate: { validation: { required: true } }
+                        AmountPaid: { validation: { required: true }, editable: false},
+                        PaidThrough: { validation: { required: true }, editable: false },
+                        PaidDate: { validation: { required: true }, editable: false},
+                        Comment: { validation: { required: false } },
                     }
                 }
             }
@@ -234,24 +269,126 @@
                 filterable: true,
                 allPages: true
             },
+            //edit: function (e) {
+            //    if (!e.model.isNew()) {
+            //        $("#ProjectID").data("kendoDropDownList").readonly();
+            //        $("#TowerID").data("kendoDropDownList").readonly();
+            //        //$(e.container).find('input[name="FlatName"]').attr("readonly", true);
+            //    }
+            //},
+            save: function (e) {
+               
+                    e.model.TowerID = e.model.TowerID.TowerID
+                e.model.ProjectID = e.model.ProjectID.ProjectID
+                e.model.FlatID = e.model.FlatID.FlatID
+                
+            },
             columns: [
 
-                { field: "ProjectName", title: "Project", width: "140px" },
-                { field: "TowerName", title: "Tower/Plot", width: "120px" },
-                { field: "FlatName", title: "Flat/Villa", width: "120px" },
+                {
+                    // the brandId column
+                    title: "Project",
+                    width: "200px",
+                    field: "ProjectID", // bound to the brandId field
+                    //template : "#if(ProjectID !=null){# #: DeviceLabel # #}",
+                    //template: "#= brandName(ProjectID) #", // the template shows the name corresponding to the brandId field
+                    //template: "#if(data.isNew()){# #: brandName(0) # #}else {# #: brandName(ProjectID) # #}#",
+                    template: $("#template1").html(),
+                    filterable: { ui: projectFilterTemplate },
+                    editor: function (container) { // use a dropdownlist as an editor
+                        //create an input element with id and name set as the bound field (brandId)
+                        var input = $('<input id="ProjectID" name="ProjectID">');
+                        // append to the editor container
+                        input.appendTo(container);
+
+                        // initialize a dropdownlist
+                        input.kendoDropDownList({
+                            dataTextField: "ProjectName",
+                            dataValueField: "ProjectID",
+                            dataSource: projects // bind it to the brands array
+                        }).appendTo(container);
+                    }
+                },
+                {
+                    // The modelId column.
+                    title: "Tower",
+                    field: "TowerID",  // bound to the modelId field
+                    //template: "#= modelName(TowerID) #", //the template shows the name corresponding to the modelId field
+                    template: $("#template2").html(),
+                    filterable: { ui: towerFilterTemplate },
+                    editor: function (container) { // use a dropdownlist as an editor
+                        var input = $('<input id="TowerID" name="TowerID">');
+                        input.appendTo(container);
+                        input.kendoDropDownList({
+                            dataTextField: "TowerName",
+                            dataValueField: "TowerID",
+                            cascadeFrom: "ProjectID", // cascade from the brands dropdownlist
+                            dataSource: towers // bind it to the models array
+                        }).appendTo(container);
+                    },
+                    width: "170px",
+                },
+                {
+                    // The modelId column.
+                    title: "Flat",
+                    field: "FlatID",  // bound to the modelId field
+                    //template: "#= modelName(TowerID) #", //the template shows the name corresponding to the modelId field
+                    template: $("#template3").html(),
+                    filterable: { ui: towerFilterTemplate },
+                    editor: function (container) { // use a dropdownlist as an editor
+                        var input = $('<input id="FlatID" name="FlatID">');
+                        input.appendTo(container);
+                        input.kendoDropDownList({
+                            dataTextField: "FlatName",
+                            dataValueField: "FlatID",
+                            cascadeFrom: "TowerID", // cascade from the brands dropdownlist
+                            dataSource: flats // bind it to the models array
+                        }).appendTo(container);
+                    },
+                    width: "170px",
+                },
                 { field: "IBOName", title: "IBO", width: "120px" },
                 { field: "SeniorName", title: "Senior", width: "120px" },
                 { field: "DirectorName", title: "Director", width: "120px" },
                 { field: "AmountPaid", title: "Amount Paid", width: "120px" },
                 { field: "PaidDate", title: "Paid Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(PaidDate), "dd/MM/yyyy")#' },
                 { field: "PaidThrough", title: "Paid Through", width: "150px" },
+                { field: "Comment", title: "Comment", width: "150px" },
                 //{ command: ["destroy"], title: "&nbsp;", width: "100px" }
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "90px"
+                }
             ],
             editable: "inline"
         });
 
 
     });
+
+
+
+    function projectFilterTemplate(input) {
+        input.kendoDropDownList({
+            filter: "eq",
+            dataTextField: "ProjectName",
+            dataValueField: "ProjectID",
+            dataSource: projects,
+            optionLabel: "All"
+        });
+    }
+
+    function towerFilterTemplate(input) {
+        input.kendoDropDownList({
+            filter: "eq",
+            dataTextField: "TowerName",
+            dataValueField: "TowerID",
+            dataSource: towers,
+            optionLabel: "All"
+        });
+    }
 
     function exportGridWithTemplatesContent(e) {
         var data = e.data;
@@ -294,5 +431,45 @@
             }
         }
     }
+
+    function brandName(brandId) {
+        if (brandId != '' || brandId != null) {
+            for (var i = 0; i < projects.length; i++) {
+
+                if (projects[i].ProjectID == brandId) {
+                    return projects[i].ProjectName;
+                }
+            }
+        }
+    }
+
+    function modelName(modelId) {
+        if (modelId != '' || modelId != null) {
+            for (var i = 0; i < towers.length; i++) {
+                if (towers[i].TowerID == modelId) {
+                    return towers[i].TowerName;
+                }
+            }
+        }
+    }
+
+    function modelName2(modelId) {
+        if (modelId != '' || modelId != null) {
+            for (var i = 0; i < flats.length; i++) {
+                if (flats[i].FlatID == modelId) {
+                    return flats[i].FlatName;
+                }
+            }
+        }
+    }
 </script>
 
+<script type="text/x-kendo-template" id="template1">
+    #if(typeof ProjectID === 'undefined') {# #: brandName(0) # #} else {# #: brandName(ProjectID) # #}#
+</script>
+<script type="text/x-kendo-template" id="template2">
+    #if(typeof TowerID === 'undefined') {# #: modelName(1) # #} else {# #: modelName(TowerID) # #}#
+</script>
+<script type="text/x-kendo-template" id="template3">
+    #if(typeof FlatID === 'undefined') {# #: modelName2(1) # #} else {# #: modelName2(FlatID) # #}#
+</script>

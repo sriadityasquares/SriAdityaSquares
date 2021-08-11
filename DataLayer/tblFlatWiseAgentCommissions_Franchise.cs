@@ -23,5 +23,7 @@ namespace DataLayer
         public Nullable<int> AmountPaid { get; set; }
         public Nullable<int> NetBalance { get; set; }
         public Nullable<int> Discount { get; set; }
+        public Nullable<int> Advance { get; set; }
+        public string Comment { get; set; }
     }
 }

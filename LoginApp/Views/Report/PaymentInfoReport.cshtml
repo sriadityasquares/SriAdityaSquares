@@ -5,7 +5,19 @@
     ViewBag.Reports = "active";
     ViewBag.PaymentInfoReport = "active";
 }
+<style>
 
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px;
+        }
+
+        .jumbotron {
+            width: 1700px;
+        }
+    }
+</style>
 <div class="jumbotron" style="background-color:white">
 
     <div class="row">
@@ -138,7 +150,7 @@
 
                     { field: "agentname", title: "AGENT", width: 120, hidden: hidden },
                     { field: "PaymentMode", title: "PAY MODE", width: 120 },
-                    { field: "ReferenceNo", title: "REF NO", width: 120 },
+                    { field: "ReferenceNo", title: "REF NO", width: 200 },
 
                     { field: "BookingAmount", title: "AMOUNT PAID" ,width: 140 },
                     { field: "BalanceAmount", title: "AMOUNT REM" ,width: 140},

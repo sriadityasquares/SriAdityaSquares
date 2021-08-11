@@ -5,6 +5,7 @@
     ViewBag.Title = "Statistics";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <head>
     <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
@@ -22,6 +23,19 @@
     <script src="~/Scripts/Dashboard/bootstrap-material-design.min.js"></script>
     <script src="~/Scripts/Dashboard/chartist.min.js"></script>
 </head>
+<style>
+
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px;
+        }
+
+        .jumbotron {
+            width: 1500px;
+        }
+    }
+</style>
 <div style="background-color:black" class="jumbotron">
     <div class="content">
         <div class="container-fluid">

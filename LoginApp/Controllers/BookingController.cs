@@ -879,7 +879,9 @@ namespace LoginApp.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult DailyExpenses()
         {
-
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
             return View();
         }
 
@@ -891,6 +893,8 @@ namespace LoginApp.Controllers
             TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
             var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
             dailyExpense.CreatedDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
+            if (dailyExpense.ProjectID == null)
+                dailyExpense.ProjectName = "";
             var result = false;
             if (dailyExpense.BulkUpload != null)
             {
@@ -923,6 +927,9 @@ namespace LoginApp.Controllers
                 TempData["successmessage"] = "Expense Adding Failed";
             }
             ModelState.Clear();
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
             return View();
         }
 
@@ -952,6 +959,8 @@ namespace LoginApp.Controllers
                                 ExpenseDate = objDataRow["ExpenseDate"].ToString(),
                                 PaidTo = objDataRow["PaidTo"].ToString(),
                                 Particulars = objDataRow["Particulars"].ToString(),
+                                ExpenseType = objDataRow["ExpenseType"].ToString(),
+                                ProjectName = objDataRow["ProjectName"].ToString(),
                                 Amount = Convert.ToInt32(objDataRow["Amount"]),
                                 PaymentMode = objDataRow["PaymentMode"].ToString(),
                                 Comments = objDataRow["Comments"].ToString(),
@@ -974,6 +983,7 @@ namespace LoginApp.Controllers
         public JsonResult GetDailyExpenses()
         {
             var result = booking.GetDailyExpenses();
+           
             return Json(result, JsonRequestBehavior.AllowGet);
 
         }
@@ -1160,54 +1170,57 @@ namespace LoginApp.Controllers
         public JsonResult GetCheckList(int flatID, bool backup = false)
         {
             ModelLayer.BookingInformation result = new ModelLayer.BookingInformation();
-            if (!backup)
-                result = booking.GetBookingInformation(flatID);
-            else
-                //result = booking.GetBookingInformationForCancelledFlats(flatID);
-                result = new ModelLayer.BookingInformation();
-            TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
-            CultureInfo inr = new CultureInfo("hi-IN");
-            var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
-            var sysDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
-            var bookingDate = result.ChequeDate != null ? Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy") : "";
-            var amountInWords = Helper.AmountInWords(Convert.ToDouble(result.BookingAmount));
-            var bookID = result.BookingID.ToString().Split('-')[0].ToString().ToUpper();
-            //var html = "<article><address></address><table class=\"meta\"><tr><th><span>Receipt  #</span></th><td><span contenteditable></span></td> </tr><tr><th><span>Date</span></th><td><span contenteditable>#BookingDate</span></td></tr><tr></tr></table><table class=\"inventory\"><tr><th><span>PROJECT :</span></th><td><span>#Project</span></td><th><span>TOWER :</span></th><td><span>#Tower</span></td></tr><tr><th><span>NAME:</span></th><td><span>#CName</span></td><th><span>MOBILE :</span></th><td><span>#CMobile</span></td></tr><tr><th><span>AMOUNT PAID:</span></th><td><span>#BookingAmount</span></td><th><span>FLAT/PLOT NO :</span></th><td><span>#Flat</span></td></tr><tr><th><span>SFT:</span></th><td><span contenteditable>#SFT</span></td><th><span>MODE :</span></th><td><span>#Cheque</span></td></tr><tr><th><span>Ref No:</span></th><td><span>#RefNo</span></td></tr></table></article>";
-            var html = "<table id='tblBookingDetails' class=\"table table-condensed\"><tr><th>Name</th><td>#CName</td><th>Contact</th><td>#Mobile</td></tr><tr><th>Aadhar</th><td>#Aadhar</td><th>Pan No</th><td>#PanNo</td></tr><tr><th>Project</th><td>#Project</td><th>Scheme</th><td>#SchemePercentage %</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Sft Rate</th><td>#SftRate</td></tr><tr><th>Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>High Rise</th><td>#HIGHRISE</td><th>Total Rate</th><td><b>Rs.</b> #totalRate</td></tr> <tr><th>Discount</th><td>#discount</td><th>Final Rate</th><td><b>Rs.</b> #finalRate</td></tr><tr><th>ClubHouse</th><td><b>Rs.</b> #ClubHouse</td><th>Oth Charges</th><td><b>Rs.</b> #OtherCharges</td></tr><tr><th>Total</th><td><b>Rs.</b> #GrandRate</td><th>Scheme Due</th><td><b>Rs.</b> #SchemeDue</td></tr><tr><th>IBO Name</th><td>#AgentName</td><th>Booking Date</th><td>#BookingDate</td></tr><tr><th>Remarks</th><td colspan='3'>#Remarks</td></tr><tr><th>IBO Share</th><td><b>Rs.</b> #IBOShare</td><th>Comp Share</th><td><b>Rs.</b> #Company</td></tr></table>";
-            html = html.Replace("#CName", result.Name)
-                .Replace("#Project", result.ProjectName)
-                .Replace("#Tower", result.TowerName)
-                .Replace("#Aadhar", result.Aadhar == null ? "" : result.Aadhar.ToString())
-                .Replace("#PanNo", result.Pan == null ? "" : result.Pan.ToString())
-                .Replace("#Mobile", result.Mobile == null ? "" : result.Mobile.ToString())
-                .Replace("#BookingDate", result.ChequeDate != null ? Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy") : "")
-                .Replace("#Flat", result.TowerName + "-" + result.FlatName)
-                .Replace("#SFT", result.Area.ToString())
-                .Replace("#SchemePercentage", result.SchemePercentage.ToString())
-                .Replace("#Address", result.Address == null ? "" : result.Address.ToString())
-                .Replace("#Cheque", result.PaymentMode.ToString())
-                .Replace("#RefNo", result.ReferenceNo)
-                .Replace("#BHK", result.Bhk.ToString())
-                .Replace("#GrandRate", string.Format(inr, "{0:#,#}", result.GrandRate))
-                .Replace("#finalRate", string.Format(inr, "{0:#,#}", result.FinalRate))
-                .Replace("#discount", result.Discount.ToString())
-                .Replace("#Remarks", result.Remarks)
-                .Replace("#HIGHRISE", result.HighRiseCharges.ToString())
-                .Replace("#totalRate", result.TotalRate.ToString())
-                //.Replace("#Date", sysDate)
-                //.Replace("#amountInWords", amountInWords)
-                //.Replace("#bookingID", bookID)
-                .Replace("#Company", result.CompanyShare.ToString() != "0" ? result.CompanyShare.ToString("#,#", new CultureInfo(0x0439)) : "0")
-                .Replace("#IBOShare", result.IBOShare.ToString() != "0" ? result.IBOShare.ToString("#,#", new CultureInfo(0x0439)) : "0")
-                .Replace("#SchemeDue", result.DueAmount.ToString() != "0" ? result.DueAmount.ToString("#,#", new CultureInfo(0x0439)) : "0")
-                //.Replace("#GrandRate", "<b>Rs.</b>" + result.GrandRate.ToString())
-                .Replace("#SftRate", result.SftRate.ToString())
-                .Replace("#OtherCharges", result.OtherCharges.ToString() != "0" ? string.Format(inr, "{0:#,#}", result.OtherCharges) : "0")
-                .Replace("#ClubHouse", result.ClubHouseCharges.ToString() != "0" ? string.Format(inr, "{0:#,#}", result.ClubHouseCharges) : "0")
-                .Replace("#AgentName", result.AgentName);
-            if(result.GSTAmount !=null)
+            var html = "";
+            result = booking.GetBookingInformation(flatID);
+            //else
+            //result = booking.GetBookingInformationForCancelledFlats(flatID);
+            //result = new ModelLayer.BookingInformation();
+            if (result != null)
             {
-                html = html + "<p style='color:red;'>*Total amount is inclusive of 5% GST*</p>";
+                TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+                CultureInfo inr = new CultureInfo("hi-IN");
+                var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
+                var sysDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
+                var bookingDate = result.ChequeDate != null ? Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy") : "";
+                var amountInWords = Helper.AmountInWords(Convert.ToDouble(result.BookingAmount));
+                var bookID = result.BookingID.ToString().Split('-')[0].ToString().ToUpper();
+                //var html = "<article><address></address><table class=\"meta\"><tr><th><span>Receipt  #</span></th><td><span contenteditable></span></td> </tr><tr><th><span>Date</span></th><td><span contenteditable>#BookingDate</span></td></tr><tr></tr></table><table class=\"inventory\"><tr><th><span>PROJECT :</span></th><td><span>#Project</span></td><th><span>TOWER :</span></th><td><span>#Tower</span></td></tr><tr><th><span>NAME:</span></th><td><span>#CName</span></td><th><span>MOBILE :</span></th><td><span>#CMobile</span></td></tr><tr><th><span>AMOUNT PAID:</span></th><td><span>#BookingAmount</span></td><th><span>FLAT/PLOT NO :</span></th><td><span>#Flat</span></td></tr><tr><th><span>SFT:</span></th><td><span contenteditable>#SFT</span></td><th><span>MODE :</span></th><td><span>#Cheque</span></td></tr><tr><th><span>Ref No:</span></th><td><span>#RefNo</span></td></tr></table></article>";
+                html = "<table id='tblBookingDetails' class=\"table table-condensed\"><tr><th>Name</th><td>#CName</td><th>Contact</th><td>#Mobile</td></tr><tr><th>Aadhar</th><td>#Aadhar</td><th>Pan No</th><td>#PanNo</td></tr><tr><th>Project</th><td>#Project</td><th>Scheme</th><td>#SchemePercentage %</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Sft Rate</th><td>#SftRate</td></tr><tr><th>Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>High Rise</th><td>#HIGHRISE</td><th>Total Rate</th><td><b>Rs.</b> #totalRate</td></tr> <tr><th>Discount</th><td>#discount</td><th>Final Rate</th><td><b>Rs.</b> #finalRate</td></tr><tr><th>ClubHouse</th><td><b>Rs.</b> #ClubHouse</td><th>Oth Charges</th><td><b>Rs.</b> #OtherCharges</td></tr><tr><th>Total</th><td><b>Rs.</b> #GrandRate</td><th>Scheme Due</th><td><b>Rs.</b> #SchemeDue</td></tr><tr><th>IBO Name</th><td>#AgentName</td><th>Booking Date</th><td>#BookingDate</td></tr><tr><th>Remarks</th><td colspan='3'>#Remarks</td></tr><tr><th>IBO Share</th><td><b>Rs.</b> #IBOShare</td><th>Comp Share</th><td><b>Rs.</b> #Company</td></tr></table>";
+                html = html.Replace("#CName", result.Name)
+                    .Replace("#Project", result.ProjectName)
+                    .Replace("#Tower", result.TowerName)
+                    .Replace("#Aadhar", result.Aadhar == null ? "" : result.Aadhar.ToString())
+                    .Replace("#PanNo", result.Pan == null ? "" : result.Pan.ToString())
+                    .Replace("#Mobile", result.Mobile == null ? "" : result.Mobile.ToString())
+                    .Replace("#BookingDate", result.ChequeDate != null ? Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy") : "")
+                    .Replace("#Flat", result.TowerName + "-" + result.FlatName)
+                    .Replace("#SFT", result.Area.ToString())
+                    .Replace("#SchemePercentage", result.SchemePercentage.ToString())
+                    .Replace("#Address", result.Address == null ? "" : result.Address.ToString())
+                    .Replace("#Cheque", result.PaymentMode.ToString())
+                    .Replace("#RefNo", result.ReferenceNo)
+                    .Replace("#BHK", result.Bhk.ToString())
+                    .Replace("#GrandRate", string.Format(inr, "{0:#,#}", result.GrandRate))
+                    .Replace("#finalRate", string.Format(inr, "{0:#,#}", result.FinalRate))
+                    .Replace("#discount", result.Discount.ToString())
+                    .Replace("#Remarks", result.Remarks)
+                    .Replace("#HIGHRISE", result.HighRiseCharges.ToString())
+                    .Replace("#totalRate", result.TotalRate.ToString())
+                    //.Replace("#Date", sysDate)
+                    //.Replace("#amountInWords", amountInWords)
+                    //.Replace("#bookingID", bookID)
+                    .Replace("#Company", result.CompanyShare.ToString() != "0" ? result.CompanyShare.ToString("#,#", new CultureInfo(0x0439)) : "0")
+                    .Replace("#IBOShare", result.IBOShare.ToString() != "0" ? result.IBOShare.ToString("#,#", new CultureInfo(0x0439)) : "0")
+                    .Replace("#SchemeDue", result.DueAmount.ToString() != "0" ? result.DueAmount.ToString("#,#", new CultureInfo(0x0439)) : "0")
+                    //.Replace("#GrandRate", "<b>Rs.</b>" + result.GrandRate.ToString())
+                    .Replace("#SftRate", result.SftRate.ToString())
+                    .Replace("#OtherCharges", result.OtherCharges.ToString() != "0" ? string.Format(inr, "{0:#,#}", result.OtherCharges) : "0")
+                    .Replace("#ClubHouse", result.ClubHouseCharges.ToString() != "0" ? string.Format(inr, "{0:#,#}", result.ClubHouseCharges) : "0")
+                    .Replace("#AgentName", result.AgentName);
+                if (result.GSTAmount != null)
+                {
+                    html = html + "<p style='color:red;'>*Total amount is inclusive of 5% GST*</p>";
+                }
             }
             return Json(html, JsonRequestBehavior.AllowGet);
         }
@@ -1422,6 +1435,13 @@ namespace LoginApp.Controllers
             return View();
         }
 
+        public JsonResult UpdateIBOAdvances(string models)
+        {
+
+            List<IBOAdvanceForm> data = JsonConvert.DeserializeObject<List<IBOAdvanceForm>>(models);
+            var result = booking.UpdateIBOAdvances(data[0]);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetIBOAdvances()
         {
             var result = booking.GetIBOAdvances();

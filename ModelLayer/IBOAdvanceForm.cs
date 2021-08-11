@@ -49,5 +49,7 @@ namespace ModelLayer
         public Nullable<System.DateTime> PaidDate { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+
+        public string Comment { get; set; }
     }
 }

@@ -40,7 +40,19 @@
                     text-decoration: none;
                 }
 </style>
+<style>
 
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px;
+        }
+
+        .jumbotron {
+            width: 1400px;
+        }
+    }
+</style>
 <script>
     jQuery.fn.liScroll = function (settings) {
         settings = jQuery.extend({

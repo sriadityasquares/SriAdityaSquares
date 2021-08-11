@@ -5,7 +5,19 @@
     ViewBag.Booking = "active";
     ViewBag.MakePayment = "active";
 }
+<style>
 
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px;
+        }
+
+        .jumbotron {
+            width: 1700px;
+        }
+    }
+</style>
 @using (Html.BeginForm("MakePayment", "Booking", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "submitbtn" }))
 {
     //@(ViewContext.ClientValidationEnabled = false)

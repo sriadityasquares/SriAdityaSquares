@@ -226,15 +226,6 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsersWithRoles_Result>("sp_GetUsersWithRoles");
         }
     
-        public virtual ObjectResult<sp_GetAgentFlatWiseCommissionByLogin_Result> sp_GetAgentFlatWiseCommissionByLogin(string agentEmail)
-        {
-            var agentEmailParameter = agentEmail != null ?
-                new ObjectParameter("AgentEmail", agentEmail) :
-                new ObjectParameter("AgentEmail", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentFlatWiseCommissionByLogin_Result>("sp_GetAgentFlatWiseCommissionByLogin", agentEmailParameter);
-        }
-    
         public virtual ObjectResult<sp_GetMySiteVisits_Result> sp_GetMySiteVisits(string userName)
         {
             var userNameParameter = userName != null ?
@@ -752,6 +743,15 @@ namespace DataLayer
         public virtual ObjectResult<sp_GetPaymentsForReceiptApproval_Result> sp_GetPaymentsForReceiptApproval()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetPaymentsForReceiptApproval_Result>("sp_GetPaymentsForReceiptApproval");
+        }
+    
+        public virtual ObjectResult<sp_GetAgentFlatWiseCommissionByLogin_Result> sp_GetAgentFlatWiseCommissionByLogin(string agentEmail)
+        {
+            var agentEmailParameter = agentEmail != null ?
+                new ObjectParameter("AgentEmail", agentEmail) :
+                new ObjectParameter("AgentEmail", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentFlatWiseCommissionByLogin_Result>("sp_GetAgentFlatWiseCommissionByLogin", agentEmailParameter);
         }
     }
 }

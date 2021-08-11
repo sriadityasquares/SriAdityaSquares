@@ -4,8 +4,20 @@
     ViewBag.MyCommission = "active";
     ViewBag.Dashboard = "active";
 }
+<style>
 
-<div class="jumbotron" style="background-color:white;padding-bottom:10px;height:800px;margin-top:20px;">
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px;
+        }
+
+        .jumbotron {
+            width: 1700px;
+        }
+    }
+</style>
+<div class="jumbotron" style="background-color:whitesmoke;padding-bottom:10px;height:850px;margin-top:20px;">
 
     <div class="row">
         <div class="col-md-12 col-xs" style="margin-top:0px">
@@ -59,7 +71,7 @@
         $("#grid").kendoGrid({
             dataSource: dataSource,
             pageable: true,
-            height: 550,
+            height: 650,
             toolbar: ["search", "excel"],
             excel: {
                 allPages: true,
@@ -68,14 +80,19 @@
             },
             columns: [
                 { field: "ProjectName", title: "PROJECT", width: "100px" },
-                { field: "TowerName", title: "TOWER", width: "100px" },
+                { field: "TowerName", title: "TOWER", width: "80px" },
                 { field: "FlatName", title: "FLAT", width: "50px" },
-
-                { field: "AgentName", title: "AGENT", width: "130px" },
-                { field: "AgentCommission", title: "FLAT COMMISSION", width: "120px", template: "#= currency(AgentCommission)#" },
-                { field: "AmountPaid", title: "COMMISSION PAID", width: "120px", template: "#= currency(AmountPaid)#" },
-                { field: "Discount", title: "DISCOUNT", width: "100px", template: "#= currency(Discount)#" },
-                { field: "NetBalance", title: "NET BALANCE", width: "100px", template: "#= currency(NetBalance)#" }]
+                { field: "AgentName", title: "AGENT", width: "140px" },
+                { field: "BSP", title: "BSP", width: "80px"},
+                { field: "AgentGross", title: "GROSS COMMISSION", width: "155px", template: "#= currency(AgentGross)#" },
+                { field: "AgentTDS", title: "TDS DEDUCTION", width: "140px", template: "#= currency(AgentTDS)#" },
+                { field: "AgentCommission", title: "NET COMMISSION", width: "140px", template: "#= currency(AgentCommission)#" },
+                { field: "AmountPaid", title: "NET PAID", width: "120px", template: "#= currency(AmountPaid)#" },
+                { field: "Discount", title: "DISCOUNT", width: "120px", template: "#= currency(Discount)#" },
+                { field: "Advance", title: "ADVANCE", width: "120px", template: "#= currency(Advance)#" },
+                { field: "NetBalance", title: "NET BALANCE", width: "120px", template: "#= currency(NetBalance)#" },
+                { field: "Comment", title: "COMMENTS", width: "150px" },
+            ]
             //editable: "inline",
         });
 

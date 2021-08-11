@@ -30,7 +30,7 @@
 
     </div>
 </div>
-<div class="jumbotron">
+<div class="jumbotron" style="width:1700px !important">
     <div class="row">
         <div class="col-md-1 col-xs">
             <h3 align="center" style="margin-bottom:2px">DASHBOARD</h3>
@@ -44,7 +44,7 @@
         <hr />
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:20px">
         @Html.LabelFor(m => m.Project, new { @class = "col-md-2" })
         @Html.DropDownListFor(model => model.Project, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
         @Html.LabelFor(m => m.Tower, new { @class = "col-md-2" })
@@ -56,9 +56,8 @@
                 <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-book"></i>SHOW FLAT STATUS</button>
             </div>
         </div>*@
-    <br />
-    <br />
 
+    @*<script src="~/Scripts/im.js"></script>*@
     <div id="labels" class="row" style="display:none">
         <br />
         <div class="col-md-2">
@@ -84,12 +83,20 @@
         </div>
     </div>
 
-    <br />
+
+    @*<div class="row">
+        <iframe width="960" height="602" data-original-width="1004" data-original-height="630" src="https://www.thinglink.com/card/1475713458946179075" type="text/html" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>
+        <script async src="~/Scripts/im.js"></script>
+    </div>*@
+
     <div class="row">
+
         <div id="bookingDashboard" class="col-md-auto">
+
 
             <br />
             <br />
+
             <div id="bookingstatus"></div>
 
         </div>
@@ -124,6 +131,7 @@
         $('#bookingstatus').hide();
         html = ''
         $.get("/Booking/GetAllFlats", { TowerId: $("#Tower").val() }, function (data) {
+            //document.getElementsByClassName('wrapper').style.top = "10px";
             if (data != '' || data != null) {
                 $.each(data, function (index, row) {
 
@@ -141,6 +149,15 @@
                     if (FloorNo != row.Floor) {
                         FloorNo = row.Floor;
                         html = html + '</div>'
+                        if (row.Floor > 21) {
+                            row.Floor = 21
+                            $('#bookingDashboard').css("padding-left", "70px");
+                            $('#bookingDashboard').css("padding-top", "15px");
+                        }
+                        else {
+                            $('#bookingDashboard').css("padding-left", "400px");
+                            $('#bookingDashboard').css("padding-top", "15px");
+                        }
                         html = html + '<div class="cinema-row row-' + row.Floor + '">';
                     }
                     //var Facing = row.Facing;
@@ -236,6 +253,10 @@
 <script>
     $(document).ready(function () {
         $('[data-toggle="popover"]').popover();
+        
+        //$(".wrapper").css({ top: '10px' });
+       
+
 
     });
     window.onload = function () {
@@ -254,8 +275,12 @@
         $.get("/Cascade/UpdateAgentLocation", { latitude: position.coords.latitude, longitude: position.coords.longitude }, function (data) {
         });
     }
-
+   
 
 </script>
 <style>
+    .container{
+        margin-left: 350px !important;
+    }
+    
 </style>

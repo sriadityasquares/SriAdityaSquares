@@ -4,6 +4,20 @@
     ViewBag.Users = "active";
 }
 
+
+<style>
+
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px;
+        }
+
+        .jumbotron {
+            width: 1700px;
+        }
+    }
+</style>
 <div class="jumbotron">
     <div class="row">
         <div class="col-md-1 col-xs">
@@ -53,7 +67,7 @@
         $("#grid").kendoGrid({
             dataSource: dataSource,
             pageable: true,
-            height: 550,
+            height: 650,
             toolbar: ["search", "excel"],
         excel: {
             fileName: "UserMaster.xlsx",

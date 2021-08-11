@@ -5765,6 +5765,32 @@ body {
                 transform: skew(-20deg);
             }
 
+
+        .left .row-22 {
+            transform: skew(7deg);
+        }
+
+            .left .row-22 .seat {
+                transform: skew(-22deg);
+            }
+
+        left .row-23 {
+            transform: skew(7.5deg);
+        }
+
+        .left .row-23 .seat {
+            transform: skew(-23deg);
+        }
+
+        /*left .row-24 {
+            transform: skew(9deg);
+        }
+
+        .left .row-24 .seat {
+            transform: skew(-26deg);
+        }
+*/
+
         .right {
             margin-left: 70px;
         }

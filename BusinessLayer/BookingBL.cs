@@ -561,5 +561,10 @@ namespace BusinessLayer
             return db.GetIBOAdvances();
         }
 
+        public bool UpdateIBOAdvances(IBOAdvanceForm advanceForm)
+        {
+            return db.UpdateIBOAdvances(advanceForm);
+        }
+
     }
 }

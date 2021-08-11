@@ -24,5 +24,8 @@ namespace DataLayer
         public string TransactionType { get; set; }
         public string CreatedDate { get; set; }
         public string CreatedBy { get; set; }
+        public string ExpenseType { get; set; }
+        public Nullable<int> ProjectID { get; set; }
+        public string ProjectName { get; set; }
     }
 }

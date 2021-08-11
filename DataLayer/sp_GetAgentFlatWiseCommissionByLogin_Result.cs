@@ -22,7 +22,12 @@ namespace DataLayer
         public Nullable<int> AmountPaid { get; set; }
         public Nullable<int> NetBalance { get; set; }
         public Nullable<int> Discount { get; set; }
+        public Nullable<int> Advance { get; set; }
+        public string Comment { get; set; }
         public string ProjectName { get; set; }
         public string TowerName { get; set; }
+        public Nullable<decimal> AgentTDS { get; set; }
+        public Nullable<decimal> AgentGross { get; set; }
+        public Nullable<int> BSP { get; set; }
     }
 }

@@ -7,18 +7,34 @@
     var message = TempData["successmessage"] ?? string.Empty;
 }
 
-<br />
-<br />
+
+
+
+
+<style>
+
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px;
+        }
+
+        .jumbotron {
+            width: 1700px;
+        }
+    }
+</style>
 @using (Html.BeginForm("New", "Booking", FormMethod.Post, new { @class="form-horizontal",  role = "form", id = "submitbtn" }))
 {
     //@(ViewContext.ClientValidationEnabled = false)
 
     @Html.AntiForgeryToken()
 <div class="jumbotron">
+   
     <div class="row">
-        <div class="col-md-1 col-xs">
-            <h3 align="center" style="margin-bottom: 2px;">@ViewBag.ScreenName</h3>
-            <div class="specialLine"></div>
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">@ViewBag.ScreenName</h3>
+            <div class="specialLine col-md-1"></div>
         </div>
 
     </div>
@@ -186,13 +202,13 @@
         @Html.LabelFor(m => m.GrandRate, new { @class = "col-md-2" })
         @Html.TextBoxFor(m => m.GrandRate, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
         @*@Html.LabelFor(m => m.BookingDate, new { @class = "col-md-1" })
-        <div class="col-md-2" style="padding-left:0px">
-            <input id="datepicker1" title="datepicker" />
-        </div>
-        @Html.LabelFor(m => m.ChequeDate, new { @class = "col-md-1" })
-        <div class="col-md-2" style="padding-left:0px">
-            <input id="cqDatePicker" title="datepicker" />
-        </div>*@
+            <div class="col-md-2" style="padding-left:0px">
+                <input id="datepicker1" title="datepicker" />
+            </div>
+            @Html.LabelFor(m => m.ChequeDate, new { @class = "col-md-1" })
+            <div class="col-md-2" style="padding-left:0px">
+                <input id="cqDatePicker" title="datepicker" />
+            </div>*@
 
     </div>
     <div class="row">
@@ -703,6 +719,21 @@
         }
 
         function SetDueAmount() {
+            var SortedSchemeList = SchemeList.filter(function (e) {
+                return e.SchemeID == $("#SchemeID").val();
+            });
+            var sqftRate = SortedSchemeList[0].SqFtCost;
+            $("#SftRate").val(sqftRate);
+            toastr.options = {
+                "closeButton": true,
+            }
+            toastr.options.timeOut = 10500;
+            toastr.options.closeButton = true;
+            downPayment = SortedSchemeList[0].DownPayment;
+            downDuePeriod = SortedSchemeList[0].DownPaymentTimePeriod;
+            DuePeriod = SortedSchemeList[0].PaymentTimePeriod;
+            payPercentage = SortedSchemeList[0].PaymentPercentage;
+
             if ($("#FinalRate").val() != '' && $("#BookingAmount").val() != '') {
                 $("#DueAmount").val((parseInt($("#FinalRate").val()) * payPercentage)/100)
             }
@@ -716,6 +747,7 @@
             Validations();
             if (validationsFlag) {
                 SetHiddenFields();
+                SetDueAmount();
             }
             //if (!$('#submitbtn').valid()) {
             //    $('#ValidationSummaryModal').modal('show');

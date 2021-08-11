@@ -824,6 +824,8 @@ namespace DataLayer
                         fwac.AgentName = currentAgent.AgentName;
                         fwac.AmountPaid = 0;
                         fwac.Discount = 0;
+                        fwac.Advance = 0;
+                        fwac.Comment = "";
                         fwac.Percentage = dbEntity.sp_GetAgentPercentage(currentAgent.AgentID, projectType, Convert.ToDateTime(bookingInfo.BookingDate)).FirstOrDefault();
                         lstFwac.Add(fwac);
                     }
@@ -853,6 +855,8 @@ namespace DataLayer
                     fwac.AgentCommission = Convert.ToInt32(fwac.AgentCommission - (0.05 * fwac.AgentCommission));
                     fwac.AmountPaid = 0;
                     fwac.Discount = 0;
+                    fwac.Advance = 0;
+                    fwac.Comment = "";
                     fwac.NetBalance = fwac.AgentCommission;
                     dbEntity.tblFlatWiseAgentCommissions.Add(fwac);
                     //lstFwac.Add(fwac);
@@ -869,6 +873,8 @@ namespace DataLayer
                     fwac.Percentage = Convert.ToDouble(highestPercentage);
                     fwac.AmountPaid = 0;
                     fwac.Discount = 0;
+                    fwac.Advance = 0;
+                    fwac.Comment = "";
                     //fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == bookingInfo.Level).Select(y => y.Percentage).FirstOrDefault();
                     fwac.AgentCommission = Convert.ToInt32(bookingInfo.SASNet);
                     fwac.NetBalance = fwac.AgentCommission;
@@ -1042,6 +1048,8 @@ namespace DataLayer
                         fwac.AgentName = currentAgent.AgentName;
                         fwac.AmountPaid = 0;
                         fwac.Discount = 0;
+                        fwac.Advance = 0;
+                        fwac.Comment = "";
                         fwac.Percentage = dbEntity.sp_GetAgentPercentage(currentAgent.AgentID, projectType, Convert.ToDateTime(bookingInfo.BookingDate)).FirstOrDefault();
                         lstFwac.Add(fwac);
                     }
@@ -1054,6 +1062,8 @@ namespace DataLayer
                         item.AgentCommission = Convert.ToInt32(item.AgentCommission - (0.05 * item.AgentCommission));
                         item.NetBalance = item.AgentCommission;
                         item.Discount = 0;
+                        item.Advance = 0;
+                        item.Comment = "";
                         oldPercentage = Convert.ToDouble(item.Percentage);
                         dbEntity.tblFlatWiseAgentCommissions.Add(item);
                     }
@@ -1071,6 +1081,8 @@ namespace DataLayer
                     fwac.AgentCommission = Convert.ToInt32(fwac.AgentCommission - (0.05 * fwac.AgentCommission));
                     fwac.AmountPaid = 0;
                     fwac.Discount = 0;
+                    fwac.Advance = 0;
+                    fwac.Comment = "";
                     fwac.NetBalance = fwac.AgentCommission;
                     dbEntity.tblFlatWiseAgentCommissions.Add(fwac);
                     //lstFwac.Add(fwac);
@@ -1088,6 +1100,8 @@ namespace DataLayer
                     fwac.Percentage = Convert.ToDouble(highestPercentage);
                     fwac.AmountPaid = 0;
                     fwac.Discount = 0;
+                    fwac.Advance = 0;
+                    fwac.Comment = "";
                     //fwac.Percentage = dbEntity.tblLevelsMasters.Where(x => x.LevelID == bookingInfo.Level).Select(y => y.Percentage).FirstOrDefault();
                     fwac.AgentCommission = Convert.ToInt32(bookingInfo.SASNet);
                     fwac.NetBalance = fwac.AgentCommission;
@@ -1333,7 +1347,7 @@ namespace DataLayer
                 if (payInfo.BalanceAmount == 0)
                 {
                     tblFlat flat = dbEntity.tblFlats.Where(x => x.FlatID == payInfo.FlatID).FirstOrDefault();
-                    flat.BookingStatus = "C";
+                    flat.BookingStatus = "S";
                 }
                 dbEntity.SaveChanges();
                 return true;
@@ -2711,7 +2725,7 @@ namespace DataLayer
                 }
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
                 return false;
             }
@@ -3016,15 +3030,51 @@ namespace DataLayer
                 IMapper mapper = config.CreateMapper();
                 mapper.Map<IBOAdvanceForm, tblIBOAdvanceForm>(advanceForm, advInfo);
                 dbEntity.tblIBOAdvanceForms.Add(advInfo);
+                dbEntity.SaveChanges();
+                //var flatWiseAgentCommission = dbEntity.tblFlatWiseAgentCommissions.Where(x => x.AgentID == advanceForm.IBOID && x.FlatID == advanceForm.FlatID).FirstOrDefault();
+                //if (flatWiseAgentCommission != null)
+                //{
+                //    flatWiseAgentCommission.AmountPaid = Convert.ToInt32(advanceForm.AmountPaid);
+                //    flatWiseAgentCommission.NetBalance = flatWiseAgentCommission.NetBalance - Convert.ToInt32(advanceForm.AmountPaid);
+                //    result = true;
+                //    dbEntity.SaveChanges();
+                //}
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                result = false;
+            }
+            return result;
+        }
 
+
+        public bool UpdateIBOAdvances(IBOAdvanceForm advanceForm)
+        {
+            var result = false;
+            try
+            {
+                var existingForm = dbEntity.tblIBOAdvanceForms.Where(x => x.ID == advanceForm.ID).FirstOrDefault();
+                existingForm.ProjectID = advanceForm.ProjectID;
+                existingForm.TowerID = advanceForm.TowerID;
+                existingForm.FlatID = advanceForm.FlatID;
+                existingForm.Comment = advanceForm.Comment;
+
+
+                
                 var flatWiseAgentCommission = dbEntity.tblFlatWiseAgentCommissions.Where(x => x.AgentID == advanceForm.IBOID && x.FlatID == advanceForm.FlatID).FirstOrDefault();
                 if (flatWiseAgentCommission != null)
                 {
-                    flatWiseAgentCommission.AmountPaid = Convert.ToInt32(advanceForm.AmountPaid);
+                    flatWiseAgentCommission.Advance = Convert.ToInt32(advanceForm.AmountPaid);
                     flatWiseAgentCommission.NetBalance = flatWiseAgentCommission.NetBalance - Convert.ToInt32(advanceForm.AmountPaid);
-                    result = true;
+                    flatWiseAgentCommission.Comment = advanceForm.Comment;
+                    
                     dbEntity.SaveChanges();
+                    result = true;
                 }
+                
+                
                 
             }
             catch (Exception ex)
@@ -3034,6 +3084,7 @@ namespace DataLayer
             }
             return result;
         }
+
 
         public List<IBOAdvanceForm> GetIBOAdvances()
         {

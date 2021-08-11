@@ -30,5 +30,11 @@ namespace ModelLayer
         public string CreatedBy { get; set; }
 
         public HttpPostedFileBase BulkUpload { get; set; }
+
+        public string ExpenseType { get; set; }
+
+        [Display(Name = "Project")]
+        public Nullable<int> ProjectID { get; set; }
+        public string ProjectName { get; set; }
     }
 }
