@@ -872,6 +872,23 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="ChequeDate" Type="datetime" />
           <Property Name="Details" Type="nvarchar" MaxLength="250" />
         </EntityType>
+        <EntityType Name="tblPaymentVouchers">
+          <Key>
+            <PropertyRef Name="VoucherNo" />
+          </Key>
+          <Property Name="VoucherNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="InvoiceNo" Type="nvarchar(max)" />
+          <Property Name="SupplierID" Type="nvarchar(max)" />
+          <Property Name="SupplierName" Type="nvarchar(max)" />
+          <Property Name="SupplierPhone" Type="nvarchar(max)" />
+          <Property Name="PaymentDate" Type="datetime" />
+          <Property Name="ModeOfPayment" Type="nvarchar(max)" />
+          <Property Name="ReferenceNo" Type="nvarchar(max)" />
+          <Property Name="AmountPaid" Type="int" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="tblProjects">
           <Key>
             <PropertyRef Name="ProjectID" />
@@ -967,6 +984,19 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="ID" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="BookingStatus" Type="nvarchar" MaxLength="50" />
           <Property Name="StatusType" Type="int" />
+        </EntityType>
+        <EntityType Name="tblSuppliers">
+          <Key>
+            <PropertyRef Name="SupplierID" />
+          </Key>
+          <Property Name="SupplierID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SupplierName" Type="nvarchar" MaxLength="150" />
+          <Property Name="SupplierPhone" Type="nvarchar" MaxLength="15" />
+          <Property Name="GSTIN" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tblTowers">
           <Key>
@@ -1371,12 +1401,14 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblNews" EntityType="Self.tblNews" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPaymentInfo" EntityType="Self.tblPaymentInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPaymentInfo_Franchise" EntityType="Self.tblPaymentInfo_Franchise" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPaymentVouchers" EntityType="Self.tblPaymentVouchers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProjects" EntityType="Self.tblProjects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSchemeMaster" EntityType="Self.tblSchemeMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSiteVisitInfo" EntityType="Self.tblSiteVisitInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSMS" EntityType="Self.tblSMS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblStates" EntityType="Self.tblStates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblStatus" EntityType="Self.tblStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSuppliers" EntityType="Self.tblSuppliers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTowers" EntityType="Self.tblTowers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblYear" EntityType="Self.tblYear" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBookingInformationAudit" EntityType="Self.tblBookingInformationAudit" store:Type="Tables" store:Schema="dbo">
@@ -1806,6 +1838,8 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <FunctionImport Name="sp_GetAgentFlatWiseCommissionByLogin" ReturnType="Collection(salesDBModel.sp_GetAgentFlatWiseCommissionByLogin_Result)">
           <Parameter Name="AgentEmail" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="tblSuppliers" EntityType="salesDBModel.tblSupplier" />
+          <EntitySet Name="tblPaymentVouchers" EntityType="salesDBModel.tblPaymentVoucher" />
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -3667,6 +3701,36 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="Decimal" Name="AgentGross" Nullable="true" Precision="14" Scale="2" />
           <Property Type="Int32" Name="BSP" Nullable="true" />
         </ComplexType>
+        <EntityType Name="tblSupplier">
+          <Key>
+            <PropertyRef Name="SupplierID" />
+          </Key>
+          <Property Name="SupplierID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierPhone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="GSTIN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblPaymentVoucher">
+          <Key>
+            <PropertyRef Name="VoucherNo" />
+          </Key>
+          <Property Name="VoucherNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+          <Property Name="ModeOfPayment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AmountPaid" Type="Int32" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5692,6 +5756,38 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblSuppliers">
+            <EntityTypeMapping TypeName="salesDBModel.tblSupplier">
+              <MappingFragment StoreEntitySet="tblSuppliers">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="GSTIN" ColumnName="GSTIN" />
+                <ScalarProperty Name="SupplierPhone" ColumnName="SupplierPhone" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPaymentVouchers">
+            <EntityTypeMapping TypeName="salesDBModel.tblPaymentVoucher">
+              <MappingFragment StoreEntitySet="tblPaymentVouchers">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="ModeOfPayment" ColumnName="ModeOfPayment" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="SupplierPhone" ColumnName="SupplierPhone" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="VoucherNo" ColumnName="VoucherNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

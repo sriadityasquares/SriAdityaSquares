@@ -76,6 +76,8 @@ namespace DataLayer
         public virtual DbSet<tblAgentMaster> tblAgentMasters { get; set; }
         public virtual DbSet<tblPaymentInfo> tblPaymentInfoes { get; set; }
         public virtual DbSet<tblIBOAdvanceForm> tblIBOAdvanceForms { get; set; }
+        public virtual DbSet<tblSupplier> tblSuppliers { get; set; }
+        public virtual DbSet<tblPaymentVoucher> tblPaymentVouchers { get; set; }
     
         public virtual ObjectResult<sp_GetPeriodWiseBookingDetails_Result> sp_GetPeriodWiseBookingDetails(Nullable<int> option, string project, string year, string month, string fromdate, string todate)
         {

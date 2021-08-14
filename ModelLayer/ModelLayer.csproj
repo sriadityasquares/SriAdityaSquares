@@ -110,6 +110,7 @@
     <Compile Include="News.cs" />
     <Compile Include="PastDue.cs" />
     <Compile Include="PaymentInformation.cs" />
+    <Compile Include="PaymentVoucher.cs" />
     <Compile Include="Projects.cs" />
     <Compile Include="ProjectTransactions.cs" />
     <Compile Include="ProjectTypes.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="State.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="SuggestedActions.cs" />
+    <Compile Include="Suppliers.cs" />
     <Compile Include="Towers.cs" />
     <Compile Include="TreeObject.cs" />
     <Compile Include="Year.cs" />

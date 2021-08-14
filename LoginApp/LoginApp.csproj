@@ -485,6 +485,7 @@
     <Compile Include="Controllers\FranchiseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReconciliationController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SampleController.cs" />
     <Compile Include="DueAmountReminder.cs" />
@@ -2213,6 +2214,8 @@
     <Content Include="Views\Booking\ApprovePaymentReceipt.cshtml" />
     <Content Include="Views\Home\Portfolio.cshtml" />
     <Content Include="Views\Booking\IBOAdvance.cshtml" />
+    <Content Include="Views\Reconciliation\Suppliers.cshtml" />
+    <Content Include="Views\Reconciliation\PaymentVoucher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,179 @@
+﻿@model ModelLayer.Suppliers
+@{
+    ViewBag.Suppliers = "active";
+    ViewBag.Title = "Suppliers";
+    var message = TempData["successmessage"] ?? string.Empty;
+    ViewBag.Recon = "active";
+}
+<style>
+
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px;
+        }
+
+        .jumbotron {
+            width: 1700px;
+        }
+    }
+</style>
+
+
+
+@using (Html.BeginForm("Suppliers", "Reconciliation", FormMethod.Post, new
+{
+
+    role = "form",
+    id = "submitbtn",
+    enctype = "multipart/form-data"
+
+}))
+{
+
+<div class="jumbotron">
+
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">ADD SUPPLIERS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.SupplierName, new { @class = "col-md-2" })
+        @Html.TextBoxFor(model => model.SupplierName, new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.LabelFor(m => m.SupplierPhone, new { @class = "col-md-2" })
+        @Html.TextBoxFor(model => model.SupplierPhone, new { @class = "textbox-control col-md-3 col-xs" })
+
+    </div>
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.GSTIN, new { @class = "col-md-2" })
+        @Html.TextBoxFor(model => model.GSTIN, new { @class = "textbox-control col-md-3 col-xs" })
+    </div>
+    <div class="row" style="padding-top:5px;">
+        <div class="col-sm-3 no-pad">
+            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-dollar"></i>ADD</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">SUPPLIERS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+}
+
+<script>
+
+    
+   
+
+
+    $(window).load(function () {
+        var tempdataval = '@TempData["successmessage"]';
+        if (tempdataval != '') {
+            if (tempdataval == 'Supplier Added Successfully')
+                toastr.success(tempdataval);
+            else {
+                toastr.error(tempdataval);
+            }
+        }
+
+    });
+
+
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Reconciliation/GetSuppliers",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Reconciliation/UpdateSuppliers",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                //destroy: {
+                //    url: "/Booking/DeleteDailyExpense",
+                //    dataType: "json",
+                //    complete: function (jqXhr, textStatus) {
+                //        if (textStatus == 'success') {
+                //            toastr.success('Deleted Successfull');
+                //            $("#grid").data("kendoGrid").dataSource.read();
+                //        }
+                //        else {
+                //            toastr.error('Error in Deleting');
+                //            $("#grid").data("kendoGrid").dataSource.read();
+                //        }
+                //    }
+                //},
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 5,
+            schema: {
+                model: {
+                    id: "SupplierID",
+                    fields: {
+                        SupplierID: { editable: false, nullable: true },
+                    }
+                }
+            }
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 350,
+            toolbar: ["search", "excel"],
+            excel: {
+                fileName: "ClientPayments.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
+            columns: [
+               
+
+
+                { field: "SupplierID", title: "Supplier ID", width: "120px" },
+                { field: "SupplierName", title: "SupplierName", width: "100px" },
+                { field: "SupplierPhone", title: "Supplier Phone", width: "120px" },
+                { field: "GSTIN", title: "GSTIN", width: "100px" },
+                { command: ["edit"], title: "&nbsp;", width: "100px" }
+            ],
+            editable: "inline"
+        });
+
+
+    });
+
+</script>
