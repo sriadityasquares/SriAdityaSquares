@@ -237,6 +237,9 @@
     <Compile Include="sp_GetRecentPayments_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetReconReport_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_GetSchemeBasedBookings_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
@@ -349,6 +352,12 @@
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblIBOAdvanceForm.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblInvoice.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblInvoiceDetail.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblLevelsMaster.cs">

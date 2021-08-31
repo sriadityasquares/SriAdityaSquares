@@ -793,6 +793,50 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="CreatedBy" Type="nvarchar(max)" />
           <Property Name="Comment" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="tblInvoice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceNo" Type="nvarchar(max)" />
+          <Property Name="QuotationNo" Type="nvarchar(max)" />
+          <Property Name="SupplierID" Type="nvarchar(max)" />
+          <Property Name="SupplierName" Type="nvarchar(max)" />
+          <Property Name="SupplierPhone" Type="nvarchar(max)" />
+          <Property Name="ExpenseType" Type="nvarchar(max)" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="ProjectName" Type="nvarchar(max)" />
+          <Property Name="InvoiceDate" Type="datetime" />
+          <Property Name="TotalValue" Type="float" />
+          <Property Name="CGSTPercentage" Type="float" />
+          <Property Name="CGST" Type="float" />
+          <Property Name="SGSTPercentage" Type="float" />
+          <Property Name="SGST" Type="float" />
+          <Property Name="IGSTPercentage" Type="float" />
+          <Property Name="IGST" Type="float" />
+          <Property Name="NetValue" Type="float" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tblInvoiceDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InvoiceNo" Type="nvarchar(max)" />
+          <Property Name="QuotationNo" Type="nvarchar(max)" />
+          <Property Name="SerialNo" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="UnitPrice" Type="float" />
+          <Property Name="Quantity" Type="float" />
+          <Property Name="Amount" Type="float" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="tblLevelsMaster">
           <Key>
             <PropertyRef Name="LevelID" />
@@ -878,6 +922,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           </Key>
           <Property Name="VoucherNo" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="InvoiceNo" Type="nvarchar(max)" />
+          <Property Name="QuotationNo" Type="nvarchar" MaxLength="50" />
           <Property Name="SupplierID" Type="nvarchar(max)" />
           <Property Name="SupplierName" Type="nvarchar(max)" />
           <Property Name="SupplierPhone" Type="nvarchar(max)" />
@@ -885,6 +930,8 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="ModeOfPayment" Type="nvarchar(max)" />
           <Property Name="ReferenceNo" Type="nvarchar(max)" />
           <Property Name="AmountPaid" Type="int" />
+          <Property Name="TDS" Type="float" />
+          <Property Name="TotalPaid" Type="int" />
           <Property Name="Remarks" Type="nvarchar(max)" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedDate" Type="datetime" />
@@ -1352,6 +1399,9 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <Function Name="sp_GetRecentExpenses" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetRecentPaymentGraph" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetRecentPayments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetReconReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SupplierID" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="sp_GetSchemeBasedBookings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetTopIBOInMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SAS" Type="bit" Mode="In" />
@@ -1396,6 +1446,8 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblFranchiseRegistration" EntityType="Self.tblFranchiseRegistration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFranchiseRegistrationStatus" EntityType="Self.tblFranchiseRegistrationStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblIBOAdvanceForm" EntityType="Self.tblIBOAdvanceForm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblInvoice" EntityType="Self.tblInvoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblInvoiceDetails" EntityType="Self.tblInvoiceDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLevelsMaster" EntityType="Self.tblLevelsMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMonth" EntityType="Self.tblMonth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblNews" EntityType="Self.tblNews" Schema="dbo" store:Type="Tables" />
@@ -1840,6 +1892,11 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           </FunctionImport>
           <EntitySet Name="tblSuppliers" EntityType="salesDBModel.tblSupplier" />
           <EntitySet Name="tblPaymentVouchers" EntityType="salesDBModel.tblPaymentVoucher" />
+          <EntitySet Name="tblInvoices" EntityType="salesDBModel.tblInvoice" />
+          <EntitySet Name="tblInvoiceDetails" EntityType="salesDBModel.tblInvoiceDetail" />
+          <FunctionImport Name="sp_GetReconReport" ReturnType="Collection(salesDBModel.sp_GetReconReport_Result)">
+            <Parameter Name="SupplierID" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -3720,6 +3777,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           </Key>
           <Property Name="VoucherNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InvoiceNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="QuotationNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SupplierID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SupplierName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SupplierPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -3727,10 +3785,69 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="ModeOfPayment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ReferenceNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="AmountPaid" Type="Int32" />
+          <Property Name="TDS" Type="Double" />
+          <Property Name="TotalPaid" Type="Int32" />
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="tblInvoice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="QuotationNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExpenseType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceDate" Type="DateTime" Precision="3" />
+          <Property Name="TotalValue" Type="Double" />
+          <Property Name="CGSTPercentage" Type="Double" />
+          <Property Name="CGST" Type="Double" />
+          <Property Name="SGSTPercentage" Type="Double" />
+          <Property Name="SGST" Type="Double" />
+          <Property Name="IGSTPercentage" Type="Double" />
+          <Property Name="IGST" Type="Double" />
+          <Property Name="NetValue" Type="Double" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblInvoiceDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="InvoiceNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="QuotationNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SerialNo" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UnitPrice" Type="Double" />
+          <Property Name="Quantity" Type="Double" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="sp_GetReconReport_Result">
+          <Property Type="DateTime" Name="InvoiceDate" Nullable="true" />
+          <Property Type="String" Name="InvoiceNo" Nullable="true" />
+          <Property Type="Double" Name="CreditAmount" Nullable="true" />
+          <Property Type="DateTime" Name="VoucherDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="VoucherNo" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="DebitAmount" Nullable="true" />
+          <Property Type="String" Name="ModeOfPayment" Nullable="true" />
+          <Property Type="String" Name="ReferenceNo" Nullable="true" />
+          <Property Type="String" Name="QuotationNo" Nullable="true" />
+          <Property Type="String" Name="SupplierID" Nullable="true" />
+          <Property Type="String" Name="SupplierPhone" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5776,6 +5893,8 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="TotalPaid" ColumnName="TotalPaid" />
+                <ScalarProperty Name="TDS" ColumnName="TDS" />
                 <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
                 <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
                 <ScalarProperty Name="ModeOfPayment" ColumnName="ModeOfPayment" />
@@ -5783,11 +5902,75 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
                 <ScalarProperty Name="SupplierPhone" ColumnName="SupplierPhone" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
                 <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
                 <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
                 <ScalarProperty Name="VoucherNo" ColumnName="VoucherNo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblInvoices">
+            <EntityTypeMapping TypeName="salesDBModel.tblInvoice">
+              <MappingFragment StoreEntitySet="tblInvoice">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="NetValue" ColumnName="NetValue" />
+                <ScalarProperty Name="IGST" ColumnName="IGST" />
+                <ScalarProperty Name="IGSTPercentage" ColumnName="IGSTPercentage" />
+                <ScalarProperty Name="SGST" ColumnName="SGST" />
+                <ScalarProperty Name="SGSTPercentage" ColumnName="SGSTPercentage" />
+                <ScalarProperty Name="CGST" ColumnName="CGST" />
+                <ScalarProperty Name="CGSTPercentage" ColumnName="CGSTPercentage" />
+                <ScalarProperty Name="TotalValue" ColumnName="TotalValue" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ExpenseType" ColumnName="ExpenseType" />
+                <ScalarProperty Name="SupplierPhone" ColumnName="SupplierPhone" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblInvoiceDetails">
+            <EntityTypeMapping TypeName="salesDBModel.tblInvoiceDetail">
+              <MappingFragment StoreEntitySet="tblInvoiceDetails">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SerialNo" ColumnName="SerialNo" />
+                <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetReconReport" FunctionName="salesDBModel.Store.sp_GetReconReport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetReconReport_Result">
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+                <ScalarProperty Name="CreditAmount" ColumnName="CreditAmount" />
+                <ScalarProperty Name="VoucherDate" ColumnName="VoucherDate" />
+                <ScalarProperty Name="VoucherNo" ColumnName="VoucherNo" />
+                <ScalarProperty Name="DebitAmount" ColumnName="DebitAmount" />
+                <ScalarProperty Name="ModeOfPayment" ColumnName="ModeOfPayment" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="QuotationNo" ColumnName="QuotationNo" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="SupplierPhone" ColumnName="SupplierPhone" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

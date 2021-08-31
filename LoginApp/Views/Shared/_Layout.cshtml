@@ -169,8 +169,8 @@
                                     <a class="@(ViewBag.IBOAdvance)" href="@Url.Action("IBOAdvance", "Booking")">IBO ADVANCE</a>
                                 </li>
                                 @*<li>
-            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-        </li>*@
+                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+                    </li>*@
                             </ul>
                         </li>
                     }
@@ -363,6 +363,32 @@
                                 {
                                     <li>
                                         <a class="@(ViewBag.TeamAgents)" href="@Url.Action("TeamAgents", "Agent")">ADD TEAM</a>
+                                    </li>
+                                }
+
+
+
+                            </ul>
+                        </li>
+                    }
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <li class="sub-menu @(ViewBag.Recon)">
+                            <a href="javascript:void(0);"><i class="fa fa-balance-scale"></i><span>ACCOUNTING</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                            <ul>
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.Suppliers)" href="@Url.Action("Suppliers", "Reconciliation")">SUPPLIERS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.PaymentVoucher)" href="@Url.Action("PaymentVoucher", "Reconciliation")">PAYMENT VOUCHERS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Invoices)" href="@Url.Action("Invoices", "Reconciliation")">INVOICES</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.ReconSummary)" href="@Url.Action("ReconSummary", "Reconciliation")">INVOICE SUMMARY</a>
                                     </li>
                                 }
 
@@ -531,8 +557,8 @@
                                     <a class="@(ViewBag.IBOAdvance)" href="@Url.Action("IBOAdvance", "Booking")">IBO ADVANCE</a>
                                 </li>
                                 @*<li>
-            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-        </li>*@
+                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+                    </li>*@
                             </ul>
                         </li>
                     }
@@ -726,6 +752,32 @@
                                 {
                                     <li>
                                         <a class="@(ViewBag.TeamAgents)" href="@Url.Action("TeamAgents", "Agent")">ADD TEAM</a>
+                                    </li>
+                                }
+
+
+
+                            </ul>
+                        </li>
+                    }
+                    @if (this.User.IsInRole("Admin"))
+                    {
+                        <li class="sub-menu @(ViewBag.Recon)">
+                            <a href="javascript:void(0);"><i class="fa fa-balance-scale"></i><span>ACCOUNTING</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                            <ul>
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.Suppliers)" href="@Url.Action("Suppliers", "Reconciliation")">SUPPLIERS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.PaymentVoucher)" href="@Url.Action("PaymentVoucher", "Reconciliation")">PAYMENT VOUCHERS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Invoices)" href="@Url.Action("Invoices", "Reconciliation")">INVOICES</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.ReconSummary)" href="@Url.Action("ReconSummary", "Reconciliation")">INVOICE SUMMARY</a>
                                     </li>
                                 }
 

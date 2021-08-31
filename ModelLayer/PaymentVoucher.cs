@@ -15,6 +15,9 @@ namespace ModelLayer
         public string InvoiceNo { get; set; }
 
 
+        [Display(Name = "Quotation No")]
+        public string QuotationNo { get; set; }
+
         [Display(Name = "Supplier")]
         public string SupplierID { get; set; }
         public string SupplierName { get; set; }
@@ -23,16 +26,26 @@ namespace ModelLayer
         [Display(Name = "Payment Date")]
         public Nullable<System.DateTime> PaymentDate { get; set; }
 
+        [Display(Name = "Payment Date")]
+        public string PaidDate { get; set; }
+
         [Display(Name = "Payment Mode")]
         public string ModeOfPayment { get; set; }
 
-        [Display(Name = "Reference Mode")]
+        [Display(Name = "Reference No")]
         public string ReferenceNo { get; set; }
 
         [Display(Name = "Amount Paid")]
         public Nullable<int> AmountPaid { get; set; }
+        [Display(Name = "TDS")]
+        public Nullable<double> TDS { get; set; }
+
+        [Display(Name = "Total Paid")]
+        public Nullable<int> TotalPaid { get; set; }
         public string Remarks { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+
+        public string PrintVoucher { get; set; }
     }
 }

@@ -2216,6 +2216,8 @@
     <Content Include="Views\Booking\IBOAdvance.cshtml" />
     <Content Include="Views\Reconciliation\Suppliers.cshtml" />
     <Content Include="Views\Reconciliation\PaymentVoucher.cshtml" />
+    <Content Include="Views\Reconciliation\Invoices.cshtml" />
+    <Content Include="Views\Reconciliation\ReconSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

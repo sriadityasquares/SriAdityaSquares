@@ -99,11 +99,14 @@
     <Compile Include="GetPercentages.cs" />
     <Compile Include="GetPeriodWiseBookingDetails.cs" />
     <Compile Include="GetProjectWiseArea.cs" />
+    <Compile Include="GetReconReport.cs" />
     <Compile Include="GetTopIBOInMonth.cs" />
     <Compile Include="GetTowerDetails.cs" />
     <Compile Include="GetUsersWithRoles.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="IBOAdvanceForm.cs" />
+    <Compile Include="Invoice.cs" />
+    <Compile Include="InvoiceDetails.cs" />
     <Compile Include="LevelsMaster.cs" />
     <Compile Include="Month.cs" />
     <Compile Include="MyProfile.cs" />

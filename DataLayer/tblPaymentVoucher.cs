@@ -16,6 +16,7 @@ namespace DataLayer
     {
         public string VoucherNo { get; set; }
         public string InvoiceNo { get; set; }
+        public string QuotationNo { get; set; }
         public string SupplierID { get; set; }
         public string SupplierName { get; set; }
         public string SupplierPhone { get; set; }
@@ -23,6 +24,8 @@ namespace DataLayer
         public string ModeOfPayment { get; set; }
         public string ReferenceNo { get; set; }
         public Nullable<int> AmountPaid { get; set; }
+        public Nullable<double> TDS { get; set; }
+        public Nullable<int> TotalPaid { get; set; }
         public string Remarks { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }

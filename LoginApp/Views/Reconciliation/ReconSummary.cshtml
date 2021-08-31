@@ -1,0 +1,176 @@
+﻿@model ModelLayer.GetReconReport
+@{
+    ViewBag.Title = "Invoice Summary";
+    ViewBag.ReconSummary = "active";
+    ViewBag.Recon = "active";
+}
+
+<style>
+
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px;
+        }
+
+        .jumbotron {
+            width: 1700px;
+        }
+    }
+
+    .weekend {
+        background-color: #ff9800;
+    }
+</style>
+
+<div class="jumbotron">
+
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">INVOICE SUMMARY</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+
+    <div class="row" style="padding-top:20px;">
+        @Html.LabelFor(m => m.SupplierID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.SupplierID, TempData["SupplierList"] as SelectList, "--Select Supplier--", new { @class = "textbox-control col-md-2 col-xs" })
+        @Html.LabelFor(m => m.SupplierPhone, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.SupplierPhone, new { @class = "textbox-control col-md-1 col-xs" })
+    </div>
+
+    <div id="example">
+
+
+
+        <div id="grid"></div>
+        <div class="row">
+            @Html.LabelFor(m => m.CreditAmount, new { @class = "col-md-3",@style = "color:lightcoral !important;font-weight:800;font-size:12px" })
+            @Html.TextBoxFor(model => model.CreditAmount, new { @class = "textbox-control col-md-1 col-xs",@style = "border: 2px solid lightcoral;background-color: lightcoral;font-weight:800;" })
+            @Html.LabelFor(m => m.DebitAmount, new { @class = "col-md-3", @style = "color:mediumseagreen !important;font-weight:800;font-size:12px" })
+            @Html.TextBoxFor(model => model.DebitAmount, new { @class = "textbox-control col-md-1 col-xs", @style = "border: 2px solid mediumseagreen;background-color: mediumseagreen;font-weight:800;" })
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.BalanceAmount, new { @class = "col-md-7", @style = "color:#0d99d8 !important;font-weight:800;font-size:12px" })
+            @Html.TextBoxFor(model => model.BalanceAmount, new { @class = "textbox-control col-md-1 col-xs", @style = "border: 2px solid #0d99d8;background-color: #0d99d8;font-weight:800;" })
+            
+        </div>
+        <script>
+
+            $("#example").hide();
+            $(document).ready(function () {
+                $("#grid").kendoGrid({
+                    dataSource: {
+                        data: null
+                    },
+                    //aggregate: [
+                    //    { field: "CreditAmount", aggregate: "min" },
+                    //    { field: "CreditAmount", aggregate: "max" }
+                    //],
+                    //height: 550,
+                    //groupable: true,
+                    sortable: true,
+                    resizable: true,
+                    reorderable: true,
+                    pageable: true,
+
+                    columnMenu: true,
+                    columns: [{
+                        title: "Credits(Based on Purchase/Expense Vouchers)",
+                        columns: [{
+                            field: "InvoiceDate",
+                            title: "Date",
+                            template: '#= GetDate(InvoiceDate)#',
+                            width: 150
+                        }, {
+                            field: "InvoiceNo",
+                            title: "Invoice",
+                            width: 100
+                            },
+                            {
+                                field: "CreditAmount",
+                                title: "Amount",
+                                //footerTemplate: "Min: #: min # Max: #: max #",
+                                attributes: { 'style': "#=CreditAmount!==null?'background-color:lightcoral; color:white;':''#" },
+                                
+                                width: 200
+                            }
+                        ]
+                    },
+                    {
+                        title: "Debits(Based on Payment Vouchers)",
+                        columns: [{
+                            field: "VoucherDate",
+                            title: "Date",
+                            template: '#= GetDate(VoucherDate)#',
+                            width: 150
+                        },
+                            {
+                            field: "VoucherNo",
+                            title: "Voucher No",
+                            width: 100
+                        }, {
+                                field: "DebitAmount",
+                                title: "Amount Paid",
+                                attributes: { 'style': "#=DebitAmount!==null?'background-color:mediumseagreen; color:white;':''#" },
+                            width: 100
+                            }, {
+                                field: "ModeOfPayment",
+                                title: "Mode of Payment",
+                                width: 200
+                            }, {
+                                field: "ReferenceNo",
+                                title: "Reference No",
+                                width: 200
+                            }
+                        ]
+                    }]
+                });
+            });
+
+            function GetDate(data) {
+                var date = kendo.toString(kendo.parseDate(data), "dd/MM/yyyy");
+                if (date == null)
+                    date = "";
+                return date;
+            }
+            $("#SupplierID").change(function () {
+                $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetReconSummary", "Reconciliation")',
+                contentType: "application/json; charset=utf-8",
+                    data: { SupplierID: $("#SupplierID").val().toString() },
+            dataType: "json",
+            success: function (result) {
+
+            var grid = $("#grid").data("kendoGrid");
+            var dataSource = new kendo.data.DataSource({ data: result });
+            grid.setDataSource(dataSource);
+            grid.dataSource.read();
+            //$("#grid").height(400);
+            $('#grid .k-grid-content').height(200);
+                $("#example").show();
+                //var gridFooter = $("#grid").getKendoGrid().footer;
+                //var cells = gridFooter.find("td");
+                //cells.css("background-color", "#90EE90");
+                var jsonObj = $("#grid").data().kendoGrid.dataSource.view();
+                var creditAmount = 0;
+                var debitAmount = 0;
+                for (var i = 0; i < jsonObj.length; i++) {
+                    if (jsonObj[i].CreditAmount != null)
+                        creditAmount = creditAmount + parseFloat(jsonObj[i].CreditAmount);
+                    if (jsonObj[i].DebitAmount != null)
+                        debitAmount = debitAmount + parseFloat(jsonObj[i].DebitAmount);
+                    $("#SupplierPhone").val(jsonObj[i].SupplierPhone);
+                }
+                $("#CreditAmount").val(creditAmount);
+                $("#DebitAmount").val(debitAmount);
+                $("#BalanceAmount").val(parseFloat(creditAmount) - parseFloat(debitAmount));
+            },
+
+            });
+            });
+        </script>
+    </div>
+</div>

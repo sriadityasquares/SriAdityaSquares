@@ -78,6 +78,8 @@ namespace DataLayer
         public virtual DbSet<tblIBOAdvanceForm> tblIBOAdvanceForms { get; set; }
         public virtual DbSet<tblSupplier> tblSuppliers { get; set; }
         public virtual DbSet<tblPaymentVoucher> tblPaymentVouchers { get; set; }
+        public virtual DbSet<tblInvoice> tblInvoices { get; set; }
+        public virtual DbSet<tblInvoiceDetail> tblInvoiceDetails { get; set; }
     
         public virtual ObjectResult<sp_GetPeriodWiseBookingDetails_Result> sp_GetPeriodWiseBookingDetails(Nullable<int> option, string project, string year, string month, string fromdate, string todate)
         {
@@ -754,6 +756,15 @@ namespace DataLayer
                 new ObjectParameter("AgentEmail", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentFlatWiseCommissionByLogin_Result>("sp_GetAgentFlatWiseCommissionByLogin", agentEmailParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetReconReport_Result> sp_GetReconReport(string supplierID)
+        {
+            var supplierIDParameter = supplierID != null ?
+                new ObjectParameter("SupplierID", supplierID) :
+                new ObjectParameter("SupplierID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetReconReport_Result>("sp_GetReconReport", supplierIDParameter);
         }
     }
 }

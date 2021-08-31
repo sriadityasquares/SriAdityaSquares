@@ -89,7 +89,37 @@
 
     });
 
+    $("#submitbtn").submit(function (e) {
 
+        Validations(e);
+    });
+
+
+    function Validations(e) {
+
+        
+
+        if ($("#SupplierName").val() == '' || $("#SupplierName").val() == null) {
+            e.preventDefault();
+            toastr.error("Supplier Name is Required");
+            return false;
+        }
+        if ($("#SupplierPhone").val() == '' || $("#SupplierPhone").val() == null) {
+            e.preventDefault();
+            toastr.error("Supplier Phone is Required");
+            return false;
+        }
+        var jsonObj = $("#grid").data().kendoGrid.dataSource.view();
+        for (var i = 0; i < jsonObj.length; i++) {
+            if ($("#SupplierPhone").val() == jsonObj[i].SupplierPhone) {
+                e.preventDefault();
+                toastr.error("Supplier Phone no already exists");
+                return false;
+            }
+        }
+        
+        validationsFlag = true;
+    }
 
     $(document).ready(function () {
         dataSource = new kendo.data.DataSource({
@@ -154,7 +184,7 @@
             height: 350,
             toolbar: ["search", "excel"],
             excel: {
-                fileName: "ClientPayments.xlsx",
+                fileName: "Suppliers.xlsx",
 
                 //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
                 filterable: true,

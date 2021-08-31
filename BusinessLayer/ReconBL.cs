@@ -25,5 +25,40 @@ namespace BusinessLayer
         {
             return db.UpdateSuppliers(s);
         }
+
+        public bool AddPaymentVoucher(PaymentVoucher p)
+        {
+            return db.AddPaymentVoucher(p);
+        }
+
+        public List<PaymentVoucher> GetPaymentVouchers()
+        {
+            return db.GetPaymentVouchers();
+        }
+
+        public bool AddInvoice(Invoice i, List<InvoiceDetails> lstInvDetails)
+        {
+            return db.AddInvoice(i, lstInvDetails);
+        }
+
+        public List<Invoice> GetInvoices()
+        {
+            return db.GetInvoices();
+        }
+
+        public List<InvoiceDetails> GetInvoiceDetails(string QuotationNo)
+        {
+            return db.GetInvoiceDetails(QuotationNo);
+        }
+
+        public bool UpdateInvoice(Invoice i)
+        {
+            return db.UpdateInvoice(i);
+        }
+
+        public List<GetReconReport> GetReconReport(string SupplierID)
+        {
+            return db.GetReconReport(SupplierID);
+        }
     }
 }

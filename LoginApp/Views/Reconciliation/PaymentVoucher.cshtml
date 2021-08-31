@@ -1,7 +1,7 @@
 ﻿@model ModelLayer.PaymentVoucher
 @{
-    ViewBag.Suppliers = "active";
-    ViewBag.Title = "Suppliers";
+    ViewBag.PaymentVoucher = "active";
+    ViewBag.Title = "Payment Voucher";
     var message = TempData["successmessage"] ?? string.Empty;
     ViewBag.Recon = "active";
 }
@@ -21,7 +21,7 @@
 
 
 
-@using (Html.BeginForm("Suppliers", "Reconciliation", FormMethod.Post, new
+@using (Html.BeginForm("PaymentVoucher", "Reconciliation", FormMethod.Post, new
 {
 
     role = "form",
@@ -30,7 +30,7 @@
 
 }))
 {
-
+    @Html.HiddenFor(x=>x.PaidDate)
 <div class="jumbotron">
 
     <div class="row">
@@ -46,15 +46,17 @@
 
     <div class="row" style="padding-top:10px">
         @Html.LabelFor(m => m.SupplierID, new { @class = "col-md-2" })
-        @Html.DropDownListFor(model => model.SupplierID, TempData["SupplierList"] as SelectList, "--Select Supplier--", new { @class = "textbox-control col-md-3 col-xs" })
-        @Html.LabelFor(m => m.InvoiceNo, new { @class = "col-md-2" })
-        @Html.TextBoxFor(model => model.InvoiceNo, new { @class = "textbox-control col-md-3 col-xs" })
+        @Html.DropDownListFor(model => model.SupplierID, TempData["SupplierList"] as SelectList, "--Select Supplier--", new { @class = "textbox-control col-md-2 col-xs" })
+        @Html.LabelFor(m => m.InvoiceNo, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.InvoiceNo, new { @class = "textbox-control col-md-1 col-xs" })
+        @Html.LabelFor(m => m.QuotationNo, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.QuotationNo, new { @class = "textbox-control col-md-1 col-xs" })
     </div>
     <div class="row" style="padding-top:10px">
         @Html.LabelFor(m => m.ModeOfPayment, new { @class = "col-md-2" })
         @Html.DropDownListFor(m => m.ModeOfPayment, new List<SelectListItem>
    {
-        new SelectListItem{ Text="--Mode--", Value = "--Mode--"  },
+        new SelectListItem{ Text="--Mode--", Value = ""  },
        new SelectListItem{ Text="Cheque", Value = "Cheque" },
        new SelectListItem{ Text="NEFT", Value = "NEFT" },
         new SelectListItem{ Text="RTGS", Value = "RTGS" },
@@ -64,30 +66,35 @@
        new SelectListItem{ Text="UPI", Value = "UPI" },
        new SelectListItem{ Text="Cash", Value = "Cash" },
        new SelectListItem{ Text="Others", Value = "Others" },
-    }, new { @class = "textbox-control col-md-3 col-xs" })
-        @Html.LabelFor(m => m.ReferenceNo, new { @class = "col-md-2" })
-        @Html.TextBoxFor(model => model.ReferenceNo, new { @class = "textbox-control col-md-3 col-xs" })
-    </div>
-    <div class="row" style="padding-top:10px">
-        @Html.LabelFor(m => m.AmountPaid, new { @class = "col-md-2" })
-        @Html.TextBoxFor(model => model.AmountPaid, new { @class = "textbox-control col-md-3 col-xs" })
-        @Html.LabelFor(m => m.PaymentDate, new { @class = "col-md-2" })
+    }, new { @class = "textbox-control col-md-2 col-xs" })
+        @Html.LabelFor(m => m.ReferenceNo, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.ReferenceNo, new { @class = "textbox-control col-md-1 col-xs" })
+        @Html.LabelFor(m => m.PaymentDate, new { @class = "col-md-1" })
         <div class="col-md-2" style="padding-left:0px">
             <input id="datepicker1" title="datepicker" />
         </div>
     </div>
+    <div class="row" style="padding-top:10px">
+        @Html.LabelFor(m => m.AmountPaid, new { @class = "col-md-2" })
+        @Html.TextBoxFor(model => model.AmountPaid, new { @class = "textbox-control col-md-2 col-xs" })
+        @Html.LabelFor(m => m.TDS, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.TDS, new { @class = "textbox-control col-md-1 col-xs" })
+        @Html.LabelFor(m => m.TotalPaid, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.TotalPaid, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
+    </div>
     <div class="row">
+       
         @Html.LabelFor(m => m.Remarks, new { @class = "col-md-2" })
-        @Html.TextAreaFor(model => model.Remarks, new { @class = "textboxarea-control col-md-3 col-xs" })
+        @Html.TextAreaFor(model => model.Remarks, new { @class = "textboxarea-control col-md-6 col-xs" })
         @*@Html.LabelFor(m => m.TransactionType, new { @class = "col-md-2" })
-                 @Html.DropDownListFor(m => m.TransactionType, new List<SelectListItem>
-            {
-                new SelectListItem{ Text="Credit", Value = "Credit" },
-                new SelectListItem{ Text="Debit", Value = "Debit" },
-             }, new { @class = "textbox-control col-md-3 col-xs" })*@
+             @Html.DropDownListFor(m => m.TransactionType, new List<SelectListItem>
+        {
+            new SelectListItem{ Text="Credit", Value = "Credit" },
+            new SelectListItem{ Text="Debit", Value = "Debit" },
+         }, new { @class = "textbox-control col-md-3 col-xs" })*@
 
     </div>
-    <div class="row" style="padding-top:5px;">
+    <div class="row" style="padding-top:10px;">
         <div class="col-sm-3 no-pad">
             <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-dollar"></i>ADD</button>
         </div>
@@ -100,21 +107,242 @@
 
     </div>
     <div id="grid"></div>
+    <div style="display:none" id="example">
+
+        <div class="row">
+
+            @Html.Label("Select Page size", new { @class = "col-md-4" })
+            <div class="col-md-3">
+                <select id="paper" style="width: 100px;">
+                    <option value="size-a4" selected>A4</option>
+                    <option value="size-letter">Letter</option>
+                    <option value="size-executive">Executive</option>
+                </select>
+            </div>
+
+            <button class="btn-success" onclick="getPDF('.pdf-page')">Download Receipt</button>
+
+
+        </div>
+
+        <div id="scrollPagePDF" style="overflow:auto;height:500px" class="page-container hidden-on-narrow">
+
+            <div id="bgImage" style="background-size: cover;" class="pdf-page size-a4">
+                <div class="inner-page">
+                    
+                    <br />
+
+                    <br />
+                    <br />
+                    <div id="content">
+
+                    </div>
+
+
+                    <div class="pdf-footer">
+                        <p style="color:black" class="mb-0">
+                            <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3rd floor,above Nissan showroom,peddamma temple metro station,Jubilee Hills,Hyderabad, 500033</b>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="responsive-message"></div>
+
+            <style>
+                /*
+                    Use the DejaVu Sans font for display and embedding in the PDF file.
+                    The standard PDF fonts have no support for Unicode characters.
+                */
+                .pdf-page {
+                    font-family: "DejaVu Sans", "Arial", sans-serif;
+                }
+            </style>
+
+            <script>
+                // Import DejaVu Sans font for embedding
+
+                // NOTE: Only required if the Kendo UI stylesheets are loaded
+                // from a different origin, e.g. cdn.kendostatic.com
+                kendo.pdf.defineFont({
+                    "DejaVu Sans": "https://kendo.cdn.telerik.com/2016.2.607/styles/fonts/DejaVu/DejaVuSans.ttf",
+                    "DejaVu Sans|Bold": "https://kendo.cdn.telerik.com/2016.2.607/styles/fonts/DejaVu/DejaVuSans-Bold.ttf",
+                    "DejaVu Sans|Bold|Italic": "https://kendo.cdn.telerik.com/2016.2.607/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf",
+                    "DejaVu Sans|Italic": "https://kendo.cdn.telerik.com/2016.2.607/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf",
+                    "WebComponentsIcons": "https://kendo.cdn.telerik.com/2017.1.223/styles/fonts/glyphs/WebComponentsIcons.ttf"
+                });
+            </script>
+
+
+
+            <script>
+                function getPDF(selector) {
+                    kendo.drawing.drawDOM($(selector)).then(function (group) {
+                        kendo.drawing.pdf.saveAs(group, "PaymentReceipt.pdf");
+                    });
+                }
+                $('#example').hide();
+
+
+                $("#paper").kendoDropDownList({
+                    change: function () {
+                        $(".pdf-page")
+                            .removeClass("size-a4")
+                            .removeClass("size-letter")
+                            .removeClass("size-executive")
+                            .addClass(this.value());
+                    }
+                });
+
+
+                function GetReceipt(paymentID) {
+                    //alert(paymentID);
+
+                    $('#example').show();
+                    $.get("/Booking/GetPaymentReceipts", { paymentID: paymentID }, function (data) {
+                        $("#content").empty();
+                        $("#content").append(data);
+                        $('#example').show();
+
+                        //$("#bgImage").css("background-image", "url('../../Content/Images/'@TempData["BackgroundURL"]')");
+                        @*var imageUrl = "../../Content/Images/" + "'@TempData["BackgroundURL"]'";
+                        var imageUrl1 = "../../Content/Images/@ViewBag.BackgroundURL";
+                        $("#bgImage").css("background-image", "url(" + imageUrl1 + ")");*@
+                    });
+
+                }
+
+
+            </script>
+            <style>
+                .pdf-page {
+                    position: relative;
+                    margin: 0 auto;
+                    padding: .4in .3in;
+                    color: #333;
+                    background-color: #fff;
+                    box-shadow: 0 5px 10px 0 rgba(0,0,0,.3);
+                    box-sizing: border-box;
+                }
+
+                .pdf-header {
+                    padding-bottom: .2in;
+                    margin-bottom: .3in;
+                    /*border-bottom: 1px solid #e5e5e5;*/
+                }
+
+                .invoice-number {
+                    padding-top: .1in;
+                    float: right;
+                }
+
+                .pdf-footer {
+                    position: absolute;
+                    bottom: .25in;
+                    left: .3in;
+                    right: .3in;
+                    padding-top: 0.05in;
+                    border-top: 1px solid #e5e5e5;
+                    font-size: 0.9em;
+                    text-align: left;
+                    color: #787878;
+                }
+
+                .addresses {
+                    font-size: 12px;
+                }
+
+                    .addresses:after {
+                        display: block;
+                        content: "";
+                        clear: both;
+                    }
+
+                .for {
+                    float: left;
+                }
+
+                .from {
+                    float: right;
+                }
+
+                .addresses p {
+                    color: #787878;
+                    padding: .05in 0;
+                    border-top: 1px solid #e5e5e5;
+                }
+
+                    .addresses p:first-of-type {
+                        border-top: 0;
+                    }
+
+                .pdf-body {
+                    margin-top: .3in;
+                }
+
+                .company-logo {
+                    font-size: 1.8em;
+                    font-weight: bold;
+                    color: #3aabf0;
+                }
+
+                .signature {
+                    padding-top: .3in;
+                }
+
+                /* Dimensions other than px and em should be divided by 1.33 for the proper PDF output */
+                .size-a4 {
+                    width: 6.2in;
+                    height: 8.7in;
+                }
+
+                .size-letter {
+                    width: 6.3in;
+                    height: 8.2in;
+                }
+
+                .size-executive {
+                    width: 5.4in;
+                    height: 7.8in;
+                    font-size: 12px;
+                }
+
+                    .size-executive .pdf-header {
+                        margin-bottom: .1in;
+                    }
+            </style>
+
+        </div>
+    </div>
 </div>
 }
 
 <script>
+    $("#AmountPaid").keyup(function () {
+        SetTotalAmount();
+    });
 
+    $("#TDS").keyup(function () {
+        SetTotalAmount();
+    });
 
+    function SetTotalAmount() {
 
-    $("#datepicker1").kendoDatePicker();
+        if ($("#AmountPaid").val() != '' && $("#TDS").val() != '') {
+            var percentage = $("#TDS").val() / 100;
+            var total = parseInt($("#AmountPaid").val()) - (percentage * parseInt($("#AmountPaid").val()));
+            $("#TotalPaid").val(total);
+        }
+    }
+
+    $("#datepicker1").kendoDatePicker({ format: "dd/MM/yyyy" });
     var todayDate = kendo.toString(kendo.parseDate(new Date()), 'dd/MM/yyyy');
     $("#datepicker1").val(todayDate);
 
     $(window).load(function () {
         var tempdataval = '@TempData["successmessage"]';
         if (tempdataval != '') {
-            if (tempdataval == 'Supplier Added Successfully')
+            if (tempdataval == 'Payment Voucher Added Successfully')
                 toastr.success(tempdataval);
             else {
                 toastr.error(tempdataval);
@@ -129,13 +357,13 @@
         dataSource = new kendo.data.DataSource({
             transport: {
                 read: {
-                    url: "/Reconciliation/GetSuppliers",
+                    url: "/Reconciliation/GetPaymentVoucher",
                     contentType: "application/json",
                     dataType: "json",
                     type: "POST"
                 },
                 update: {
-                    url: "/Reconciliation/UpdateSuppliers",
+                    url: "/Reconciliation/UpdateInvoice",
                     dataType: "json",
                     complete: function (jqXhr, textStatus) {
                         if (textStatus == 'success') {
@@ -173,9 +401,21 @@
             pageSize: 5,
             schema: {
                 model: {
-                    id: "SupplierID",
+                    id: "VoucherNo",
                     fields: {
+                        VoucherNo: { editable: false, nullable: true },
+                        InvoiceNo: { editable: true, nullable: true },
+                        QuotationNo: { editable: false, nullable: true },
                         SupplierID: { editable: false, nullable: true },
+                        SupplierName: { editable: false, nullable: true },
+                        SupplierPhone: { editable: false, nullable: true },
+                        PaymentDate: { editable: false, nullable: true },
+                        ModeOfPayment: { editable: false, nullable: true },
+                        ReferenceNo: { editable: false, nullable: true },
+                        AmountPaid: { editable: false, nullable: true },
+                        TDS: { editable: false, nullable: true },
+                        TotalPaid: { editable: false, nullable: true },
+                        Remarks: { editable: false, nullable: true },
                     }
                 }
             }
@@ -188,7 +428,7 @@
             height: 350,
             toolbar: ["search", "excel"],
             excel: {
-                fileName: "ClientPayments.xlsx",
+                fileName: "PaymentVouchers.xlsx",
 
                 //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
                 filterable: true,
@@ -198,16 +438,399 @@
 
 
 
+                { field: "VoucherNo", title: "Voucher No", width: "120px" },
+                { field: "InvoiceNo", title: "Invoice No", width: "100px" },
+                { field: "QuotationNo", title: "Quotation No", width: "100px" },
                 { field: "SupplierID", title: "Supplier ID", width: "120px" },
-                { field: "SupplierName", title: "SupplierName", width: "100px" },
-                { field: "SupplierPhone", title: "Supplier Phone", width: "120px" },
-                { field: "GSTIN", title: "GSTIN", width: "100px" },
-                { command: ["edit"], title: "&nbsp;", width: "100px" }
+                { field: "SupplierName", title: "Supplier Name", width: "100px" },
+                { field: "SupplierPhone", title: "Supplier Phone", width: "100px" },
+                { field: "PaymentDate", title: "Payment Date", width: "100px", template: '#= kendo.toString(kendo.parseDate(PaymentDate), "dd/MM/yyyy")#' },
+                { field: "ModeOfPayment", title: "Mode Of Payment", width: "100px"},
+                { field: "ReferenceNo", title: "Reference No", width: "100px" },
+                { field: "AmountPaid", title: "Amount Paid", width: "100px" },
+                { field: "TDS", title: "TDS", width: "100px" },
+                { field: "TotalPaid", title: "Total Paid", width: "100px" },
+                { field: "Remarks", title: "Remarks", width: "100px" },
+                
+                { command: [{ text: "Print Voucher", click: showDetails }, "edit"], title: " ", width: "200px" }
+               
+               
             ],
             editable: "inline"
         });
 
 
     });
+    $("#submitbtn").submit(function (e) {
 
+        SetHiddenFields();
+        SetTotalAmount();
+        Validations(e);
+    });
+
+
+    function Validations(e) {
+
+        if ($("#SupplierID").val() == '') {
+            e.preventDefault();
+            toastr.error("Supplier is Required");
+            return false;
+        }
+
+        if ($("#QuotationNo").val() == '' || $("#QuotationNo").val() == null) {
+            e.preventDefault();
+            toastr.error("QuotationNo is Required");
+            return false;
+        }
+        if ($("#ReferenceNo").val() == '' || $("#ReferenceNo").val() == null) {
+            e.preventDefault();
+            toastr.error("ReferenceNo is Required");
+            return false;
+        }
+        if ($("#ModeOfPayment").val() == '') {
+            e.preventDefault();
+            toastr.error("Mode Of Payment is Required");
+            return false;
+        }
+        if ($("#AmountPaid").val() == '' || $("#AmountPaid").val() == null) {
+            e.preventDefault();
+            toastr.error("Amount Paid is Required");
+            return false;
+        }
+        if ($("#TDS").val() == '' || $("#TDS").val() == null) {
+            e.preventDefault();
+            toastr.error("ReferenceNo is Required");
+            return false;
+        }
+        validationsFlag = true;
+    }
+
+    function SetHiddenFields() {
+
+        $("#PaidDate").val($("#datepicker1").val());
+       
+
+        
+    }
+    $("#bgImage").css("background-image", "url('../../Content/Images/letterhead_new.jpg')");
+    function showDetails(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var voucherNo = dataItem.VoucherNo;
+        //alert(voucherNo);
+        //var date = kendo.toString(kendo.parseDate(new Date()), dataItem.PaymentDate);
+        var invoice = dataItem.InvoiceNo == null ? "" : dataItem.InvoiceNo
+        var remarks = dataItem.Remarks == null ? "" : dataItem.Remarks
+        html = "<article><address></address><table class=\"meta\"><tr><th>Date:</th><td><span contenteditable>" + dataItem.PaidDate + "</span></td></tr><tr><th>Voucher No</th><td><span contenteditable>" + dataItem.VoucherNo + "</span ></td ></tr ></tbody ></table > <table class=\"inventory\"><tbody><tr><th>Supplier ID</th><td colspan='5'>" + dataItem.SupplierID + "</td ></tr > <tr><th>Name</th><td colspan='5'>" + dataItem.SupplierName + "</td ></tr ><tr><th>Phone No</th><td colspan='5'>" + dataItem.SupplierPhone + "</td></tr></tr > <tr><th>Invoice No</th><td colspan='5'>" + invoice + "</td ></tr ><tr><tr><th>Quotation No</th><td colspan='5'>" + dataItem.QuotationNo + "</td ></tr ><tr> <th>Pay Mode</th><td contenteditable>" + dataItem.ModeOfPayment + "</td > <th>Ref No</th><td>" + dataItem.ReferenceNo + "</td ><th>Amount Paid</th><td>" + dataItem.AmountPaid + "</td > </tr ><tr><th >Remarks</th><td colspan='5' style='height:50px' contenteditable>" + remarks + "</td ></tr ><tr><th colspan='3'>Authorised By </th><th colspan='3'>Received By </th></tr><tr><td  colspan='3'></th><td style='height:50px' colspan='3'></td></tr></table ></article > ";
+        $("#content").append(html);
+        var selector = ".pdf-page";
+       
+        
+        $('#example').show();
+        kendo.drawing.drawDOM($(selector)).then(function (group) {
+            style = 'height:50px'
+            
+            kendo.drawing.pdf.saveAs(group, "PaymentReceipt.pdf");
+            $('#example').hide();
+        });
+        
+    }
 </script>
+<style>
+
+    /* content editable */
+
+    *[contenteditable] {
+        border-radius: 0.25em;
+        min-width: 1em;
+        outline: 0;
+    }
+
+    *[contenteditable] {
+        cursor: pointer;
+    }
+
+        *[contenteditable]:hover, *[contenteditable]:focus, td:hover *[contenteditable], td:focus *[contenteditable], img.hover {
+            background: #DEF;
+            box-shadow: 0 0 1em 0.5em #DEF;
+        }
+
+    span[contenteditable] {
+        display: inline-block;
+    }
+
+    /* heading */
+
+    h1 {
+        font: bold 100% sans-serif;
+        letter-spacing: 0.5em;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    /* table */
+
+    #example table {
+        font-size: 75%;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    #example table {
+        border-collapse: separate;
+        border-spacing: 2px;
+    }
+
+    #example th, td {
+        border-width: 1px;
+        padding: 0.5em;
+        position: relative;
+        text-align: left;
+    }
+
+    #example th, td {
+        border-radius: 0.25em;
+        border-style: solid;
+    }
+
+    #example th {
+        background: #EEE;
+        border-color: #BBB;
+    }
+
+    #example td {
+        border-color: #DDD;
+    }
+
+    /* page */
+
+    /*html { font: 16px/1 'Open Sans', sans-serif; overflow: auto; padding: 0.5in; }
+        html { background: #999; cursor: default; }
+
+        body { box-sizing: border-box; height: 11in; margin: 0 auto; overflow: hidden; padding: 0.5in; width: 8.5in; }
+        body { background: #FFF; border-radius: 1px; box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5); }*/
+
+    /* header */
+
+    #example header {
+        margin: 0 0 3em;
+    }
+
+    #example header:after {
+        clear: both;
+        content: "";
+        display: table;
+    }
+
+    #example header h1 {
+        background: #000;
+        border-radius: 0.25em;
+        color: #FFF;
+        margin: 0 0 1em;
+        padding: 0.5em 0;
+    }
+
+    #example header address {
+        float: left;
+        font-size: 75%;
+        font-style: normal;
+        line-height: 1.25;
+        margin: 0 1em 1em 0;
+    }
+
+    #example header address p {
+        margin: 0 0 0.25em;
+    }
+
+    #example header span, header img {
+        display: block;
+        float: right;
+    }
+
+    #example header span {
+        margin: 0 0 1em 1em;
+        max-height: 25%;
+        max-width: 60%;
+        position: relative;
+    }
+
+    #example header img {
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+    #example header input {
+        cursor: pointer;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        height: 100%;
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    /* article */
+
+    article, article address, table.meta, table.inventory {
+        margin: 0 0 3em;
+    }
+
+        article:after {
+            clear: both;
+            content: "";
+            display: table;
+        }
+
+        article h1 {
+            clip: rect(0 0 0 0);
+            position: absolute;
+        }
+
+        article address {
+            float: left;
+            font-size: 125%;
+            font-weight: bold;
+        }
+
+    /* table meta & balance */
+
+    #example table.meta, table.balance {
+        float: right;
+        width: 36%;
+    }
+
+        #example table.meta:after, table.balance:after {
+            clear: both;
+            content: "";
+            display: table;
+        }
+
+        /* table meta */
+
+    #example table.meta th {
+        width: 40%;
+    }
+
+    #example table.meta td {
+        width: 60%;
+    }
+
+    /* table items */
+
+    #example table.inventory {
+        clear: both;
+        width: 100%;
+    }
+
+        table.inventory th {
+            font-weight: bold;
+            text-align: center;
+        }
+
+    /*table.inventory td:nth-child(1) { width: 26%; }
+        table.inventory td:nth-child(2) { width: 26%; }
+        table.inventory td:nth-child(3) { text-align: right; width: 12%; }
+        table.inventory td:nth-child(4) { text-align: right; width: 12%; }
+        table.inventory td:nth-child(5) { text-align: right; width: 12%; }*/
+
+    /* table balance */
+
+    table.balance th, table.balance td {
+        width: 50%;
+    }
+
+    table.balance td {
+        text-align: right;
+    }
+
+    /* aside */
+
+    aside h1 {
+        border: none;
+        border-width: 0 0 1px;
+        margin: 0 0 1em;
+    }
+
+    aside h1 {
+        border-color: #999;
+        border-bottom-style: solid;
+    }
+
+    /* javascript */
+
+    .add, .cut {
+        border-width: 1px;
+        display: block;
+        font-size: .8rem;
+        padding: 0.25em 0.5em;
+        float: left;
+        text-align: center;
+        width: 0.6em;
+    }
+
+    .add, .cut {
+        background: #9AF;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        background-image: -moz-linear-gradient(#00ADEE 5%, #0078A5 100%);
+        background-image: -webkit-linear-gradient(#00ADEE 5%, #0078A5 100%);
+        border-radius: 0.5em;
+        border-color: #0076A3;
+        color: #FFF;
+        cursor: pointer;
+        font-weight: bold;
+        text-shadow: 0 -1px 2px rgba(0,0,0,0.333);
+    }
+
+    .add {
+        margin: -2.5em 0 0;
+    }
+
+        .add:hover {
+            background: #00ADEE;
+        }
+
+    .cut {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: -1.5em;
+    }
+
+    .cut {
+        -webkit-transition: opacity 100ms ease-in;
+    }
+
+    tr:hover .cut {
+        opacity: 1;
+    }
+
+    @@media print {
+        * {
+            -webkit-print-color-adjust: exact;
+        }
+
+        html {
+            background: none;
+            padding: 0;
+        }
+
+        body {
+            box-shadow: none;
+            margin: 0;
+        }
+
+        span:empty {
+            display: none;
+        }
+
+        .add, .cut {
+            display: none;
+        }
+    }
+
+    @@page {
+        margin: 0;
+    }
+</style>
