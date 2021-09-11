@@ -80,6 +80,7 @@ namespace DataLayer
         public virtual DbSet<tblPaymentVoucher> tblPaymentVouchers { get; set; }
         public virtual DbSet<tblInvoice> tblInvoices { get; set; }
         public virtual DbSet<tblInvoiceDetail> tblInvoiceDetails { get; set; }
+        public virtual DbSet<tblCheque> tblCheques { get; set; }
     
         public virtual ObjectResult<sp_GetPeriodWiseBookingDetails_Result> sp_GetPeriodWiseBookingDetails(Nullable<int> option, string project, string year, string month, string fromdate, string todate)
         {

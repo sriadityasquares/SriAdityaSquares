@@ -297,6 +297,9 @@
     <Compile Include="tblCancellation.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblCheque.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblChequeStatu.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>

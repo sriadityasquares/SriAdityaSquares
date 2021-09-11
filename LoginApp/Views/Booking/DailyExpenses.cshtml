@@ -183,8 +183,8 @@
             $("#projectShow").hide();
         }
     });
-    $("#datepicker1").kendoDatePicker();
-    var todayDate = kendo.toString(kendo.parseDate(new Date()), 'MM/dd/yyyy');
+    $("#datepicker1").kendoDatePicker({ format: "dd/MM/yyyy" });
+    var todayDate = kendo.toString(kendo.parseDate(new Date()), 'dd/MM/yyyy');
     $("#datepicker1").val(todayDate);
     $("#ProjectID").change(function () {
         $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
@@ -290,6 +290,7 @@
                     id: "ExpenseID",
                     fields: {
                         ExpenseID: { editable: false, nullable: true },
+                        ExpenseDate :  { type: "date" }
                     }
                 }
             }
@@ -302,11 +303,21 @@
             height: 350,
             toolbar: ["search", "excel"],
             excel: {
-                fileName: "ClientPayments.xlsx",
+                fileName: "DailyExpenses.xlsx",
 
                 //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
                 filterable: true,
                 allPages: true
+            },
+            excelExport: function (e) {
+                var sheet = e.workbook.sheets[0];
+
+                for (var rowIndex = 1; rowIndex < sheet.rows.length; rowIndex++) {
+                    var row = sheet.rows[rowIndex];
+                    for (var cellIndex = 0; cellIndex < row.cells.length; cellIndex++) {
+                        row.cells[0].format = "dd/MM/yyyy"
+                    }
+                }
             },
             columns: [
                 { field: "ExpenseDate", title: "Expense Date", width: "120px", template: '#= kendo.toString(kendo.parseDate(ExpenseDate), "dd/MM/yyyy")#' },

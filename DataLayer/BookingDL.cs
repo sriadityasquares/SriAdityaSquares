@@ -3050,6 +3050,32 @@ namespace DataLayer
         }
 
 
+        public bool AddCheque(Cheques cq)
+        {
+            var result = false;
+            try
+            {
+
+                tblCheque cqInfo = new tblCheque();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<Cheques, tblCheque>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<Cheques, tblCheque>(cq, cqInfo);
+                dbEntity.tblCheques.Add(cqInfo);
+                dbEntity.SaveChanges();
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                result = false;
+            }
+            return result;
+        }
+
+
         public bool UpdateIBOAdvances(IBOAdvanceForm advanceForm)
         {
             var result = false;
@@ -3105,6 +3131,47 @@ namespace DataLayer
             }
 
             return lstIBOAdvances;
+        }
+
+        public List<Cheques> GetCheques()
+        {
+            List<Cheques> lstCheques = new List<Cheques>();
+
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblCheque, Cheques>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstCheques = mapper.Map<List<tblCheque>, List<Cheques>>(dbEntity.tblCheques.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return lstCheques;
+        }
+
+        public bool UpdateCheque(Cheques cq)
+        {
+            try
+            {
+                tblCheque tblChequeInfo = dbEntity.tblCheques.Where(x => x.ID == cq.ID).FirstOrDefault();
+                tblChequeInfo.Amount = cq.Amount;
+                tblChequeInfo.Remarks = cq.Remarks;
+                tblChequeInfo.Status = cq.Status;
+                tblChequeInfo.ModifiedBy = cq.ModifiedBy;
+                tblChequeInfo.ModifiedDate = cq.ModifiedDate;
+
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

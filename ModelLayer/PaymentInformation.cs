@@ -37,6 +37,7 @@ namespace ModelLayer
         public Nullable<System.DateTime> UpdatedDate { get; set; }
 
         public string FormattedDate { get; set; }
+        public string FormattedDate2 { get; set; }
 
         [Display(Name = "Total Paid")]
         public Nullable<int> TotalPaid { get; set; }

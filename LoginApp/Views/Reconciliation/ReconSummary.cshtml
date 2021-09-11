@@ -39,22 +39,22 @@
         @Html.LabelFor(m => m.SupplierPhone, new { @class = "col-md-1" })
         @Html.TextBoxFor(model => model.SupplierPhone, new { @class = "textbox-control col-md-1 col-xs" })
     </div>
-
+    @*<div id="chart" style="background-size:cover;align-content:center;align-items:center"></div>*@
     <div id="example">
 
 
 
         <div id="grid"></div>
         <div class="row">
-            @Html.LabelFor(m => m.CreditAmount, new { @class = "col-md-3",@style = "color:lightcoral !important;font-weight:800;font-size:12px" })
-            @Html.TextBoxFor(model => model.CreditAmount, new { @class = "textbox-control col-md-1 col-xs",@style = "border: 2px solid lightcoral;background-color: lightcoral;font-weight:800;" })
+            @Html.LabelFor(m => m.CreditAmount, new { @class = "col-md-3", @style = "color:lightcoral !important;font-weight:800;font-size:12px" })
+            @Html.TextBoxFor(model => model.CreditAmount, new { @class = "textbox-control col-md-1 col-xs", @style = "border: 2px solid lightcoral;background-color: lightcoral;font-weight:800;" })
             @Html.LabelFor(m => m.DebitAmount, new { @class = "col-md-3", @style = "color:mediumseagreen !important;font-weight:800;font-size:12px" })
             @Html.TextBoxFor(model => model.DebitAmount, new { @class = "textbox-control col-md-1 col-xs", @style = "border: 2px solid mediumseagreen;background-color: mediumseagreen;font-weight:800;" })
         </div>
         <div class="row">
             @Html.LabelFor(m => m.BalanceAmount, new { @class = "col-md-7", @style = "color:#0d99d8 !important;font-weight:800;font-size:12px" })
             @Html.TextBoxFor(model => model.BalanceAmount, new { @class = "textbox-control col-md-1 col-xs", @style = "border: 2px solid #0d99d8;background-color: #0d99d8;font-weight:800;" })
-            
+
         </div>
         <script>
 
@@ -62,7 +62,18 @@
             $(document).ready(function () {
                 $("#grid").kendoGrid({
                     dataSource: {
-                        data: null
+                        data: null,
+                        
+                    },
+                    toolbar: ["pdf"],
+                    excelExport: exportGridWithTemplatesContent,
+                   
+                    excel: {
+                        fileName: "InvoiceSummary.xlsx",
+
+                        //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                        filterable: true,
+                        allPages: true
                     },
                     //aggregate: [
                     //    { field: "CreditAmount", aggregate: "min" },
@@ -74,14 +85,13 @@
                     resizable: true,
                     reorderable: true,
                     pageable: true,
-
+                    
                     columnMenu: true,
                     columns: [{
                         title: "Credits(Based on Purchase/Expense Vouchers)",
                         columns: [{
-                            field: "InvoiceDate",
+                            field: "InvoiceDateString",
                             title: "Date",
-                            template: '#= GetDate(InvoiceDate)#',
                             width: 150
                         }, {
                             field: "InvoiceNo",
@@ -93,7 +103,7 @@
                                 title: "Amount",
                                 //footerTemplate: "Min: #: min # Max: #: max #",
                                 attributes: { 'style': "#=CreditAmount!==null?'background-color:lightcoral; color:white;':''#" },
-                                
+
                                 width: 200
                             }
                         ]
@@ -103,7 +113,7 @@
                         columns: [{
                             field: "VoucherDate",
                             title: "Date",
-                            template: '#= GetDate(VoucherDate)#',
+                            template: '#= kendo.toString(kendo.parseDate(VoucherDate), "dd/MM/yyyy")#',
                             width: 150
                         },
                             {
@@ -145,7 +155,9 @@
             success: function (result) {
 
             var grid = $("#grid").data("kendoGrid");
-            var dataSource = new kendo.data.DataSource({ data: result });
+                var dataSource = new kendo.data.DataSource({
+                    data: result
+                });
             grid.setDataSource(dataSource);
             grid.dataSource.read();
             //$("#grid").height(400);
@@ -167,10 +179,102 @@
                 $("#CreditAmount").val(creditAmount);
                 $("#DebitAmount").val(debitAmount);
                 $("#BalanceAmount").val(parseFloat(creditAmount) - parseFloat(debitAmount));
+                //const chartCreditdata = {
+                //    category: "CREDIT",
+                //    color: "blueviolet",
+                //    value: creditAmount
+                //};
+                //const chartDebitdata = {
+                //    category: "DEBIT",
+                //    color: "orange",
+                //    value: debitAmount
+                //};
+
+                //$(document).ready(createChart(chartCreditdata));
+                //$(document).bind("kendo:skinChange", createChart(chartCreditdata));
             },
 
             });
             });
+
+
+            function exportGridWithTemplatesContent(e) {
+                var data = e.data;
+                var gridColumns = e.sender.columns;
+                var sheet = e.workbook.sheets[0];
+                var visibleGridColumns = [];
+                var columnTemplates = [];
+                var dataItem;
+                // Create element to generate templates in.
+                var elem = document.createElement('div');
+
+                // Get a list of visible columns
+                for (var i = 0; i < gridColumns.length; i++) {
+                    if (!gridColumns[i].hidden) {
+                        visibleGridColumns.push(gridColumns[i]);
+                    }
+                }
+
+                // Create a collection of the column templates, together with the current column index
+                for (var i = 0; i < visibleGridColumns.length; i++) {
+                    if (visibleGridColumns[i].template) {
+                        columnTemplates.push({ cellIndex: i, template: kendo.template(visibleGridColumns[i].template) });
+                    }
+                }
+
+                // Traverse all exported rows.
+                for (var i = 1; i < sheet.rows.length; i++) {
+                    var row = sheet.rows[i];
+                    // Traverse the column templates and apply them for each row at the stored column position.
+
+                    // Get the data item corresponding to the current row.
+                    var dataItem = data[i - 1];
+                    for (var j = 0; j < columnTemplates.length; j++) {
+                        var columnTemplate = columnTemplates[j];
+                        // Generate the template content for the current cell.
+                        elem.innerHTML = columnTemplate.template(dataItem);
+                        if (row.cells[columnTemplate.cellIndex] != undefined)
+                            // Output the text content of the templated cell into the exported cell.
+                            row.cells[columnTemplate.cellIndex].value = elem.textContent || elem.innerText || "";
+                    }
+                }
+            }
+
+
+            function createChart(data) {
+                $("#chart").kendoChart({
+                    title: {
+                        position: "bottom",
+                        font: "bolder 16px Arial,Helvetica,sans-serif",
+                        color: "black",
+                        text: "Booking status of " + $("#Project option:selected").text() + " in " + $("#Tower option:selected").text()
+                    },
+                    legend: {
+                        visible: true,
+                        position: "top"
+                    },
+                    chartArea: {
+                        background: ""
+                    },
+                    seriesDefaults: {
+                        labels: {
+                            visible: true,
+                            background: "transparent",
+                            template: "#= value#",
+                            font: "bold 14px Arial,Helvetica,sans-serif",
+                        }
+                    },
+                    series: [{
+                        type: "pie",
+                        startAngle: 150,
+                        data: data
+                    }],
+                    tooltip: {
+                        visible: true,
+                        format: "{0}"
+                    }
+                });
+            }
         </script>
     </div>
 </div>

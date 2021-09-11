@@ -2218,6 +2218,7 @@
     <Content Include="Views\Reconciliation\PaymentVoucher.cshtml" />
     <Content Include="Views\Reconciliation\Invoices.cshtml" />
     <Content Include="Views\Reconciliation\ReconSummary.cshtml" />
+    <Content Include="Views\Booking\Cheques.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -445,6 +445,24 @@ warning 6002: The table/view 'SASDB.dbo.tblBookingInformationAudit' does not hav
           <Property Name="Comments" Type="nvarchar(max)" />
           <Property Name="BookingID" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="tblCheques">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChequeNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="ChequeDate" Type="datetime" />
+          <Property Name="Status" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="Category" Type="nvarchar" MaxLength="100" />
+          <Property Name="IBOID" Type="int" />
+          <Property Name="PaidTo" Type="nvarchar(max)" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="tblChequeStatus">
           <Key>
             <PropertyRef Name="ID" />
@@ -1428,6 +1446,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblBookingInformation" EntityType="Self.tblBookingInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBookingInformation_Franchise" EntityType="Self.tblBookingInformation_Franchise" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCancellations" EntityType="Self.tblCancellations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCheques" EntityType="Self.tblCheques" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblChequeStatus" EntityType="Self.tblChequeStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCity" EntityType="Self.tblCity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblClientPayments" EntityType="Self.tblClientPayments" Schema="dbo" store:Type="Tables" />
@@ -1895,8 +1914,9 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblInvoices" EntityType="salesDBModel.tblInvoice" />
           <EntitySet Name="tblInvoiceDetails" EntityType="salesDBModel.tblInvoiceDetail" />
           <FunctionImport Name="sp_GetReconReport" ReturnType="Collection(salesDBModel.sp_GetReconReport_Result)">
-            <Parameter Name="SupplierID" Mode="In" Type="String" />
+          <Parameter Name="SupplierID" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="tblCheques" EntityType="salesDBModel.tblCheque" />
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -3848,6 +3868,24 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="String" Name="SupplierID" Nullable="true" />
           <Property Type="String" Name="SupplierPhone" Nullable="true" />
         </ComplexType>
+        <EntityType Name="tblCheque">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChequeNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ChequeDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="Category" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IBOID" Type="Int32" />
+          <Property Name="PaidTo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5971,6 +6009,25 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblCheques">
+            <EntityTypeMapping TypeName="salesDBModel.tblCheque">
+              <MappingFragment StoreEntitySet="tblCheques">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="PaidTo" ColumnName="PaidTo" />
+                <ScalarProperty Name="IBOID" ColumnName="IBOID" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />
+                <ScalarProperty Name="ChequeNumber" ColumnName="ChequeNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

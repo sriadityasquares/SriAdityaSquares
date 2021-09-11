@@ -59,6 +59,7 @@
     <Compile Include="BookingInformation.cs" />
     <Compile Include="Cancellation.cs" />
     <Compile Include="Cheque.cs" />
+    <Compile Include="Cheques.cs" />
     <Compile Include="City.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="ClientPayments.cs" />

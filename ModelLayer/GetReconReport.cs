@@ -12,6 +12,8 @@ namespace ModelLayer
     public class GetReconReport
     {
         public Nullable<System.DateTime> InvoiceDate { get; set; }
+
+        public string InvoiceDateString { get; set; }
         public string InvoiceNo { get; set; }
 
         [Display(Name = "TOTAL CREDIT")]

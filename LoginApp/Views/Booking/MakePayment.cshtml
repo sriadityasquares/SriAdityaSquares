@@ -294,6 +294,7 @@
                                 <th>Cheque Status</th>
                                 <th>Reference No</th>
                                 <th>Details</th>
+                                <th>Created Date</th>
                                 <th>Save Changes</th>
                                 <th>Generate Receipt</th>
                                 @*<th>Print Receipt</th>*@
@@ -396,8 +397,8 @@
 }
 <script>
 
-    $("#datepicker1").kendoDatePicker();
-    $("#cqDatePicker").kendoDatePicker();
+    $("#datepicker1").kendoDatePicker({ format: "dd/MM/yyyy" });
+    $("#cqDatePicker").kendoDatePicker({ format: "dd/MM/yyyy" });
     HideDiv();
     $("#ProjectID").change(function () {
         if ($("#ProjectID").val() == 22) {
@@ -452,9 +453,9 @@
                     $("#CustomerName").text(row.Customer);
                 }
                 if (row.ViewReceipt)
-                    $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.PaymentMode + "</td><td>" + row.ChequeStatus + "</td><td contenteditable id='Ref" + row.PaymentID + "'>" + row.ReferenceNo + "</td><td contenteditable id='" + row.PaymentID + "'>" + row.Details + "</td><td><a class ='btn' onclick='UpdateDetails(" + row.PaymentID + ")'><i class='fa fa-save'></i></a>" + "<td><a class ='btn' onClick=GetReceipt('" + row.PaymentID + "')> <i class='fa fa-file-pdf-o'></i></a ></td ></tr>");
+                    $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.PaymentMode + "</td><td>" + row.ChequeStatus + "</td><td contenteditable id='Ref" + row.PaymentID + "'>" + row.ReferenceNo + "</td><td contenteditable id='" + row.PaymentID + "'>" + row.Details + "</td><td>" + row.FormattedDate2 + "</td><td><a class ='btn' onclick='UpdateDetails(" + row.PaymentID + ")'><i class='fa fa-save'></i></a>" + "<td><a class ='btn' onClick=GetReceipt('" + row.PaymentID + "')> <i class='fa fa-file-pdf-o'></i></a ></td ></tr>");
                 else
-                    $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.PaymentMode + "</td><td>" + row.ChequeStatus + "</td><td contenteditable id='Ref" + row.PaymentID + "'>" + row.ReferenceNo + "</td><td contenteditable id='" + row.PaymentID + "'>" + row.Details + "</td><td><a class ='btn' onclick='UpdateDetails(" + row.PaymentID + ")'><i class='fa fa-save'></i></a></tr>");
+                    $('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td><td>" + row.PaymentMode + "</td><td>" + row.ChequeStatus + "</td><td contenteditable id='Ref" + row.PaymentID + "'>" + row.ReferenceNo + "</td><td contenteditable id='" + row.PaymentID + "'>" + row.Details + "</td><td>" + row.FormattedDate2 + "</td><td><a class ='btn' onclick='UpdateDetails(" + row.PaymentID + ")'><i class='fa fa-save'></i></a></tr>");
 
 
                 //$('#table tbody').append("<tr><td>" + row.BookingAmount + "</td><td>" + row.FormattedDate + "</td>" + "</td><td><button type='submit'  name='GenerateReceipt' style='padding:3px;margin-bottom: 0px;' id='Generate' value='" + row.PaymentID + "' class='btn btn-default'><i class='fa fa-file-pdf-o'></i>GENERATE RECEIPT</button></td></tr>");

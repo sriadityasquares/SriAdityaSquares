@@ -566,5 +566,19 @@ namespace BusinessLayer
             return db.UpdateIBOAdvances(advanceForm);
         }
 
+        public bool AddCheque(Cheques cq)
+        {
+            return db.AddCheque(cq);
+        }
+
+        public List<Cheques> GetCheques()
+        {
+            return db.GetCheques();
+        }
+
+        public bool UpdateCheque(Cheques cq)
+        {
+            return db.UpdateCheque(cq);
+        }
     }
 }

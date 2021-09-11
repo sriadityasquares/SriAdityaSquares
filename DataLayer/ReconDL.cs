@@ -267,6 +267,13 @@ namespace DataLayer
                     i++;
 
                 }
+                foreach(var item in lstReconReport)
+                {
+                    if (item.InvoiceDate != null)
+                        item.InvoiceDateString = Convert.ToDateTime(item.InvoiceDate).Date.ToString("dd/MM/yyyy");
+                    else
+                        item.InvoiceDateString = "";
+                }
             
             }
             catch (Exception ex)

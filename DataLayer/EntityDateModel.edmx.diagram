@@ -68,6 +68,7 @@
         <EntityTypeShape EntityType="salesDBModel.tblPaymentVoucher" Width="1.5" PointX="7.375" PointY="25.75" />
         <EntityTypeShape EntityType="salesDBModel.tblInvoice" Width="1.5" PointX="25.375" PointY="11.75" />
         <EntityTypeShape EntityType="salesDBModel.tblInvoiceDetail" Width="1.5" PointX="25.375" PointY="17.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblCheque" Width="1.5" PointX="25.375" PointY="22.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
