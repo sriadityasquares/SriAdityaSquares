@@ -38,6 +38,7 @@ namespace DataLayer
         public string Pricing { get; set; }
         public Nullable<int> BSP { get; set; }
         public Nullable<int> ProjectType { get; set; }
+        public Nullable<bool> ProjectApproved { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblTower> tblTowers { get; set; }

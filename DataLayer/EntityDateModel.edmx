@@ -642,6 +642,9 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="ExpenseType" Type="nvarchar(max)" />
           <Property Name="ProjectID" Type="int" />
           <Property Name="ProjectName" Type="nvarchar(max)" />
+          <Property Name="SubCategoryID" Type="int" />
+          <Property Name="SubCategory" Type="nvarchar(max)" />
+          <Property Name="ChequeNo" Type="nvarchar(max)" />
           <Property Name="CreatedDate" Type="nvarchar(max)" />
           <Property Name="CreatedBy" Type="nvarchar(max)" />
         </EntityType>
@@ -954,6 +957,15 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="tblProjectExpenseCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubCategory" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="tblProjects">
           <Key>
             <PropertyRef Name="ProjectID" />
@@ -973,6 +985,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="Pricing" Type="nvarchar(max)" />
           <Property Name="BSP" Type="int" />
           <Property Name="ProjectType" Type="int" />
+          <Property Name="ProjectApproved" Type="bit" />
         </EntityType>
         <EntityType Name="tblSchemeMaster">
           <Key>
@@ -1411,6 +1424,10 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="Role" Type="varchar(max)" Mode="In" />
           <Parameter Name="Email" Type="varchar(max)" Mode="In" />
         </Function>
+        <Function Name="sp_GetProjectApprovalStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PaymentID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_GetProjectCategoryWiseExpenses" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetProjectWiseArea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetRecentAddedIBOGraph" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetRecentBookingGraph" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -1473,6 +1490,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblPaymentInfo" EntityType="Self.tblPaymentInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPaymentInfo_Franchise" EntityType="Self.tblPaymentInfo_Franchise" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPaymentVouchers" EntityType="Self.tblPaymentVouchers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProjectExpenseCategory" EntityType="Self.tblProjectExpenseCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProjects" EntityType="Self.tblProjects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSchemeMaster" EntityType="Self.tblSchemeMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSiteVisitInfo" EntityType="Self.tblSiteVisitInfo" Schema="dbo" store:Type="Tables" />
@@ -1724,7 +1742,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblClientPayments" EntityType="salesDBModel.tblClientPayment" />
           <EntitySet Name="tblCustomerInfoes" EntityType="salesDBModel.tblCustomerInfo" />
           <EntitySet Name="tblCustomerInfo_backup" EntityType="salesDBModel.tblCustomerInfo_backup" />
-          <EntitySet Name="tblDailyExpenses" EntityType="salesDBModel.tblDailyExpens" />
           <EntitySet Name="tblCancellations" EntityType="salesDBModel.tblCancellation" />
           <FunctionImport Name="sp_Cancel_FlatBooking">
             <Parameter Name="FlatID" Mode="In" Type="Int32" />
@@ -1917,6 +1934,12 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="SupplierID" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="tblCheques" EntityType="salesDBModel.tblCheque" />
+          <EntitySet Name="tblProjectExpenseCategories" EntityType="salesDBModel.tblProjectExpenseCategory" />
+          <FunctionImport Name="sp_GetProjectCategoryWiseExpenses" ReturnType="Collection(salesDBModel.sp_GetProjectCategoryWiseExpenses_Result)" />
+          <EntitySet Name="tblDailyExpenses" EntityType="salesDBModel.tblDailyExpens" />
+          <FunctionImport Name="sp_GetProjectApprovalStatus" ReturnType="Collection(Boolean)">
+            <Parameter Name="PaymentID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -2434,24 +2457,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="BookingID" Type="Guid" />
         </EntityType>
-        <EntityType Name="tblDailyExpens">
-          <Key>
-            <PropertyRef Name="ExpenseID" />
-          </Key>
-          <Property Name="ExpenseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ExpenseDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Particulars" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Amount" Type="Int32" />
-          <Property Name="PaidTo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentMode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TransactionType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ExpenseType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ProjectID" Type="Int32" />
-          <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="tblCancellation">
           <Key>
             <PropertyRef Name="ID" />
@@ -2559,6 +2564,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <NavigationProperty Name="tblFlats" Relationship="salesDBModel.FK_Flats1" FromRole="tblProject" ToRole="tblFlat" />
           <NavigationProperty Name="tblFlats1" Relationship="salesDBModel.FK_Flats1_bkp" FromRole="tblProject" ToRole="tblFlat" />
           <NavigationProperty Name="tblFlats2" Relationship="salesDBModel.FK_Flats11_bkp" FromRole="tblProject" ToRole="tblFlat" />
+          <Property Name="ProjectApproved" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Towers">
           <End Type="salesDBModel.tblProject" Role="tblProject" Multiplicity="0..1" />
@@ -3886,6 +3892,41 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="tblProjectExpenseCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubCategory" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="sp_GetProjectCategoryWiseExpenses_Result">
+          <Property Type="String" Name="ProjectName" Nullable="true" />
+          <Property Type="String" Name="SubCategory" Nullable="true" />
+          <Property Type="Int32" Name="ExpenseAmount" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="tblDailyExpens">
+          <Key>
+            <PropertyRef Name="ExpenseID" />
+          </Key>
+          <Property Name="ExpenseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExpenseDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Particulars" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="PaidTo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentMode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TransactionType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ExpenseType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SubCategoryID" Type="Int32" />
+          <Property Name="SubCategory" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ChequeNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4464,25 +4505,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblDailyExpenses">
-            <EntityTypeMapping TypeName="salesDBModel.tblDailyExpens">
-              <MappingFragment StoreEntitySet="tblDailyExpenses">
-                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="ExpenseType" ColumnName="ExpenseType" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
-                <ScalarProperty Name="PaidTo" ColumnName="PaidTo" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Particulars" ColumnName="Particulars" />
-                <ScalarProperty Name="ExpenseDate" ColumnName="ExpenseDate" />
-                <ScalarProperty Name="ExpenseID" ColumnName="ExpenseID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tblCancellations">
             <EntityTypeMapping TypeName="salesDBModel.tblCancellation">
               <MappingFragment StoreEntitySet="tblCancellations">
@@ -4586,6 +4608,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySetMapping Name="tblProjects">
             <EntityTypeMapping TypeName="salesDBModel.tblProject">
               <MappingFragment StoreEntitySet="tblProjects">
+                <ScalarProperty Name="ProjectApproved" ColumnName="ProjectApproved" />
                 <ScalarProperty Name="ProjectType" ColumnName="ProjectType" />
                 <ScalarProperty Name="BSP" ColumnName="BSP" />
                 <ScalarProperty Name="Pricing" ColumnName="Pricing" />
@@ -6028,6 +6051,48 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblProjectExpenseCategories">
+            <EntityTypeMapping TypeName="salesDBModel.tblProjectExpenseCategory">
+              <MappingFragment StoreEntitySet="tblProjectExpenseCategory">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="SubCategory" ColumnName="SubCategory" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetProjectCategoryWiseExpenses" FunctionName="salesDBModel.Store.sp_GetProjectCategoryWiseExpenses">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetProjectCategoryWiseExpenses_Result">
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="SubCategory" ColumnName="SubCategory" />
+                <ScalarProperty Name="ExpenseAmount" ColumnName="ExpenseAmount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblDailyExpenses">
+            <EntityTypeMapping TypeName="salesDBModel.tblDailyExpens">
+              <MappingFragment StoreEntitySet="tblDailyExpenses">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChequeNo" ColumnName="ChequeNo" />
+                <ScalarProperty Name="SubCategory" ColumnName="SubCategory" />
+                <ScalarProperty Name="SubCategoryID" ColumnName="SubCategoryID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ExpenseType" ColumnName="ExpenseType" />
+                <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="PaidTo" ColumnName="PaidTo" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Particulars" ColumnName="Particulars" />
+                <ScalarProperty Name="ExpenseDate" ColumnName="ExpenseDate" />
+                <ScalarProperty Name="ExpenseID" ColumnName="ExpenseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetProjectApprovalStatus" FunctionName="salesDBModel.Store.sp_GetProjectApprovalStatus" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

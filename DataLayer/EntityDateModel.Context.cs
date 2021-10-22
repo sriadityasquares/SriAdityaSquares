@@ -50,7 +50,6 @@ namespace DataLayer
         public virtual DbSet<tblClientPayment> tblClientPayments { get; set; }
         public virtual DbSet<tblCustomerInfo> tblCustomerInfoes { get; set; }
         public virtual DbSet<tblCustomerInfo_backup> tblCustomerInfo_backup { get; set; }
-        public virtual DbSet<tblDailyExpens> tblDailyExpenses { get; set; }
         public virtual DbSet<tblCancellation> tblCancellations { get; set; }
         public virtual DbSet<tblCustomerEnquiry> tblCustomerEnquiries { get; set; }
         public virtual DbSet<tblChequeStatu> tblChequeStatus { get; set; }
@@ -81,6 +80,8 @@ namespace DataLayer
         public virtual DbSet<tblInvoice> tblInvoices { get; set; }
         public virtual DbSet<tblInvoiceDetail> tblInvoiceDetails { get; set; }
         public virtual DbSet<tblCheque> tblCheques { get; set; }
+        public virtual DbSet<tblProjectExpenseCategory> tblProjectExpenseCategories { get; set; }
+        public virtual DbSet<tblDailyExpens> tblDailyExpenses { get; set; }
     
         public virtual ObjectResult<sp_GetPeriodWiseBookingDetails_Result> sp_GetPeriodWiseBookingDetails(Nullable<int> option, string project, string year, string month, string fromdate, string todate)
         {
@@ -766,6 +767,20 @@ namespace DataLayer
                 new ObjectParameter("SupplierID", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetReconReport_Result>("sp_GetReconReport", supplierIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetProjectCategoryWiseExpenses_Result> sp_GetProjectCategoryWiseExpenses()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetProjectCategoryWiseExpenses_Result>("sp_GetProjectCategoryWiseExpenses");
+        }
+    
+        public virtual ObjectResult<Nullable<bool>> sp_GetProjectApprovalStatus(Nullable<int> paymentID)
+        {
+            var paymentIDParameter = paymentID.HasValue ?
+                new ObjectParameter("PaymentID", paymentID) :
+                new ObjectParameter("PaymentID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("sp_GetProjectApprovalStatus", paymentIDParameter);
         }
     }
 }

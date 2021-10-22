@@ -89,7 +89,8 @@
                         ProjectLocation: { validation: { required: true } },
                         BookingStatus: { validation: { required: true } },
                         ClubHouseCharges: { type: "number", validation: { min: 0, required: true } },
-                        ProjectType: { type: "number", validation: { min: 1,max:2 ,required: true } }
+                        ProjectType: { type: "number", validation: { min: 1, max: 2, required: true } },
+                        ProjectApproved: { type: "boolean" },
                         //Designation: { validation: { required: false } },
                     }
                 }
@@ -112,7 +113,8 @@
                 { field: "LocationURL", title: "Location URL", width: "200px" },
                 { field: "Pricing", title: "Pricing", width: "200px" },
                 { field: "BSP", title: "BSP", width: "200px" },
-                { field: "ProjectType", title: "ProjectType", width: "200px"},
+                { field: "ProjectType", title: "ProjectType", width: "200px" },
+                { field: "ProjectApproved", title: "Project Approved", width: "200px", "template": "<input type='checkbox' #= (ProjectApproved == true) ? checked = 'checked' : ''# />" },
                 //{
                 //    field: "ProjectType", title: "ProjectType", width: "170px", template: $("#template1").html(), editor: function (container) { // use a dropdownlist as an editor
                 //        //create an input element with id and name set as the bound field (brandId)

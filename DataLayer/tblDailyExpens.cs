@@ -22,10 +22,13 @@ namespace DataLayer
         public string PaymentMode { get; set; }
         public string Comments { get; set; }
         public string TransactionType { get; set; }
-        public string CreatedDate { get; set; }
-        public string CreatedBy { get; set; }
         public string ExpenseType { get; set; }
         public Nullable<int> ProjectID { get; set; }
         public string ProjectName { get; set; }
+        public Nullable<int> SubCategoryID { get; set; }
+        public string SubCategory { get; set; }
+        public string ChequeNo { get; set; }
+        public string CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
     }
 }

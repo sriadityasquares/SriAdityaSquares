@@ -172,6 +172,7 @@ namespace LoginApp.Controllers
 
             ViewBag.PastDue = booking.GetPastDue();
             ViewBag.AreaRem = booking.GetProjectWiseArea();
+            ViewBag.ProjectCategoryWiseExpenses = booking.GetProjectCategoryWiseExpenses();
             return View();
         }
 

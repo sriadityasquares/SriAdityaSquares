@@ -219,6 +219,9 @@
     <Compile Include="sp_GetProfile_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetProjectCategoryWiseExpenses_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_GetProjectWiseArea_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
@@ -382,6 +385,9 @@
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblProject.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblProjectExpenseCategory.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblSchemeMaster.cs">

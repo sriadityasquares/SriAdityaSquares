@@ -34,6 +34,31 @@ namespace DataLayer
                     projectOld.UpdatedDate = DateTime.Now;
                     projectOld.BSP = p.BSP;
                     projectOld.ProjectType = p.ProjectType;
+                    projectOld.ProjectApproved = p.ProjectApproved;
+                    dbEntity.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+
+        public bool UpdateProjectExpenseCategory(ProjectExpenseCategory p)
+        {
+            try
+            {
+                
+                tblProjectExpenseCategory projectOld = dbEntity.tblProjectExpenseCategories.Where(x => x.ID == p.ID).FirstOrDefault();
+
+                if (projectOld != null)
+                {
+                    projectOld.SubCategory = p.SubCategory;
+                    projectOld.CreatedDate = DateTime.Now;
+                    projectOld.CreatedBy = p.CreatedBy;
                     dbEntity.SaveChanges();
                 }
                 return true;
@@ -73,6 +98,34 @@ namespace DataLayer
             }
         }
 
+
+        public bool AddProjectExpenseCategory(ProjectExpenseCategory pec)
+        {
+            try
+            {
+              
+                pec.CreatedDate = DateTime.Now;
+                tblProjectExpenseCategory pecNew = new tblProjectExpenseCategory();
+
+
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<ProjectExpenseCategory, tblProjectExpenseCategory>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
+                mapper.Map<ProjectExpenseCategory, tblProjectExpenseCategory>(pec, pecNew);
+                dbEntity.tblProjectExpenseCategories.Add(pecNew);
+                dbEntity.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
         public bool AddTower(Towers p)
         {
             try

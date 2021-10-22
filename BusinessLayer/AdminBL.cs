@@ -21,6 +21,17 @@ namespace BusinessLayer
             return admin.AddProject(p);
         }
 
+
+        public bool AddProjectExpenseCategory(ProjectExpenseCategory p)
+        {
+            return admin.AddProjectExpenseCategory(p);
+        }
+
+        public bool UpdateProjectExpenseCategory(ProjectExpenseCategory p)
+        {
+            return admin.UpdateProjectExpenseCategory(p);
+        }
+
         public bool UpdateTower(Towers p)
         {
             return admin.UpdateTower(p);

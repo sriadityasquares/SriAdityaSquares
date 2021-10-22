@@ -31,7 +31,6 @@
         <EntityTypeShape EntityType="salesDBModel.tblClientPayment" Width="1.5" PointX="16.375" PointY="7.75" />
         <EntityTypeShape EntityType="salesDBModel.tblCustomerInfo" Width="1.5" PointX="15.375" PointY="17.75" />
         <EntityTypeShape EntityType="salesDBModel.tblCustomerInfo_backup" Width="1.5" PointX="17.375" PointY="17.75" />
-        <EntityTypeShape EntityType="salesDBModel.tblDailyExpens" Width="1.5" PointX="7.375" PointY="8.75" />
         <EntityTypeShape EntityType="salesDBModel.tblCancellation" Width="1.5" PointX="18.375" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblCustomerEnquiry" Width="1.5" PointX="12.375" PointY="3.75" />
         <EntityTypeShape EntityType="salesDBModel.tblChequeStatu" Width="1.5" PointX="12.375" PointY="7.75" />
@@ -69,6 +68,8 @@
         <EntityTypeShape EntityType="salesDBModel.tblInvoice" Width="1.5" PointX="25.375" PointY="11.75" />
         <EntityTypeShape EntityType="salesDBModel.tblInvoiceDetail" Width="1.5" PointX="25.375" PointY="17.75" />
         <EntityTypeShape EntityType="salesDBModel.tblCheque" Width="1.5" PointX="25.375" PointY="22.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblProjectExpenseCategory" Width="1.5" PointX="9.375" PointY="16.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblDailyExpens" Width="1.5" PointX="7.375" PointY="8.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

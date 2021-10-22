@@ -306,6 +306,7 @@ namespace LoginApp.Controllers
             {
                 projectList = booking.BindFranchiseProjects(User.Identity.Name);
             }
+            @ViewBag.ProjectApproved = "Yes";
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             TempData.Keep("ProjectList");
             List<PaymentInformation> lstPayments = new List<PaymentInformation>();
@@ -322,6 +323,7 @@ namespace LoginApp.Controllers
                 List<Projects> projectList = booking.BindProjects();
                 TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
                 TempData.Keep("ProjectList");
+                @ViewBag.ProjectApproved = "Yes";
                 if (payInfo.BookingAmount != null)
                 {
                     if (Request.Form["GenerateReceipt"] == null)
@@ -809,18 +811,34 @@ namespace LoginApp.Controllers
             //var payDate = Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy");
             var payDate = result.ChequeDate != null ? Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy") : "";
             var amountInWords = Helper.AmountInWords(Convert.ToDouble(result.BookingAmount));
+             
             var html = "";
-            if (!User.IsInRole("Franchise Owner"))
+            bool projectApprovalStatus = booking.GetProjectApprovalStatus(result.PaymentID);
+            ViewBag.ProjectApproved = projectApprovalStatus?"Yes":"No";
+            if(projectApprovalStatus)
+                @ViewBag.Background = "../../Content/Images/letterhead_new.jpg";
+            else
+                @ViewBag.Background = "";
+            if (!projectApprovalStatus)
             {
-                html = "<article><address></address><table class=\"meta\"><tr><th> Pay ID:</th><td><span contenteditable>#PaymentID</span></td></tr><tr><th>Date</th><td><span contenteditable>#Date</span></td></tr></tbody></table><table class=\"inventory\"><tbody><tr><th>Project</th><td>#Project</td><th>Tower</th><td>#Tower</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><th>Mobile</th><td contenteditable>#CMobile</td><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Payment Date</th><td contenteditable>#PaymentDate</td></tr><tr><th >Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td><span contenteditable>#RefNo</span></td></tr><tr><th>Amount in Words</th><td colspan = '3' contenteditable>#amountInWords</td></tr><tr><th>Bank Name</th><td colspan = '3' contenteditable></td></tr><tr><th>Details</th><td colspan = '3' contenteditable>#Details</td></tr></table></article>";
+                html = "<article><address></address><table class=\"meta\"><tr><th> Pay ID:</th><td><span contenteditable>#PaymentID</span></td></tr><tr><th>Date</th><td><span contenteditable>#Date</span></td></tr></tbody></table><table class=\"inventory\"><tbody><tr><th>Project</th><td>#Project</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Payment Date</th><td contenteditable>#PaymentDate</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td><span contenteditable>#RefNo</span></td></tr><tr><th>Amount in Words</th><td colspan = '3' contenteditable>#amountInWords</td></tr></table></article>";
                 html = html.Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile == null ? "" : result.Mobile.ToString()).Replace("#BookingAmount", "Rs. " + result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo", result.ReferenceNo).Replace("#PaymentID", result.PaymentID.ToString()).Replace("#PaymentDate", payDate).Replace("#Date", sysDate).Replace("#amountInWords", amountInWords).Replace("#BHK", result.Bhk.ToString()).Replace("#Details", result.Details);
+
             }
             else
             {
-                var registerNo = booking.GetFranchiseNoWithPaymentID(paymentID);
-                html = "<article><address></address><table class=\"meta\"><tr><th> Pay ID:</th><td><span contenteditable>#PaymentID</span></td></tr><tr><th>Date</th><td><span contenteditable>#Date</span></td></tr><tr><th>FranchiseNo</th><td><span>#FranchiseNo</span></td></tr></tbody></table><table class=\"inventory\"><tbody><tr><th>Project</th><td>#Project</td><th>Tower</th><td>#Tower</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><th>Mobile</th><td contenteditable>#CMobile</td><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Payment Date</th><td contenteditable>#PaymentDate</td></tr><tr><th >Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td><span contenteditable>#RefNo</span></td></tr><tr><th>Amount in Words</th><td colspan = '3' contenteditable>#amountInWords</td></tr><tr><th>Bank Name</th><td colspan = '3' contenteditable></td></tr><tr><th>Details</th><td colspan = '3' contenteditable>#Details</td></tr></table></article>";
-                html = html.Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile == null ? "" : result.Mobile.ToString()).Replace("#BookingAmount", "Rs. " + result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo", result.ReferenceNo).Replace("#PaymentID", result.PaymentID.ToString()).Replace("#PaymentDate", payDate).Replace("#Date", sysDate).Replace("#amountInWords", amountInWords).Replace("#BHK", result.Bhk.ToString()).Replace("#Details", result.Details).Replace("#FranchiseNo", registerNo.ToString());
+                if (!User.IsInRole("Franchise Owner"))
+                {
+                    html = "<article><address></address><table class=\"meta\"><tr><th> Pay ID:</th><td><span contenteditable>#PaymentID</span></td></tr><tr><th>Date</th><td><span contenteditable>#Date</span></td></tr></tbody></table><table class=\"inventory\"><tbody><tr><th>Project</th><td>#Project</td><th>Tower</th><td>#Tower</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><th>Mobile</th><td contenteditable>#CMobile</td><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Payment Date</th><td contenteditable>#PaymentDate</td></tr><tr><th >Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td><span contenteditable>#RefNo</span></td></tr><tr><th>Amount in Words</th><td colspan = '3' contenteditable>#amountInWords</td></tr><tr><th>Bank Name</th><td colspan = '3' contenteditable></td></tr><tr><th>Details</th><td colspan = '3' contenteditable>#Details</td></tr></table></article>";
+                    html = html.Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile == null ? "" : result.Mobile.ToString()).Replace("#BookingAmount", "Rs. " + result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo", result.ReferenceNo).Replace("#PaymentID", result.PaymentID.ToString()).Replace("#PaymentDate", payDate).Replace("#Date", sysDate).Replace("#amountInWords", amountInWords).Replace("#BHK", result.Bhk.ToString()).Replace("#Details", result.Details);
+                }
+                else
+                {
+                    var registerNo = booking.GetFranchiseNoWithPaymentID(paymentID);
+                    html = "<article><address></address><table class=\"meta\"><tr><th> Pay ID:</th><td><span contenteditable>#PaymentID</span></td></tr><tr><th>Date</th><td><span contenteditable>#Date</span></td></tr><tr><th>FranchiseNo</th><td><span>#FranchiseNo</span></td></tr></tbody></table><table class=\"inventory\"><tbody><tr><th>Project</th><td>#Project</td><th>Tower</th><td>#Tower</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><th>Mobile</th><td contenteditable>#CMobile</td><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Payment Date</th><td contenteditable>#PaymentDate</td></tr><tr><th >Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td><span contenteditable>#RefNo</span></td></tr><tr><th>Amount in Words</th><td colspan = '3' contenteditable>#amountInWords</td></tr><tr><th>Bank Name</th><td colspan = '3' contenteditable></td></tr><tr><th>Details</th><td colspan = '3' contenteditable>#Details</td></tr></table></article>";
+                    html = html.Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile == null ? "" : result.Mobile.ToString()).Replace("#BookingAmount", "Rs. " + result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo", result.ReferenceNo).Replace("#PaymentID", result.PaymentID.ToString()).Replace("#PaymentDate", payDate).Replace("#Date", sysDate).Replace("#amountInWords", amountInWords).Replace("#BHK", result.Bhk.ToString()).Replace("#Details", result.Details).Replace("#FranchiseNo", registerNo.ToString());
 
+                }
             }
             return Json(html, JsonRequestBehavior.AllowGet);
         }
@@ -886,6 +904,10 @@ namespace LoginApp.Controllers
             List<Projects> projectList = booking.BindProjects();
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             TempData.Keep("ProjectList");
+
+            List<ProjectExpenseCategory> projectexpCatList = booking.BindProjectExpenseCategory();
+            TempData["ExpenseCategoryList"] = new SelectList(projectexpCatList, "ID", "SubCategory");
+            TempData.Keep("ExpenseCategoryList");
             return View();
         }
 
@@ -896,15 +918,20 @@ namespace LoginApp.Controllers
             dailyExpense.CreatedBy = User.Identity.Name;
             TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
             var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
-            dailyExpense.CreatedDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
+            dailyExpense.CreatedDate = Convert.ToDateTime(indianTime).ToString("MM/dd/yyyy");
+            //dailyExpense.ExpenseDate = Convert.ToDateTime(dailyExpense.ExpenseDate).ToString("MM/dd/yyyy");
+            dailyExpense.ExpenseDate = DateTime.ParseExact(dailyExpense.ExpenseDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                         .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
             if (dailyExpense.ProjectID == null)
                 dailyExpense.ProjectName = "";
             var result = false;
+            List<Projects> projectList = booking.BindProjects();
+            List<ProjectExpenseCategory> projectexpCatList = booking.BindProjectExpenseCategory();
             if (dailyExpense.BulkUpload != null)
             {
                 try
                 {
-                    var lstdailyExpenses = GetDataFromCSVFile(dailyExpense.BulkUpload.InputStream);
+                    var lstdailyExpenses = GetDataFromCSVFile(dailyExpense.BulkUpload.InputStream, projectList, projectexpCatList);
                     result = booking.BulkUploadExpenses(lstdailyExpenses);
                     ModelState.Clear();
                     //return Json(new { Status = 1, Message = "Intents Uploaded Successfully " });
@@ -931,13 +958,16 @@ namespace LoginApp.Controllers
                 TempData["successmessage"] = "Expense Adding Failed";
             }
             ModelState.Clear();
-            List<Projects> projectList = booking.BindProjects();
+           
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             TempData.Keep("ProjectList");
+            
+            TempData["ExpenseCategoryList"] = new SelectList(projectexpCatList, "ID", "SubCategory");
+            TempData.Keep("ExpenseCategoryList");
             return View();
         }
 
-        private List<DailyExpense> GetDataFromCSVFile(Stream stream)
+        private List<DailyExpense> GetDataFromCSVFile(Stream stream,List<Projects> projects,List<ProjectExpenseCategory> projectExpenseCategory)
         {
             var lstExpenses = new List<DailyExpense>();
             try
@@ -960,18 +990,23 @@ namespace LoginApp.Controllers
                             if (objDataRow.ItemArray.All(x => string.IsNullOrEmpty(x?.ToString()))) continue;
                             lstExpenses.Add(new DailyExpense()
                             {
-                                ExpenseDate = objDataRow["ExpenseDate"].ToString(),
+                                
+                            ExpenseDate = DateTime.ParseExact(objDataRow["ExpenseDate"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                        .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
                                 PaidTo = objDataRow["PaidTo"].ToString(),
                                 Particulars = objDataRow["Particulars"].ToString(),
                                 ExpenseType = objDataRow["ExpenseType"].ToString(),
                                 ProjectName = objDataRow["ProjectName"].ToString(),
+                                ProjectID = projects.Where(x => x.ProjectName == objDataRow["ProjectName"].ToString()).Select(x => x.ProjectID).FirstOrDefault(),
+                                SubCategory = objDataRow["SubCategory"].ToString(),
+                                SubCategoryID = projectExpenseCategory.Where(x => x.SubCategory == objDataRow["SubCategory"].ToString()).Select(x => x.ID).FirstOrDefault(),
                                 Amount = Convert.ToInt32(objDataRow["Amount"]),
                                 PaymentMode = objDataRow["PaymentMode"].ToString(),
                                 Comments = objDataRow["Comments"].ToString(),
                                 CreatedDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"),
                                 CreatedBy = User.Identity.Name
 
-                            });
+                            }); ;
                         }
                     }
 

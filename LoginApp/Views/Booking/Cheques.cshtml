@@ -241,6 +241,7 @@
                 filterable: true,
                 allPages: true
             },
+            excelExport: exportGridWithTemplatesContent,
             columns: [
                 { field: "ChequeNumber", title: "Cheque Number", width: "140px" },
                 { field: "Status", title: "Status", width: "120px", editor: statusDropDownEditor},
@@ -256,6 +257,51 @@
 
 
     });
+
+
+    function exportGridWithTemplatesContent(e) {
+        var data = e.data;
+        var gridColumns = e.sender.columns;
+        var sheet = e.workbook.sheets[0];
+        var visibleGridColumns = [];
+        var columnTemplates = [];
+        var dataItem;
+        // Create element to generate templates in.
+        var elem = document.createElement('div');
+
+        // Get a list of visible columns
+        for (var i = 0; i < gridColumns.length; i++) {
+            if (!gridColumns[i].hidden) {
+                visibleGridColumns.push(gridColumns[i]);
+            }
+        }
+
+        // Create a collection of the column templates, together with the current column index
+        for (var i = 0; i < visibleGridColumns.length; i++) {
+            if (visibleGridColumns[i].template) {
+                columnTemplates.push({ cellIndex: i, template: kendo.template(visibleGridColumns[i].template) });
+            }
+        }
+
+        // Traverse all exported rows.
+        for (var i = 1; i < sheet.rows.length; i++) {
+            var row = sheet.rows[i];
+            // Traverse the column templates and apply them for each row at the stored column position.
+
+            // Get the data item corresponding to the current row.
+            var dataItem = data[i - 1];
+            for (var j = 0; j < columnTemplates.length; j++) {
+                var columnTemplate = columnTemplates[j];
+                // Generate the template content for the current cell.
+                elem.innerHTML = columnTemplate.template(dataItem);
+                if (row.cells[columnTemplate.cellIndex] != undefined)
+                    // Output the text content of the templated cell into the exported cell.
+                    row.cells[columnTemplate.cellIndex].value = elem.textContent || elem.innerText || "";
+            }
+        }
+    }
+
+
 
     function statusDropDownEditor(container, options) {
         $('<input required name="' + options.field + '"/>')

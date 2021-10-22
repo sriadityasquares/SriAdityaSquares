@@ -99,6 +99,7 @@
     <Compile Include="GetPaymentsDetails.cs" />
     <Compile Include="GetPercentages.cs" />
     <Compile Include="GetPeriodWiseBookingDetails.cs" />
+    <Compile Include="GetProjectCategoryWiseExpenses.cs" />
     <Compile Include="GetProjectWiseArea.cs" />
     <Compile Include="GetReconReport.cs" />
     <Compile Include="GetTopIBOInMonth.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="PastDue.cs" />
     <Compile Include="PaymentInformation.cs" />
     <Compile Include="PaymentVoucher.cs" />
+    <Compile Include="ProjectExpenseCategory.cs" />
     <Compile Include="Projects.cs" />
     <Compile Include="ProjectTransactions.cs" />
     <Compile Include="ProjectTypes.cs" />

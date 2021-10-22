@@ -3173,5 +3173,53 @@ namespace DataLayer
                 return false;
             }
         }
+
+        public List<ProjectExpenseCategory> BindProjectExpenseCategory()
+        {
+            List<ProjectExpenseCategory> projectExpenseCategories = new List<ProjectExpenseCategory>();
+
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblProjectExpenseCategory, ProjectExpenseCategory>();
+                });
+                IMapper mapper = config.CreateMapper();
+                projectExpenseCategories = mapper.Map<List<tblProjectExpenseCategory>, List<ProjectExpenseCategory>>(dbEntity.tblProjectExpenseCategories.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return projectExpenseCategories;
+        }
+
+
+        public List<GetProjectCategoryWiseExpenses> GetProjectCategoryWiseExpenses()
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetProjectCategoryWiseExpenses_Result, GetProjectCategoryWiseExpenses>();
+                });
+                IMapper mapper = config.CreateMapper();
+                
+                return mapper.Map<List<sp_GetProjectCategoryWiseExpenses_Result>, List<GetProjectCategoryWiseExpenses>>(dbEntity.sp_GetProjectCategoryWiseExpenses().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<GetProjectCategoryWiseExpenses>();
+            }
+        }
+
+        public bool GetProjectApprovalStatus(int PaymentID)
+        {
+            return Convert.ToBoolean(dbEntity.sp_GetProjectApprovalStatus(PaymentID).FirstOrDefault());
+        }
+
     }
 }

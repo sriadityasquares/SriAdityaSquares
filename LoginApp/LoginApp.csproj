@@ -473,6 +473,7 @@
     <Compile Include="Controllers\Admin\FlatController.cs" />
     <Compile Include="Controllers\Admin\LevelController.cs" />
     <Compile Include="Controllers\Admin\ProjectController.cs" />
+    <Compile Include="Controllers\Admin\ProjectExpenseTypeController.cs" />
     <Compile Include="Controllers\Admin\SchemeController.cs" />
     <Compile Include="Controllers\Admin\TowerController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
@@ -2219,6 +2220,7 @@
     <Content Include="Views\Reconciliation\Invoices.cshtml" />
     <Content Include="Views\Reconciliation\ReconSummary.cshtml" />
     <Content Include="Views\Booking\Cheques.cshtml" />
+    <Content Include="Views\ProjectExpenseType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

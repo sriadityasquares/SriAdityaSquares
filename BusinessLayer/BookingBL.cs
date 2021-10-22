@@ -580,5 +580,22 @@ namespace BusinessLayer
         {
             return db.UpdateCheque(cq);
         }
+
+        public List<ProjectExpenseCategory> BindProjectExpenseCategory()
+        {
+            return db.BindProjectExpenseCategory();
+        }
+
+        public List<GetProjectCategoryWiseExpenses> GetProjectCategoryWiseExpenses()
+        {
+
+            return db.GetProjectCategoryWiseExpenses();
+        }
+
+        public bool GetProjectApprovalStatus(int PaymentID)
+        {
+            return db.GetProjectApprovalStatus(PaymentID);
+        }
+
     }
 }

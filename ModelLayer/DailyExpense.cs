@@ -36,5 +36,11 @@ namespace ModelLayer
         [Display(Name = "Project")]
         public Nullable<int> ProjectID { get; set; }
         public string ProjectName { get; set; }
+
+        [Display(Name = "Sub-Category")]
+        public Nullable<int> SubCategoryID { get; set; }
+        public string SubCategory { get; set; }
+
+        public string ChequeNo { get; set; }
     }
 }

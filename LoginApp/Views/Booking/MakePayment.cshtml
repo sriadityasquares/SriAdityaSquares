@@ -65,7 +65,7 @@
                         </select>
                     </div>
 
-                    <button class="btn-success" onclick="getPDF('.pdf-page')">Download Receipt</button>
+                    <a class="btn btn-default orangebg" onclick="getPDF('.pdf-page')">Download Receipt</a>
 
                     @*<div class="box-col">
                             <h4>Select Page size</h4>
@@ -82,14 +82,15 @@
                 </div>
 
                 <div id="scrollPagePDF" style="overflow:auto;height:500px" class="page-container hidden-on-narrow">
-                    <div id="bgImage" style="background-image: url('../../Content/Images/letterhead_new.jpg');background-size: cover;" class="pdf-page size-a4">
+                    
+                    <div id="bgImage" style="background-image: url('../../Content/Images/letterhead_new.jpg'); background-size: cover;" class="pdf-page size-a4">
                         <div class="inner-page">
                             @*<div class="pdf-header">
-                                    <span class="company-logo">
-                                        <img style="height:130px" src="~/Content/Images/SASFullLogo1.png" />
-                                    </span>
+                <span class="company-logo">
+                    <img style="height:130px" src="~/Content/Images/SASFullLogo1.png" />
+                </span>
 
-                                </div>*@
+            </div>*@
 
                             <br />
                             <br />
@@ -107,9 +108,9 @@
                                     </p>
                                 </div>
                                 @*<div class="col-md-6">
-                                        <img  style="height:150px;width:150px;" src="~/Content/Images/Sasstamp.png" />
+                    <img  style="height:150px;width:150px;" src="~/Content/Images/Sasstamp.png" />
 
-                                    </div>*@
+                </div>*@
 
                             </div>
                             <div class="pdf-footer">
@@ -123,13 +124,13 @@
                     <div class="responsive-message"></div>
 
                     <style>
-                            /*
+                        /*
                             Use the DejaVu Sans font for display and embedding in the PDF file.
                             The standard PDF fonts have no support for Unicode characters.
                         */
-                            .pdf-page {
-                                font-family: "DejaVu Sans", "Arial", sans-serif;
-                            }
+                        .pdf-page {
+                            font-family: "DejaVu Sans", "Arial", sans-serif;
+                        }
                     </style>
 
                     <script>
@@ -150,6 +151,7 @@
 
                     <script>
                         function getPDF(selector) {
+
                             kendo.drawing.drawDOM($(selector)).then(function (group) {
                                 kendo.drawing.pdf.saveAs(group, "PaymentReceipt.pdf");
                             });
@@ -172,6 +174,16 @@
                             //alert(paymentID);
                             $('#example').show();
                             $.get("/Booking/GetPaymentReceipts", { paymentID: paymentID }, function (data) {
+                                var val = '@ViewBag.ProjectApproved';
+                               
+                                if (data.match('Mobile') != null) {
+                                    $("#bgImage").css("background-image", "url('../../Content/Images/letterhead_new.jpg')");
+                                    $(".pdf-footer").show();
+                                }
+                                else {
+                                    $("#bgImage").css("background-image", "url('')");
+                                    $(".pdf-footer").hide();
+                                }    
                                 $("#content").empty();
                                 $("#content").append(data);
                                 $('#example').show();
@@ -405,9 +417,11 @@
             $("#bgImage").css("background-image", "url('../../Content/Images/letterhead_new_Mirchi.jpg')");
         }
         else {
-            $("#bgImage").css("background-image", "url('../../Content/Images/letterhead_new.jpg')");
-
+           
+                $("#bgImage").css("background-image", "url('../../Content/Images/letterhead_new.jpg')");
+           
         }
+
         $.get("/Booking/GetTowers", { ProjectId: $("#ProjectID").val() }, function (data) {
             HideDiv();
             $("#TowerID").empty();

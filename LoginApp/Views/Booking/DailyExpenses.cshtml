@@ -32,6 +32,7 @@
 {
     @Html.HiddenFor(x => x.ExpenseDate)
     @Html.HiddenFor(x => x.ProjectName)
+    @Html.HiddenFor(x => x.SubCategory)
     <div class="jumbotron">
 
         <div class="row">
@@ -84,10 +85,12 @@
                     new SelectListItem{ Text="--Expense Type--", Value = "--Expense Type--"  },
                     new SelectListItem{ Text="General Expense", Value = "General Expense" },
                     new SelectListItem{ Text="Project Expense", Value = "Project Expense" },
-                 }, new { @class = "textbox-control col-md-3 col-xs" })
+                 }, new { @class = "textbox-control col-md-2 col-xs" })
                 <div id="projectShow">
-                    @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-2" })
-                    @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+                    @Html.LabelFor(m => m.ProjectID, new { @class = "col-md-1" })
+                    @Html.DropDownListFor(model => model.ProjectID, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-2 col-xs" })
+                    @Html.LabelFor(m => m.SubCategoryID, new { @class = "col-md-1" })
+                    @Html.DropDownListFor(model => model.SubCategoryID, TempData["ExpenseCategoryList"] as SelectList, "--Select Sub-Category--", new { @class = "textbox-control col-md-2 col-xs" })
                 </div>
             </div>
 
@@ -118,14 +121,16 @@
 
             </div>
             <div class="row">
+                @Html.LabelFor(m => m.ChequeNo, new { @class = "col-md-2" })
+                @Html.TextBoxFor(model => model.ChequeNo, new { @class = "textbox-control col-md-3 col-xs" })
                 @Html.LabelFor(m => m.Comments, new { @class = "col-md-2" })
                 @Html.TextAreaFor(model => model.Comments, new { @class = "textboxarea-control col-md-3 col-xs" })
                 @*@Html.LabelFor(m => m.TransactionType, new { @class = "col-md-2" })
-                         @Html.DropDownListFor(m => m.TransactionType, new List<SelectListItem>
-                    {
-                        new SelectListItem{ Text="Credit", Value = "Credit" },
-                        new SelectListItem{ Text="Debit", Value = "Debit" },
-                     }, new { @class = "textbox-control col-md-3 col-xs" })*@
+             @Html.DropDownListFor(m => m.TransactionType, new List<SelectListItem>
+        {
+            new SelectListItem{ Text="Credit", Value = "Credit" },
+            new SelectListItem{ Text="Debit", Value = "Debit" },
+         }, new { @class = "textbox-control col-md-3 col-xs" })*@
 
             </div>
         </div>
@@ -219,9 +224,10 @@
     });
 
     function SetHiddenFields() {
-
+        
         $("#ExpenseDate").val($("#datepicker1").val());
         $("#ProjectName").val($("#ProjectID option:selected").text());
+        $("#SubCategory").val($("#SubCategoryID option:selected").text());
     }
 
 
@@ -324,11 +330,12 @@
                 { field: "PaidTo", title: "Paid To", width: "120px" },
                 { field: "ExpenseType", title: "Expense Type", width: "120px" },
                 { field: "ProjectName", title: "ProjectName", width: "120px" },
-
+                { field: "SubCategory", title: "SubCategory", width: "120px" },
 
                 { field: "Particulars", title: "Particulars", width: "120px" },
                 { field: "Amount", title: "Amount", width: "100px" },
                 { field: "PaymentMode", title: "Mode of Payment", width: "120px" },
+                { field: "ChequeNo", title: "ChequeNo", width: "120px" },
                 { field: "Comments", title: "Comments", width: "100px" },
                 { command: ["edit","destroy"], title: "&nbsp;", width: "100px" }
             ],
