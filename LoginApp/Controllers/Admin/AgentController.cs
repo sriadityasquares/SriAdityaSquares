@@ -15,7 +15,7 @@ using System.Web.Mvc;
 
 namespace LoginApp.Controllers.Admin
 {
-    [Authorize(Roles = "Admin,Franchise Owner")]
+    [Authorize(Roles = "Admin,Franchise Owner,DataEntry")]
     public class AgentController : Controller
     {
         private static readonly ILog log =
@@ -38,7 +38,7 @@ namespace LoginApp.Controllers.Admin
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,DataEntry")]
         public ActionResult Index()
         {
             return View();

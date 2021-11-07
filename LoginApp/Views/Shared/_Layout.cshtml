@@ -102,12 +102,16 @@
                             }
                         </ul>
                     </li>
-                    @if (this.User.IsInRole("Admin"))
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry"))
                     {
                         <li class="sub-menu @(ViewBag.Admin)">
                             <a href="javascript:void(0);"><i class="fa fa-user"></i><span>ADMIN</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                             <ul>
-
+                                <li>
+                                    <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">IBO</a>
+                                </li>
+                                @if (this.User.IsInRole("Admin"))
+                                {
                                 <li>
                                     <a class="@(ViewBag.Register)" href="@Url.Action("Register", "Account")">NEW USER REGISTRATION</a>
                                 </li>
@@ -126,9 +130,7 @@
                                 <li>
                                     <a class="@(ViewBag.Schemes)" href="@Url.Action("Index", "Scheme")">SCHEMES</a>
                                 </li>
-                                <li>
-                                    <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">IBO</a>
-                                </li>
+
                                 <li>
                                     <a class="@(ViewBag.AgentMapping)" href="@Url.Action("AgentMapping", "Agent")">IBO MAPPING</a>
                                 </li>
@@ -174,6 +176,7 @@
                                 <li>
                                     <a class="@(ViewBag.ProjectExpenseCategory)" href="@Url.Action("Index", "ProjectExpenseType")">PROJECT EXPENSE CATEGORY</a>
                                 </li>
+                                }
                                 @*<li>
             <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
         </li>*@
@@ -496,81 +499,84 @@
                             }
                         </ul>
                     </li>
-                    @if (this.User.IsInRole("Admin"))
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("DataEntry"))
                     {
                         <li class="sub-menu @(ViewBag.Admin)">
                             <a href="javascript:void(0);"><i class="fa fa-user"></i><span>ADMIN</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                             <ul>
-
-                                <li>
-                                    <a class="@(ViewBag.Register)" href="@Url.Action("Register", "Account")">NEW USER REGISTRATION</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.Project)" href="@Url.Action("Index", "Project")">PROJECTS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.Tower)" href="@Url.Action("Index", "Tower")">TOWERS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.Flat)" href="@Url.Action("Index", "Flat")">FLATS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.Levels)" href="@Url.Action("Index", "Level")">LEVELS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.Schemes)" href="@Url.Action("Index", "Scheme")">SCHEMES</a>
-                                </li>
                                 <li>
                                     <a class="@(ViewBag.Agent)" href="@Url.Action("Index", "Agent")">IBO</a>
                                 </li>
-                                <li>
-                                    <a class="@(ViewBag.AgentMapping)" href="@Url.Action("AgentMapping", "Agent")">IBO MAPPING</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">IBO PROJECT LEVELS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeFlatWiseAgentPayments", "Booking")">IBO PAYMENTS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.ClientPayments)" href="@Url.Action("ClientPayments", "Booking")">CLIENT PAYMENTS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.Cheque)" href="@Url.Action("Cheque", "Booking")">CHEQUE STATUS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.DailyExpense)" href="@Url.Action("DailyExpenses", "Booking")">DAILY EXPENSES</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.Agreements)" href="@Url.Action("Agreements", "Booking")">AGREEMENTS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.Users)" href="@Url.Action("Index", "User")">USERS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.Offers)" href="@Url.Action("Offers", "Booking")">OFFERS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.ConstructionGallery)" href="@Url.Action("ProjectGallery", "Booking")">UPLOAD SITE PICS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.AddNews)" href="@Url.Action("AddNews", "Booking")">UPLOAD NEWS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.ApprovePaymentReceipt)" href="@Url.Action("ApprovePaymentReceipt", "Booking")">APPROVE PAYMENT RECEIPTS</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.IBOAdvance)" href="@Url.Action("IBOAdvance", "Booking")">IBO ADVANCE</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.Cheques)" href="@Url.Action("Cheques", "Booking")">INTERNAL CHEQUES</a>
-                                </li>
-                                <li>
-                                    <a class="@(ViewBag.ProjectExpenseCategory)" href="@Url.Action("Index", "ProjectExpenseType")">PROJECT EXPENSE CATEGORY</a>
-                                </li>
+                                @if (this.User.IsInRole("Admin"))
+                                {
+                                    <li>
+                                        <a class="@(ViewBag.Register)" href="@Url.Action("Register", "Account")">NEW USER REGISTRATION</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Project)" href="@Url.Action("Index", "Project")">PROJECTS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Tower)" href="@Url.Action("Index", "Tower")">TOWERS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Flat)" href="@Url.Action("Index", "Flat")">FLATS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Levels)" href="@Url.Action("Index", "Level")">LEVELS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Schemes)" href="@Url.Action("Index", "Scheme")">SCHEMES</a>
+                                    </li>
+
+                                    <li>
+                                        <a class="@(ViewBag.AgentMapping)" href="@Url.Action("AgentMapping", "Agent")">IBO MAPPING</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.AgentProjectLevels)" href="@Url.Action("Index", "AgentProject")">IBO PROJECT LEVELS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.MakeAgentPayment)" href="@Url.Action("MakeFlatWiseAgentPayments", "Booking")">IBO PAYMENTS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.ClientPayments)" href="@Url.Action("ClientPayments", "Booking")">CLIENT PAYMENTS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Cheque)" href="@Url.Action("Cheque", "Booking")">CHEQUE STATUS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.DailyExpense)" href="@Url.Action("DailyExpenses", "Booking")">DAILY EXPENSES</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Agreements)" href="@Url.Action("Agreements", "Booking")">AGREEMENTS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Users)" href="@Url.Action("Index", "User")">USERS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Offers)" href="@Url.Action("Offers", "Booking")">OFFERS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.ConstructionGallery)" href="@Url.Action("ProjectGallery", "Booking")">UPLOAD SITE PICS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.AddNews)" href="@Url.Action("AddNews", "Booking")">UPLOAD NEWS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.ApprovePaymentReceipt)" href="@Url.Action("ApprovePaymentReceipt", "Booking")">APPROVE PAYMENT RECEIPTS</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.IBOAdvance)" href="@Url.Action("IBOAdvance", "Booking")">IBO ADVANCE</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.Cheques)" href="@Url.Action("Cheques", "Booking")">INTERNAL CHEQUES</a>
+                                    </li>
+                                    <li>
+                                        <a class="@(ViewBag.ProjectExpenseCategory)" href="@Url.Action("Index", "ProjectExpenseType")">PROJECT EXPENSE CATEGORY</a>
+                                    </li>
+                                }
                                 @*<li>
-            <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
-        </li>*@
+                        <a class="@(ViewBag.AgentBalance)" href="@Url.Action("MakeAgentTotalPayment", "Booking")">AGENT PAY BALANCES</a>
+                    </li>*@
                             </ul>
                         </li>
                     }
