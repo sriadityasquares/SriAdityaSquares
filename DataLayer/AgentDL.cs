@@ -37,7 +37,8 @@ namespace DataLayer
                     agentOld.FranchiseID = a.FranchiseID;
                     //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
                     mapper.Map<AgentMaster, tblAgentMaster>(a, agentOld);
-
+                    var agentMobileUpdate = dbEntity.AspNetUsers.Where(x => x.Email == a.AgenteMail).FirstOrDefault();
+                    agentMobileUpdate.PhoneNumber = a.AgentMobileNo.ToString();
                     dbEntity.SaveChanges();
 
                 }

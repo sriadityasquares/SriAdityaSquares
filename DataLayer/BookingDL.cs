@@ -365,7 +365,7 @@ namespace DataLayer
                     cfg.CreateMap<tblFlat, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && (a.BookingStatus == "P" || a.BookingStatus == "S" || a.BookingStatus == "C")).ToList()).ToList();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && (a.BookingStatus == "P" || a.BookingStatus == "S" || a.BookingStatus == "C" || a.BookingStatus == "D")).ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -777,6 +777,7 @@ namespace DataLayer
                 });
                 tblPaymentInfo paymentDetails = new tblPaymentInfo();
                 IMapper mapper2 = config2.CreateMapper();
+                paymentDetails.ViewReceipt = true;
                 mapper2.Map<BookingInformation, tblPaymentInfo>(bookingInfo, paymentDetails);
                 dbEntity.tblPaymentInfoes.Add(paymentDetails);
 
@@ -803,7 +804,13 @@ namespace DataLayer
                     bookingstatus = "S";
                 }
                 else
-                    bookingstatus = "P";
+                {
+                    if (bookingInfo.DueAmount > bookingInfo.BookingAmount)
+                        bookingstatus = "D";
+                    else
+                        bookingstatus = "P";
+                }
+
                 flat.BookingStatus = bookingstatus;
 
                 //Flat Wise Agent Commissions
@@ -1331,7 +1338,7 @@ namespace DataLayer
                 //payInfo.CreatedBy = "";
                 //payInfo.CreatedDate = System.DateTime.Now.Date;
 
-                
+
                 payInfo.CreatedDate = Convert.ToDateTime(payInfo.PaymentDate);
                 payInfo.Day = Convert.ToDateTime(payInfo.CreatedDate).Day;
                 payInfo.Month = Convert.ToDateTime(payInfo.CreatedDate).Month;
@@ -1348,6 +1355,23 @@ namespace DataLayer
                 {
                     tblFlat flat = dbEntity.tblFlats.Where(x => x.FlatID == payInfo.FlatID).FirstOrDefault();
                     flat.BookingStatus = "S";
+                }
+                else
+                {
+                    var dueAmount = dbEntity.tblBookingInformations.Where(x => x.BookingID == payInfo.BookingID).Select(x => x.DueAmount).FirstOrDefault();
+                    var paidAmountList = dbEntity.tblPaymentInfoes.Where(x => x.BookingID == payInfo.BookingID).Select(x => x.BookingAmount).ToList();
+                    var paidAmount = 0;
+                    foreach (var amount in paidAmountList)
+                        paidAmount = paidAmount + Convert.ToInt32(amount);
+                    if (dueAmount != null)
+                    {
+                        if(dueAmount < paidAmount)
+                        {
+                            tblFlat flat = dbEntity.tblFlats.Where(x => x.FlatID == payInfo.FlatID).FirstOrDefault();
+                            flat.BookingStatus = "P";
+                        }
+
+                    }
                 }
                 dbEntity.SaveChanges();
                 return true;
@@ -2725,7 +2749,7 @@ namespace DataLayer
                 }
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -2957,7 +2981,7 @@ namespace DataLayer
             {
                 tblPaymentInfo tblPaymentInfo = dbEntity.tblPaymentInfoes.Where(x => x.PaymentID == payInfo.PaymentID).FirstOrDefault();
                 tblPaymentInfo.ViewReceipt = payInfo.ViewReceipt;
-                
+
                 dbEntity.SaveChanges();
                 return true;
             }
@@ -3021,7 +3045,7 @@ namespace DataLayer
             var result = false;
             try
             {
-                
+
                 tblIBOAdvanceForm advInfo = new tblIBOAdvanceForm();
                 var config = new MapperConfiguration(cfg =>
                 {
@@ -3088,20 +3112,20 @@ namespace DataLayer
                 existingForm.Comment = advanceForm.Comment;
 
 
-                
+
                 var flatWiseAgentCommission = dbEntity.tblFlatWiseAgentCommissions.Where(x => x.AgentID == advanceForm.IBOID && x.FlatID == advanceForm.FlatID).FirstOrDefault();
                 if (flatWiseAgentCommission != null)
                 {
                     flatWiseAgentCommission.Advance = Convert.ToInt32(advanceForm.AmountPaid);
                     flatWiseAgentCommission.NetBalance = flatWiseAgentCommission.NetBalance - Convert.ToInt32(advanceForm.AmountPaid);
                     flatWiseAgentCommission.Comment = advanceForm.Comment;
-                    
+
                     dbEntity.SaveChanges();
                     result = true;
                 }
-                
-                
-                
+
+
+
             }
             catch (Exception ex)
             {
@@ -3207,7 +3231,7 @@ namespace DataLayer
                     cfg.CreateMap<sp_GetProjectCategoryWiseExpenses_Result, GetProjectCategoryWiseExpenses>();
                 });
                 IMapper mapper = config.CreateMapper();
-                
+
                 return mapper.Map<List<sp_GetProjectCategoryWiseExpenses_Result>, List<GetProjectCategoryWiseExpenses>>(dbEntity.sp_GetProjectCategoryWiseExpenses().ToList()).ToList();
             }
             catch (Exception ex)

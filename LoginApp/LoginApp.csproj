@@ -2024,6 +2024,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="sitemap.xml" />
     <Content Include="Templates\DueAmountReminder.html" />
     <Content Include="Views\Home\CompanyProfile.html" />
     <Content Include="Web.config" />
@@ -2221,6 +2222,7 @@
     <Content Include="Views\Reconciliation\ReconSummary.cshtml" />
     <Content Include="Views\Booking\Cheques.cshtml" />
     <Content Include="Views\ProjectExpenseType\Index.cshtml" />
+    <Content Include="Views\Sample\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

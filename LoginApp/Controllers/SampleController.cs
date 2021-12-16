@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -17,6 +18,11 @@ namespace LoginApp.Controllers
         public static List<Projects> projectList;
         BookingBL booking = new BookingBL();
         CommonBL common = new CommonBL();
+        static int flag = 0;
+        const string SmtpServer = "smtp.live.com";
+        const int SmtpPort = 587;
+        const string FromAddress = "manoj8@live.com";
+        const string Password = "ma29hu94";
         // GET: Sample
         public ActionResult Index()
         {
@@ -37,60 +43,9 @@ namespace LoginApp.Controllers
         public ActionResult Details()
         {
             ReportBL report = new ReportBL();
-            var reminders = report.GetDueReminders();
-            foreach (var rem in reminders)
-            {
-                var message = @"Greetings from Sri Aditya Squares ,it's a Gentle Reminder about your due payment of your property  to avoid penality charges.Please ignore if you already paid ."+Environment.NewLine+
-                               "Project: #Project"+Environment.NewLine+
-                               "Tower: #Tower" + Environment.NewLine +
-                               "Flat: #Flat" + Environment.NewLine +
-                               "DueDate: #DueDate" + Environment.NewLine +
-                               "DueAmount: #DueAmount" + Environment.NewLine;
-                //rem.CustomerMobile = "9505055755";
-                //rem.AgentMobile = 9492983529;
-                message = message.Replace("#Project", rem.ProjectName).Replace("#Tower", rem.TowerName).Replace("#Flat", rem.FlatName).Replace("#DueDate", rem.DueDate).Replace("#DueAmount", rem.DueAmount);
-                var htmlText = System.IO.File.ReadAllText(HttpContext.Server.MapPath("~/Templates/DueAmountReminder.html"));
-                htmlText = htmlText.Replace("#Project", rem.ProjectName).Replace("#Tower", rem.TowerName).Replace("#Flat", rem.FlatName).Replace("#DueDate", rem.DueDate).Replace("#DueAmount", rem.DueAmount);
-
-                //var path = Path.Combine(Environment.CurrentDirectory, "/Templates/DueAmountReminder.html");
-                //var htmlText = System.IO.File.ReadAllText(path);
-
-                //var client1 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=TBTSMS&routeId=1&mobileNos=9951999884" + "&smsContentType=english");
-                //var request1 = new RestRequest(Method.GET);
-                //request1.AddHeader("Cache-Control", "no-cache");
-                //IRestResponse response1 = client1.Execute(request1);
-
-                //var client2 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=TBTSMS&routeId=1&mobileNos=9505055755" + "&smsContentType=english");
-                //var request2 = new RestRequest(Method.GET);
-                //request1.AddHeader("Cache-Control", "no-cache");
-                //IRestResponse response2 = client1.Execute(request2);
-
-                //var client3 = new RestClient("http://msg.msgclub.net/rest/services/sendSMS/sendGroupSms?AUTH_KEY=9dd349655bd3f82fb1b2fbe12ca8cbb&message=" + message + "&senderId=TBTSMS&routeId=1&mobileNos=9566257752" + "&smsContentType=english");
-                //var request3 = new RestRequest(Method.GET);
-                //request1.AddHeader("Cache-Control", "no-cache");
-                //IRestResponse response3 = client1.Execute(request3);
-                //var emails = 
-                try
-                {
-                    MailMessage msg = new MailMessage();
-                    SmtpClient smtp = new SmtpClient();
-                    msg.From = new MailAddress("Info@sasinfra.in");
-                    msg.To.Add(new MailAddress(rem.AgentEmail));
-                    msg.To.Add(new MailAddress(rem.CustomerEmail));
-                    msg.To.Add(new MailAddress("nsrinivas78@gmail.com"));
-                    msg.Subject = "Pay Due Reminder";
-                    msg.IsBodyHtml = true; //to make message body as html  
-                    msg.Body = htmlText;
-                    smtp.Port = 587;
-                    smtp.Host = "mail.privateemail.com"; //for gmail host  
-                    smtp.EnableSsl = true;
-                    smtp.UseDefaultCredentials = false;
-                    smtp.Credentials = new NetworkCredential("Info@sasinfra.in", "sasinfo@123");
-                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                    smtp.Send(msg);
-                }
-                catch (Exception) { }
-            }
+            //SendMail("manojvenkat8@gmail.com", "Vaccine Opened Venkat Test", "Vaccine Opened for 18+");
+            SendMail("venkata.godithi@evolutyz.com", "Vaccine Opened for Venkat Test", "Vaccine Opened for 18+");
+           
             projectList = booking.BindProjects();
             return Json(projectList, JsonRequestBehavior.AllowGet);
         }
@@ -164,6 +119,29 @@ namespace LoginApp.Controllers
             {
                 return View();
             }
+        }
+
+        public static void SendMail(string toAddress, string subject, string body)
+        {
+           
+            
+            var client = new SmtpClient(SmtpServer, SmtpPort)
+            {
+                Credentials = new NetworkCredential(FromAddress, Password),
+                EnableSsl = true,
+               
+
+            };
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.To.Add(toAddress);
+            mailMessage.Body = body;
+            mailMessage.Subject = subject;
+            mailMessage.IsBodyHtml = true;
+            string Username = "Evolutyz";
+            mailMessage.From = new MailAddress("Venkat <noreply@evolutyz.com>");
+            //"\\SomeOne\\");
+            //mailMessage.From.User = "Evolutyz Team";
+            client.Send(mailMessage);
         }
     }
 }

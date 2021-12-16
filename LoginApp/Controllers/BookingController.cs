@@ -371,7 +371,7 @@ namespace LoginApp.Controllers
             if (!backup)
                 lstPayments = booking.BindPaymentDetails(flatID);
             
-
+            
             foreach (var item in lstPayments)
             {
                 if (item.ChequeDate != null)
@@ -382,7 +382,7 @@ namespace LoginApp.Controllers
                     item.FormattedDate2 = Convert.ToDateTime(item.CreatedDate).Date.ToString("dd/MM/yyyy");
                 else
                     item.FormattedDate2 = "";
-
+                item.ViewReceipt = true;
             }
             return Json(lstPayments, JsonRequestBehavior.AllowGet);
         }

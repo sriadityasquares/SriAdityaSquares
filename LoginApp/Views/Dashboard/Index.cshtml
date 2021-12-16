@@ -60,34 +60,38 @@
     @*<script src="~/Scripts/im.js"></script>*@
     <div id="labels" class="row" style="display:none">
         <br />
-        <div class="col-md-2">
+        <div class="col-md-1">
             <div style="background:linear-gradient(to bottom,ForestGreen, white)" class="seat"><label for="4C"> OPEN </label> </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
 
 
             @*<div style="background:linear-gradient(to bottom,#BD4F6C, white)" class="seat"><label for="4C"> SOLD </label> </div>*@
             <div style="background-color: #bd4f6c;background-image:linear-gradient(326deg, #bd4f6c 0%, #d7816a 74%);" class="seat"><label for="4C"> SOLD </label> </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <div style="background: linear-gradient(to bottom,#7AD7F0, white); " class="seat"><label for="4C"> MORTGAGE </label> </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <div style="background:linear-gradient(to bottom,#FFD700, white)" class="seat"><label for="4C"> PROGRESS</label> </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <div style="background:#8e438e" class="seat"><label for="4C"> HOLD</label> </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
+
+            <div style="background-color: #5b6467; background-image: linear-gradient(315deg, #5b6467 0%, #8b939a 74%);" class="seat"><label for="4C"> DUE</label> </div>
+        </div>
+        <div class="col-md-1">
             <div style="background: #ff9966;background: -webkit-linear-gradient(to right, #ff5e62, #ff9966); /* Chrome 10-25, Safari 5.1-6 */ background: linear-gradient(to right, #ff5e62, #ff9966);" class="seat"><label for="4C">FRANCHISE</label> </div>
         </div>
     </div>
 
 
     @*<div class="row">
-        <iframe width="960" height="602" data-original-width="1004" data-original-height="630" src="https://www.thinglink.com/card/1475713458946179075" type="text/html" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>
-        <script async src="~/Scripts/im.js"></script>
-    </div>*@
+            <iframe width="960" height="602" data-original-width="1004" data-original-height="630" src="https://www.thinglink.com/card/1475713458946179075" type="text/html" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen scrolling="no"></iframe>
+            <script async src="~/Scripts/im.js"></script>
+        </div>*@
 
     <div class="row">
 
@@ -174,6 +178,9 @@
                     if (row.BookingStatus == 'M') {
                         html = html + '<div style="background:linear-gradient(to bottom,#7AD7F0, white);"   class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
                     }
+                    if (row.BookingStatus == 'D') {
+                        html = html + '<div style="background-color: #5b6467; background-image: linear-gradient(315deg, #5b6467 0%, #8b939a 74%);"  onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\'' + ')"  class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
+                    }
                     if (row.BookingStatus == 'P') {
                         if (role != "FO") {
                             html = html + '<div style="background:linear-gradient(to bottom,#FFD700, white);" onclick="ShowBookingScreen(\'' + row.FlatID + '\',\'' + row.FlatPlanURL + '\',\'' + row.BookingStatus + '\'' + ')" class="seat"><label for="4C"> ' + row.FlatName + '</label> </div>';
@@ -253,9 +260,9 @@
 <script>
     $(document).ready(function () {
         $('[data-toggle="popover"]').popover();
-        
+
         //$(".wrapper").css({ top: '10px' });
-       
+
 
 
     });
@@ -275,12 +282,11 @@
         $.get("/Cascade/UpdateAgentLocation", { latitude: position.coords.latitude, longitude: position.coords.longitude }, function (data) {
         });
     }
-   
+
 
 </script>
 <style>
-    .container{
+    .container {
         margin-left: 350px !important;
     }
-    
 </style>

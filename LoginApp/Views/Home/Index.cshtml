@@ -29,7 +29,12 @@
     <script src="~/Scripts/kendo.all.min.js"></script>
     <script src="~/Content/Potfolio/slick.min.js"></script>
     <script src="~/Content/Potfolio/kchat.js"></script>
-
+    <title>Luxury Villas and Apartments For Sale with Highclass Amenities in Hyderabad – SRI ADITYA SQUARES</title>
+    <title>One Of Best Real Estate Community in Hyderabad – SRI ADITYA SQUARES</title>
+    
+    <meta name="description" content="SRI ADITYA SQUARES is the one stop destination for all your real estate property needs. We offer END to END services at free of cost. SRI ADITYA SQUARES has more than 2500+ satisfied customers and the number is growing day by day." />
+    <meta name="keywords" content="Ornate, SriAdityaSquares, Hyderabadrealestate,apartmentsforsale,HighRiseApartments,bestgatedcommunitiesinhyderabadforsale,WorldClassAmenities,premiumluxuryapartments,GatedCommunityProjectsInHyderabad,ApartmentsInKollur,BestHousingProjectsInHyderabad,BestApartmentsToBuyInHyderabad,Patancheruvu,Luxuryapartmentsnearkollur,ApartmentFlatsForSaleNearMe,GatedCommunityProjectsInHyderabad,ApartmentsInKollur,NewApartmentsForSaleInHyderabad,Luxuryapartmentsnearkollur">
+   
     <script src="~/Content/Potfolio/homePage.js"></script>
     <script src="~/Content/Potfolio/jquery.magnific-popup.min.js"></script>
     <script src="~/Content/Potfolio/jquery.singlePageNav.min.js"></script>
@@ -50,6 +55,41 @@
     <div id="body1">
     </div>
     <style>
+
+        .blink {
+            animation: blinker 0.6s linear infinite;
+            color: #1c87c9;
+            font-size: 30px;
+            font-weight: bold;
+            font-family: sans-serif;
+        }
+
+        @@keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .blink-one {
+            animation: blinker-one 1s linear infinite;
+        }
+
+        @@keyframes blinker-one {
+            0% {
+                opacity: 0;
+            }
+        }
+
+        .blink-two {
+            animation: blinker-two 1.4s linear infinite;
+        }
+
+        @@keyframes blinker-two {
+            100% {
+                opacity: 0;
+            }
+        }
+
         .holder {
             /*            //background-color: #ccc;
         */ width: 300px;
@@ -83,6 +123,106 @@
                         color: darkred;
                         text-decoration: none;
                     }
+
+
+        p {
+            font-family: Verdana;
+        }
+
+        .highlighted {
+            background-position: top left;
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+            transition: background-size .5s;
+        }
+
+            .highlighted.yellow {
+                background-image: linear-gradient(to top, yellow 60%, transparent 0);
+            }
+
+            .highlighted.pink {
+                background-image: linear-gradient(to top, pink 60%, transparent 0);
+            }
+
+            .highlighted.animating {
+                background-size: 0 auto;
+            }
+
+        .box {
+            width: 20%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 35px;
+            border: 2px solid #fff;
+            border-radius: 20px/50px;
+            background-clip: padding-box;
+            text-align: center;
+        }
+
+        .button {
+            font-size: 1em;
+            padding: 10px;
+            color: #fff;
+            border: 2px solid orange;
+            border-radius: 20px/50px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease-out;
+        }
+
+            .button:hover {
+                background: orange;
+            }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: visible;
+            opacity: 1;
+        }
+
+            .overlay:target {
+                visibility: hidden;
+                opacity: 0;
+                display: none
+            }
+
+        .popup {
+            position: relative;
+            margin: 70px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            width: 30%;
+            transition: all 5s ease-in-out;
+        }
+
+            .popup .close {
+                position: absolute;
+                top: 20px;
+                right: 30px;
+                transition: all 200ms;
+                font-size: 30px;
+                font-weight: bold;
+                text-decoration: none;
+                color: #333;
+            }
+
+                .popup .close:hover {
+                    color: orange;
+                }
+
+            .popup .content {
+                max-height: 30%;
+                overflow: auto;
+            }
+
+        /*.popup h2 { margin-top: 0; color: #333; font-family: Tahoma, Arial, sans-serif; }*/
     </style>
 
 
@@ -124,8 +264,10 @@
             $("ul#ticker01").liScroll();
         });
     </script>
+
     <section id="hero">
         <!-- Navigation -->
+
         <nav style="padding-bottom:3px;margin-bottom:0px;" class="navbar navbar-expand-md tm-navbar" id="tmNav">
             <div class="container">
                 <div class="tm-next">
@@ -149,7 +291,7 @@
                             <a class="nav-link tm-nav-link desk" href="#companyProfile">Company Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link tm-nav-link" href="#work">Projects</a    >
+                            <a class="nav-link tm-nav-link" href="#work">Projects</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link tm-nav-link" href="#galleryBox">Gallery</a>
@@ -165,14 +307,30 @@
                     </ul>
                 </div>
             </div>
+
         </nav>
+
         <div class="tm-next tm-intro-next">
+
             <a href="#introduction" class="text-center tm-down-arrow-link">
                 <i class="fa fa-3x fa-caret-down tm-down-arrow"></i>
-            </a>
-        </div>
 
+            </a>
+
+        </div>
+       
     </section>
+    
+
+    <div id="popup1" class="overlay">
+        <div class="popup">
+            <h2  style="align-content:center;text-align:center"><i style="color:red" class="fa fa-exclamation-triangle"></i>Disclaimer</h2>
+            <a class="close" href="#popup1">×</a>
+            <div style="color:orangered" class="content">
+                Sri Aditya Squares has single branch across India in Jubilee Hills, Hyderabad. Customers be aware of any fraudulent transactions on the name of Sri Aditya Squares’s. In case of any queries please reach us on Admin@sriadityasquares.com
+            </div>
+        </div>
+    </div>
     <section id="introduction" class="tm-section-pad-top">
         <div class="container">
 
@@ -185,8 +343,7 @@
                     <div class="tm-intro-text-container">
                         <h2 class="tm-text-primary mb-4 tm-section-title">Introduction</h2>
                         <p style="font-weight: 500;" class="mb-4 tm-intro-text">
-                            SAS,is the one stop destination for all your real estate property needs. We offer END to END services at free of cost and provide upto 90% of bank loans.
-                            SAS  has more than 2500+ satisfied customers and the number is growing day by day.
+                            SRI ADITYA SQUARES is the one stop destination for all your real estate property needs. We offer END to END services at free of cost. SRI ADITYA SQUARES has more than 2500+ satisfied customers and the number is growing day by day.
                         </p>
                         <p style="font-weight: 500;" class="mb-5 tm-intro-text">
                             Before going to buy a property in Guntur / Hyderabad / Bangalore, Please take our advice from more than 500+ highly qualified and experienced corporate Professional employees.
@@ -225,28 +382,30 @@
             </div>
     </section>
     <style>
-        .desk{
-        opacity:1
-}
-.div-only-mobile{
-  width:400px;
-  height:200px;
-  background:orange;
-}
+        .desk {
+            opacity: 1
+        }
 
-@@media screen and (max-width : 505px){
- .desk{
-  display:none;
-  }
- .div-only-mobile{
-  visibility:visible;
-  }
-}
+        .div-only-mobile {
+            width: 400px;
+            height: 200px;
+            background: orange;
+        }
+
+        @@media screen and (max-width : 505px) {
+            .desk {
+                display: none;
+            }
+
+            .div-only-mobile {
+                visibility: visible;
+            }
+        }
     </style>
     @*<section id="companyProfile" class="tm-section-pad-top desk">
-        @Html.Raw(File.ReadAllText(Server.MapPath("~/Views/Home/CompanyProfile.html")))
+            @Html.Raw(File.ReadAllText(Server.MapPath("~/Views/Home/CompanyProfile.html")))
 
-    </section>*@
+        </section>*@
     <section id="work" class="tm-section-pad-top">
         <div class="container tm-container-gallery">
             <div class="row">
@@ -297,73 +456,73 @@
                                     </span>
                                 </div>
                                 @*<div class="k-card k-card-type-rich">
-                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/MIRCHI VENICE.png" alt="undefined" class="k-card-image">
-                                    <div style="background-color: #0095d8" class="k-card-body">
-                                        <h5 class="k-card-title">Mirchi Venice</h5>
-                                        <h6 class="k-card-subtitle">Pati&Kollur Road</h6>
+                                        <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/MIRCHI VENICE.png" alt="undefined" class="k-card-image">
+                                        <div style="background-color: #0095d8" class="k-card-body">
+                                            <h5 class="k-card-title">Mirchi Venice</h5>
+                                            <h6 class="k-card-subtitle">Pati&Kollur Road</h6>
 
-                                    </div>
-                                    <span class="k-card-action">
-                                        <span class="k-button k-flat k-primary border"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=MirchiVeniceBrochure.pdf">Download Brochure</a></span>
-                                    </span>
-                                    <span class="k-card-action">
-                                        <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadLegalOpinion?fileName=OrnateLO.pdf">Download Legal Opinion</a></span>
-                                    </span>
-                                </div>*@
+                                        </div>
+                                        <span class="k-card-action">
+                                            <span class="k-button k-flat k-primary border"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=MirchiVeniceBrochure.pdf">Download Brochure</a></span>
+                                        </span>
+                                        <span class="k-card-action">
+                                            <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadLegalOpinion?fileName=OrnateLO.pdf">Download Legal Opinion</a></span>
+                                        </span>
+                                    </div>*@
                                 @*<div style="background-color:whitesmoke;border:2px;border-color:black" class="k-card k-card-type-rich">
-                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Alpine Square.png" alt="undefined" class="k-card-image">
-                                    <div style="background-color: rosybrown" class="k-card-body">
-                                        <h5 class="k-card-title">Alpine Squares</h5>
-                                        <h6 class="k-card-subtitle">Patancheru</h6>
+                                        <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Alpine Square.png" alt="undefined" class="k-card-image">
+                                        <div style="background-color: rosybrown" class="k-card-body">
+                                            <h5 class="k-card-title">Alpine Squares</h5>
+                                            <h6 class="k-card-subtitle">Patancheru</h6>
 
+                                        </div>
+                                        <span class="k-card-action">
+                                            <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=AlpineSquareBrochure.pdf">Download Brochure</a></span>
+                                        </span>
+                                        <span class="k-card-action">
+                                            <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadLegalOpinion?fileName=AlpineSquareLO.pdf">Download Legal Opinion</a></span>
+                                        </span>
                                     </div>
-                                    <span class="k-card-action">
-                                        <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=AlpineSquareBrochure.pdf">Download Brochure</a></span>
-                                    </span>
-                                    <span class="k-card-action">
-                                        <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadLegalOpinion?fileName=AlpineSquareLO.pdf">Download Legal Opinion</a></span>
-                                    </span>
-                                </div>
-                                <div class="k-card k-card-type-rich">
-                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Alpine Vistas.png" alt="undefined" class="k-card-image">
-                                    <div style="background-color: #ff8a65" class="k-card-body">
+                                    <div class="k-card k-card-type-rich">
+                                        <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Alpine Vistas.png" alt="undefined" class="k-card-image">
+                                        <div style="background-color: #ff8a65" class="k-card-body">
 
-                                        <h5 class="k-card-title">Alpine Vistas</h5>
-                                        <h6 class="k-card-subtitle">Rendlagadda</h6>
+                                            <h5 class="k-card-title">Alpine Vistas</h5>
+                                            <h6 class="k-card-subtitle">Rendlagadda</h6>
 
-                                    </div>
-                                    <span class="k-card-action">
-                                        <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=AlpineVistasBrochure.pdf">Download Brochure</a></span>
-                                    </span>
-                                    <span class="k-card-action">
-                                        <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadLegalOpinion?fileName=AlpineVistasLO.pdf">Download Legal Opinion</a></span>
-                                    </span>
-                                </div>*@
+                                        </div>
+                                        <span class="k-card-action">
+                                            <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=AlpineVistasBrochure.pdf">Download Brochure</a></span>
+                                        </span>
+                                        <span class="k-card-action">
+                                            <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadLegalOpinion?fileName=AlpineVistasLO.pdf">Download Legal Opinion</a></span>
+                                        </span>
+                                    </div>*@
                                 @*<div class="k-card k-card-type-rich">
-                                    <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/PVR Anmol.png" alt="undefined" class="k-card-image">
-                                    <div style="background-color:#f48e36" class="k-card-body">
-                                        <h5 class="k-card-title">PVR Anmol</h5>
-                                        <h6 class="k-card-subtitle">Miyapur</h6>
+                                        <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/PVR Anmol.png" alt="undefined" class="k-card-image">
+                                        <div style="background-color:#f48e36" class="k-card-body">
+                                            <h5 class="k-card-title">PVR Anmol</h5>
+                                            <h6 class="k-card-subtitle">Miyapur</h6>
 
-                                    </div>
-                                    <span class="k-card-action">
-                                        <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=PVRAnmolBrochure.pdf">Download Brochure</a></span>
-                                    </span>
-                                    <span class="k-card-action">
-                                        <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadLegalOpinion?fileName=PVRAnmolLO.pdf">Download Legal Opinion</a></span>
-                                    </span>
-                                </div>*@
+                                        </div>
+                                        <span class="k-card-action">
+                                            <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=PVRAnmolBrochure.pdf">Download Brochure</a></span>
+                                        </span>
+                                        <span class="k-card-action">
+                                            <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadLegalOpinion?fileName=PVRAnmolLO.pdf">Download Legal Opinion</a></span>
+                                        </span>
+                                    </div>*@
                                 <!--<div class="k-card k-card-type-rich">
-        <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/SISHTA ABODE.png" alt="undefined" class="k-card-image">
-        <div style="background-color: #c9ccbd" class="k-card-body">
-            <h5 class="k-card-title">Sishta Abode</h5>
-            <h6 class="k-card-subtitle">Kompally</h6>
+                                <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/SISHTA ABODE.png" alt="undefined" class="k-card-image">
+                                <div style="background-color: #c9ccbd" class="k-card-body">
+                                    <h5 class="k-card-title">Sishta Abode</h5>
+                                    <h6 class="k-card-subtitle">Kompally</h6>
 
-        </div>
-        <span class="k-card-action">-->
+                                </div>
+                                <span class="k-card-action">-->
                                 @*<span class="k-button k-flat k-primary">Download Brochure</span>*@
                                 <!--</span>
-    </div>-->
+                                </div>-->
 
                                 <div class="k-card k-card-type-rich">
                                     <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/In the Woods.png" alt="undefined" class="k-card-image">
@@ -376,7 +535,7 @@
                                         @*<span class="k-button k-flat k-primary">Download Brochure</span>*@
                                     </span>
                                 </div>
-                                <div class="k-card k-card-type-rich">
+                                @*<div class="k-card k-card-type-rich">
                                     <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Elderado.png" alt="undefined" class="k-card-image">
                                     <div style="background-color: #ffca2b" class="k-card-body">
                                         <h5 class="k-card-title">Elderado</h5>
@@ -386,19 +545,19 @@
                                     <span class="k-card-action">
                                         <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=ElderadoBrochure.pdf">Download Brochure</a></span>
                                     </span>
-                                </div>
+                                </div>*@
 
                                 <!--<div class="k-card k-card-type-rich">
-        <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Tapovanam.png" alt="undefined" class="k-card-image">
-        <div style="background-color: #547861" class="k-card-body">
-            <h5 class="k-card-title">Tapovanam</h5>
-            <h6 class="k-card-subtitle">Kanukunta</h6>
+                                <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/Tapovanam.png" alt="undefined" class="k-card-image">
+                                <div style="background-color: #547861" class="k-card-body">
+                                    <h5 class="k-card-title">Tapovanam</h5>
+                                    <h6 class="k-card-subtitle">Kanukunta</h6>
 
-        </div>
-        <span class="k-card-action">-->
+                                </div>
+                                <span class="k-card-action">-->
                                 @*<span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=AlpineSquareBrochure.pdf">Download Brochure</a></span>*@
                                 <!--</span>
-    </div>-->
+                                </div>-->
 
 
 
@@ -413,17 +572,17 @@
                                         <span class="k-button k-flat k-primary"><a href="https://sasinfra.in/Customer/DownloadBrochure?fileName=WoodlandBrochure.pdf">Download Brochure</a></span>
                                     </span>
                                 </div>
-                                <div class="k-card k-card-type-rich">
+                                <!--<div class="k-card k-card-type-rich">
                                     <img width=250 height=250 style="object-fit: cover;" src="~/Content/Images/The Drizzle.png" alt="undefined" class="k-card-image">
                                     <div style="background-color: #ff0707b8" class="k-card-body">
                                         <h5 class="k-card-title">The Drizzle</h5>
                                         <h6 class="k-card-subtitle">Narsingi</h6>
 
                                     </div>
-                                    <span class="k-card-action">
+                                    <span class="k-card-action">-->
                                         @*<span class="k-button k-flat k-primary">Download Brochure</span>*@
-                                    </span>
-                                </div>
+                                    <!--</span>
+                                </div>-->
 
 
                                 <div class="k-card k-card-type-rich">
@@ -459,30 +618,30 @@
 
                         var videos = new kendo.data.DataSource({
                             data: [
-                            //    {
-                            //    title: "Alpine Square",
-                            //    poster: "/Content/Images/AlpineSquareGallery2.png",
-                            //    source: "/Content/Images/Alpinesquare.mp4",
-                            //    bgcolor: "rosybrown"
-                            //},
-                            //{
-                            //    title: "PVR Anmol",
-                            //    poster: "/Content/Images/PVRAnmol.JPG",
-                            //    source: "/Content/Images/PVRAnmol.mp4",
-                            //    bgcolor: "#f48e36"
-                            //},
-                            {
-                                title: "The Drizzle",
-                                poster: "/Content/Images/The Drizzle.png",
-                                source: "https://youtu.be/xwExJJd0Lk0",
-                                bgcolor: "#ff0707b8"
-                            }
-                            //{
-                            //    title: "Alpine Vistas",
-                            //    poster: "/Content/Images/Alpine Vistas.png",
-                            //    source: "/Content/Images/AlpineVistasVideo.mp4",
-                            //    bgcolor: "#139e91"
-                            //}
+                                //    {
+                                //    title: "Alpine Square",
+                                //    poster: "/Content/Images/AlpineSquareGallery2.png",
+                                //    source: "/Content/Images/Alpinesquare.mp4",
+                                //    bgcolor: "rosybrown"
+                                //},
+                                //{
+                                //    title: "PVR Anmol",
+                                //    poster: "/Content/Images/PVRAnmol.JPG",
+                                //    source: "/Content/Images/PVRAnmol.mp4",
+                                //    bgcolor: "#f48e36"
+                                //},
+                                //{
+                                //    title: "The Drizzle",
+                                //    poster: "/Content/Images/The Drizzle.png",
+                                //    source: "https://youtu.be/xwExJJd0Lk0",
+                                //    bgcolor: "#ff0707b8"
+                                //}
+                                //{
+                                //    title: "Alpine Vistas",
+                                //    poster: "/Content/Images/Alpine Vistas.png",
+                                //    source: "/Content/Images/AlpineVistasVideo.mp4",
+                                //    bgcolor: "#139e91"
+                                //}
 
 
                             ]
@@ -717,28 +876,28 @@
                         </a>
                     </div>
                 </div>
-                <div class="card">
+                @*<div class="card">
                     <div class="card-image">
                         <a href="~/Content/Images/Image_2.jpg" data-fancybox="gallery" data-caption="PVR Anmol">
                             <img src="~/Content/Images/Image_2.jpg" alt="Image Gallery">
                         </a>
                     </div>
-                </div>
-                <div class="card">
+                </div>*@
+                @*<div class="card">
                     <div class="card-image">
                         <a href="~/Content/Images/PVRAnmolGallery1.PNG" data-fancybox="gallery" data-caption="PVR Anmol">
                             <img src="~/Content/Images/PVRAnmolGallery1.PNG" alt="Image Gallery">
                         </a>
                     </div>
-                </div>
-                <div class="card">
+                </div>*@
+                @*<div class="card">
                     <div class="card-image">
                         <a href="~/Content/Images/PVR Anmol.png" data-fancybox="gallery" data-caption="PVR Anmol">
                             <img src="~/Content/Images/PVR Anmol.png" alt="Image Gallery">
                         </a>
                     </div>
-                </div>
-                <div class="card">
+                </div>*@
+                @*<div class="card">
                     <div class="card-image">
                         <a href="~/Content/Images/AlpineSquareGallery2.PNG" data-fancybox="gallery" data-caption="Alpine Squares">
                             <img src="~/Content/Images/AlpineSquareGallery2.PNG" alt="Image Gallery">
@@ -751,7 +910,7 @@
                             <img src="~/Content/Images/Image_3.jpg" alt="Image Gallery">
                         </a>
                     </div>
-                </div>
+                </div>*@
 
 
             </div>
@@ -931,7 +1090,7 @@
                             <div class="panel panel-danger">
 
                                 <div class="panel-body">
-                                  
+
                                     @*<a style="font-size:12px;" class="twitter-timeline" href="https://twitter.com/sas_infra_?ref_src=twsrc%5Etfw" width="100%" height="600" data-chrome="transparent noscrollbar">Twitter</a>*@
                                 </div>
                             </div>
@@ -942,25 +1101,25 @@
             </div>
             <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
             <script>
-                
+
             </script>
             <style>
-                                #twitter-widget-holder {
-                                    max-height: 400px;
-                                    max-width: 320px;
-                                    padding: 20px;
-                                    background: #fff;
-                                    border-radius: 3px;
-                                    box-shadow: 2px 2px 3px rgba(0,0,0,.1);
-                                }
+                #twitter-widget-holder {
+                    max-height: 400px;
+                    max-width: 320px;
+                    padding: 20px;
+                    background: #fff;
+                    border-radius: 3px;
+                    box-shadow: 2px 2px 3px rgba(0,0,0,.1);
+                }
 
-                                /*                style="margin-left:270px;"
+                /*                style="margin-left:270px;"
                 */
-                                @@media screen and (min-width: 800px) {
-                                    #tfeed {
-                                        margin-left: 270px;
-                                    }
-                                }
+                @@media screen and (min-width: 800px) {
+                    #tfeed {
+                        margin-left: 270px;
+                    }
+                }
             </style>
             <div class="row">
                 <div class="col-md-12">
@@ -968,7 +1127,7 @@
                         <div class="col-md-6">
                             <div class="panel panel-danger">
 
-                                <div  class="panel-body">
+                                <div class="panel-body">
                                     @*<div id="instagram-feed-demo" class="instagram_feed"></div>*@
                                 </div>
                             </div>
@@ -1021,7 +1180,7 @@
                     }, 5000); // 5 second intervals between change so user has two seconds to look a flyer
                 });
 
-               
+
 
             </script>
             <style>
@@ -1032,10 +1191,8 @@
 
                 .instagram_gallery {
                     overflow-y: scroll;
-                    height:250px;
+                    height: 250px;
                 }
-
-
             </style>
             <br />
             <br />
