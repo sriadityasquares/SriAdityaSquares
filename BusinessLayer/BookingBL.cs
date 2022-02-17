@@ -597,5 +597,10 @@ namespace BusinessLayer
             return db.GetProjectApprovalStatus(PaymentID);
         }
 
+        public List<GetCancelledFlatsInfo> GetCancelledFlatsInfo()
+        {
+            return db.GetCancelledFlatsInfo();
+        }
+
     }
 }

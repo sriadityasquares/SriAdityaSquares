@@ -31,7 +31,7 @@ namespace DataLayer
                     cfg.CreateMap<tblProject, Projects>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstProjects = mapper.Map<List<tblProject>, List<Projects>>(dbEntity.tblProjects.Where(a => a.BookingStatus == "O").ToList()).ToList();
+                lstProjects = mapper.Map<List<tblProject>, List<Projects>>(dbEntity.tblProjects.ToList()).ToList();
             }
             catch (Exception ex)
             {
@@ -414,7 +414,7 @@ namespace DataLayer
                     cfg.CreateMap<tblFlat, Flats>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && (a.BookingStatus == "P" || a.BookingStatus == "S" || a.BookingStatus == "C")).ToList()).ToList();
+                lstFlats = mapper.Map<List<tblFlat>, List<Flats>>(dbEntity.tblFlats.Where(a => a.TowerID == towerID && (a.BookingStatus == "P" || a.BookingStatus == "S" || a.BookingStatus == "C" || a.BookingStatus == "D")).ToList()).ToList();
 
 
             }
@@ -3243,6 +3243,26 @@ namespace DataLayer
         public bool GetProjectApprovalStatus(int PaymentID)
         {
             return Convert.ToBoolean(dbEntity.sp_GetProjectApprovalStatus(PaymentID).FirstOrDefault());
+        }
+
+        public List<GetCancelledFlatsInfo> GetCancelledFlatsInfo()
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetProjectCategoryWiseExpenses_Result, GetProjectCategoryWiseExpenses>();
+                });
+                IMapper mapper = config.CreateMapper();
+
+                return mapper.Map<List<sp_GetCancelledFlatsInfo_Result>, List<GetCancelledFlatsInfo>>(dbEntity.sp_GetCancelledFlatsInfo().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<GetCancelledFlatsInfo>();
+            }
         }
 
     }

@@ -85,6 +85,7 @@
     <Compile Include="GetBhkWiseBookingDetails.cs" />
     <Compile Include="GetBookingInfoByDate.cs" />
     <Compile Include="GetBookingStatistics.cs" />
+    <Compile Include="GetCancelledFlatsInfo.cs" />
     <Compile Include="GetChequeInfo.cs" />
     <Compile Include="GetDueReminders.cs" />
     <Compile Include="GetFacingWiseBookingDetails.cs" />

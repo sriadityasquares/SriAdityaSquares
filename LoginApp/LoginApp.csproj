@@ -524,6 +524,7 @@
     <Content Include="Content\homepageJs\jquery.nivo.slider.pack.js" />
     <Content Include="Content\homepageJs\PIE.htc" />
     <Content Include="Content\homepageJs\script.js" />
+    <Content Include="Content\icon_font.css" />
     <Content Include="Content\Images\1.1.1.png" />
     <Content Include="Content\Images\1.1.10.png" />
     <Content Include="Content\Images\1.1.11.png" />
@@ -967,6 +968,7 @@
     <Content Include="Content\Images\work.jpg" />
     <Content Include="Content\Images\work1.jpg" />
     <Content Include="Content\Images\Yoga Room.PNG" />
+    <Content Include="Content\jquery.transfer.css" />
     <Content Include="Content\KendoOverWrite.css" />
     <Content Include="Content\kendo\2019.3.917\Black\editor.png" />
     <Content Include="Content\kendo\2019.3.917\Black\imagebrowser.png" />
@@ -1579,6 +1581,7 @@
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
     <Content Include="Scripts\jquery.magnific-popup.js" />
     <Content Include="Scripts\jquery.magnific-popup.min.js" />
+    <Content Include="Scripts\jquery.transfer.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -2223,6 +2226,7 @@
     <Content Include="Views\Booking\Cheques.cshtml" />
     <Content Include="Views\ProjectExpenseType\Index.cshtml" />
     <Content Include="Views\Sample\Details.cshtml" />
+    <Content Include="Views\Report\GetCancelledFlatInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

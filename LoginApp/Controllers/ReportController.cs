@@ -349,5 +349,17 @@ namespace LoginApp.Controllers
             var sms = common.GetSMSLogs();
             return Json(sms, JsonRequestBehavior.AllowGet);
         }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult GetCancelledFlatInformation()
+        {
+            return View();
+        }
+
+        public JsonResult GetCancelledFlatInfo()
+        {
+            var sms = booking.GetCancelledFlatsInfo();
+            return Json(sms, JsonRequestBehavior.AllowGet);
+        }
     }
 }

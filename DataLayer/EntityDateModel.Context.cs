@@ -463,19 +463,6 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFranchiseStatus_Result>("sp_GetFranchiseStatus", regNoParameter);
         }
     
-        public virtual ObjectResult<sp_GetAgentMapping_Result> sp_GetAgentMapping(Nullable<int> agentID, Nullable<int> option)
-        {
-            var agentIDParameter = agentID.HasValue ?
-                new ObjectParameter("AgentID", agentID) :
-                new ObjectParameter("AgentID", typeof(int));
-    
-            var optionParameter = option.HasValue ?
-                new ObjectParameter("option", option) :
-                new ObjectParameter("option", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentMapping_Result>("sp_GetAgentMapping", agentIDParameter, optionParameter);
-        }
-    
         public virtual ObjectResult<sp_GetAgentCommissionNdBalanceByAgentLogins_Old_Result> sp_GetAgentCommissionNdBalanceByAgentLogins_Old(string agentEmail)
         {
             var agentEmailParameter = agentEmail != null ?
@@ -781,6 +768,24 @@ namespace DataLayer
                 new ObjectParameter("PaymentID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("sp_GetProjectApprovalStatus", paymentIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetCancelledFlatsInfo_Result> sp_GetCancelledFlatsInfo()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetCancelledFlatsInfo_Result>("sp_GetCancelledFlatsInfo");
+        }
+    
+        public virtual ObjectResult<sp_GetAgentMapping_Result> sp_GetAgentMapping(Nullable<int> agentID, Nullable<int> option)
+        {
+            var agentIDParameter = agentID.HasValue ?
+                new ObjectParameter("AgentID", agentID) :
+                new ObjectParameter("AgentID", typeof(int));
+    
+            var optionParameter = option.HasValue ?
+                new ObjectParameter("option", option) :
+                new ObjectParameter("option", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentMapping_Result>("sp_GetAgentMapping", agentIDParameter, optionParameter);
         }
     }
 }

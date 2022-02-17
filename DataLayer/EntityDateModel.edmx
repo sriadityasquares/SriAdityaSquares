@@ -1327,6 +1327,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <Function Name="sp_GetBSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_GetCancelledFlatsInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetChequeInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetClientProjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Username" Type="varchar(max)" Mode="In" />
@@ -1401,7 +1402,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <Function Name="sp_getPaymentInfoByDates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fromdate" Type="varchar" Mode="In" />
           <Parameter Name="todate" Type="varchar" Mode="In" />
-          <Parameter Name="projectid" Type="varchar" Mode="In" />
+          <Parameter Name="projectid" Type="varchar(max)" Mode="In" />
           <Parameter Name="type" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_GetPaymentsDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1795,10 +1796,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <FunctionImport Name="sp_GetFranchiseStatus" ReturnType="Collection(salesDBModel.sp_GetFranchiseStatus_Result)">
           <Parameter Name="RegNo" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_GetAgentMapping" ReturnType="Collection(salesDBModel.sp_GetAgentMapping_Result)">
-            <Parameter Name="AgentID" Mode="In" Type="Int32" />
-            <Parameter Name="option" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="tblDesignations" EntityType="salesDBModel.tblDesignation" />
           <FunctionImport Name="sp_GetAgentCommissionNdBalanceByAgentLogins_Old" ReturnType="Collection(salesDBModel.sp_GetAgentCommissionNdBalanceByAgentLogins_Old_Result)">
           <Parameter Name="AgentEmail" Mode="In" Type="String" />
@@ -1938,7 +1935,12 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <FunctionImport Name="sp_GetProjectCategoryWiseExpenses" ReturnType="Collection(salesDBModel.sp_GetProjectCategoryWiseExpenses_Result)" />
           <EntitySet Name="tblDailyExpenses" EntityType="salesDBModel.tblDailyExpens" />
           <FunctionImport Name="sp_GetProjectApprovalStatus" ReturnType="Collection(Boolean)">
-            <Parameter Name="PaymentID" Mode="In" Type="Int32" />
+          <Parameter Name="PaymentID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetCancelledFlatsInfo" ReturnType="Collection(salesDBModel.sp_GetCancelledFlatsInfo_Result)" />
+          <FunctionImport Name="sp_GetAgentMapping" ReturnType="Collection(salesDBModel.sp_GetAgentMapping_Result)">
+            <Parameter Name="AgentID" Mode="In" Type="Int32" />
+            <Parameter Name="option" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="tblCity">
@@ -2812,11 +2814,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="DateTime" Name="date" Nullable="true" />
           <Property Type="String" Name="subtitle" Nullable="true" />
           <Property Type="String" Name="description" Nullable="false" MaxLength="1" />
-        </ComplexType>
-        <ComplexType Name="sp_GetAgentMapping_Result">
-          <Property Type="Int32" Name="AgentID" Nullable="false" />
-          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="isSelected" Nullable="false" MaxLength="3" />
         </ComplexType>
         <EntityType Name="tblDesignation">
           <Key>
@@ -3927,6 +3924,30 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="CreatedDate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="sp_GetCancelledFlatsInfo_Result">
+          <Property Type="Int32" Name="FlatID" Nullable="true" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="TowerName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="FlatName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="Area" Nullable="true" />
+          <Property Type="Int32" Name="SftRate" Nullable="true" />
+          <Property Type="Int32" Name="Discount" Nullable="true" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="BookingDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="GrandRate" Nullable="true" />
+          <Property Type="Int32" Name="BookingAmount" Nullable="true" />
+          <Property Type="Int32" Name="PaymentID" Nullable="true" />
+          <Property Type="DateTime" Name="PaidDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Payments" Nullable="true" />
+          <Property Type="Int32" Name="PaymentBalance" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetAgentMapping_Result">
+          <Property Type="Int32" Name="AgentID" Nullable="false" />
+          <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="isSelected" Nullable="false" MaxLength="3" />
+          <Property Type="Boolean" Name="selected" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4928,15 +4949,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="subtitle" ColumnName="subtitle" />
                 <ScalarProperty Name="description" ColumnName="description" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetAgentMapping" FunctionName="salesDBModel.Store.sp_GetAgentMapping">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentMapping_Result">
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="isSelected" ColumnName="isSelected" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -6093,6 +6105,38 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_GetProjectApprovalStatus" FunctionName="salesDBModel.Store.sp_GetProjectApprovalStatus" />
+          <FunctionImportMapping FunctionImportName="sp_GetCancelledFlatsInfo" FunctionName="salesDBModel.Store.sp_GetCancelledFlatsInfo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetCancelledFlatsInfo_Result">
+                <ScalarProperty Name="FlatID" ColumnName="FlatID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="TowerName" ColumnName="TowerName" />
+                <ScalarProperty Name="FlatName" ColumnName="FlatName" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="SftRate" ColumnName="SftRate" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="GrandRate" ColumnName="GrandRate" />
+                <ScalarProperty Name="BookingAmount" ColumnName="BookingAmount" />
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="Payments" ColumnName="Payments" />
+                <ScalarProperty Name="PaymentBalance" ColumnName="PaymentBalance" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAgentMapping" FunctionName="salesDBModel.Store.sp_GetAgentMapping">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetAgentMapping_Result">
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="isSelected" ColumnName="isSelected" />
+                <ScalarProperty Name="selected" ColumnName="selected" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -14,6 +14,8 @@ namespace ModelLayer
         public int AgentID { get; set; }
         public string AgentName { get; set; }
 
-        public string isSelected { get; set; }
+        //public string isSelected { get; set; }
+
+        public Nullable<bool> selected { get; set; }
     }
 }

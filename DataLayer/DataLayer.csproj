@@ -129,6 +129,9 @@
     <Compile Include="sp_GetBookingStatistics_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetCancelledFlatsInfo_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_GetChequeInfo_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>

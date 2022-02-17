@@ -821,7 +821,7 @@ namespace LoginApp.Controllers
                 @ViewBag.Background = "";
             if (!projectApprovalStatus)
             {
-                html = "<article><address></address><table class=\"meta\"><tr><th> Pay ID:</th><td><span contenteditable>#PaymentID</span></td></tr><tr><th>Date</th><td><span contenteditable>#Date</span></td></tr></tbody></table><table class=\"inventory\"><tbody><tr><th>Project</th><td>#Project</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Payment Date</th><td contenteditable>#PaymentDate</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td><span contenteditable>#RefNo</span></td></tr><tr><th>Amount in Words</th><td colspan = '3' contenteditable>#amountInWords</td></tr></table></article>";
+                html = "<article><address></address><table class=\"meta\"><tr><th> Pay ID:</th><td><span contenteditable>#PaymentID</span></td></tr><tr><th>Date</th><td><span contenteditable>#Date</span></td></tr></tbody></table><table class=\"inventory\"><tbody><tr><th>Project</th><td>#Project</td><th>Tower</th><td>#Tower</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><th>Mobile</th><td contenteditable>#CMobile</td><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Payment Date</th><td contenteditable>#PaymentDate</td></tr><tr><th >Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td><span contenteditable>#RefNo</span></td></tr><tr><th>Amount in Words</th><td colspan = '3' contenteditable>#amountInWords</td></tr><tr><th>Bank Name</th><td colspan = '3' contenteditable></td></tr><tr><th>Details</th><td colspan = '3' contenteditable>#Details</td></tr></table></article>";
                 html = html.Replace("#Project", result.ProjectName).Replace("#Tower", result.TowerName).Replace("#CName", result.Name).Replace("#CMobile", result.Mobile == null ? "" : result.Mobile.ToString()).Replace("#BookingAmount", "Rs. " + result.BookingAmount.ToString()).Replace("#Flat", result.FlatName).Replace("#SFT", result.Area.ToString()).Replace("#Cheque", result.PaymentMode.ToString()).Replace("#RefNo", result.ReferenceNo).Replace("#PaymentID", result.PaymentID.ToString()).Replace("#PaymentDate", payDate).Replace("#Date", sysDate).Replace("#amountInWords", amountInWords).Replace("#BHK", result.Bhk.ToString()).Replace("#Details", result.Details);
 
             }
@@ -840,7 +840,8 @@ namespace LoginApp.Controllers
 
                 }
             }
-            return Json(html, JsonRequestBehavior.AllowGet);
+            var jsonresult = new { data = html, status = projectApprovalStatus };
+            return Json(jsonresult, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetPaymentReceiptsForCancelledFlats(int paymentID)

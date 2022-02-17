@@ -173,10 +173,10 @@
                         function GetReceipt(paymentID) {
                             //alert(paymentID);
                             $('#example').show();
-                            $.get("/Booking/GetPaymentReceipts", { paymentID: paymentID }, function (data) {
-                                var val = '@ViewBag.ProjectApproved';
-                               
-                                if (data.match('Mobile') != null) {
+                            $.get("/Booking/GetPaymentReceipts", { paymentID: paymentID }, function (result) {
+                                
+                                
+                                if (result.status) {
                                     $("#bgImage").css("background-image", "url('../../Content/Images/letterhead_new.jpg')");
                                     $(".pdf-footer").show();
                                 }
@@ -185,7 +185,7 @@
                                     $(".pdf-footer").hide();
                                 }    
                                 $("#content").empty();
-                                $("#content").append(data);
+                                $("#content").append(result.data);
                                 $('#example').show();
                             });
                         }
