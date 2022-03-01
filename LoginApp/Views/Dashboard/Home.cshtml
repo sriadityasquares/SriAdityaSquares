@@ -193,7 +193,34 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-chart">
+                        <div class="card-header card-header-info">
+                            <div id="chart" style="background-size:cover;align-content:center;align-items:center;color: orange"></div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title"><b>DAILY EXPENSES</b></h3>
 
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-chart">
+                        <div class="card-header card-header-success">
+                            <div id="chart1" style="background-size:cover;align-content:center;align-items:center;color: orange"></div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title"><b>LANDLORD PAYMENTS</b></h3>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-6 col-md-12">
                     <div class="card">
@@ -372,7 +399,7 @@
                                 <h4 class="card-title"><b style="font-size:14px;font-weight:800">PROJECT WISE TRANSACTIONS</b></h4>
                                 <p class="card-category">Last Updated @DateTime.Now</p>
                             </div>
-                            <div style="overflow-y:scroll;height:400px;"  class="card-body table-responsive">
+                            <div style="overflow-y:scroll;height:400px;" class="card-body table-responsive">
                                 <table class="table table-hover">
                                     <thead class="text-rose">
                                     <th>PROJECT</th>
@@ -418,14 +445,14 @@
                                 <h4 class="card-title"><b style="font-size:14px;font-weight:800">PROJECT WISE AREA DETAILS</b></h4>
                                 <p class="card-category">Last Updated @DateTime.Now</p>
                             </div>
-                            <div style="overflow-y:scroll;height:400px;"  class="card-body table-responsive">
+                            <div style="overflow-y:scroll;height:400px;" class="card-body table-responsive">
                                 <table class="table table-hover">
                                     <thead class="text-success">
                                     <th>PROJECT</th>
                                     <th>TOTAL SFT</th>
                                     <th>SOLD SFT</th>
                                     <th>REMAINING SFT</th>
-                                    
+
                                     </thead>
                                     <tbody>
 
@@ -444,7 +471,7 @@
                                                 <td>
                                                     @item.RemSft
                                                 </td>
-                                                
+
                                             </tr>
                                         }
 
@@ -593,7 +620,7 @@
                                     <th>PROJECT</th>
                                     <th>EXPENSE CATEGORY</th>
                                     <th>EXPENSE AMOUNT</th>
-                                   
+
                                     </thead>
                                     <tbody>
 
@@ -609,7 +636,7 @@
                                                 <td>
                                                     <b style="font-size:12px">&#8377;</b>.@item.ExpenseAmount
                                                 </td>
-                                                
+
                                             </tr>
                                         }
 
@@ -729,6 +756,253 @@
 
         var IBOChart = new Chartist.Line('#IBOChart', dataIBOChart, optionsIBOChart);
 
+        @*dataDailyExpenseChart = {
+
+            labels: @Html.Raw(ViewBag.xDailyExpenseGraph),
+            series: [
+                @ViewBag.yDailyExpenseGraph
+            ],
+
+        };
+
+        var str = '@ViewBag.yDailyExpenseGraph'
+        var max3 = Math.max(...str.match(/\d+/g).map(Number));
+
+
+        optionsDailyExpenseChart = {
+            axisX: {
+                showGrid: true
+            },
+            low: 0,
+            high: 50000,
+            chartPadding: {
+                top: 0,
+                right: 5,
+                bottom: 0,
+                left: 0
+            },
+            fullWidth: true,
+            plugins: [
+                Chartist.plugins.tooltip()
+            ]
+        }
+
+        var DailyExpenseChart = new Chartist.Bar('#DailyExpenseChart', dataDailyExpenseChart, optionsDailyExpenseChart);*@
+        //$(document).bind("kendo:skinChange",  createChart(@Html.Raw(ViewBag.lstDailyExpenses));
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetDailyExpensesChart", "Dashboard")',
+            contentType: "application/json; charset=utf-8",
+            //data: { projectID: $("#Project").val(), fromDate: fromDate, toDate: toDate },
+            dataType: "json",
+            success: function (data) {
+                $(document).ready(createChart(data,'chart','Daily Expenses'));
+                $(document).bind("kendo:skinChange", createChart(data, 'chart', 'Daily Expenses','#26aadd'));
+            },
+
+        });
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetLandlordPaymentChart", "Dashboard")',
+            contentType: "application/json; charset=utf-8",
+            //data: { projectID: $("#Project").val(), fromDate: fromDate, toDate: toDate },
+            dataType: "json",
+            success: function (data) {
+                $(document).ready(createChart(data, 'chart1'));
+                $(document).bind("kendo:skinChange", createChart(data, 'chart1', 'Landlord Payments','#43a047'));
+            },
+
+        });
+    }
+
+    function createChart(data,chartID,name,barColor) {
+        // alert(data.xaxis);
+
+        var xaxis = data.map(function (val) {
+            return val.xaxis;
+        }).join(',');
+        var yaxis = data.map(function (val) {
+            return val.yaxis;
+        }).join(',');
+        var peak = Math.max.apply(Math, data.map(function (o) { return o.xaxis; }))+2000000;
+        //peak = 10000000;
+        var chartHeight = '';
+        var a = xaxis.split(',');
+        var b = yaxis.split(',');
+        if (data.length > 6) {
+            chartHeight = data.length * 28;
+        }
+        else
+            chartHeight = data.length * 200;
+
+
+        $("#" + chartID).css("height", 350);
+        var projectText = '';
+        
+
+
+        $("#" + chartID).kendoChart({
+            pdf: {
+                fileName: "Bookings Per Project.pdf"
+            },
+            title: {
+                text: name,
+                font: "bolder 16px Arial,Helvetica,sans-serif",
+                color: "black",
+            },
+            legend: {
+                visible: true,
+                position: "top",
+                item: {
+                    visual: createLegendItem
+                }
+            },
+
+            seriesDefaults: {
+                type: "bar",
+                stack: true,
+                labels: {
+                    template: "#=stackValue#",
+                    visible: true,
+                    font: "bold 12px Arial,Helvetica,sans-serif",
+                    color: "black"
+                },
+                //visual: function (e) {
+                //    return createColumn(e.rect, e.options.color);
+                //}
+            },
+            series: [{
+                name: "Amount in Rs.",
+                data: a,
+                color: barColor
+            }],
+            valueAxis: {
+                max: peak,
+                line: {
+                    visible: true
+                },
+                minorGridLines: {
+                    visible: true
+                }
+            },
+            categoryAxis: {
+                categories: b,
+                majorGridLines: {
+                    visible: true
+                },
+                labels: {
+                    rotation: "auto"
+                }
+            },
+            //pannable: {
+            //    lock: "y"
+            //},
+            //zoomable: {
+            //    mousewheel: {
+            //        lock: "y"
+            //    },
+            //    selection: {
+            //        lock: "y"
+            //    }
+            //},
+            tooltip: {
+                visible: true,
+                template: "#= value #"
+            }
+        });
+    }
+
+    var drawing = kendo.drawing;
+    var geometry = kendo.geometry;
+    function createColumn(rect, color) {
+        var origin = rect.origin;
+        var center = rect.center();
+        var bottomRight = rect.bottomRight();
+        var radiusX = rect.width() / 2;
+        var radiusY = radiusX / 3;
+        var gradient = new drawing.LinearGradient({
+            stops: [{
+                offset: 0,
+                color: color
+            }, {
+                offset: 0.5,
+                color: color,
+                opacity: 0.9
+            }, {
+                offset: 0.5,
+                color: color,
+                opacity: 0.9
+            }, {
+                offset: 1,
+                color: color
+            }]
+        });
+
+        var path = new drawing.Path({
+            fill: gradient,
+            stroke: {
+                color: "none"
+            }
+        }).moveTo(origin.x, origin.y)
+            .lineTo(origin.x, bottomRight.y)
+            .arc(180, 0, radiusX, radiusY, true)
+            .lineTo(bottomRight.x, origin.y)
+            .arc(0, 180, radiusX, radiusY);
+
+        var topArcGeometry = new geometry.Arc([center.x, origin.y], {
+            startAngle: 0,
+            endAngle: 360,
+            radiusX: radiusX,
+            radiusY: radiusY
+        });
+
+        var topArc = new drawing.Arc(topArcGeometry, {
+            fill: {
+                color: color
+            },
+            stroke: {
+                color: "#ebebeb"
+            }
+        });
+        var group = new drawing.Group();
+        group.append(path, topArc);
+        return group;
+    }
+
+    function createLegendItem(e) {
+        var color = e.options.markers.background;
+        var labelColor = e.options.labels.color;
+        var rect = new geometry.Rect([0, 0], [120, 50]);
+        var layout = new drawing.Layout(rect, {
+            spacing: 5,
+            alignItems: "center"
+        });
+
+        var overlay = drawing.Path.fromRect(rect, {
+            fill: {
+                color: "#fff",
+                opacity: 0
+            },
+            stroke: {
+                color: "none"
+            },
+            cursor: "pointer"
+        });
+
+        var column = createColumn(new geometry.Rect([0, 0], [15, 10]), color);
+        var label = new drawing.Text(e.series.name, [0, 0], {
+            fill: {
+                color: labelColor
+            }
+        })
+
+        layout.append(column, label);
+        layout.reflow();
+
+        var group = new drawing.Group().append(layout, overlay);
+
+        return group;
     }
 
 

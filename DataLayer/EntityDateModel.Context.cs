@@ -82,6 +82,8 @@ namespace DataLayer
         public virtual DbSet<tblCheque> tblCheques { get; set; }
         public virtual DbSet<tblProjectExpenseCategory> tblProjectExpenseCategories { get; set; }
         public virtual DbSet<tblDailyExpens> tblDailyExpenses { get; set; }
+        public virtual DbSet<tblLandLord> tblLandLords { get; set; }
+        public virtual DbSet<tblLandlordPayment> tblLandlordPayments { get; set; }
     
         public virtual ObjectResult<sp_GetPeriodWiseBookingDetails_Result> sp_GetPeriodWiseBookingDetails(Nullable<int> option, string project, string year, string month, string fromdate, string todate)
         {
@@ -786,6 +788,16 @@ namespace DataLayer
                 new ObjectParameter("option", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentMapping_Result>("sp_GetAgentMapping", agentIDParameter, optionParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetDailyExpenseGraph_Result> sp_GetDailyExpenseGraph()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetDailyExpenseGraph_Result>("sp_GetDailyExpenseGraph");
+        }
+    
+        public virtual ObjectResult<sp_GetLandlordPaymentGraph_Result> sp_GetLandlordPaymentGraph()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetLandlordPaymentGraph_Result>("sp_GetLandlordPaymentGraph");
         }
     }
 }

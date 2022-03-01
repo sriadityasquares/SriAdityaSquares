@@ -86,5 +86,36 @@ namespace BusinessLayer
         {
             return admin.GetUsersWithRoles();
         }
+
+        public List<LandLord> BindLandlords()
+        {
+            return admin.BindLandlords();
+        }
+
+        public bool AddLandLord(LandLord landlord)
+        {
+            return admin.AddLandLord(landlord);
+        }
+
+        public bool UpdateLandLord(LandLord landlord)
+        {
+            return admin.UpdateLandLord(landlord);
+        }
+
+        public bool AddLandLordPayments(LandlordPayments lp)
+        {
+            return admin.AddLandLordPayments(lp);
+        }
+
+        public bool UpdateLandLordPayments(LandlordPayments landlord)
+        {
+            return admin.UpdateLandLordPayments(landlord);
+        }
+
+        public List<LandlordPayments> GetPayments()
+        {
+            return admin.GetPayments();
+        }
+
     }
 }

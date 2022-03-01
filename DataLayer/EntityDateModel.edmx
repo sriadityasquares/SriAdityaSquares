@@ -858,6 +858,47 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="ModifiedBy" Type="nvarchar(max)" />
           <Property Name="ModifiedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="tblLandlordPayments">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LandlordID" Type="int" />
+          <Property Name="LandlordName" Type="nvarchar(max)" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="ProjectName" Type="nvarchar(max)" />
+          <Property Name="AmountPaid" Type="int" />
+          <Property Name="PaymentDate" Type="datetime" />
+          <Property Name="PaymentMode" Type="nvarchar(max)" />
+          <Property Name="ReferenceNo" Type="nvarchar" MaxLength="500" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tblLandLords">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="MobileNo" Type="bigint" />
+          <Property Name="eMail" Type="nvarchar" MaxLength="100" />
+          <Property Name="Aadhar" Type="nvarchar" MaxLength="50" />
+          <Property Name="PAN" Type="nvarchar" MaxLength="50" />
+          <Property Name="BankAcctNo" Type="nvarchar(max)" />
+          <Property Name="BankName" Type="nvarchar" MaxLength="100" />
+          <Property Name="BankBranch" Type="nvarchar" MaxLength="100" />
+          <Property Name="IFSC" Type="nvarchar" MaxLength="100" />
+          <Property Name="ProjectID" Type="int" />
+          <Property Name="ProjectName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Status" Type="char" MaxLength="1" />
+          <Property Name="SurveyNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="Location" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="tblLevelsMaster">
           <Key>
             <PropertyRef Name="LevelID" />
@@ -1344,6 +1385,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <Function Name="sp_GetCustomerTowers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Username" Type="varchar(max)" Mode="In" />
         </Function>
+        <Function Name="sp_GetDailyExpenseGraph" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetDashboardParameters" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetDesignations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Username" Type="nvarchar(max)" Mode="In" />
@@ -1396,6 +1438,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
         <Function Name="sp_GetHighestPercetageInProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_GetLandlordPaymentGraph" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetMySiteVisits" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar(max)" Mode="In" />
         </Function>
@@ -1485,6 +1528,8 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblIBOAdvanceForm" EntityType="Self.tblIBOAdvanceForm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblInvoice" EntityType="Self.tblInvoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblInvoiceDetails" EntityType="Self.tblInvoiceDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLandlordPayments" EntityType="Self.tblLandlordPayments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblLandLords" EntityType="Self.tblLandLords" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLevelsMaster" EntityType="Self.tblLevelsMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMonth" EntityType="Self.tblMonth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblNews" EntityType="Self.tblNews" Schema="dbo" store:Type="Tables" />
@@ -1942,6 +1987,10 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
             <Parameter Name="AgentID" Mode="In" Type="Int32" />
             <Parameter Name="option" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="tblLandLords" EntityType="salesDBModel.tblLandLord" />
+          <EntitySet Name="tblLandlordPayments" EntityType="salesDBModel.tblLandlordPayment" />
+          <FunctionImport Name="sp_GetDailyExpenseGraph" ReturnType="Collection(salesDBModel.sp_GetDailyExpenseGraph_Result)" />
+          <FunctionImport Name="sp_GetLandlordPaymentGraph" ReturnType="Collection(salesDBModel.sp_GetLandlordPaymentGraph_Result)" />
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -3947,6 +3996,55 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="String" Name="AgentName" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="isSelected" Nullable="false" MaxLength="3" />
           <Property Type="Boolean" Name="selected" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="tblLandLord">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNo" Type="Int64" />
+          <Property Name="eMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Aadhar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PAN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BankAcctNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BankName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BankBranch" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IFSC" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="SurveyNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tblLandlordPayment">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LandlordID" Type="Int32" />
+          <Property Name="LandlordName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AmountPaid" Type="Int32" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+          <Property Name="PaymentMode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceNo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="sp_GetDailyExpenseGraph_Result">
+          <Property Type="String" Name="xaxis" Nullable="true" />
+          <Property Type="String" Name="yaxis" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetLandlordPaymentGraph_Result">
+          <Property Type="String" Name="xaxis" Nullable="true" />
+          <Property Type="String" Name="yaxis" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -6134,6 +6232,65 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
                 <ScalarProperty Name="AgentName" ColumnName="AgentName" />
                 <ScalarProperty Name="isSelected" ColumnName="isSelected" />
                 <ScalarProperty Name="selected" ColumnName="selected" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblLandLords">
+            <EntityTypeMapping TypeName="salesDBModel.tblLandLord">
+              <MappingFragment StoreEntitySet="tblLandLords">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="SurveyNo" ColumnName="SurveyNo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+                <ScalarProperty Name="BankBranch" ColumnName="BankBranch" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="BankAcctNo" ColumnName="BankAcctNo" />
+                <ScalarProperty Name="PAN" ColumnName="PAN" />
+                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+                <ScalarProperty Name="eMail" ColumnName="eMail" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblLandlordPayments">
+            <EntityTypeMapping TypeName="salesDBModel.tblLandlordPayment">
+              <MappingFragment StoreEntitySet="tblLandlordPayments">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+                <ScalarProperty Name="PaymentMode" ColumnName="PaymentMode" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="LandlordName" ColumnName="LandlordName" />
+                <ScalarProperty Name="LandlordID" ColumnName="LandlordID" />
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetDailyExpenseGraph" FunctionName="salesDBModel.Store.sp_GetDailyExpenseGraph">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetDailyExpenseGraph_Result">
+                <ScalarProperty Name="xaxis" ColumnName="xaxis" />
+                <ScalarProperty Name="yaxis" ColumnName="yaxis" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetLandlordPaymentGraph" FunctionName="salesDBModel.Store.sp_GetLandlordPaymentGraph">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetLandlordPaymentGraph_Result">
+                <ScalarProperty Name="xaxis" ColumnName="xaxis" />
+                <ScalarProperty Name="yaxis" ColumnName="yaxis" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

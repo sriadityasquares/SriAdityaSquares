@@ -1,0 +1,248 @@
+﻿@model ModelLayer.LandlordPayments
+@{
+    ViewBag.Landlords = "active";
+    ViewBag.LandlordPayments = "active";
+    ViewBag.Title = "Landlord Payments";
+    var message = TempData["successmessage"] ?? string.Empty;
+    
+}
+<style>
+
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px;
+        }
+
+        .jumbotron {
+            width: 1700px;
+        }
+    }
+</style>
+
+
+
+@using (Html.BeginForm("Payments", "Landlord", FormMethod.Post, new
+{
+
+    role = "form",
+    id = "submitbtn",
+    enctype = "multipart/form-data"
+
+}))
+{
+<div class="jumbotron">
+
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">ADD LANDLORD PAYMENTS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+
+
+
+
+    @Html.HiddenFor(x=>x.LandlordName)
+    @Html.HiddenFor(x=>x.ProjectName)
+    @Html.HiddenFor(x=>x.PayDate)
+    <div class="row" style="padding-top:10px">
+
+
+        @Html.LabelFor(m => m.LandlordID, new { @class = "col-md-1" })
+        @Html.DropDownListFor(model => model.LandlordID, TempData["Landlord"] as SelectList, "--Select Landlord--", new { @class = "textbox-control col-md-2 col-xs" })
+        @Html.LabelFor(m => m.PaymentDate, new { @class = "col-md-1" })
+        <div class="col-md-2" style="padding-left:0px">
+            <input id="datepicker1" title="datepicker" />
+        </div>
+    </div>
+
+
+    <div style="padding-top:10px" class="row">
+        @Html.LabelFor(m => m.AmountPaid, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.AmountPaid, new { @class = "textbox-control col-md-2 col-xs" })
+        @Html.LabelFor(m => m.PaymentMode, new { @class = "col-md-1" })
+        @Html.DropDownListFor(m => m.PaymentMode, new List<SelectListItem>
+   {
+        new SelectListItem{ Text="--Mode--", Value = "--Mode--"  },
+       new SelectListItem{ Text="Cheque", Value = "Cheque" },
+       new SelectListItem{ Text="NEFT", Value = "NEFT" },
+        new SelectListItem{ Text="RTGS", Value = "RTGS" },
+       new SelectListItem{ Text="CC", Value = "CC" },
+       new SelectListItem{ Text="Online", Value = "Online" },
+        new SelectListItem{ Text="IMPS", Value = "IMPS" },
+       new SelectListItem{ Text="UPI", Value = "UPI" },
+       new SelectListItem{ Text="Cash", Value = "Cash" },
+       new SelectListItem{ Text="Others", Value = "Others" },
+    }, new { @class = "textbox-control col-md-2 col-xs" })
+
+
+
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.ReferenceNo, new { @class = "col-md-1" })
+        @Html.TextBoxFor(model => model.ReferenceNo, new { @class = "textbox-control col-md-2 col-xs" })
+        @Html.LabelFor(m => m.Comments, new { @class = "col-md-1" })
+        @Html.TextAreaFor(model => model.Comments, new { @class = "textboxarea-control col-md-2 col-xs" })
+
+
+    </div>
+
+
+    <div class="row" style="padding-top:5px;">
+        <div class="col-sm-3 no-pad">
+            <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-dollar"></i>ADD</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xs" style="margin-top:0px">
+            <h3 style="margin-top:0px;margin-bottom:4px" align="left">LANDLORD PAYMENTS</h3>
+            <div class="specialLine col-md-1"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+    
+}
+
+<script>
+
+    
+   
+
+    
+    $("#datepicker1").kendoDatePicker({ format: "dd/MM/yyyy" });
+    var todayDate = kendo.toString(kendo.parseDate(new Date()), 'dd/MM/yyyy');
+    $("#datepicker1").val(todayDate);
+    
+    $("#submitbtn").submit(function () {
+
+        SetHiddenFields();
+
+    });
+
+    function SetHiddenFields() {
+
+
+        
+        $("#PayDate").val(kendo.toString($("#datepicker1").val(), 'dd/MM/yyyy'));
+        $("#ProjectName").val($("#ProjectID option:selected").text());
+        $("#LandlordName").val($("#LandlordID option:selected").text());
+    }
+
+
+    $(window).load(function () {
+        var tempdataval = '@TempData["successmessage"]';
+        if (tempdataval != '') {
+            if (tempdataval == 'Payment Added Successfully')
+                toastr.success(tempdataval);
+            else {
+                toastr.error(tempdataval);
+            }
+        }
+
+    });
+
+
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/LandLord/GetPayments",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/LandLord/UpdateLandlordPayments",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                //destroy: {
+                //    url: "/LandLord/DeleteLandlordPayments",
+                //    dataType: "json",
+                //    complete: function (jqXhr, textStatus) {
+                //        if (textStatus == 'success') {
+                //            toastr.success('Deleted Successfull');
+                //            $("#grid").data("kendoGrid").dataSource.read();
+                //        }
+                //        else {
+                //            toastr.error('Error in Deleting');
+                //            $("#grid").data("kendoGrid").dataSource.read();
+                //        }
+                //    }
+                //},
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 5,
+            schema: {
+                model: {
+                    id: "PaymentID",
+                    fields: {
+                        PaymentID: { editable: false, nullable: true },
+                        PaymentDate: { type: "date" },
+                        ProjectName: { editable: false, nullable: true }
+                    }
+                }
+            }
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 350,
+            toolbar: ["search", "excel"],
+            excel: {
+                fileName: "LandlordPayments.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
+            excelExport: function (e) {
+                var sheet = e.workbook.sheets[0];
+
+                for (var rowIndex = 1; rowIndex < sheet.rows.length; rowIndex++) {
+                    var row = sheet.rows[rowIndex];
+                    for (var cellIndex = 0; cellIndex < row.cells.length; cellIndex++) {
+                        row.cells[0].format = "dd/MM/yyyy"
+                    }
+                }
+            },
+            columns: [
+                { field: "PaymentDate", title: "Payment Date", width: "120px", template: '#= kendo.toString(kendo.parseDate(PaymentDate), "dd/MM/yyyy")#' },
+                { field: "LandlordName", title: "Landlord", width: "120px" },
+
+                { field: "ProjectName", title: "Project", width: "120px" },
+                { field: "AmountPaid", title: "Amount", width: "100px" },
+                { field: "PaymentMode", title: "Mode of Payment", width: "120px" },
+                { field: "ReferenceNo", title: "Ref No", width: "120px" },
+                { field: "Comments", title: "Comments", width: "100px" },
+                { command: ["edit"], title: "&nbsp;", width: "100px" }
+            ],
+            editable: "inline"
+        });
+
+
+    });
+
+</script>

@@ -110,6 +110,8 @@
     <Compile Include="IBOAdvanceForm.cs" />
     <Compile Include="Invoice.cs" />
     <Compile Include="InvoiceDetails.cs" />
+    <Compile Include="LandLord.cs" />
+    <Compile Include="LandlordPayments.cs" />
     <Compile Include="LevelsMaster.cs" />
     <Compile Include="Month.cs" />
     <Compile Include="MyProfile.cs" />

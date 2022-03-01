@@ -70,6 +70,8 @@
         <EntityTypeShape EntityType="salesDBModel.tblCheque" Width="1.5" PointX="25.375" PointY="22.75" />
         <EntityTypeShape EntityType="salesDBModel.tblProjectExpenseCategory" Width="1.5" PointX="9.375" PointY="16.75" />
         <EntityTypeShape EntityType="salesDBModel.tblDailyExpens" Width="1.5" PointX="7.375" PointY="8.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblLandLord" Width="1.5" PointX="26.375" PointY="0.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblLandlordPayment" Width="1.5" PointX="26.375" PointY="6.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

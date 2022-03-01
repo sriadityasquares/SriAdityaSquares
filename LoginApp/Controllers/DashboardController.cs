@@ -170,13 +170,25 @@ namespace LoginApp.Controllers
             ViewBag.yIBOGraph = yIBOGraph.Substring(0, yIBOGraph.Length - 1) + "]";
 
 
+            //var lstDailyExpenses = booking.BindDailyExpenseGraph();
+            //ViewBag.lstDailyExpenses = Json(lstDailyExpenses,JsonRequestBehavior.AllowGet).Data;
+            //var xDailyExpenseGraph = "[";
+            //var yDailyExpenseGraph = "[";
+            //foreach (var item in lstDailyExpenses)
+            //{
+            //    xDailyExpenseGraph = xDailyExpenseGraph + "'"+item.xaxis+"'" + ",";
+            //    yDailyExpenseGraph = yDailyExpenseGraph + Convert.ToInt32(item.yaxis)/1000 + ",";
+            //}
+            //ViewBag.xDailyExpenseGraph = xDailyExpenseGraph.Substring(0, xDailyExpenseGraph.Length - 1) + "]";
+            //ViewBag.yDailyExpenseGraph = yDailyExpenseGraph.Substring(0, yDailyExpenseGraph.Length - 1) + "]";
+
             ViewBag.PastDue = booking.GetPastDue();
             ViewBag.AreaRem = booking.GetProjectWiseArea();
             ViewBag.ProjectCategoryWiseExpenses = booking.GetProjectCategoryWiseExpenses();
             return View();
         }
 
-
+        
 
         [Authorize(Roles = "Admin,Client,DataEntry,Agent,Manager,Employee,Franchise Owner")]
         public ActionResult Index()
@@ -382,6 +394,18 @@ namespace LoginApp.Controllers
             }
             var list = booking.GetAgentBookingGraph(email, projectID, fromDate, toDate);
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetDailyExpensesChart()
+        {
+            var lstDailyExpenses = booking.BindDailyExpenseGraph();
+            return Json(lstDailyExpenses, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetLandlordPaymentChart()
+        {
+            var lstLandlordPayments = booking.BindLandlordPaymentChart();
+            return Json(lstLandlordPayments, JsonRequestBehavior.AllowGet);
         }
     }
 }

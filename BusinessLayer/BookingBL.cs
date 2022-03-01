@@ -452,6 +452,16 @@ namespace BusinessLayer
             return db.BindRecentAddedIBOGraph();
         }
 
+        public List<GetGraphicalPeriodWiseBooking> BindDailyExpenseGraph()
+        {
+            return db.BindDailyExpenseGraph();
+        }
+
+        public List<GetGraphicalPeriodWiseBooking> BindLandlordPaymentChart()
+        {
+            return db.BindLandlordPaymentChart();
+        }
+
         public List<PastDue> GetPastDue()
         {
             return db.GetPastDue();

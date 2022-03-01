@@ -2614,6 +2614,53 @@ namespace DataLayer
             return lstBooking;
         }
 
+
+        public List<GetGraphicalPeriodWiseBooking> BindDailyExpenseGraph()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<GetGraphicalPeriodWiseBooking> lstBooking = new List<GetGraphicalPeriodWiseBooking>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetDailyExpenseGraph_Result, GetGraphicalPeriodWiseBooking>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<sp_GetDailyExpenseGraph_Result>, List<GetGraphicalPeriodWiseBooking>>(dbEntity.sp_GetDailyExpenseGraph().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+
+            return lstBooking;
+        }
+
+        public List<GetGraphicalPeriodWiseBooking> BindLandlordPaymentChart()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<GetGraphicalPeriodWiseBooking> lstBooking = new List<GetGraphicalPeriodWiseBooking>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetLandlordPaymentGraph_Result, GetGraphicalPeriodWiseBooking>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstBooking = mapper.Map<List<sp_GetLandlordPaymentGraph_Result>, List<GetGraphicalPeriodWiseBooking>>(dbEntity.sp_GetLandlordPaymentGraph().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+
+            return lstBooking;
+        }
+
         public List<PastDue> GetPastDue()
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;

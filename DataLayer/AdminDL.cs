@@ -413,5 +413,140 @@ namespace DataLayer
             }
             return lstUsers;
         }
+
+        public List<LandLord> BindLandlords()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<LandLord> lstLandlords = new List<LandLord>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblLandLord, LandLord>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstLandlords = mapper.Map<List<tblLandLord>, List<LandLord>>(dbEntity.tblLandLords.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstLandlords;
+        }
+
+        public bool AddLandLord(LandLord a)
+        {
+            try
+            {
+                tblLandLord landlords = new tblLandLord();
+
+                a.ProjectName = dbEntity.tblProjects.Where(x => x.ProjectID == a.ProjectID).Select(x => x.ProjectName).FirstOrDefault();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<LandLord, tblLandLord>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<LandLord, tblLandLord>(a, landlords);
+                dbEntity.tblLandLords.Add(landlords);
+                dbEntity.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+        public bool UpdateLandLord(LandLord a)
+        {
+            tblLandLord landlordOld = dbEntity.tblLandLords.Where(x => x.ID == a.ID).FirstOrDefault();
+            a.ProjectName = dbEntity.tblProjects.Where(x => x.ProjectID == a.ProjectID).Select(x => x.ProjectName).FirstOrDefault();
+
+            if (landlordOld != null)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<LandLord, tblLandLord>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
+                mapper.Map<LandLord, tblLandLord>(a, landlordOld);
+                dbEntity.SaveChanges();
+            }
+            return true;
+        }
+
+        public bool AddLandLordPayments(LandlordPayments a)
+        {
+            try
+            {
+                tblLandlordPayment landlords = new tblLandlordPayment();
+
+                var landlord = dbEntity.tblLandLords.Where(x => x.ID == a.LandlordID).FirstOrDefault();
+                a.ProjectID = landlord.ProjectID;
+                a.ProjectName = landlord.ProjectName;
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<LandlordPayments, tblLandlordPayment>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<LandlordPayments, tblLandlordPayment>(a, landlords);
+                dbEntity.tblLandlordPayments.Add(landlords);
+                dbEntity.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+        public List<LandlordPayments> GetPayments()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<LandlordPayments> lstLandlords = new List<LandlordPayments>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblLandlordPayment, LandlordPayments>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstLandlords = mapper.Map<List<tblLandlordPayment>, List<LandlordPayments>>(dbEntity.tblLandlordPayments.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstLandlords;
+        }
+
+        public bool UpdateLandLordPayments(LandlordPayments a)
+        {
+            tblLandlordPayment landlordOld = dbEntity.tblLandlordPayments.Where(x => x.PaymentID == a.PaymentID).FirstOrDefault();
+            //a.ProjectName = dbEntity.tblProjects.Where(x => x.ProjectID == a.ProjectID).Select(x => x.ProjectName).FirstOrDefault();
+
+            if (landlordOld != null)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<LandlordPayments, tblLandlordPayment>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
+                mapper.Map<LandlordPayments, tblLandlordPayment>(a, landlordOld);
+                dbEntity.SaveChanges();
+            }
+            return true;
+        }
+
     }
 }

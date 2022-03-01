@@ -485,6 +485,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FranchiseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LandLordController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReconciliationController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -2227,6 +2228,8 @@
     <Content Include="Views\ProjectExpenseType\Index.cshtml" />
     <Content Include="Views\Sample\Details.cshtml" />
     <Content Include="Views\Report\GetCancelledFlatInformation.cshtml" />
+    <Content Include="Views\LandLord\Index.cshtml" />
+    <Content Include="Views\LandLord\Payments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

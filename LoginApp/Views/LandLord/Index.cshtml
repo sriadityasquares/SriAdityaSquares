@@ -1,0 +1,227 @@
+﻿@{
+    ViewBag.Title = "Landlord";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Landlords = "active";
+    ViewBag.AddLandlors = "active";
+
+}
+
+<style>
+
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px;
+        }
+
+        .jumbotron {
+            width: 1700px;
+        }
+    }
+</style>
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">LANDLORDS</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/LandLord/Details",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/LandLord/UpdateLandlord",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                destroy: {
+                    url: "/Sample/Destroy",
+                    dataType: "jsonp"
+                },
+                create: {
+                    url: "/LandLord/CreateLandlord",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Added Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Adding');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "ID",
+                    fields: {
+                        ID: { editable: false, nullable: true },
+                        Name: { validation: { required: true } },
+                        MobileNo: { validation: { required: true } },
+                        eMail: { validation: { required: true } },
+                        Aadhar: { validation: { required: true } },
+                        PAN: { validation: { required: true } },
+                        BankAcctNo: { validation: { required: true } },
+                        BankName: { validation: { required: true } },
+                        BankBranch: { validation: { required: true } },
+                        IFSC: { validation: { required: true } },
+                        ProjectID: { validation: { required: true } },
+                        Status: { validation: { required: true } },
+                        SurveyNo: { validation: { required: true } },
+                        Location: { validation: { required: true } },
+                    }
+                }
+            },
+
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 750,
+            toolbar: ["create"],
+            edit: function (e) {
+                if (e.model.isNew()) {
+                    //var fieldName = e.container.find("input").attr("name");
+                    //$("#ProjectName").attr("readonly", true);
+                    $(e.container).find('input[name="ProjectID"]').attr("readonly", false);
+                    
+                    //$('[name="ProjectName"]').attr("editable", true);
+                    //$("#TowerName").attr("readonly", true);
+                    // Disable the editor of the "id" column when editing data items
+                    //var numeric = e.container.find("input[name=id]").data("kendoNumericTextBox");
+                    //numeric.enable(false);
+                }
+                else {
+                    $(e.container).find('input[name="ProjectID"]').attr("readonly", true);
+                   
+                    //$("select[name=ProjectName]").prop("disabled", "disabled");
+                    //$("#ProjectName").data("kendoDropDownList").enable(false);
+
+                    var dropDown = e.container.find("[data-role='dropdownlist']").data("kendoDropDownList");
+                    dropDown.value(e.model.ProjectID);
+                    dropDown.readonly();
+                }
+            },
+            columns: [
+                //{ field: "Project", title: "Project", width: "250px", editor: projectDropDownEditor, template: "#=Project.ProjectName#" },
+
+                { field: "Name", title: "Name", width: "200px" },
+                { field: "MobileNo", title: "MobileNo", width: "200px" },
+                { field: "eMail", title: "Email", width: "200px" },
+
+                { field: "Aadhar", title: "Aadhar", width: "200px" },
+                { field: "PAN", title: "PAN", width: "200px" },
+                { field: "BankAcctNo", title: "BankAcctNo", width: "200px" },
+                { field: "BankName", title: "BankName", width: "200px" },
+                { field: "BankBranch", title: "BankBranch", width: "200px" },
+                { field: "IFSC", title: "IFSC", width: "200px" },
+                { field: "Location", title: "Location", width: "200px" },
+                { field: "SurveyNo", title: "SurveyNo", width: "200px" },
+                {
+                    field: "ProjectID",
+
+                    //template: '#=ProjectID?ProjectName.ProjectName:""#',
+                    title: "Project", width: "250px",
+                    editor: function projectDropDownEditor(container, options) {
+                        $('<input required name="' + options.field + '"/>')
+                            .appendTo(container)
+                            .kendoDropDownList({
+                                autoBind: false,
+                                dataTextField: "ProjectName",
+                                dataValueField: "ProjectID",
+
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: "/Cascade/GetAllProjects",
+
+                                    }
+                                }
+                            });
+                    }
+                },
+
+                { field: "Status", title: "Status", width: "100px", editor: statusDropDownEditor },
+
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "60px"
+                }],
+            editable: "inline",
+        });
+
+
+
+        function statusDropDownEditor(container, options) {
+            $('<input required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoDropDownList({
+                    autoBind: true,
+                    dataTextField: "BookingStatus",
+                    dataValueField: "ID",
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetStatus2/",
+                        }
+                    }
+                });
+        }
+
+        function projectDropDownEditor(container, options) {
+            $('<input required name="' + options.field + '"/>')
+                .appendTo(container)
+                .kendoMultiSelect({
+                    autoBind: false,
+                    dataTextField: "ProjectName",
+                    dataValueField: "ProjectID",
+
+                    dataSource: {
+                        type: "json",
+                        transport: {
+                            read: "/Cascade/GetProjects",
+
+                        }
+                    }
+                });
+
+        }
+
+    });
+</script>
+
