@@ -13,6 +13,8 @@ namespace ModelLayer
         public Nullable<int> Floor { get; set; }
         public Nullable<double> Bhk { get; set; }
         public Nullable<int> Sft { get; set; }
+
+        public Nullable<double> SqYds { get; set; }
         public string Facing { get; set; }
         public string BookingStatus { get; set; }
         public string CreatedBy { get; set; }

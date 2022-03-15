@@ -124,17 +124,23 @@
     </div>
     <div class="row">
         @Html.LabelFor(m => m.Floor, new { @class = "col-md-1" })
-        @Html.TextBoxFor(m => m.Floor, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-        @Html.LabelFor(m => m.Bhk, new { @class = "col-md-2" })
-        @Html.TextBoxFor(m => m.Bhk, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-        @Html.LabelFor(m => m.Area, new { @class = "col-md-2" })
-        @Html.TextBoxFor(m => m.Area, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
-        @Html.LabelFor(m => m.Facing, new { @class = "col-md-2" })
+        @Html.TextBoxFor(m => m.Floor, new { @class = "textbox-control col-md-2 col-xs", @readonly = "readonly" })
+        @Html.LabelFor(m => m.Bhk, new { @class = "col-md-1" })
+        @Html.TextBoxFor(m => m.Bhk, new { @class = "textbox-control col-md-2 col-xs", @readonly = "readonly" })
+        <div class="col-md-3">
+            @Html.LabelFor(m => m.Area, new { @class = "col-md-4" })
+            @Html.TextBoxFor(m => m.Area, new { @class = "textbox-control col-md-2 col-xs", @readonly = "readonly" })
+            @Html.LabelFor(m => m.SqYds, new { @class = "col-md-3" })
+            @Html.TextBoxFor(m => m.SqYds, new { @class = "textbox-control col-md-2 col-xs", @type = "number", @readonly = "readonly" })
+        </div>
+        
+        @Html.LabelFor(m => m.Facing, new { @class = "col-md-1" })
         @Html.TextBoxFor(m => m.Facing, new { @class = "textbox-control col-md-1 col-xs", @readonly = "readonly" })
     </div>
     <div class="row">
         @Html.LabelFor(m => m.SftRate, new { @class = "col-md-1" })
         @Html.TextBoxFor(m => m.SftRate, new { @class = "textbox-control col-md-1 col-xs", @type = "number", @readonly = "readonly" })
+       
         @Html.LabelFor(m => m.HighRiseCharges, new { @class = "col-md-2" })
         @Html.TextBoxFor(m => m.HighRiseCharges, new { @class = "textbox-control col-md-1 col-xs", @type = "number" })
 
@@ -397,6 +403,7 @@
                     $.each(data, function (index, row) {
                         $("#Floor").val(row.Floor);
                         $("#Bhk").val(row.Bhk);
+                        $("#SqYds").val(row.SqYds);
                         //$("#HighRiseCharges").val(row.HighRiseCharges);
                         $("#Area").val(row.Sft);
                         //$("#MaintenanceCharges").val(row.Maintenance);
@@ -598,6 +605,7 @@
                             $("#Bhk").val(row.Bhk);
                             //$("#HighRiseCharges").val(row.HighRiseCharges);
                             $("#Area").val(row.Sft);
+                            $("#SqYds").val(row.SqYds);
                             //$("#MaintenanceCharges").val(row.Maintenance);
                             $("#Facing").val(row.Facing);
                             //$("#TotalRate").val(row.TotalRate);
@@ -618,6 +626,7 @@
                 $("#Bhk").val('');
                 $("#HighRiseCharges").val('');
                 $("#Area").val('');
+                $("#SqYds").val('');
                 //$("#MaintenanceCharges").val('');
                 $("#Facing").val('');
                 $("#TotalRate").val('');

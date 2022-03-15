@@ -52,6 +52,8 @@ namespace LoginApp.Controllers
 
         }
 
+       
+
         public JsonResult GetAgentsExceptSAS()
         {
             List<Agent> agentList = objCasc.BindAgentsExceptSAS();
@@ -72,6 +74,22 @@ namespace LoginApp.Controllers
                 agentList = objCasc.BindAgents2Franchise(User.Identity.Name);
             }
             
+            return Json(agentList, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetAgentSelf()
+        {
+            List<AgentDropdown> agentList = objCasc.BindAgentsSelf(User.Identity.Name);
+            //agentList = agentList.Where(x => x.AgenteMail == User.Identity.Name).ToList();
+            return Json(agentList, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetAgentSelfSeniors()
+        {
+            List<AgentDropdown> agentList = objCasc.BindAgentsSelfSeniors(User.Identity.Name);
+            //agentList = agentList.Where(x => x.AgenteMail == User.Identity.Name).ToList();
             return Json(agentList, JsonRequestBehavior.AllowGet);
 
         }

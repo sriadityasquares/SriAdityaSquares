@@ -18,6 +18,8 @@ namespace ModelLayer
         public Nullable<int> discount { get; set; }
         public Nullable<int> highrisecharges { get; set; }
         public Nullable<int> area { get; set; }
+
+        public Nullable<double> SqYds { get; set; }
         public Nullable<int> year { get; set; }
         public Nullable<int> month { get; set; }
         public Nullable<int> day { get; set; }

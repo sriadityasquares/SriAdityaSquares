@@ -22,6 +22,7 @@ namespace DataLayer
         public Nullable<int> Area { get; set; }
         public string Facing { get; set; }
         public Nullable<int> SftRate { get; set; }
+        public Nullable<double> SqYds { get; set; }
         public Nullable<int> HighRiseCharges { get; set; }
         public Nullable<int> Discount { get; set; }
         public Nullable<int> TotalRate { get; set; }

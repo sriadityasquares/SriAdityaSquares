@@ -193,6 +193,8 @@
                     </div>
                 </div>
             </div>
+            @if (User.IsInRole("Admin"))
+            {
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-chart">
@@ -221,6 +223,7 @@
                     </div>
                 </div>
             </div>
+            }
             <div class="row">
                 <div class="col-lg-6 col-md-12">
                     <div class="card">
@@ -309,7 +312,8 @@
                     </div>
                 </div>
             </div>
-
+            @if (User.IsInRole("Admin"))
+            {
             <div class="row">
                 <div class="col-lg-6 col-md-12">
                     <div class="card">
@@ -389,7 +393,7 @@
                     </div>
                 </div>
             </div>
-
+            }
             @if (User.IsInRole("Admin"))
             {
                 <div class="row">
@@ -825,7 +829,7 @@
         var yaxis = data.map(function (val) {
             return val.yaxis;
         }).join(',');
-        var peak = Math.max.apply(Math, data.map(function (o) { return o.xaxis; }))+2000000;
+        var peak = Math.max.apply(Math, data.map(function (o) { return o.xaxis; }))+2;
         //peak = 10000000;
         var chartHeight = '';
         var a = xaxis.split(',');

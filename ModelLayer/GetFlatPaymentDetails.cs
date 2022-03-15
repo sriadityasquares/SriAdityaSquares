@@ -15,6 +15,7 @@ namespace ModelLayer
         public string FlatName { get; set; }
         public string AgentName { get; set; }
         public Nullable<int> Sft { get; set; }
+        public Nullable<double> SqYds { get; set; }
         public Nullable<int> SftRate { get; set; }
         public Nullable<System.DateTime> BookingDate { get; set; }
         public Nullable<int> FinalRate { get; set; }

@@ -26,6 +26,9 @@ namespace ModelLayer
         public Nullable<double> Bhk { get; set; }
         [Required]
         public Nullable<int> Area { get; set; }
+
+        [Display(Name = "Sq Yds")]
+        public Nullable<double> SqYds { get; set; }
         [Required]
         public string Facing { get; set; }
         [Required]

@@ -48,6 +48,16 @@ namespace BusinessLayer
             return db.BindAgents2();
         }
 
+        public List<AgentDropdown> BindAgentsSelf(string user)
+        {
+            return db.BindAgentsSelf(user);
+        }
+
+        public List<AgentDropdown> BindAgentsSelfSeniors(string user)
+        {
+            return db.BindAgentsSelfSeniors(user);
+        }
+
         public List<AgentDropdown> BindAgents2Franchise(string username)
         {
             return db.BindAgents2Franchise(username);

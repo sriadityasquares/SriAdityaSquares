@@ -60,10 +60,8 @@ namespace DataLayer
         public virtual DbSet<tblFranchiseRegistration> tblFranchiseRegistrations { get; set; }
         public virtual DbSet<tblFranchiseRegistrationStatu> tblFranchiseRegistrationStatus { get; set; }
         public virtual DbSet<tblDesignation> tblDesignations { get; set; }
-        public virtual DbSet<tblFlat> tblFlats { get; set; }
         public virtual DbSet<tblConstructionPic> tblConstructionPics { get; set; }
         public virtual DbSet<tblNew> tblNews { get; set; }
-        public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
         public virtual DbSet<tblAgentPaymentInfo_Franchise> tblAgentPaymentInfo_Franchise { get; set; }
         public virtual DbSet<tblBookingInformation_Franchise> tblBookingInformation_Franchise { get; set; }
         public virtual DbSet<tblCustomerInfo_Franchise> tblCustomerInfo_Franchise { get; set; }
@@ -84,6 +82,8 @@ namespace DataLayer
         public virtual DbSet<tblDailyExpens> tblDailyExpenses { get; set; }
         public virtual DbSet<tblLandLord> tblLandLords { get; set; }
         public virtual DbSet<tblLandlordPayment> tblLandlordPayments { get; set; }
+        public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
+        public virtual DbSet<tblFlat> tblFlats { get; set; }
     
         public virtual ObjectResult<sp_GetPeriodWiseBookingDetails_Result> sp_GetPeriodWiseBookingDetails(Nullable<int> option, string project, string year, string month, string fromdate, string todate)
         {
@@ -112,23 +112,6 @@ namespace DataLayer
                 new ObjectParameter("todate", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetPeriodWiseBookingDetails_Result>("sp_GetPeriodWiseBookingDetails", optionParameter, projectParameter, yearParameter, monthParameter, fromdateParameter, todateParameter);
-        }
-    
-        public virtual ObjectResult<sp_getBookingInfoByDates_Result> sp_getBookingInfoByDates(string fromdate, string todate, string projectid)
-        {
-            var fromdateParameter = fromdate != null ?
-                new ObjectParameter("fromdate", fromdate) :
-                new ObjectParameter("fromdate", typeof(string));
-    
-            var todateParameter = todate != null ?
-                new ObjectParameter("todate", todate) :
-                new ObjectParameter("todate", typeof(string));
-    
-            var projectidParameter = projectid != null ?
-                new ObjectParameter("projectid", projectid) :
-                new ObjectParameter("projectid", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_getBookingInfoByDates_Result>("sp_getBookingInfoByDates", fromdateParameter, todateParameter, projectidParameter);
         }
     
         public virtual ObjectResult<sp_GetTowerDetails_Result> sp_GetTowerDetails()
@@ -361,11 +344,6 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetProfile_Result>("sp_GetProfile", roleParameter, emailParameter);
         }
     
-        public virtual ObjectResult<sp_GetFlatPaymentDetails_Result> sp_GetFlatPaymentDetails()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatPaymentDetails_Result>("sp_GetFlatPaymentDetails");
-        }
-    
         public virtual ObjectResult<sp_GetCustomerProjects_Result> sp_GetCustomerProjects(string username)
         {
             var usernameParameter = username != null ?
@@ -538,19 +516,6 @@ namespace DataLayer
                 new ObjectParameter("Username", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetCustomerFlats_Result>("sp_GetCustomerFlats", usernameParameter);
-        }
-    
-        public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
-        {
-            var flatIDParameter = flatID.HasValue ?
-                new ObjectParameter("FlatID", flatID) :
-                new ObjectParameter("FlatID", typeof(int));
-    
-            var projectIDParameter = projectID.HasValue ?
-                new ObjectParameter("ProjectID", projectID) :
-                new ObjectParameter("ProjectID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatDetails_Result>("sp_GetFlatDetails", flatIDParameter, projectIDParameter);
         }
     
         public virtual ObjectResult<sp_GetFlatsByTowerID_Result> sp_GetFlatsByTowerID(Nullable<int> towerID)
@@ -726,15 +691,6 @@ namespace DataLayer
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetPaymentsForCancelledFlats_Result>("sp_GetPaymentsForCancelledFlats", bookingIDParameter);
         }
     
-        public virtual ObjectResult<sp_GetBookingDetails_Result> sp_GetBookingDetails(Nullable<int> flatID)
-        {
-            var flatIDParameter = flatID.HasValue ?
-                new ObjectParameter("FlatID", flatID) :
-                new ObjectParameter("FlatID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetBookingDetails_Result>("sp_GetBookingDetails", flatIDParameter);
-        }
-    
         public virtual ObjectResult<sp_GetPaymentsForReceiptApproval_Result> sp_GetPaymentsForReceiptApproval()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetPaymentsForReceiptApproval_Result>("sp_GetPaymentsForReceiptApproval");
@@ -798,6 +754,50 @@ namespace DataLayer
         public virtual ObjectResult<sp_GetLandlordPaymentGraph_Result> sp_GetLandlordPaymentGraph()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetLandlordPaymentGraph_Result>("sp_GetLandlordPaymentGraph");
+        }
+    
+        public virtual ObjectResult<sp_GetFlatDetails_Result> sp_GetFlatDetails(Nullable<int> flatID, Nullable<int> projectID)
+        {
+            var flatIDParameter = flatID.HasValue ?
+                new ObjectParameter("FlatID", flatID) :
+                new ObjectParameter("FlatID", typeof(int));
+    
+            var projectIDParameter = projectID.HasValue ?
+                new ObjectParameter("ProjectID", projectID) :
+                new ObjectParameter("ProjectID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatDetails_Result>("sp_GetFlatDetails", flatIDParameter, projectIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_getBookingInfoByDates_Result> sp_getBookingInfoByDates(string fromdate, string todate, string projectid)
+        {
+            var fromdateParameter = fromdate != null ?
+                new ObjectParameter("fromdate", fromdate) :
+                new ObjectParameter("fromdate", typeof(string));
+    
+            var todateParameter = todate != null ?
+                new ObjectParameter("todate", todate) :
+                new ObjectParameter("todate", typeof(string));
+    
+            var projectidParameter = projectid != null ?
+                new ObjectParameter("projectid", projectid) :
+                new ObjectParameter("projectid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_getBookingInfoByDates_Result>("sp_getBookingInfoByDates", fromdateParameter, todateParameter, projectidParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetFlatPaymentDetails_Result> sp_GetFlatPaymentDetails()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFlatPaymentDetails_Result>("sp_GetFlatPaymentDetails");
+        }
+    
+        public virtual ObjectResult<sp_GetBookingDetails_Result> sp_GetBookingDetails(Nullable<int> flatID)
+        {
+            var flatIDParameter = flatID.HasValue ?
+                new ObjectParameter("FlatID", flatID) :
+                new ObjectParameter("FlatID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetBookingDetails_Result>("sp_GetBookingDetails", flatIDParameter);
         }
     }
 }

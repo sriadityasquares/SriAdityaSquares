@@ -15,5 +15,7 @@ namespace ModelLayer
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
+
+        public string AgenteMail { get; set; }
     }
 }

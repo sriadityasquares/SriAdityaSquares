@@ -12,6 +12,8 @@ namespace ModelLayer
         public Nullable<double> Bhk { get; set; }
         public string Facing { get; set; }
         public Nullable<int> Sft { get; set; }
-        public Nullable<int> ClubHouseCharges { get; set; }
+        public Nullable<int> ClubHouseCharges { get; set; } 
+
+        public Nullable<float> SqYds { get; set; }
     }
 }

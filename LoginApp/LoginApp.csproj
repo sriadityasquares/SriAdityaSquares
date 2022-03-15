@@ -820,10 +820,13 @@
     <Content Include="Content\Images\Elderado.PNG" />
     <Content Include="Content\Images\EyeOfViewResize.jpg" />
     <Content Include="Content\Images\ezgif-2-27d5b33ae6cb.gif" />
+    <Content Include="Content\Images\Fabla.jpg" />
     <Content Include="Content\Images\gallery.jpg" />
     <Content Include="Content\Images\gallery1.jpg" />
     <Content Include="Content\Images\Game Room.PNG" />
+    <Content Include="Content\Images\GoldenExotica.jpg" />
     <Content Include="Content\Images\GolfCourse.png" />
+    <Content Include="Content\Images\Green Tech.jpg" />
     <Content Include="Content\Images\GreenTechEast_2580.jpg" />
     <Content Include="Content\Images\GreenTechEast_2820.jpg" />
     <Content Include="Content\Images\GreenTechEast_4161.jpg" />
@@ -849,6 +852,7 @@
     <Content Include="Content\Images\Jewels County.PNG" />
     <Content Include="Content\Images\Jogging Path.PNG" />
     <Content Include="Content\Images\letterhead_new_Mirchi.jpg" />
+    <Content Include="Content\Images\Luxe.jpg" />
     <Content Include="Content\Images\MIRCHI VENICE.PNG" />
     <Content Include="Content\Images\Ornate.jpg" />
     <Content Include="Content\Images\Ornate.PNG" />
@@ -1502,6 +1506,8 @@
     <Content Include="Content\LegalOpinion\AlpineVistasLO.pdf" />
     <Content Include="Content\Brochures\GreenTechBrochure.pdf" />
     <Content Include="Content\LegalOpinion\GreenTechLO.pdf" />
+    <Content Include="Content\Brochures\LuxeBrochure.pdf" />
+    <Content Include="Content\Brochures\GoldenExoctiaBrochure.pdf" />
     <None Include="Properties\PublishProfiles\flatbooking - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\flatsapp - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\LoginApp20200301112104 - Web Deploy.pubxml" />

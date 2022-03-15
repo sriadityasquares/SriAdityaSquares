@@ -101,7 +101,8 @@
                         TowerName: { validation: { required: true } },
                         Floor: { validation: { required: true } },
                         Bhk: { validation: { required: true } },
-                        Sft: { validation: { required: true } },
+                        Sft: { validation: { required: false, type: "number" } },
+                        SqYds: { validation: { required: false, type: "number" } },
                         Facing: { validation: { required: true } },
                         BookingStatus: { validation: { required: true } },
                         //FlatCount: { type: "number", validation: { min: 0, required: true } }
@@ -252,6 +253,9 @@
                 },
                 {
                     field: "Sft", title: "Sft", width: "70px"
+                },
+                {
+                    field: "SqYds", title: "SqYds", width: "70px"
                 },
                 { field: "Facing", title: "Facing", width: "80px" },
                 {

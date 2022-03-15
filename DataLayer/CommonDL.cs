@@ -167,6 +167,47 @@ namespace DataLayer
             return lstAgent;
         }
 
+        public List<AgentDropdown> BindAgentsSelf(string user)
+        {
+            List<AgentDropdown> lstAgent = new List<AgentDropdown>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentMaster, AgentDropdown>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<AgentDropdown>>(dbEntity.tblAgentMasters.Where(x => x.AgentStatus == "A" && x.AgenteMail == user).OrderBy(x => x.AgentName).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstAgent;
+        }
+
+        public List<AgentDropdown> BindAgentsSelfSeniors(string user)
+        {
+            List<AgentDropdown> lstAgent = new List<AgentDropdown>();
+
+            var agent = dbEntity.tblAgentMasters.Where(x => x.AgentStatus == "A" && x.AgenteMail == user).FirstOrDefault();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentMaster, AgentDropdown>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<AgentDropdown>>(dbEntity.tblAgentMasters.Where(x => x.AgentStatus == "A" && x.AgentCode == agent.AgentSponserCode).OrderBy(x => x.AgentName).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstAgent;
+        }
+
+
         public List<AgentDropdown> BindAgents2Franchise(string username)
         {
             List<AgentDropdown> lstAgent = new List<AgentDropdown>();

@@ -899,7 +899,8 @@ namespace LoginApp.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        
+        [Authorize(Roles = "Admin,DataEntry")]
         public ActionResult DailyExpenses()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -1225,7 +1226,7 @@ namespace LoginApp.Controllers
                 var amountInWords = Helper.AmountInWords(Convert.ToDouble(result.BookingAmount));
                 var bookID = result.BookingID.ToString().Split('-')[0].ToString().ToUpper();
                 //var html = "<article><address></address><table class=\"meta\"><tr><th><span>Receipt  #</span></th><td><span contenteditable></span></td> </tr><tr><th><span>Date</span></th><td><span contenteditable>#BookingDate</span></td></tr><tr></tr></table><table class=\"inventory\"><tr><th><span>PROJECT :</span></th><td><span>#Project</span></td><th><span>TOWER :</span></th><td><span>#Tower</span></td></tr><tr><th><span>NAME:</span></th><td><span>#CName</span></td><th><span>MOBILE :</span></th><td><span>#CMobile</span></td></tr><tr><th><span>AMOUNT PAID:</span></th><td><span>#BookingAmount</span></td><th><span>FLAT/PLOT NO :</span></th><td><span>#Flat</span></td></tr><tr><th><span>SFT:</span></th><td><span contenteditable>#SFT</span></td><th><span>MODE :</span></th><td><span>#Cheque</span></td></tr><tr><th><span>Ref No:</span></th><td><span>#RefNo</span></td></tr></table></article>";
-                html = "<table id='tblBookingDetails' class=\"table table-condensed\"><tr><th>Name</th><td>#CName</td><th>Contact</th><td>#Mobile</td></tr><tr><th>Aadhar</th><td>#Aadhar</td><th>Pan No</th><td>#PanNo</td></tr><tr><th>Project</th><td>#Project</td><th>Scheme</th><td>#SchemePercentage %</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Sft Rate</th><td>#SftRate</td></tr><tr><th>Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>High Rise</th><td>#HIGHRISE</td><th>Total Rate</th><td><b>Rs.</b> #totalRate</td></tr> <tr><th>Discount</th><td>#discount</td><th>Final Rate</th><td><b>Rs.</b> #finalRate</td></tr><tr><th>ClubHouse</th><td><b>Rs.</b> #ClubHouse</td><th>Oth Charges</th><td><b>Rs.</b> #OtherCharges</td></tr><tr><th>Total</th><td><b>Rs.</b> #GrandRate</td><th>Scheme Due</th><td><b>Rs.</b> #SchemeDue</td></tr><tr><th>IBO Name</th><td>#AgentName</td><th>Booking Date</th><td>#BookingDate</td></tr><tr><th>Remarks</th><td>#Remarks</td><th>Facing</th><td>#Facing</td></tr><tr><th>IBO Share</th><td><b>Rs.</b> #IBOShare</td><th>Comp Share</th><td><b>Rs.</b> #Company</td></tr></table>";
+                html = "<table id='tblBookingDetails' class=\"table table-condensed\"><tr><th>Name</th><td>#CName</td><th>Contact</th><td>#Mobile</td></tr><tr><th>Aadhar</th><td>#Aadhar</td><th>Pan No</th><td>#PanNo</td></tr><tr><th>Project</th><td>#Project</td><th>Scheme</th><td>#SchemePercentage %</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Sft Rate</th><td>#SftRate</td></tr><tr><th>Sft</th><td>#SFT</td><th>SqYds</th><td>#SqYds</td><th>Bhk</th><td>#BHK</td></tr><tr><th>High Rise</th><td>#HIGHRISE</td><th>Total Rate</th><td><b>Rs.</b> #totalRate</td></tr> <tr><th>Discount</th><td>#discount</td><th>Final Rate</th><td><b>Rs.</b> #finalRate</td></tr><tr><th>ClubHouse</th><td><b>Rs.</b> #ClubHouse</td><th>Oth Charges</th><td><b>Rs.</b> #OtherCharges</td></tr><tr><th>Total</th><td><b>Rs.</b> #GrandRate</td><th>Scheme Due</th><td><b>Rs.</b> #SchemeDue</td></tr><tr><th>IBO Name</th><td>#AgentName</td><th>Booking Date</th><td>#BookingDate</td></tr><tr><th>Remarks</th><td>#Remarks</td><th>Facing</th><td>#Facing</td></tr><tr><th>IBO Share</th><td><b>Rs.</b> #IBOShare</td><th>Comp Share</th><td><b>Rs.</b> #Company</td></tr></table>";
                 html = html.Replace("#CName", result.Name)
                     .Replace("#Project", result.ProjectName)
                     .Replace("#Tower", result.TowerName)
@@ -1235,6 +1236,7 @@ namespace LoginApp.Controllers
                     .Replace("#BookingDate", result.ChequeDate != null ? Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy") : "")
                     .Replace("#Flat", result.TowerName + "-" + result.FlatName)
                     .Replace("#SFT", result.Area.ToString())
+                    .Replace("#SqYds",result.SqYds == null? "": result.SqYds.ToString())
                     .Replace("#SchemePercentage", result.SchemePercentage.ToString())
                     .Replace("#Address", result.Address == null ? "" : result.Address.ToString())
                     .Replace("#Cheque", result.PaymentMode.ToString())

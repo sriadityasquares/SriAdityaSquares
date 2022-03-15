@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="2b8d0ed23c574fac97c9f89f2eedd442" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="salesDBModel.tblCity" Width="1.5" PointX="5.75" PointY="4.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblCity" Width="1.5" PointX="6" PointY="6.125" />
         <EntityTypeShape EntityType="salesDBModel.tblCountry" Width="1.5" PointX="7.75" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblState" Width="1.5" PointX="7.75" PointY="4.75" />
         <EntityTypeShape EntityType="salesDBModel.tblTower" Width="1.5" PointX="3" PointY="9.375" />
@@ -42,16 +42,8 @@
         <EntityTypeShape EntityType="salesDBModel.tblFranchiseRegistration" Width="1.5" PointX="9.375" PointY="19.75" />
         <EntityTypeShape EntityType="salesDBModel.tblFranchiseRegistrationStatu" Width="1.5" PointX="3.375" PointY="13.75" />
         <EntityTypeShape EntityType="salesDBModel.tblDesignation" Width="1.5" PointX="19.375" PointY="17.75" />
-        <EntityTypeShape EntityType="salesDBModel.tblFlat" Width="1.5" PointX="5.625" PointY="0.75" />
-        <AssociationConnector Association="salesDBModel.FK_Flats1" />
-        <AssociationConnector Association="salesDBModel.FK_Flats1_bkp" />
-        <AssociationConnector Association="salesDBModel.FK_Flats11_bkp" />
-        <AssociationConnector Association="salesDBModel.FK_Flats2" />
-        <AssociationConnector Association="salesDBModel.FK_Flats2_bkp" />
-        <AssociationConnector Association="salesDBModel.FK_Flats22_bkp" />
         <EntityTypeShape EntityType="salesDBModel.tblConstructionPic" Width="1.5" PointX="20.375" PointY="7.75" />
         <EntityTypeShape EntityType="salesDBModel.tblNew" Width="1.5" PointX="13.375" PointY="10.75" />
-        <EntityTypeShape EntityType="salesDBModel.tblBookingInformation" Width="1.5" PointX="0.75" PointY="17.75" />
         <EntityTypeShape EntityType="salesDBModel.tblAgentPaymentInfo_Franchise" Width="1.5" PointX="21.375" PointY="17.75" />
         <EntityTypeShape EntityType="salesDBModel.tblBookingInformation_Franchise" Width="1.5" PointX="22.375" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblCustomerInfo_Franchise" Width="1.5" PointX="11.375" PointY="22.75" />
@@ -72,6 +64,14 @@
         <EntityTypeShape EntityType="salesDBModel.tblDailyExpens" Width="1.5" PointX="7.375" PointY="8.75" />
         <EntityTypeShape EntityType="salesDBModel.tblLandLord" Width="1.5" PointX="26.375" PointY="0.75" />
         <EntityTypeShape EntityType="salesDBModel.tblLandlordPayment" Width="1.5" PointX="26.375" PointY="6.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblBookingInformation" Width="1.5" PointX="0.75" PointY="20.375" />
+        <EntityTypeShape EntityType="salesDBModel.tblFlat" Width="1.5" PointX="5.625" PointY="0.75" />
+        <AssociationConnector Association="salesDBModel.FK_Flats1" />
+        <AssociationConnector Association="salesDBModel.FK_Flats1_bkp" />
+        <AssociationConnector Association="salesDBModel.FK_Flats11_bkp" />
+        <AssociationConnector Association="salesDBModel.FK_Flats2" />
+        <AssociationConnector Association="salesDBModel.FK_Flats2_bkp" />
+        <AssociationConnector Association="salesDBModel.FK_Flats22_bkp" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

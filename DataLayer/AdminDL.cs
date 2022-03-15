@@ -188,6 +188,7 @@ namespace DataLayer
                     flatOld.Floor = p.Floor;
                     flatOld.Bhk = p.Bhk;
                     flatOld.Sft = p.Sft;
+                    flatOld.SqYds = p.SqYds;
                     flatOld.Facing = p.Facing.ToUpper();
                     flatOld.BookingStatus = p.BookingStatus;
                     flatOld.UpdatedBy = p.UpdatedBy;
@@ -218,6 +219,7 @@ namespace DataLayer
                 flatNew.Floor = p.Floor;
                 flatNew.Bhk = p.Bhk;
                 flatNew.Sft = p.Sft;
+                flatNew.SqYds = p.SqYds;
                 flatNew.Facing = p.Facing.ToUpper();
                 flatNew.BookingStatus = p.BookingStatus;
                 flatNew.CreatedBy = p.CreatedBy;

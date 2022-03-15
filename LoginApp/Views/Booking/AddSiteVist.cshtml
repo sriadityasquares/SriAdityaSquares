@@ -76,11 +76,12 @@
         <div class="row" style="padding-top:5px">
             <div class="col-md-offset-2 col-md-12">
                 @*<div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">I accept to deduct Rs.3000/- on every site visit made by me through company transport from my commission.</label>
-                </div>*@
-                @Html.CheckBoxFor(m => m.TermsAccepted, new { @id = "customCheck1" })
-                I accept to deduct Rs.3000/- on every site visit made by me through company transport from my commission.
+            <input type="checkbox" class="custom-control-input" id="customCheck1">
+            <label class="custom-control-label" for="customCheck1">I accept to deduct Rs.3000/- on every site visit made by me through company transport from my commission.</label>
+        </div>*@
+
+                @*I accept to deduct Rs.3000/- on every site visit made by me through company transport from my commission.*@
+                If you click on book you will be charged Rs.5000/- for Kadthal, Woodland and Rs.3000/- for rest all projects
             </div>
 
         </div>
@@ -131,14 +132,25 @@
 
     //});
 
-    $.getJSON('/Cascade/GetAgents2', function (data) {
+    $.getJSON('/Cascade/GetAgentSelf', function (data) {
         $("#AgentID").empty();
-        $("#ImmediateSeniorID").empty();
+        //$("#ImmediateSeniorID").empty();
         AgentList = data;
         $("#AgentID").append("<option value='" + 0 + "'>" + "--Select Agent--" + "</option>")
         $.each(data, function (index, row) {
             $("#AgentID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
         });
+        //$("#ImmediateSeniorID").append("<option value='" + 0 + "'>" + "--Select Sr. Agent--" + "</option>")
+        //$.each(data, function (index, row) {
+        //    $("#ImmediateSeniorID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
+        //});
+    });
+
+
+    $.getJSON('/Cascade/GetAgentSelfSeniors', function (data) {
+        //$("#AgentID").empty();
+        $("#ImmediateSeniorID").empty();
+        
         $("#ImmediateSeniorID").append("<option value='" + 0 + "'>" + "--Select Sr. Agent--" + "</option>")
         $.each(data, function (index, row) {
             $("#ImmediateSeniorID").append("<option value='" + row.AgentID + "'>" + row.AgentName + "</option>")
@@ -184,9 +196,9 @@
             if ($("#CustomerMobile").val() == '') {
                 toastr.error("Customer Mobile is Required"); return;
         }
-        if (!$('#customCheck1').is(':checked')) {
-             toastr.error("Terms and conditions must be accepted."); return;
-        }
+        //if (!$('#customCheck1').is(':checked')) {
+        //     toastr.error("Terms and conditions must be accepted."); return;
+        //}
 
          validationsFlag = true;
     }
