@@ -4219,7 +4219,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   margin-right: 15px;
   margin-bottom: 8px;
   background-color: transparent;
-  border: 1px solid transparent;
+  border: 1px solid red;
   border-radius: 4px;
 }
 

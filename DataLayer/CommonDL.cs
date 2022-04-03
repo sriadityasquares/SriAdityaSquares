@@ -207,6 +207,27 @@ namespace DataLayer
             return lstAgent;
         }
 
+        public List<AgentDropdown> BindAgentsSelfSeniorsByAgentID(int AgentID)
+        {
+            List<AgentDropdown> lstAgent = new List<AgentDropdown>();
+
+            var agent = dbEntity.tblAgentMasters.Where(x => x.AgentStatus == "A" && x.AgentID == AgentID).FirstOrDefault();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblAgentMaster, AgentDropdown>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstAgent = mapper.Map<List<tblAgentMaster>, List<AgentDropdown>>(dbEntity.tblAgentMasters.Where(x => x.AgentStatus == "A" && x.AgentCode == agent.AgentSponserCode).OrderBy(x => x.AgentName).ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstAgent;
+        }
+
 
         public List<AgentDropdown> BindAgents2Franchise(string username)
         {
@@ -245,6 +266,25 @@ namespace DataLayer
                 log.Error("Error :" + ex);
             }
             return lstStatus;
+        }
+
+        public List<Driver> BindDrivers()
+        {
+            List<Driver> lstDrivers = new List<Driver>();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblDriver, Driver>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstDrivers = mapper.Map<List<tblDriver>, List<Driver>>(dbEntity.tblDrivers.Where(x => x.Status == "A").ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstDrivers;
         }
 
 

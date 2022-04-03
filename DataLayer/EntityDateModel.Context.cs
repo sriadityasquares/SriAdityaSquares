@@ -45,7 +45,6 @@ namespace DataLayer
         public virtual DbSet<tblAgentTotalPayment> tblAgentTotalPayments { get; set; }
         public virtual DbSet<tblFlatWiseAgentCommission> tblFlatWiseAgentCommissions { get; set; }
         public virtual DbSet<tblCustomerVisitInfo> tblCustomerVisitInfoes { get; set; }
-        public virtual DbSet<tblSiteVisitInfo> tblSiteVisitInfoes { get; set; }
         public virtual DbSet<tblAmenity> tblAmenities { get; set; }
         public virtual DbSet<tblClientPayment> tblClientPayments { get; set; }
         public virtual DbSet<tblCustomerInfo> tblCustomerInfoes { get; set; }
@@ -84,6 +83,8 @@ namespace DataLayer
         public virtual DbSet<tblLandlordPayment> tblLandlordPayments { get; set; }
         public virtual DbSet<tblBookingInformation> tblBookingInformations { get; set; }
         public virtual DbSet<tblFlat> tblFlats { get; set; }
+        public virtual DbSet<tblSiteVisitInfo> tblSiteVisitInfoes { get; set; }
+        public virtual DbSet<tblDriver> tblDrivers { get; set; }
     
         public virtual ObjectResult<sp_GetPeriodWiseBookingDetails_Result> sp_GetPeriodWiseBookingDetails(Nullable<int> option, string project, string year, string month, string fromdate, string todate)
         {
@@ -215,15 +216,6 @@ namespace DataLayer
         public virtual ObjectResult<sp_GetUsersWithRoles_Result> sp_GetUsersWithRoles()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsersWithRoles_Result>("sp_GetUsersWithRoles");
-        }
-    
-        public virtual ObjectResult<sp_GetMySiteVisits_Result> sp_GetMySiteVisits(string userName)
-        {
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetMySiteVisits_Result>("sp_GetMySiteVisits", userNameParameter);
         }
     
         public virtual ObjectResult<Nullable<long>> sp_GetAgentNumbers(string agentID)
@@ -798,6 +790,20 @@ namespace DataLayer
                 new ObjectParameter("FlatID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetBookingDetails_Result>("sp_GetBookingDetails", flatIDParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetMySiteVisits_Result> sp_GetMySiteVisits(string userName)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetMySiteVisits_Result>("sp_GetMySiteVisits", userNameParameter);
+        }
+    
+        public virtual ObjectResult<sp_GetLandlordPayments_Result> sp_GetLandlordPayments()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetLandlordPayments_Result>("sp_GetLandlordPayments");
         }
     }
 }

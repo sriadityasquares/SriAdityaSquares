@@ -30,7 +30,7 @@ namespace LoginApp.Controllers
         public JsonResult GetProjectLocationsForChatBot()
         {
             List<Projects> projectList = booking.BindProjects();
-            var locations = projectList.Select(x => x.ProjectLocation).Distinct().ToList();
+            var locations = projectList.Where(z=>z.BookingStatus!="C").Select(x => x.ProjectLocation).Distinct().ToList();
             List<SuggestedActions> lstSuggestedActions = new List<SuggestedActions>();
             for (int i = 0; i < locations.Count; i++)
             {
@@ -44,7 +44,7 @@ namespace LoginApp.Controllers
         }
         public JsonResult GetProjectBasedOnLocationsForChatBot(string locationName)
         {
-            List<Projects> projectList = booking.BindProjectsBasedOnLocation(locationName);
+            List<Projects> projectList = booking.BindProjectsBasedOnLocation(locationName).Where(z=>z.BookingStatus!="C").ToList();
             List<SuggestedActions> lstSuggestedActions = new List<SuggestedActions>();
             foreach (var p in projectList)
             {

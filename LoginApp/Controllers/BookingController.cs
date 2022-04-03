@@ -306,7 +306,8 @@ namespace LoginApp.Controllers
             {
                 projectList = booking.BindFranchiseProjects(User.Identity.Name);
             }
-            @ViewBag.ProjectApproved = "Yes";
+            ViewBag.ProjectApproved = "Yes";
+            ViewBag.GreenTech = false;
             TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
             TempData.Keep("ProjectList");
             List<PaymentInformation> lstPayments = new List<PaymentInformation>();
@@ -803,22 +804,28 @@ namespace LoginApp.Controllers
         public JsonResult GetPaymentReceipts(int paymentID)
         {
             var result = booking.GetPaymentInformation(paymentID);
-
-
             TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
             var indianTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, INDIAN_ZONE);
             var sysDate = Convert.ToDateTime(indianTime).ToString("dd/MM/yyyy");
             //var payDate = Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy");
             var payDate = result.ChequeDate != null ? Convert.ToDateTime(result.ChequeDate).ToString("dd/MM/yyyy") : "";
             var amountInWords = Helper.AmountInWords(Convert.ToDouble(result.BookingAmount));
-             
             var html = "";
             bool projectApprovalStatus = booking.GetProjectApprovalStatus(result.PaymentID);
             ViewBag.ProjectApproved = projectApprovalStatus?"Yes":"No";
             if(projectApprovalStatus)
-                @ViewBag.Background = "../../Content/Images/letterhead_new.jpg";
+                ViewBag.Background = "../../Content/Images/letterhead_new.jpg";
             else
-                @ViewBag.Background = "";
+                ViewBag.Background = "";
+            if (result.ProjectName.Contains("GREENTECH"))
+            {
+                ViewBag.Background = "../../Content/Images/GreenTechLetterHead.png";
+                ViewBag.GreenTech = true;
+            }
+            else
+            {
+                ViewBag.GreenTech = false;
+            }
             if (!projectApprovalStatus)
             {
                 html = "<article><address></address><table class=\"meta\"><tr><th> Pay ID:</th><td><span contenteditable>#PaymentID</span></td></tr><tr><th>Date</th><td><span contenteditable>#Date</span></td></tr></tbody></table><table class=\"inventory\"><tbody><tr><th>Project</th><td>#Project</td><th>Tower</th><td>#Tower</td></tr><tr><th>Name</th><td colspan = '3'>#CName</td></tr><th>Mobile</th><td contenteditable>#CMobile</td><th>Amount Paid</th><td>#BookingAmount</td></tr><tr><th>Flat/Plot No</th><td>#Flat</td><th>Payment Date</th><td contenteditable>#PaymentDate</td></tr><tr><th >Sft</th><td>#SFT</td><th>Bhk</th><td>#BHK</td></tr><tr><th>Mode</th><td contenteditable>#Cheque</td><th>Ref No</th><td><span contenteditable>#RefNo</span></td></tr><tr><th>Amount in Words</th><td colspan = '3' contenteditable>#amountInWords</td></tr><tr><th>Bank Name</th><td colspan = '3' contenteditable></td></tr><tr><th>Details</th><td colspan = '3' contenteditable>#Details</td></tr></table></article>";
@@ -840,7 +847,7 @@ namespace LoginApp.Controllers
 
                 }
             }
-            var jsonresult = new { data = html, status = projectApprovalStatus };
+            var jsonresult = new { data = html, status = projectApprovalStatus,isGreenTech = result.ProjectName.Contains("GREENTECH") };
             return Json(jsonresult, JsonRequestBehavior.AllowGet);
         }
 
@@ -1546,6 +1553,50 @@ namespace LoginApp.Controllers
             var result = booking.UpdateCheque(data[0]);
             return Json(result, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult AddDrivers()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddDrivers(Driver driverInfo)
+        {
+
+            
+            driverInfo.CreatedBy = User.Identity.Name;
+            driverInfo.CreatedDate = DateTime.Now;
+            var result = booking.AddDriver(driverInfo);
+            if (result)
+            {
+                TempData["successmessage"] = "Driver Added Successfully";
+            }
+            else
+            {
+                TempData["successmessage"] = "Driver Adding Failed";
+            }
+            ModelState.Clear();
+
+
+            //TempData.Keep("ProjectList");
+            return View();
+
+        }
+
+        public JsonResult GetDrivers()
+        {
+            var result = booking.GetDrivers();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult UpdateDriver(string models)
+        {
+            List<Driver> data = JsonConvert.DeserializeObject<List<Driver>>(models);
+            data[0].UpdatedBy = User.Identity.Name;
+            data[0].UpdatedDate = DateTime.Now;
+            var result = booking.UpdateDriver(data[0]);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

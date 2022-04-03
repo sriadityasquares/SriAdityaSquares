@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
+using ModelLayer;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(LoginApp.Startup))]
@@ -15,6 +16,7 @@ namespace LoginApp
         {
            ConfigureAuth(app);
             createRolesandUsers();
+           
         }
         private void createRolesandUsers()
         {
@@ -75,6 +77,13 @@ namespace LoginApp
                     role.Name = "Franchise Owner";
                     roleManager.Create(role);
                 }
+                if (!roleManager.RoleExists("CRM"))
+                {
+                    var role = new IdentityRole();
+                    role.Name = "CRM";
+                    roleManager.Create(role);
+                }
+
 
             }
             catch { }

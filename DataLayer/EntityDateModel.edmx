@@ -664,6 +664,24 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="UpdatedBy" Type="nvarchar(max)" />
           <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="tblDrivers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="DOB" Type="datetime" />
+          <Property Name="LicenseNumber" Type="nvarchar(max)" />
+          <Property Name="LicenseExpiry" Type="datetime" />
+          <Property Name="CurrentAddress" Type="nvarchar(max)" />
+          <Property Name="PermanentAddress" Type="nvarchar(max)" />
+          <Property Name="Status" Type="char" MaxLength="1" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="tblFlats">
           <Key>
             <PropertyRef Name="FlatID" />
@@ -896,6 +914,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="SurveyNo" Type="nvarchar" MaxLength="100" />
           <Property Name="Location" Type="nvarchar" MaxLength="100" />
+          <Property Name="TotalAmount" Type="bigint" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
@@ -1069,6 +1088,9 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="Status" Type="nvarchar(max)" />
           <Property Name="isApproved" Type="bit" />
           <Property Name="ApprovedOrRejectedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="AgentMobile" Type="nvarchar(max)" />
+          <Property Name="DriverID" Type="int" />
+          <Property Name="DriverName" Type="nvarchar(max)" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="nvarchar(max)" />
           <Property Name="ModifiedDate" Type="datetime" />
@@ -1441,6 +1463,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Parameter Name="ProjectID" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_GetLandlordPaymentGraph" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_GetLandlordPayments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetMySiteVisits" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar(max)" Mode="In" />
         </Function>
@@ -1521,6 +1544,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblCustomerVisitInfo" EntityType="Self.tblCustomerVisitInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblDailyExpenses" EntityType="Self.tblDailyExpenses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblDesignations" EntityType="Self.tblDesignations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDrivers" EntityType="Self.tblDrivers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlats" EntityType="Self.tblFlats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlatWiseAgentCommissions" EntityType="Self.tblFlatWiseAgentCommissions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblFlatWiseAgentCommissions_Franchise" EntityType="Self.tblFlatWiseAgentCommissions_Franchise" Schema="dbo" store:Type="Tables" />
@@ -1753,10 +1777,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySet Name="tblFlatWiseAgentCommissions" EntityType="salesDBModel.tblFlatWiseAgentCommission" />
           <FunctionImport Name="sp_GetUsersWithRoles" ReturnType="Collection(salesDBModel.sp_GetUsersWithRoles_Result)" />
           <EntitySet Name="tblCustomerVisitInfoes" EntityType="salesDBModel.tblCustomerVisitInfo" />
-          <EntitySet Name="tblSiteVisitInfoes" EntityType="salesDBModel.tblSiteVisitInfo" />
-          <FunctionImport Name="sp_GetMySiteVisits" ReturnType="Collection(salesDBModel.sp_GetMySiteVisits_Result)">
-          <Parameter Name="UserName" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_GetAgentNumbers" ReturnType="Collection(Int64)">
           <Parameter Name="AgentID" Mode="In" Type="String" />
           </FunctionImport>
@@ -1991,8 +2011,14 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           </FunctionImport>
           <FunctionImport Name="sp_GetFlatPaymentDetails" ReturnType="Collection(salesDBModel.sp_GetFlatPaymentDetails_Result)" />
           <FunctionImport Name="sp_GetBookingDetails" ReturnType="Collection(salesDBModel.sp_GetBookingDetails_Result)">
-            <Parameter Name="FlatID" Mode="In" Type="Int32" />
+          <Parameter Name="FlatID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="tblSiteVisitInfoes" EntityType="salesDBModel.tblSiteVisitInfo" />
+          <FunctionImport Name="sp_GetMySiteVisits" ReturnType="Collection(salesDBModel.sp_GetMySiteVisits_Result)">
+          <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tblDrivers" EntityType="salesDBModel.tblDriver" />
+          <FunctionImport Name="sp_GetLandlordPayments" ReturnType="Collection(salesDBModel.sp_GetLandlordPayments_Result)" />
           </EntityContainer>
         <EntityType Name="tblCity">
           <Key>
@@ -2359,45 +2385,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="DateAdded" Type="DateTime" Precision="3" />
           <Property Name="AddedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="tblSiteVisitInfo">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProjectID" Type="Int32" />
-          <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AgentID" Type="Int32" />
-          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ImmediateSeniorID" Type="Int32" />
-          <Property Name="ImmediateSeniorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="NoOfCustomers" Type="Int32" />
-          <Property Name="CustomerMobile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FromAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ToAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DateOfVisit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TermsAccepted" Type="Boolean" />
-          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="isApproved" Type="Boolean" />
-          <Property Name="ApprovedOrRejectedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <ComplexType Name="sp_GetMySiteVisits_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="ProjectName" Nullable="true" />
-          <Property Type="String" Name="AgentName" Nullable="true" />
-          <Property Type="String" Name="ImmediateSeniorName" Nullable="true" />
-          <Property Type="String" Name="CustomerName" Nullable="true" />
-          <Property Type="Int32" Name="NoOfCustomers" Nullable="true" />
-          <Property Type="String" Name="CustomerMobile" Nullable="true" />
-          <Property Type="String" Name="FromAddress" Nullable="true" />
-          <Property Type="String" Name="ToAddress" Nullable="true" />
-          <Property Type="String" Name="DateOfVisit" Nullable="true" />
-          <Property Type="String" Name="Status" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="sp_GetBookingStatistics_Result">
           <Property Type="String" Name="category" Nullable="true" />
           <Property Type="String" Name="value" Nullable="true" />
@@ -3750,6 +3737,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="TotalAmount" Type="Int64" />
         </EntityType>
         <EntityType Name="tblLandlordPayment">
           <Key>
@@ -4053,6 +4041,75 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <Property Type="String" Name="Pan" Nullable="true" MaxLength="150" />
           <Property Type="String" Name="Mobile" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Email" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <EntityType Name="tblSiteVisitInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectID" Type="Int32" />
+          <Property Name="ProjectName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AgentID" Type="Int32" />
+          <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ImmediateSeniorID" Type="Int32" />
+          <Property Name="ImmediateSeniorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NoOfCustomers" Type="Int32" />
+          <Property Name="CustomerMobile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FromAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ToAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfVisit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TermsAccepted" Type="Boolean" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="isApproved" Type="Boolean" />
+          <Property Name="ApprovedOrRejectedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgentMobile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DriverID" Type="Int32" />
+          <Property Name="DriverName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="sp_GetMySiteVisits_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="ProjectName" Nullable="true" />
+          <Property Type="String" Name="AgentName" Nullable="true" />
+          <Property Type="String" Name="ImmediateSeniorName" Nullable="true" />
+          <Property Type="String" Name="CustomerName" Nullable="true" />
+          <Property Type="Int32" Name="NoOfCustomers" Nullable="true" />
+          <Property Type="String" Name="CustomerMobile" Nullable="true" />
+          <Property Type="String" Name="FromAddress" Nullable="true" />
+          <Property Type="String" Name="ToAddress" Nullable="true" />
+          <Property Type="String" Name="DateOfVisit" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" />
+          <Property Type="String" Name="AgentMobile" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="tblDriver">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Precision="3" />
+          <Property Name="LicenseNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LicenseExpiry" Type="DateTime" Precision="3" />
+          <Property Name="CurrentAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PermanentAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="sp_GetLandlordPayments_Result">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" />
+          <Property Type="Int32" Name="TotalAmount" Nullable="true" />
+          <Property Type="Int32" Name="TotalPaid" Nullable="true" />
+          <Property Type="Int32" Name="TodayPayment" Nullable="true" />
+          <Property Type="Int32" Name="Balance" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4450,50 +4507,6 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblSiteVisitInfoes">
-            <EntityTypeMapping TypeName="salesDBModel.tblSiteVisitInfo">
-              <MappingFragment StoreEntitySet="tblSiteVisitInfo">
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ApprovedOrRejectedBy" ColumnName="ApprovedOrRejectedBy" />
-                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="TermsAccepted" ColumnName="TermsAccepted" />
-                <ScalarProperty Name="DateOfVisit" ColumnName="DateOfVisit" />
-                <ScalarProperty Name="ToAddress" ColumnName="ToAddress" />
-                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
-                <ScalarProperty Name="CustomerMobile" ColumnName="CustomerMobile" />
-                <ScalarProperty Name="NoOfCustomers" ColumnName="NoOfCustomers" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="ImmediateSeniorName" ColumnName="ImmediateSeniorName" />
-                <ScalarProperty Name="ImmediateSeniorID" ColumnName="ImmediateSeniorID" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
-                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetMySiteVisits" FunctionName="salesDBModel.Store.sp_GetMySiteVisits">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="salesDBModel.sp_GetMySiteVisits_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="ImmediateSeniorName" ColumnName="ImmediateSeniorName" />
-                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-                <ScalarProperty Name="NoOfCustomers" ColumnName="NoOfCustomers" />
-                <ScalarProperty Name="CustomerMobile" ColumnName="CustomerMobile" />
-                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
-                <ScalarProperty Name="ToAddress" ColumnName="ToAddress" />
-                <ScalarProperty Name="DateOfVisit" ColumnName="DateOfVisit" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_GetAgentNumbers" FunctionName="salesDBModel.Store.sp_GetAgentNumbers" />
           <FunctionImportMapping FunctionImportName="sp_GetHighestPercetageInProject" FunctionName="salesDBModel.Store.sp_GetHighestPercetageInProject" />
           <FunctionImportMapping FunctionImportName="sp_GetBookingStatistics" FunctionName="salesDBModel.Store.sp_GetBookingStatistics">
@@ -6034,6 +6047,7 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
           <EntitySetMapping Name="tblLandLords">
             <EntityTypeMapping TypeName="salesDBModel.tblLandLord">
               <MappingFragment StoreEntitySet="tblLandLords">
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
@@ -6305,6 +6319,85 @@ warning 6002: The table/view 'SASDB.dbo.tblCustomerInfo_backup' does not have a 
                 <ScalarProperty Name="Pan" ColumnName="Pan" />
                 <ScalarProperty Name="Mobile" ColumnName="Mobile" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblSiteVisitInfoes">
+            <EntityTypeMapping TypeName="salesDBModel.tblSiteVisitInfo">
+              <MappingFragment StoreEntitySet="tblSiteVisitInfo">
+                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="AgentMobile" ColumnName="AgentMobile" />
+                <ScalarProperty Name="ApprovedOrRejectedBy" ColumnName="ApprovedOrRejectedBy" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TermsAccepted" ColumnName="TermsAccepted" />
+                <ScalarProperty Name="DateOfVisit" ColumnName="DateOfVisit" />
+                <ScalarProperty Name="ToAddress" ColumnName="ToAddress" />
+                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+                <ScalarProperty Name="CustomerMobile" ColumnName="CustomerMobile" />
+                <ScalarProperty Name="NoOfCustomers" ColumnName="NoOfCustomers" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="ImmediateSeniorName" ColumnName="ImmediateSeniorName" />
+                <ScalarProperty Name="ImmediateSeniorID" ColumnName="ImmediateSeniorID" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetMySiteVisits" FunctionName="salesDBModel.Store.sp_GetMySiteVisits">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetMySiteVisits_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="ImmediateSeniorName" ColumnName="ImmediateSeniorName" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="NoOfCustomers" ColumnName="NoOfCustomers" />
+                <ScalarProperty Name="CustomerMobile" ColumnName="CustomerMobile" />
+                <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+                <ScalarProperty Name="ToAddress" ColumnName="ToAddress" />
+                <ScalarProperty Name="DateOfVisit" ColumnName="DateOfVisit" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AgentMobile" ColumnName="AgentMobile" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="tblDrivers">
+            <EntityTypeMapping TypeName="salesDBModel.tblDriver">
+              <MappingFragment StoreEntitySet="tblDrivers">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PermanentAddress" ColumnName="PermanentAddress" />
+                <ScalarProperty Name="CurrentAddress" ColumnName="CurrentAddress" />
+                <ScalarProperty Name="LicenseExpiry" ColumnName="LicenseExpiry" />
+                <ScalarProperty Name="LicenseNumber" ColumnName="LicenseNumber" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetLandlordPayments" FunctionName="salesDBModel.Store.sp_GetLandlordPayments">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="salesDBModel.sp_GetLandlordPayments_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="TotalPaid" ColumnName="TotalPaid" />
+                <ScalarProperty Name="TodayPayment" ColumnName="TodayPayment" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

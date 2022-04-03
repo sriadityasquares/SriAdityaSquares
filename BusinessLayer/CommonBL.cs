@@ -58,6 +58,11 @@ namespace BusinessLayer
             return db.BindAgentsSelfSeniors(user);
         }
 
+        public List<AgentDropdown> BindAgentsSelfSeniorsByAgentID(int AgentID)
+        {
+            return db.BindAgentsSelfSeniorsByAgentID(AgentID);
+        }
+
         public List<AgentDropdown> BindAgents2Franchise(string username)
         {
             return db.BindAgents2Franchise(username);
@@ -67,7 +72,12 @@ namespace BusinessLayer
             return db.BindStatus2();
         }
 
-        public List<Designations> BindDesignations()
+        public List<Driver> BindDrivers()
+        {
+            return db.BindDrivers();
+        }
+
+            public List<Designations> BindDesignations()
         {
             return db.BindDesignations();
         }

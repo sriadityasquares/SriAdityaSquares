@@ -3,53 +3,68 @@
 @{
     ViewBag.Title = "Log in";
 }
+
 <link href="~/Content/homepageCSS/style.css" rel="stylesheet" />
+<style>
 
-@if (!Request.IsAuthenticated)
-{
-    using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px !important;
+            margin-right: 250px !important;
+        }
+    }
+    
+</style>
+<div >
+
+
+    @if (!Request.IsAuthenticated)
     {
-        @Html.AntiForgeryToken()
+        using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="bg-img">
-            <div class="content">
-                <header>LOG IN</header>
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <form action="#">
-                
-                <div class="field">
-                    <span class="fa fa-user"></span>
-                    @Html.TextBoxFor(m => m.Email)
-                </div>
-                <div class="field space">
-                    <span class="fa fa-lock"></span>
-                    @Html.PasswordFor(m => m.Password, new { @class = "pass-key" })
-                    <span class="show">SHOW</span>
-                </div>
-                <div class="pass">
-                    @Html.ActionLink("Forgot password?", "ForgotPassword", "Account")
-                </div>
-                <div class="field">
-                    <input type="submit" value="LOGIN">
-                </div>
-            </form>
+            <div class="bg-img">
+                <div class="content">
+                    <header>LOG IN</header>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <form action="#">
+
+                        <div class="field">
+                            <span class="fa fa-user"></span>
+                            @Html.TextBoxFor(m => m.Email)
+                        </div>
+                        <div class="field space">
+                            <span class="fa fa-lock"></span>
+                            @Html.PasswordFor(m => m.Password, new { @class = "pass-key" })
+                            <span class="show">SHOW</span>
+                        </div>
+                        <div class="pass">
+                            @Html.ActionLink("Forgot password?", "ForgotPassword", "Account")
+                        </div>
+                        <div class="field">
+                            <input type="submit" value="LOGIN">
+                        </div>
+                    </form>
 
 
+                </div>
             </div>
-        </div>
+        }
     }
-}
-else
-{
-    if (User.IsInRole("Admin"))
+    else
     {
-        Html.Action("Admin", "Home");
+        if (User.IsInRole("Admin"))
+        {
+            Html.Action("Admin", "Home");
+        }
+        else if (User.IsInRole("Client"))
+        {
+            Html.Action("Contact", "Home");
+        }
     }
-    else if (User.IsInRole("Client"))
-    {
-        Html.Action("Contact", "Home");
-    }
-}
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

@@ -3,7 +3,7 @@
     ViewBag.Dashboard = "active";
     ViewBag.Statistics = "active";
     ViewBag.Title = "Statistics";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
 
 <head>
@@ -20,19 +20,17 @@
     <link href="~/Scripts/Dashboard/material-dashboard.css?v=2.1.2" rel="stylesheet" />
     <link href="~/Scripts/Dashboard/demo.css" rel="stylesheet" />
 
-    <script src="~/Scripts/Dashboard/bootstrap-material-design.min.js"></script>
+    @*<script src="~/Scripts/Dashboard/bootstrap-material-design.min.js"></script>*@
     <script src="~/Scripts/Dashboard/chartist.min.js"></script>
 </head>
 <style>
 
     @@media (min-width: 768px) {
 
-        .container {
-            margin-left: 350px;
-        }
+        
 
         .jumbotron {
-            width: 1500px;
+            width: 1800px;
         }
     }
 </style>
@@ -209,20 +207,67 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
-                <div class="col-md-12">
-                    <div class="card card-chart">
-                        <div class="card-header card-header-success">
-                            <div id="chart1" style="background-size:cover;align-content:center;align-items:center;color: orange"></div>
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title"><b>LANDLORD PAYMENTS</b></h3>
+                @*<div class="col-md-12">
+            <div class="card card-chart">
+                <div class="card-header card-header-success">
+                    <div id="chart1" style="background-size:cover;align-content:center;align-items:center;color: orange"></div>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title"><b>LANDLORD PAYMENTS</b></h3>
 
-                        </div>
+                </div>
 
+            </div>
+        </div>*@
+                
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-rose">
+                                <h4 class="card-title"><b style="font-size:14px;font-weight:800">LANDLORD PAYMENTS</b></h4>
+                                <p class="card-category">Last Updated @DateTime.Now</p>
+                            </div>
+                            <div style="overflow-y:scroll;height:400px;" class="card-body table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="text-rose">
+                                    <th>LANDLORD</th>
+                                    <th>TOTAL AMOUNT</th>
+                                    <th>TOTAL PAID</th>
+                                    <th>TODAY PAYMENT</th>
+                                    <th>BALANCE</th>
+                                    </thead>    
+                                    <tbody>
+
+                                        @foreach (var item in ViewBag.LandlordPayments)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.Name
+                                                </td>
+                                                <td>
+                                                    @item.TotalAmount
+                                                </td>
+                                                <td>
+                                                    @item.TotalPaid
+                                                </td>
+                                                <td>
+                                                    @item.TodayPayment
+                                                </td>
+                                                <td>
+                                                    @item.Balance
+                                                </td>
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            
             }
             <div class="row">
                 <div class="col-lg-6 col-md-12">
@@ -829,7 +874,7 @@
         var yaxis = data.map(function (val) {
             return val.yaxis;
         }).join(',');
-        var peak = Math.max.apply(Math, data.map(function (o) { return o.xaxis; }))+2;
+        var peak = Math.max.apply(Math, data.map(function (o) { return o.xaxis; }))+20000000;
         //peak = 10000000;
         var chartHeight = '';
         var a = xaxis.split(',');

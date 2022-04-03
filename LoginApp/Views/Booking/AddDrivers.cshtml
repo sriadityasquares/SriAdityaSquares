@@ -1,0 +1,263 @@
+﻿@model ModelLayer.Driver
+@{
+    ViewBag.Title = "Add Driver";
+    var message = TempData["successmessage"] ?? string.Empty;
+    ViewBag.Transport = "active";
+    ViewBag.AddDrivers = "active";
+}
+
+
+@using (Html.BeginForm("AddDrivers", "Booking", FormMethod.Post, new
+{
+
+    role = "form",
+    id = "submitbtn"
+
+}))
+{
+    //@(ViewContext.ClientValidationEnabled = false)
+    @Html.HiddenFor(x => x.DOB);
+    @Html.HiddenFor(x => x.LicenseExpiry);
+    @Html.AntiForgeryToken()
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12 col-xs" style="margin-top:0px">
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">ADD DRIVER</h3>
+                <div class="specialLine col-md-1"></div>
+            </div>
+
+        </div>
+
+
+        <div class="row" style="padding-top:35px">
+            @Html.LabelFor(m => m.Name, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.Name, new { @class = "textbox-control col-md-2 col-xs" })
+            @Html.LabelFor(m => m.Mobile, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.Mobile, new { @class = "textbox-control col-md-2 col-xs" })
+            @Html.LabelFor(m => m.DOB, new { @class = "col-md-2" })
+
+            <div class="col-md-2" style="padding-left:0px">
+                <input id="DOB1" title="datepicker" />
+            </div>
+        </div>
+        @*<div class="row">
+                @Html.LabelFor(m => m.AgentID, new { @class = "col-md-2" })
+                @Html.DropDownListFor(model => model.AgentID, new SelectList(" "), "--Select Agent--", new { @class = "textbox-control col-md-4 col-xs" })
+
+            </div>*@
+        
+        <div class="row">
+            @Html.LabelFor(m => m.LicenseNumber, new { @class = "col-md-2" })
+            @Html.TextBoxFor(m => m.LicenseNumber, new { @class = "textbox-control col-md-2 col-xs" })
+            @Html.LabelFor(m => m.LicenseExpiry, new { @class = "col-md-2" })
+
+            <div class="col-md-2" style="padding-left:0px">
+                <input id="LicenseExpiry1" title="datepicker" />
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+        <div class="row">
+            @Html.LabelFor(m => m.CurrentAddress, new { @class = "col-md-2" })
+            @Html.TextAreaFor(m => m.CurrentAddress, new { @class = "textboxarea-control col-md-2 col-xs" })
+            @Html.LabelFor(m => m.PermanentAddress, new { @class = "col-md-2" })
+            @Html.TextAreaFor(m => m.PermanentAddress, new { @class = "textboxarea-control col-md-2 col-xs" })
+        </div>
+        
+        
+        <br />
+        <div class="row">
+            <div class="col-sm-3 no-pad">
+                <button type="submit" id="submitbtn" value="New" class="btn btn-default orangebg pull-right"><i class="fa fa-book"></i>ADD</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs" style="margin-top:0px">
+                <h3 style="margin-top:0px;margin-bottom:4px" align="left">DRIVERS</h3>
+                <div class="specialLine col-md-1"></div>
+            </div>
+
+        </div>
+        <div id="grid"></div>
+    </div>
+
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<script>
+
+    $("#DOB1").kendoDatePicker();
+    $("#LicenseExpiry1").kendoDatePicker();
+  
+   
+    var validationsFlag = false;
+   
+
+   
+
+
+    $("#submitbtn").submit(function () {
+        Validations();
+        if (validationsFlag) {
+           SetHiddenFields();
+        }
+        //if (!$('#submitbtn').valid()) {
+        //   $('#ValidationSummaryModal').modal('show');
+        //}
+    });
+
+    function SetHiddenFields() {
+        
+        $("#DOB").val($("#DOB1").val());
+        $("#LicenseExpiry").val($("#LicenseExpiry1").val());
+
+
+    }
+
+    function Validations() {
+
+
+        
+
+       if ($("#Name").val() == '') {
+                toastr.error("Name is Required"); return;
+        }
+
+        if ($("#LicenseNumber").val() == '') {
+            toastr.error("License Number is Required"); return;
+        }
+            if ($("#Mobile").val() == '') {
+                toastr.error("Mobile is Required"); return;
+        }
+       
+
+         validationsFlag = true;
+    }
+    $(window).load(function () {
+        var tempdataval = '@TempData["successmessage"]';
+        if (tempdataval != '') {
+            if (tempdataval == 'Driver Added Successfully')
+                toastr.success(tempdataval);
+            else {
+                toastr.error(tempdataval);
+            }
+        }
+
+    });
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Booking/GetDrivers",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Booking/UpdateDriver",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 5,
+            schema: {
+                model: {
+                    id: "Id",
+                    fields: {
+                        Id: { editable: false, nullable: true },
+                        DOB: { type: "date" },
+                        LicenseExpiry: { type: "date" },
+                        //CurrentAddress: {type : "text"}
+                    }
+                }
+            }
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 350,
+            toolbar: ["search", "excel"],
+            excel: {
+                fileName: "Drivers.xlsx",
+
+                //proxyURL: "https://demos.telerik.com/kendo-ui/service/export",
+                filterable: true,
+                allPages: true
+            },
+            columns: [
+                { field: "Name", title: "Driver Name", width: "140px" },
+                { field: "Mobile", title: "Mobile", width: "150px" },
+                { field: "DOB", title: "DOB", width: "90px", template: '#= kendo.toString(kendo.parseDate(DOB), "dd/MM/yyyy")#' },
+
+                { field: "LicenseNumber", title: "LicenseNumber", width: "150px" },
+                { field: "LicenseExpiry", title: "LicenseExpiry", width: "90px", template: '#= kendo.toString(kendo.parseDate(LicenseExpiry), "dd/MM/yyyy")#' },
+                { field: "CurrentAddress", title: "CurrentAddress", width: "120px" },
+                { field: "PermanentAddress", title: "PermanentAddress", width: "115px" },
+                { field: "Status", title: "Status", width: "90px", editor: statusDropDownEditor },
+                { command: ["edit"], title: "&nbsp;", width: "100px" }
+            ],
+            editable: "inline"
+        });
+
+
+    });
+
+    window.onload = function () {
+        getLocation();
+    }
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        $.get("/Cascade/UpdateAgentLocation", { latitude: position.coords.latitude, longitude: position.coords.longitude }, function (data) {
+        });
+    }
+
+    function statusDropDownEditor(container, options) {
+        $('<input id="status" name="' + options.field + '"/>')
+            .appendTo(container)
+            .kendoDropDownList({
+                autoBind: true,
+                dataTextField: "BookingStatus",
+                dataValueField: "ID",
+                dataSource: {
+                    type: "json",
+                    transport: {
+                        read: "/Cascade/GetStatus2",
+
+                    }
+                }
+            });
+    }
+</script>
+

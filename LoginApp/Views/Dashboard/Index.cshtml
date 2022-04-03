@@ -6,6 +6,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<style>
+    @@media (min-width: 768px) {
+
+        
+
+        .jumbotron {
+            width: 1800px;
+        }
+    }
+</style>
 <div class="modal fade" id="myModal" role="dialog">
     <div style="width:800px;padding-bottom:40px" class="modal-dialog">
 
@@ -30,7 +41,7 @@
 
     </div>
 </div>
-<div class="jumbotron" style="width:1800px !important">
+<div class="jumbotron">
     <div class="row">
         <div class="col-md-1 col-xs">
             <h3 align="center" style="margin-bottom:2px">DASHBOARD</h3>
@@ -285,8 +296,3 @@
 
 
 </script>
-<style>
-    .container {
-        margin-left: 350px !important;
-    }
-</style>

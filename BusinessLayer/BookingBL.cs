@@ -612,5 +612,25 @@ namespace BusinessLayer
             return db.GetCancelledFlatsInfo();
         }
 
+        public bool AddDriver(Driver driverDetails)
+        {
+            return db.AddDriver(driverDetails);
+        }
+
+        public List<Driver> GetDrivers()
+        {
+            return db.GetDrivers();
+        }
+
+        public bool UpdateDriver(Driver d)
+        {
+            return db.UpdateDriver(d);
+        }
+
+        public List<GetLandlordPayments> GetLandlordPaymentsReport()
+        {
+            return db.GetLandlordPaymentsReport();
+        }
+
     }
 }

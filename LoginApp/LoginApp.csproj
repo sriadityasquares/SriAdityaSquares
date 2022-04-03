@@ -831,6 +831,7 @@
     <Content Include="Content\Images\GreenTechEast_2820.jpg" />
     <Content Include="Content\Images\GreenTechEast_4161.jpg" />
     <Content Include="Content\Images\GreenTechEast_4614.jpg" />
+    <Content Include="Content\Images\GreenTechLetterHead.png" />
     <Content Include="Content\Images\GreenTechWest_2601.jpg" />
     <Content Include="Content\Images\GreenTechWest_2820.jpg" />
     <Content Include="Content\Images\GreenTechWest_3183.jpg" />
@@ -2236,6 +2237,7 @@
     <Content Include="Views\Report\GetCancelledFlatInformation.cshtml" />
     <Content Include="Views\LandLord\Index.cshtml" />
     <Content Include="Views\LandLord\Payments.cshtml" />
+    <Content Include="Views\Booking\AddDrivers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

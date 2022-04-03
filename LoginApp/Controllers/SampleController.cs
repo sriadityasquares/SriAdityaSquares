@@ -30,7 +30,8 @@ namespace LoginApp.Controllers
             //var request1 = new RestRequest(Method.GET);
             //request1.AddHeader("Cache-Control", "no-cache");
             //IRestResponse response1 = client1.Execute(request1);
-
+            //TicketNotification t = new TicketNotification();
+            //t.Notification();
             return View();
         }
 
@@ -44,7 +45,7 @@ namespace LoginApp.Controllers
         {
             ReportBL report = new ReportBL();
             //SendMail("manojvenkat8@gmail.com", "Vaccine Opened Venkat Test", "Vaccine Opened for 18+");
-            SendMail("venkata.godithi@evolutyz.com", "Vaccine Opened for Venkat Test", "Vaccine Opened for 18+");
+            //SendMail("venkata.godithi@evolutyz.com", "Vaccine Opened for Venkat Test", "Vaccine Opened for 18+");
            
             projectList = booking.BindProjects();
             return Json(projectList, JsonRequestBehavior.AllowGet);

@@ -3,6 +3,7 @@
     ViewBag.UploadSelfie = "active";
     ViewBag.Title = "Selfie";
     var message = TempData["successmessage"] ?? string.Empty;
+    ViewBag.Selfie = "active";
 }
 
 @using (Html.BeginForm("Selfie", "Booking", FormMethod.Post, new

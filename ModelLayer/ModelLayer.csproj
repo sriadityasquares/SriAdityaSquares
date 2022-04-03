@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="RestSharp, Version=106.0.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.10.1\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -73,6 +76,7 @@
     <Compile Include="Dashboard.cs" />
     <Compile Include="DashboardParameters.cs" />
     <Compile Include="Designations.cs" />
+    <Compile Include="Driver.cs" />
     <Compile Include="EligibleFlatsForCommission.cs" />
     <Compile Include="FlatDetails.cs" />
     <Compile Include="Flats.cs" />
@@ -94,6 +98,7 @@
     <Compile Include="GetFlatWiseTotalAgentCommission.cs" />
     <Compile Include="GetFranchiseStatus.cs" />
     <Compile Include="GetGraphicalPeriodWiseBooking.cs" />
+    <Compile Include="GetLandlordPayments.cs" />
     <Compile Include="GetMySiteVisits.cs" />
     <Compile Include="GetPaymentInfoByDate.cs" />
     <Compile Include="GetPaymentReceiptApproval.cs" />
@@ -133,9 +138,13 @@
     <Compile Include="Status.cs" />
     <Compile Include="SuggestedActions.cs" />
     <Compile Include="Suppliers.cs" />
+    <Compile Include="TicketNotification.cs" />
     <Compile Include="Towers.cs" />
     <Compile Include="TreeObject.cs" />
     <Compile Include="Year.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

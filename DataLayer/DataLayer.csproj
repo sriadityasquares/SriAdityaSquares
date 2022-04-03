@@ -204,6 +204,9 @@
     <Compile Include="sp_GetLandlordPaymentGraph_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetLandlordPayments_Result.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_GetMySiteVisits_Result.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
@@ -346,6 +349,9 @@
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblDesignation.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblDriver.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblFlat.cs">

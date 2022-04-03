@@ -52,7 +52,7 @@ namespace LoginApp.Controllers
 
         }
 
-       
+
 
         public JsonResult GetAgentsExceptSAS()
         {
@@ -73,22 +73,32 @@ namespace LoginApp.Controllers
             {
                 agentList = objCasc.BindAgents2Franchise(User.Identity.Name);
             }
-            
+
             return Json(agentList, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult GetAgentSelf()
         {
-            List<AgentDropdown> agentList = objCasc.BindAgentsSelf(User.Identity.Name);
+            List<AgentDropdown> agentList = new List<AgentDropdown>();
+            if (User.IsInRole("Agent"))
+                 agentList = objCasc.BindAgentsSelf(User.Identity.Name);
+            else
+                 agentList = objCasc.BindAgents2();
             //agentList = agentList.Where(x => x.AgenteMail == User.Identity.Name).ToList();
             return Json(agentList, JsonRequestBehavior.AllowGet);
 
         }
 
-        public JsonResult GetAgentSelfSeniors()
+        public JsonResult GetAgentSelfSeniors(int AgentID)
         {
-            List<AgentDropdown> agentList = objCasc.BindAgentsSelfSeniors(User.Identity.Name);
+            List<AgentDropdown> agentList = new List<AgentDropdown>();
+            if (User.IsInRole("Agent"))
+                agentList = objCasc.BindAgentsSelfSeniors(User.Identity.Name);
+            else
+            {
+                agentList = objCasc.BindAgentsSelfSeniorsByAgentID(AgentID);
+            }
             //agentList = agentList.Where(x => x.AgenteMail == User.Identity.Name).ToList();
             return Json(agentList, JsonRequestBehavior.AllowGet);
 
@@ -99,6 +109,13 @@ namespace LoginApp.Controllers
             List<Status> statusList = objCasc.BindStatus2();
             return Json(statusList, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public JsonResult GetDrivers()
+        {
+            List<Driver> drivers = objCasc.BindDrivers();
+            
+            return Json(drivers, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -126,7 +143,7 @@ namespace LoginApp.Controllers
         public JsonResult GetDesignationForDisplay()
         {
             List<Designations> designation = objCasc.GetDesignations(User.Identity.Name);
-            return Json(designation.Count <=0?"": designation[0].Designation, JsonRequestBehavior.AllowGet);
+            return Json(designation.Count <= 0 ? "" : designation[0].Designation, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetProjects()
         {

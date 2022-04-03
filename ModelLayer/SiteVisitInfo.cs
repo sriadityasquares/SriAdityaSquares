@@ -47,6 +47,11 @@ namespace ModelLayer
         public string Status { get; set; }
         public Nullable<bool> isApproved { get; set; }
         public string ApprovedOrRejectedBy { get; set; }
+
+        [Display(Name = "Driver")]
+        [Required]
+        public Nullable<int> DriverID { get; set; }
+        public string DriverName { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }

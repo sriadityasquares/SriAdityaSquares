@@ -31,9 +31,12 @@ namespace DataLayer
         public string Status { get; set; }
         public Nullable<bool> isApproved { get; set; }
         public string ApprovedOrRejectedBy { get; set; }
+        public string AgentMobile { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
+        public Nullable<int> DriverID { get; set; }
+        public string DriverName { get; set; }
     }
 }

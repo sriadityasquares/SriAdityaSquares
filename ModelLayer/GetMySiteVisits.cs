@@ -19,5 +19,7 @@ namespace ModelLayer
         public string ToAddress { get; set; }
         public string DateOfVisit { get; set; }
         public string Status { get; set; }
+
+        public string AgentMobile { get; set; }
     }
 }

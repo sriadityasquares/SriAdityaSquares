@@ -825,16 +825,19 @@ namespace DataLayer
                     {
                         tblFlatWiseAgentCommission fwac = new tblFlatWiseAgentCommission();
                         var currentAgent = allAgentList.Where(x => x.AgentID == Convert.ToInt32(agent)).FirstOrDefault();
-                        fwac.FlatID = Convert.ToInt32(bookingInfo.FlatID);
-                        fwac.FlatName = bookingInfo.FlatName;
-                        fwac.AgentID = currentAgent.AgentID;
-                        fwac.AgentName = currentAgent.AgentName;
-                        fwac.AmountPaid = 0;
-                        fwac.Discount = 0;
-                        fwac.Advance = 0;
-                        fwac.Comment = "";
-                        fwac.Percentage = dbEntity.sp_GetAgentPercentage(currentAgent.AgentID, projectType, Convert.ToDateTime(bookingInfo.BookingDate)).FirstOrDefault();
-                        lstFwac.Add(fwac);
+                        if (currentAgent != null)
+                        {
+                            fwac.FlatID = Convert.ToInt32(bookingInfo.FlatID);
+                            fwac.FlatName = bookingInfo.FlatName;
+                            fwac.AgentID = currentAgent.AgentID;
+                            fwac.AgentName = currentAgent.AgentName;
+                            fwac.AmountPaid = 0;
+                            fwac.Discount = 0;
+                            fwac.Advance = 0;
+                            fwac.Comment = "";
+                            fwac.Percentage = dbEntity.sp_GetAgentPercentage(currentAgent.AgentID, projectType, Convert.ToDateTime(bookingInfo.BookingDate)).FirstOrDefault();
+                            lstFwac.Add(fwac);
+                        }
                     }
                     lstFwac = lstFwac.OrderBy(x => x.Percentage).ToList();
                     double oldPercentage = 0;
@@ -1049,16 +1052,19 @@ namespace DataLayer
                     {
                         tblFlatWiseAgentCommission fwac = new tblFlatWiseAgentCommission();
                         var currentAgent = allAgentList.Where(x => x.AgentID == Convert.ToInt32(agent)).FirstOrDefault();
-                        fwac.FlatID = Convert.ToInt32(bookingInfo.FlatID);
-                        fwac.FlatName = bookingInfo.FlatName;
-                        fwac.AgentID = currentAgent.AgentID;
-                        fwac.AgentName = currentAgent.AgentName;
-                        fwac.AmountPaid = 0;
-                        fwac.Discount = 0;
-                        fwac.Advance = 0;
-                        fwac.Comment = "";
-                        fwac.Percentage = dbEntity.sp_GetAgentPercentage(currentAgent.AgentID, projectType, Convert.ToDateTime(bookingInfo.BookingDate)).FirstOrDefault();
-                        lstFwac.Add(fwac);
+                        if (currentAgent != null)
+                        {
+                            fwac.FlatID = Convert.ToInt32(bookingInfo.FlatID);
+                            fwac.FlatName = bookingInfo.FlatName;
+                            fwac.AgentID = currentAgent.AgentID;
+                            fwac.AgentName = currentAgent.AgentName;
+                            fwac.AmountPaid = 0;
+                            fwac.Discount = 0;
+                            fwac.Advance = 0;
+                            fwac.Comment = "";
+                            fwac.Percentage = dbEntity.sp_GetAgentPercentage(currentAgent.AgentID, projectType, Convert.ToDateTime(bookingInfo.BookingDate)).FirstOrDefault();
+                            lstFwac.Add(fwac);
+                        }
                     }
                     lstFwac = lstFwac.OrderBy(x => x.Percentage).ToList();
                     double oldPercentage = 0;
@@ -1922,6 +1928,9 @@ namespace DataLayer
                     cfg.CreateMap<SiteVisitInfo, tblSiteVisitInfo>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
                 });
                 IMapper mapper = config.CreateMapper();
+                var result = dbEntity.tblAgentMasters.Where(x => x.AgentID == svi.AgentID).Select(x => x.AgentMobileNo).FirstOrDefault();
+                if (result != null)
+                    svInfo.AgentMobile = result.ToString();
                 mapper.Map<SiteVisitInfo, tblSiteVisitInfo>(svi, svInfo);
                 dbEntity.tblSiteVisitInfoes.Add(svInfo);
                 dbEntity.SaveChanges();
@@ -3309,6 +3318,93 @@ namespace DataLayer
             catch (Exception ex)
             {
                 return new List<GetCancelledFlatsInfo>();
+            }
+        }
+
+        public bool AddDriver(Driver driverDetails)
+        {
+            try
+            {
+                tblDriver dInfo = new tblDriver();
+                driverDetails.Status = "A";
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<Driver, tblDriver>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<Driver, tblDriver>(driverDetails, dInfo);
+                dbEntity.tblDrivers.Add(dInfo);
+                dbEntity.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+        public List<Driver> GetDrivers()
+        {
+            List<Driver> lstDrivers = new List<Driver>();
+
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblDriver, Driver>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstDrivers = mapper.Map<List<tblDriver>, List<Driver>>(dbEntity.tblDrivers.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+
+            return lstDrivers;
+        }
+
+        public bool UpdateDriver(Driver d)
+        {
+            try
+            {
+                var oldDriverDetails = dbEntity.tblDrivers.Where(x => x.Id == d.Id).FirstOrDefault();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<Driver, tblDriver>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<Driver, tblDriver>(d, oldDriverDetails);
+
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+        public List<GetLandlordPayments> GetLandlordPaymentsReport()
+        {
+            try
+            {
+                //var roleID = dbEntity.AspNetUserLogins.Where(x=>x.)
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<sp_GetLandlordPayments_Result, GetLandlordPayments>();
+                });
+                IMapper mapper = config.CreateMapper();
+
+                return mapper.Map<List<sp_GetLandlordPayments_Result>, List<GetLandlordPayments>>(dbEntity.sp_GetLandlordPayments().ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<GetLandlordPayments>();
             }
         }
 
