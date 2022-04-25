@@ -97,6 +97,7 @@
                         BankBranch: { validation: { required: true } },
                         IFSC: { validation: { required: true } },
                         ProjectID: { validation: { required: true } },
+                        ProjectName: { editable: false, validation: { required: true } },
                         Status: { validation: { required: true } },
                         SurveyNo: { validation: { required: true } },
                         Location: { validation: { required: true } },
@@ -126,20 +127,22 @@
                     //numeric.enable(false);
                 }
                 else {
-                    $(e.container).find('input[name="ProjectID"]').attr("readonly", true);
+                    //$(e.container).find('input[name="ProjectID"]').attr("readonly", true);
                    
                     //$("select[name=ProjectName]").prop("disabled", "disabled");
                     //$("#ProjectName").data("kendoDropDownList").enable(false);
 
                     var dropDown = e.container.find("[data-role='dropdownlist']").data("kendoDropDownList");
                     dropDown.value(e.model.ProjectID);
-                    dropDown.readonly();
+                    //dropDown.readonly();
                 }
             },
             columns: [
                 //{ field: "Project", title: "Project", width: "250px", editor: projectDropDownEditor, template: "#=Project.ProjectName#" },
 
                 { field: "Name", title: "Name", width: "200px" },
+                { field: "ProjectID", title: "Project", width: "200px", filterable: true, editor: projectDropDownEditor },
+                { field: "ProjectName", title: "ProjectName", width: "200px" },
                 { field: "MobileNo", title: "MobileNo", width: "200px" },
                 { field: "eMail", title: "Email", width: "200px" },
 
@@ -152,30 +155,30 @@
                 { field: "Location", title: "Location", width: "200px" },
                 { field: "SurveyNo", title: "SurveyNo", width: "200px" },
                 { field: "TotalAmount", title: "Total Amount", width: "200px" },
-                {
-                    field: "ProjectID",
+                //{
+                //    field: "ProjectID",
 
-                    //template: '#=ProjectID?ProjectName.ProjectName:""#',
-                    title: "Project", width: "250px",
-                    editor: function projectDropDownEditor(container, options) {
-                        $('<input required name="' + options.field + '"/>')
-                            .appendTo(container)
-                            .kendoDropDownList({
-                                autoBind: false,
-                                dataTextField: "ProjectName",
-                                dataValueField: "ProjectID",
+                //    //template: '#=ProjectID?ProjectName.ProjectName:""#',
+                //    title: "Project", width: "250px",
+                //    editor: function projectDropDownEditor(container, options) {
+                //        $('<input required name="' + options.field + '"/>')
+                //            .appendTo(container)
+                //            .kendoDropDownList({
+                //                autoBind: true,
+                //                dataTextField: "ProjectName",
+                //                dataValueField: "ProjectID",
 
-                                dataSource: {
-                                    type: "json",
-                                    transport: {
-                                        read: "/Cascade/GetAllProjects",
+                //                dataSource: {
+                //                    type: "json",
+                //                    transport: {
+                //                        read: "/Cascade/GetAllProjects",
 
-                                    }
-                                }
-                            });
-                    }
-                },
-
+                //                    }
+                //                }
+                //            });
+                //    }
+                //},
+                
                 { field: "Status", title: "Status", width: "100px", editor: statusDropDownEditor },
 
                 {
@@ -201,25 +204,26 @@
                         transport: {
                             read: "/Cascade/GetStatus2/",
                         }
-                    }
+                    },
+                    
                 });
         }
 
         function projectDropDownEditor(container, options) {
             $('<input required name="' + options.field + '"/>')
                 .appendTo(container)
-                .kendoMultiSelect({
-                    autoBind: false,
+                .kendoDropDownList({
+                    //autoBind: true,
                     dataTextField: "ProjectName",
                     dataValueField: "ProjectID",
-
                     dataSource: {
                         type: "json",
                         transport: {
                             read: "/Cascade/GetProjects",
 
                         }
-                    }
+                    },
+                    //valuePrimitive: true,
                 });
 
         }

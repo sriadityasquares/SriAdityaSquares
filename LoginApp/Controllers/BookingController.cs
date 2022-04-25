@@ -566,7 +566,7 @@ namespace LoginApp.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize(Roles = "Admin,Agent,Customer,DataEntry")]
+        [Authorize(Roles = "Admin,Agent,Customer,DataEntry,CRM")]
         public ActionResult Selfie()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -639,7 +639,7 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin,Agent,Customer,DataEntry")]
+        [Authorize(Roles = "Admin,Agent,Customer,DataEntry,CRM")]
         public ActionResult SelfiePoint()
         {
             List<Projects> projectList = booking.BindProjects();
@@ -671,7 +671,7 @@ namespace LoginApp.Controllers
             return Json(html, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize(Roles = "Admin,Agent,Customer,DataEntry")]
+        [Authorize(Roles = "Admin,Agent,Customer,DataEntry,CRM")]
         public ActionResult AddSiteVist()
         {
             List<Projects> projectList = booking.BindProjects();

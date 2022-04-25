@@ -58,7 +58,7 @@ namespace LoginApp.Controllers
         }
 
 
-        [Authorize(Roles = "Admin,DataEntry,Agent,Manager,Employee")]
+        [Authorize(Roles = "Admin,DataEntry,Agent,Manager,Employee,CRM")]
         public ActionResult Home()
         {
             var dashboardparams = booking.BindDashboardParameters();
@@ -191,7 +191,7 @@ namespace LoginApp.Controllers
 
         
 
-        [Authorize(Roles = "Admin,Client,DataEntry,Agent,Manager,Employee,Franchise Owner")]
+        [Authorize(Roles = "Admin,Client,DataEntry,Agent,Manager,Employee,Franchise Owner,CRM")]
         public ActionResult Index()
         {
             List<Projects> projectList = new List<Projects>();
@@ -345,7 +345,7 @@ namespace LoginApp.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize(Roles = "Admin,Client,DataEntry,Agent,Manager,Employee")]
+        [Authorize(Roles = "Admin,Client,DataEntry,Agent,Manager,Employee,CRM")]
         public ActionResult BookingStatistics()
         {
             List<Projects> projectList = new List<Projects>();

@@ -864,6 +864,12 @@
     <Content Include="Content\Images\Ornate_1920x960.jpg" />
     <Content Include="Content\Images\Ornate_1_1920x1080.jpg" />
     <Content Include="Content\Images\robot.png" />
+    <Content Include="Content\Images\sasnewimages1.jpeg" />
+    <Content Include="Content\Images\sasnewimages2.jpeg" />
+    <Content Include="Content\Images\sasnewimages3.jpeg" />
+    <Content Include="Content\Images\sasnewimages4.jpeg" />
+    <Content Include="Content\Images\sasnewimages5.jpeg" />
+    <Content Include="Content\Images\sasnewimages6.jpeg" />
     <Content Include="Content\Images\SISHTA ABODE.PNG" />
     <Content Include="Content\Images\Tapovanam.PNG" />
     <Content Include="Content\Images\letterhead2.jpg" />
