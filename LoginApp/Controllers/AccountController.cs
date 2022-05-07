@@ -16,6 +16,8 @@ using System.Text;
 using Microsoft.AspNet.Identity.EntityFramework;
 using RestSharp;
 using ModelLayer;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace LoginApp.Controllers
 {
@@ -470,6 +472,8 @@ namespace LoginApp.Controllers
                 return RedirectToAction("Home", "Dashboard");
             return null;
         }
+
+        
 
         internal class ChallengeResult : HttpUnauthorizedResult
         {

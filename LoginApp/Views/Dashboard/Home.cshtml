@@ -191,7 +191,7 @@
                     </div>
                 </div>
             </div>
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Super Admin"))
             {
             <div class="row">
                 <div class="col-md-12">
@@ -267,7 +267,67 @@
                         </div>
                     </div>
                 </div>
-            
+            <div class="row">
+                @*<div class="col-md-12">
+            <div class="card card-chart">
+                <div class="card-header card-header-success">
+                    <div id="chart1" style="background-size:cover;align-content:center;align-items:center;color: orange"></div>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title"><b>LANDLORD PAYMENTS</b></h3>
+
+                </div>
+
+            </div>
+        </div>*@
+
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-success">
+                            <h4 class="card-title"><b style="font-size:14px;font-weight:800">INVESTOR</b></h4>
+                            <p class="card-category">Last Updated @DateTime.Now</p>
+                        </div>
+                        <div style="overflow-y:scroll;height:400px;" class="card-body table-responsive">
+                            <table class="table table-hover">
+                                <thead class="text-rose">
+                                <th>INVESTOR</th>
+                                <th>AMOUNT RECEIEVED</th>
+                                <th>RECEIVED DATE</th>
+                                <th>DUE DATE</th>
+                                <th>BENEFIT</th>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in ViewBag.Investors)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.Name
+                                            </td>
+                                            <td>
+                                                @item.AmountReceived
+                                            </td>
+                                            <td>
+                                               
+                                                @Convert.ToDateTime(@item.ReceivedDate).Date.ToString("dd/MM/yyyy")
+                                            </td>
+                                            <td>
+                                              
+                                                @Convert.ToDateTime(@item.DueDate).Date.ToString("dd/MM/yyyy")
+                                            </td>
+                                            <td>
+                                                @item.Benefit
+                                            </td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
             }
             <div class="row">
                 <div class="col-lg-6 col-md-12">

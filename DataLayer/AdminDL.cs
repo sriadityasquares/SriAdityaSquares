@@ -51,7 +51,7 @@ namespace DataLayer
         {
             try
             {
-                
+
                 tblProjectExpenseCategory projectOld = dbEntity.tblProjectExpenseCategories.Where(x => x.ID == p.ID).FirstOrDefault();
 
                 if (projectOld != null)
@@ -103,7 +103,7 @@ namespace DataLayer
         {
             try
             {
-              
+
                 pec.CreatedDate = DateTime.Now;
                 tblProjectExpenseCategory pecNew = new tblProjectExpenseCategory();
 
@@ -139,7 +139,7 @@ namespace DataLayer
                 towerNew.BookingStatus = p.BookingStatus;
                 towerNew.CreatedBy = p.CreatedBy;
                 towerNew.CreatedDate = DateTime.Now;
-                
+
                 dbEntity.tblTowers.Add(towerNew);
                 dbEntity.SaveChanges();
 
@@ -548,6 +548,170 @@ namespace DataLayer
                 dbEntity.SaveChanges();
             }
             return true;
+        }
+
+        public bool UpdateUserLockOut(GetUsersWithRoles gs)
+        {
+            try
+            {
+                //a.BookingStatusName = null;
+                AspNetUser user = dbEntity.AspNetUsers.Where(x => x.UserName == gs.UserName).FirstOrDefault();
+
+                if (!Convert.ToBoolean(gs.Active))
+                {
+                    user.LockoutEndDateUtc = DateTime.Now.AddYears(1000);
+                    dbEntity.SaveChanges();
+                }
+                else
+                {
+                    user.LockoutEndDateUtc = null;
+                    dbEntity.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+        public List<Investor> BindInvestors()
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<Investor> lstInvestors = new List<Investor>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblInvestor, Investor>();
+                });
+                IMapper mapper = config.CreateMapper();
+                lstInvestors = mapper.Map<List<tblInvestor>, List<Investor>>(dbEntity.tblInvestors.ToList()).ToList();
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstInvestors;
+        }
+
+        public bool AddInvestor(Investor a)
+        {
+            try
+            {
+                tblInvestor investor = new tblInvestor();
+
+                // a.ProjectName = dbEntity.tblProjects.Where(x => x.ProjectID == a.ProjectID).Select(x => x.ProjectName).FirstOrDefault();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<Investor, tblInvestor>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                mapper.Map<Investor, tblInvestor>(a, investor);
+                dbEntity.tblInvestors.Add(investor);
+                dbEntity.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
+        }
+
+        public bool UpdateInvestor(Investor a)
+        {
+            tblInvestor investorOld = dbEntity.tblInvestors.Where(x => x.Id == a.Id).FirstOrDefault();
+            //..a.ProjectName = dbEntity.tblProjects.Where(x => x.ProjectID == a.ProjectID).Select(x => x.ProjectName).FirstOrDefault();
+
+            if (investorOld != null)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<Investor, tblInvestor>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                });
+                IMapper mapper = config.CreateMapper();
+                //mapper.Map(p, projectOld, typeof(Projects), typeof(tblProject));
+                mapper.Map<Investor, tblInvestor>(a, investorOld);
+                dbEntity.SaveChanges();
+            }
+            return true;
+        }
+
+        public bool SaveProjectImages(ProjectPics cp)
+        {
+            try
+            {
+                tblProjectPic newPic = new tblProjectPic();
+
+                newPic.URL = cp.URL;
+                newPic.ProjectID = cp.ProjectID;
+                newPic.ProjectName = cp.ProjectName;
+                newPic.Section = cp.Section;
+                newPic.Active = cp.Active;
+                newPic.CreatedBy = cp.CreatedBy;
+                newPic.CreatedDate = DateTime.Now;
+                dbEntity.tblProjectPics.Add(newPic);
+                dbEntity.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public List<ProjectPics> BindProjectGallery(string section = "")
+        {
+            this.dbEntity.Configuration.ProxyCreationEnabled = false;
+
+            List<ProjectPics> lstProjectPics = new List<ProjectPics>();
+            try
+            {
+                //lstCountry = dbEntity.tblProjects.ToList();
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<tblProjectPic, ProjectPics>();
+                });
+                IMapper mapper = config.CreateMapper();
+                if (section != "")
+                    lstProjectPics = mapper.Map<List<tblProjectPic>, List<ProjectPics>>(dbEntity.tblProjectPics.Where(x => x.Section == section && x.Active == true).ToList()).ToList();
+                else
+                    lstProjectPics = mapper.Map<List<tblProjectPic>, List<ProjectPics>>(dbEntity.tblProjectPics.ToList());
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+            }
+            return lstProjectPics;
+        }
+
+        public bool UpdateProjectImage(ProjectPics p)
+        {
+            try
+            {
+                //p.BookingStatusName = null;
+                tblProjectPic picOld = dbEntity.tblProjectPics.Where(x => x.Id == p.Id).FirstOrDefault();
+                if (picOld != null)
+                {
+                    picOld.Active = p.Active;
+                    picOld.CreatedBy = p.CreatedBy;
+                    picOld.CreatedDate = p.CreatedDate;
+                    dbEntity.SaveChanges();
+
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error :" + ex);
+                return false;
+            }
         }
 
     }

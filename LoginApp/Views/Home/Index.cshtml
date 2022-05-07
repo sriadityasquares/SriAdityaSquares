@@ -31,10 +31,65 @@
     <script src="~/Content/Potfolio/kchat.js"></script>
     <title>Luxury Villas and Apartments For Sale with Highclass Amenities in Hyderabad – SRI ADITYA SQUARES</title>
     <title>One Of Best Real Estate Community in Hyderabad – SRI ADITYA SQUARES</title>
-    
+
     <meta name="description" content="SRI ADITYA SQUARES is the one stop destination for all your real estate property needs. We offer END to END services at free of cost. SRI ADITYA SQUARES has more than 2500+ satisfied customers and the number is growing day by day." />
-    <meta name="keywords" content="Ornate, SriAdityaSquares, Hyderabadrealestate,apartmentsforsale,HighRiseApartments,bestgatedcommunitiesinhyderabadforsale,WorldClassAmenities,premiumluxuryapartments,GatedCommunityProjectsInHyderabad,ApartmentsInKollur,BestHousingProjectsInHyderabad,BestApartmentsToBuyInHyderabad,Patancheruvu,Luxuryapartmentsnearkollur,ApartmentFlatsForSaleNearMe,GatedCommunityProjectsInHyderabad,ApartmentsInKollur,NewApartmentsForSaleInHyderabad,Luxuryapartmentsnearkollur">
-   
+    <meta name="keywords" content=
+          "Ornate,
+          SriAdityaSquares,
+          Hyderabadrealestate,
+          apartmentsforsale,
+          HighRiseApartments,
+          bestgatedcommunitiesinhyderabadforsale,
+          WorldClassAmenities,
+          premiumluxuryapartments,
+          GatedCommunityProjectsInHyderabad,
+          ApartmentsInKollur,
+          BestHousingProjectsInHyderabad,
+          BestApartmentsToBuyInHyderabad,
+          Patancheruvu,
+          Luxuryapartmentsnearkollur,
+          ApartmentFlatsForSaleNearMe,
+          GatedCommunityProjectsInHyderabad,
+          ApartmentsInKollur,
+          NewApartmentsForSaleInHyderabad,
+          Luxuryapartmentsnearkollur,
+          Ornate, 
+        Sri Aditya Squares,
+        Hyderabad realestate,
+        apartments for sale,
+        High Rise Apartments,
+        best gated communities in hyderabad for sale,
+        premium luxury apartments,
+        Gated Community Projects In Hyderabad,
+        Flat for sale in Kollur,
+        Best Housing Projects In Hyderabad,
+        Best Apartments To Buy In Hyderabad,
+        Patancheruvu,
+        Luxury apartments near kollur,
+        Apartment Flats For Sale Near Me,
+        Gated Community Projects In Hyderabad,
+        Apartments In Kollur,
+        New Apartments For Sale In Hyderabad,
+        Luxury apartments near kollur,
+        Villas For Sale in Hyderabad,
+        GreenTech o2 Community,
+        Greentech Villas,
+        Affordable villas for sale in Hyderabad,
+        best Villas projects in hyderabad,
+        Villas Gated community in hyderabad,
+        Villas for sale near beeramguda,
+        Villas for sale near kollur,
+        Villas for sale Near lingampally,
+        plot for sale near NIMZ,
+        Plot for sale near pharmacity,
+        villas for sale near pharmacity,
+        single beded flats for sale near kondapur,
+        single beded flats for sale near financial district,
+        single beded flats for sale near Gachibowli,
+        single beded flats for sale near Madhapur,
+        Sri Squares Infra Pvt Ltd,
+        Projects of Sri Aditya Squares">
+
     <script src="~/Content/Potfolio/homePage.js"></script>
     <script src="~/Content/Potfolio/jquery.magnific-popup.min.js"></script>
     <script src="~/Content/Potfolio/jquery.singlePageNav.min.js"></script>
@@ -277,7 +332,7 @@
         });
     </script>
 
-    <section id="hero">
+    <section style="background-image:url('')" id="hero">
         <!-- Navigation -->
 
         <nav style="padding-bottom:3px;margin-bottom:0px;" class="navbar navbar-expand-md tm-navbar" id="tmNav">
@@ -856,122 +911,18 @@
         <main class="main">
             <div class="container">
                 @*<img class="img-responsive" src="~/Content/Images/Leaflet.PNG" />*@
-
-                <div class="card">
-                    <div class="card-image">
-                        <a href="~/Content/Images/Ornate.jpg" data-fancybox="gallery" data-caption="Ornate">
-                            <img src="~/Content/Images/Ornate.jpg" />
-                        </a>
+                @foreach (var item in ViewBag.GalleryImages)
+                {
+                    <div class="card">
+                        <div class="card-image">
+                            <a href="@item.URL" data-fancybox="gallery" data-caption="@item.ProjectName">
+                                <img src="@item.URL" />
+                            </a>
+                        </div>
                     </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image">
-                        <a href="~/Content/Images/OrnateImage1.jpeg" data-fancybox="gallery" data-caption="Ornate">
-                            <img src="~/Content/Images/OrnateImage1.jpeg" alt="Image Gallery">
-
-                        </a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-image">
-                        <a href="~/Content/Images/Green Tech.jpg" data-fancybox="gallery" data-caption="GreenTech">
-                            <img src="~/Content/Images/Green Tech.jpg" alt="Image Gallery">
-                        </a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image">
-                        <a href="~/Content/Images/Fabla.jpg" data-fancybox="gallery" data-caption="Fabla">
-                            <img src="~/Content/Images/Fabla.jpg" alt="Image Gallery">
-                        </a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image">
-                        <a href="~/Content/Images/Luxe.jpg" data-fancybox="gallery" data-caption="Luxe">
-                            <img src="~/Content/Images/Luxe.jpg" alt="Image Gallery">
-                        </a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image">
-                        <a href="~/Content/Images/GoldenExotica.jpg" data-fancybox="gallery" data-caption="Golden Exotica">
-                            <img src="~/Content/Images/GoldenExotica.jpg" alt="Image Gallery">
-                        </a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image">
-                        <a href="~/Content/Images/sasnewimages1.jpeg" data-fancybox="gallery" data-caption="">
-                            <img src="~/Content/Images/sasnewimages1.jpeg" alt="Image Gallery">
-                        </a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image">
-                        <a href="~/Content/Images/sasnewimages2.jpeg" data-fancybox="gallery" data-caption="">
-                            <img src="~/Content/Images/sasnewimages2.jpeg" alt="Image Gallery">
-                        </a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image">
-                        <a href="~/Content/Images/sasnewimages3.jpeg" data-fancybox="gallery" data-caption="">
-                            <img src="~/Content/Images/sasnewimages3.jpeg" alt="Image Gallery">
-                        </a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image">
-                        <a href="~/Content/Images/sasnewimages4.jpeg" data-fancybox="gallery" data-caption="">
-                            <img src="~/Content/Images/sasnewimages4.jpeg" alt="Image Gallery">
-                        </a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image">
-                        <a href="~/Content/Images/sasnewimages5.jpeg" data-fancybox="gallery" data-caption="">
-                            <img src="~/Content/Images/sasnewimages5.jpeg" alt="Image Gallery">
-                        </a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-image">
-                        <a href="~/Content/Images/sasnewimages6.jpeg" data-fancybox="gallery" data-caption="">
-                            <img src="~/Content/Images/sasnewimages6.jpeg" alt="Image Gallery">
-                        </a>
-                    </div>
-                </div>
-                @*<div class="card">
-            <div class="card-image">
-                <a href="~/Content/Images/PVRAnmolGallery1.PNG" data-fancybox="gallery" data-caption="PVR Anmol">
-                    <img src="~/Content/Images/PVRAnmolGallery1.PNG" alt="Image Gallery">
-                </a>
-            </div>
-        </div>*@
-                @*<div class="card">
-            <div class="card-image">
-                <a href="~/Content/Images/PVR Anmol.png" data-fancybox="gallery" data-caption="PVR Anmol">
-                    <img src="~/Content/Images/PVR Anmol.png" alt="Image Gallery">
-                </a>
-            </div>
-        </div>*@
-                @*<div class="card">
-            <div class="card-image">
-                <a href="~/Content/Images/AlpineSquareGallery2.PNG" data-fancybox="gallery" data-caption="Alpine Squares">
-                    <img src="~/Content/Images/AlpineSquareGallery2.PNG" alt="Image Gallery">
-                </a>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-image">
-                <a href="~/Content/Images/Image_3.jpg" data-fancybox="gallery" data-caption="Alpine Squares">
-                    <img src="~/Content/Images/Image_3.jpg" alt="Image Gallery">
-                </a>
-            </div>
-        </div>*@
+                }
+               
+               
 
 
             </div>
@@ -1276,6 +1227,46 @@
 
     </section>
     <script>
+        GetHeaderImages();
+        //$(function () {
+        //    var i = 0;
+        //    var images = ["aaView.jpg", "GT.jpg"];
+        //    $("#hero").css("background-image", "url('../Content/Images/Projects/" + images[i] + "')");
+        //    setInterval(function () {
+        //        i++;
+        //        if (i == images.length) {
+        //            i = 0;
+        //        }
+        //        $("#hero").fadeOut("slow", function () {
+        //            $(this).css("background-image", "url('../Content/Images/Projects/" + images[i] + "')");
+        //            $(this).fadeIn("slow");
+        //        });
+        //    }, 5000);
+        //});
+
+        function GetHeaderImages(){
+            var images = [];
+            var i = 0;
+            $.get("/Home/GetHeaderImages", { section: 'HomePage ScrollableImages' }, function (data) {
+                $.each(data, function (index, row) {
+                    images.push(row.URL);
+                });
+                $("#hero").css("background-image", "url('../Content/Images/Projects/" + images[i] + "')");
+                setInterval(function () {
+                    i++;
+                    if (i == images.length) {
+                        i = 0;
+                    }
+                    $("#hero").fadeOut("slow", function () {
+                        $(this).css("background-image", "url('../Content/Images/Projects/" + images[i] + "')");
+                        $(this).fadeIn("slow");
+                    });
+                }, 5000);
+            });
+            console.log(images);
+            return results;
+        }
+
 
         $(document).ready(function () {
 

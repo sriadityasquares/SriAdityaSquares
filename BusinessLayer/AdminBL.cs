@@ -117,5 +117,40 @@ namespace BusinessLayer
             return admin.GetPayments();
         }
 
+        public bool UpdateUserLockOut(GetUsersWithRoles gs)
+        {
+            return admin.UpdateUserLockOut(gs);
+        }
+
+        public List<Investor> BindInvestors()
+        {
+            return admin.BindInvestors();
+        }
+
+        public bool AddInvestor(Investor landlord)
+        {
+            return admin.AddInvestor(landlord);
+        }
+
+        public bool UpdateInvestor(Investor landlord)
+        {
+            return admin.UpdateInvestor(landlord);
+        }
+
+        public bool SaveProjectImages(ProjectPics cp)
+        {
+            return admin.SaveProjectImages(cp);
+        }
+
+        public List<ProjectPics> BindProjectGallery(string section = "")
+        {
+            return admin.BindProjectGallery(section);
+        }
+
+        public bool UpdateProjectImage(ProjectPics pp)
+        {
+            return admin.UpdateProjectImage(pp);
+        }
+
     }
 }

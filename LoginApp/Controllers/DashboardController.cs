@@ -17,6 +17,7 @@ namespace LoginApp.Controllers
     public class DashboardController : Controller
     {
         BookingBL booking = new BookingBL();
+        AdminBL admin = new AdminBL();
         // GET: Dashboard
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -186,6 +187,7 @@ namespace LoginApp.Controllers
             ViewBag.AreaRem = booking.GetProjectWiseArea();
             ViewBag.ProjectCategoryWiseExpenses = booking.GetProjectCategoryWiseExpenses();
             ViewBag.LandlordPayments = booking.GetLandlordPaymentsReport();
+            ViewBag.Investors = admin.BindInvestors();
             return View();
         }
 

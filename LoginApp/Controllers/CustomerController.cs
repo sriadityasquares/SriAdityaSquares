@@ -1,5 +1,6 @@
 ﻿using BusinessLayer;
 using ModelLayer;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace LoginApp.Controllers
     public class CustomerController : Controller
     {
         BookingBL booking = new BookingBL();
+        AdminBL admin = new AdminBL();
         // GET: Customer
         public ActionResult Enquiry()
         {
@@ -89,6 +91,79 @@ namespace LoginApp.Controllers
             string fullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Content\LegalOpinion\" + fileName);
             byte[] fileBytes = System.IO.File.ReadAllBytes(fullName);
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        }
+
+
+        public ActionResult UploadProjectImages()
+        {
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
+            return View();
+        }
+
+        public JsonResult GetProjectImages()
+        {
+            var result = admin.BindProjectGallery();
+            foreach (var item in result)
+            {
+                item.URL = Path.GetFileName(item.URL);
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult UpdateProjectImages(string models)
+        {
+            List<ProjectPics> data = JsonConvert.DeserializeObject<List<ProjectPics>>(models);
+            data[0].CreatedBy = User.Identity.Name;
+            data[0].CreatedDate = DateTime.Now;
+
+            var result = admin.UpdateProjectImage(data[0]);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult UploadProjectImages(ProjectPics cv)
+        {
+            string FileName = Path.GetFileNameWithoutExtension(cv.File.FileName);
+
+            //To Get File Extension  
+            string FileExtension = Path.GetExtension(cv.File.FileName);
+
+            //Add Current Date To Attached File Name  
+            FileName = DateTime.Now.ToString("yyyyMMdd") + "-" + FileName.Trim() + FileExtension;
+            if (!Directory.Exists(Server.MapPath("~/Content/Images/Projects")))
+            {
+                Directory.CreateDirectory(Server.MapPath("~/Content/Images/Projects"));
+            }
+            string path = "~/Content/Images/Projects/";
+            string UploadPath = Server.MapPath(path);
+            //Get Upload path from Web.Config file AppSettings.  
+            //string UploadPath = "~/Content/Images/";
+
+            //Its Create complete path to store in server.  
+            string savePath = UploadPath + FileName;
+
+            //To copy and save file into server.  
+            cv.File.SaveAs(savePath);
+            cv.URL = path.Remove(0, 1) + FileName;
+            cv.CreatedBy = User.Identity.Name;
+            cv.CreatedDate = DateTime.Now.Date;
+            cv.Active = true;
+            var result = admin.SaveProjectImages(cv);
+            ModelState.Clear();
+            if (result)
+            {
+                TempData["successmessage"] = "File Uploaded Successfully";
+            }
+            else
+            {
+                TempData["successmessage"] = "File Upload Failed";
+            }
+            List<Projects> projectList = booking.BindProjects();
+            TempData["ProjectList"] = new SelectList(projectList, "ProjectID", "ProjectName");
+            TempData.Keep("ProjectList");
+            return View();
         }
         static double toRadians(
            double angleIn10thofaDegree)

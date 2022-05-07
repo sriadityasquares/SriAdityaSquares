@@ -375,6 +375,9 @@
     <Compile Include="tblIBOAdvanceForm.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="tblInvestor.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tblInvoice.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
@@ -409,6 +412,9 @@
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblProjectExpenseCategory.cs">
+      <DependentUpon>EntityDateModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblProjectPic.cs">
       <DependentUpon>EntityDateModel.tt</DependentUpon>
     </Compile>
     <Compile Include="tblSchemeMaster.cs">

@@ -2272,7 +2272,7 @@ namespace DataLayer
             return lstBookingStats;
         }
 
-        public List<GetBookingStatistics> BindSchemeBasedBookings(int projectID)
+        public List<GetBookingStatistics> BindSchemeBasedBookings(int towerID)
         {
             this.dbEntity.Configuration.ProxyCreationEnabled = false;
 
@@ -2285,7 +2285,7 @@ namespace DataLayer
                     cfg.CreateMap<sp_GetSchemeBasedBookings_Result, GetBookingStatistics>();
                 });
                 IMapper mapper = config.CreateMapper();
-                lstBookingStats = mapper.Map<List<sp_GetSchemeBasedBookings_Result>, List<GetBookingStatistics>>(dbEntity.sp_GetSchemeBasedBookings().Where(x => x.ProjectID == projectID).ToList()).ToList();
+                lstBookingStats = mapper.Map<List<sp_GetSchemeBasedBookings_Result>, List<GetBookingStatistics>>(dbEntity.sp_GetSchemeBasedBookings().Where(x => x.TowerID == towerID).ToList()).ToList();
             }
             catch (Exception ex)
             {

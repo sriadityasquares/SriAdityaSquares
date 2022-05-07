@@ -37,11 +37,12 @@
     @*<button id="myBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Launch demo modal</button>*@
 
 
-    <div class="row" style="padding-top:10px">
-        @Html.LabelFor(m => m.Project, new { @class = "col-md-2" })
-        @Html.DropDownListFor(model => model.Project, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
-
-    </div>
+<div class="row" style="padding-top:10px">
+    @Html.LabelFor(m => m.Project, new { @class = "col-md-2" })
+    @Html.DropDownListFor(model => model.Project, TempData["ProjectList"] as SelectList, "--Select Project--", new { @class = "textbox-control col-md-3 col-xs" })
+    @Html.LabelFor(m => m.Tower, new { @class = "col-md-2" })
+    @Html.DropDownListFor(model => model.Tower, new SelectList(" "), "--Select Tower--", new { @class = "textbox-control col-md-3 col-xs" })
+</div>
 
     <hr />
     <br />
@@ -53,23 +54,23 @@
 
     <script>
 
-        //$("#Project").change(function () {
-        //    $.get("/Booking/GetTowers", { ProjectId: $("#Project").val() }, function (data) {
-        //        $("#Tower").empty();
-        //        $("#Tower").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
-
-        //        $.each(data, function (index, row) {
-        //            $("#Tower").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
-        //        });
-        //    });
-        //});
         $("#Project").change(function () {
+            $.get("/Booking/GetTowers", { ProjectId: $("#Project").val() }, function (data) {
+                $("#Tower").empty();
+                $("#Tower").append("<option value='" + 0 + "'>" + "--Select Tower--" + "</option>")
+
+                $.each(data, function (index, row) {
+                    $("#Tower").append("<option value='" + row.TowerID + "'>" + row.TowerName + "</option>")
+                });
+            });
+        });
+        $("#Tower").change(function () {
 
             $.ajax({
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 url: "/Report/GetSchemeBasedBookings",
-                data: { projectID: $("#Project").val() },
+                data: { towerID: $("#Tower").val() },
                 success: function (data) {
                     $(document).ready(createChart(data));
                     $(document).bind("kendo:skinChange", createChart(data));
@@ -89,7 +90,7 @@
                     position: "bottom",
                     font: "bolder 16px Arial,Helvetica,sans-serif",
                     color: "black",
-                    text: "Scheme Based Booking status of " + $("#Project option:selected").text()
+                    text: "Scheme Based Booking status of " + $("#Project option:selected").text() + " in " + $("#Tower option:selected").text() 
                 },
                 legend: {
                     visible: true,

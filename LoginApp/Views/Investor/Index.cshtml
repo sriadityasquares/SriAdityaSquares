@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "Landlord";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Admin = "active";
+    ViewBag.AddInvestors = "active";
+
+}
+
+<style>
+
+    @@media (min-width: 768px) {
+
+        .container {
+            margin-left: 350px;
+        }
+
+        .jumbotron {
+            width: 1700px;
+        }
+    }
+</style>
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-1 col-xs">
+            <h3 align="center" style="margin-bottom:2px">INVESTORS</h3>
+            <div class="specialLine"></div>
+        </div>
+
+    </div>
+    <div id="grid"></div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Investor/Details",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST"
+                },
+                update: {
+                    url: "/Investor/UpdateInvestor",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Update Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Updating');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                destroy: {
+                    url: "/Sample/Destroy",
+                    dataType: "jsonp"
+                },
+                create: {
+                    url: "/Investor/CreateInvestor",
+                    dataType: "json",
+                    complete: function (jqXhr, textStatus) {
+                        if (textStatus == 'success') {
+                            toastr.success('Added Successfull');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                        else {
+                            toastr.error('Error in Adding');
+                            $("#grid").data("kendoGrid").dataSource.read();
+                        }
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation !== "read" && options.models) {
+                        return { models: kendo.stringify(options.models) };
+                    }
+                }
+            },
+            batch: true,
+            pageSize: 20,
+            schema: {
+                model: {
+                    id: "Id",
+                    fields: {
+                        Id: { editable: false, nullable: true },
+                        Name: { validation: { required: true } },
+                        AmountReceived: { validation: { required: true } },
+                        ReceivedDate: { type: "date" },
+                        DueDate: { type: "date"  },
+                        Benefit: { validation: { required: true } },
+                       
+                    }
+                }
+            },
+
+        });
+
+        $('.k-icon k-i-edit').toggleClass('.k-icon k-i-edit');
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            pageable: true,
+            height: 750,
+            toolbar: ["create"],
+            
+            columns: [
+                //{ field: "Project", title: "Project", width: "250px", editor: projectDropDownEditor, template: "#=Project.ProjectName#" },
+
+                { field: "Name", title: "Name", width: "200px" },
+                { field: "AmountReceived", title: "Amount Received", width: "200px" },
+                { field: "ReceivedDate", title: "Received Date", width: "120px", template: '#= kendo.toString(kendo.parseDate(ReceivedDate), "dd/MM/yyyy")#' },
+
+                { field: "DueDate", title: "Due Date", width: "120px", template: '#= kendo.toString(kendo.parseDate(DueDate), "dd/MM/yyyy")#' },
+
+                
+                { field: "Benefit", title: "Benefit", width: "200px" },
+                //{
+                //    field: "ProjectID",
+
+                //    //template: '#=ProjectID?ProjectName.ProjectName:""#',
+                //    title: "Project", width: "250px",
+                //    editor: function projectDropDownEditor(container, options) {
+                //        $('<input required name="' + options.field + '"/>')
+                //            .appendTo(container)
+                //            .kendoDropDownList({
+                //                autoBind: true,
+                //                dataTextField: "ProjectName",
+                //                dataValueField: "ProjectID",
+
+                //                dataSource: {
+                //                    type: "json",
+                //                    transport: {
+                //                        read: "/Cascade/GetAllProjects",
+
+                //                    }
+                //                }
+                //            });
+                //    }
+                //},
+
+                
+
+                {
+                    command: [
+                        { name: "edit", text: { edit: " ", update: " ", cancel: " " } },
+                        //{ name: "destroy", text: " " }
+                    ], title: "&nbsp;", width: "60px"
+                }],
+            editable: "inline",
+        });
+
+
+
+      
+
+    });
+</script>
+

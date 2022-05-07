@@ -1,9 +1,11 @@
 ﻿using BusinessLayer;
 using log4net;
 using ModelLayer;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -28,6 +30,19 @@ namespace LoginApp.Controllers.Admin
         {
             var lstUsers = users.GetUsersWithRoles();
             return Json(lstUsers, JsonRequestBehavior.AllowGet);
+        }
+
+        
+        public  JsonResult UpdateUser(string models)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+            List<GetUsersWithRoles> data = JsonConvert.DeserializeObject<List<GetUsersWithRoles>>(models, settings);
+            var result = users.UpdateUserLockOut(data[0]);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         // GET: User/Create

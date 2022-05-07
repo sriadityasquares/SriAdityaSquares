@@ -316,9 +316,9 @@ namespace LoginApp.Controllers
             return View();
         }
 
-        public JsonResult GetSchemeBasedBookings(int projectID)
+        public JsonResult GetSchemeBasedBookings(int towerID)
         {
-            var list = booking.BindSchemeBasedBookings(projectID);
+            var list = booking.BindSchemeBasedBookings(towerID);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 

@@ -113,6 +113,7 @@
     <Compile Include="GetUsersWithRoles.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="IBOAdvanceForm.cs" />
+    <Compile Include="Investor.cs" />
     <Compile Include="Invoice.cs" />
     <Compile Include="InvoiceDetails.cs" />
     <Compile Include="LandLord.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="PaymentInformation.cs" />
     <Compile Include="PaymentVoucher.cs" />
     <Compile Include="ProjectExpenseCategory.cs" />
+    <Compile Include="ProjectPics.cs" />
     <Compile Include="Projects.cs" />
     <Compile Include="ProjectTransactions.cs" />
     <Compile Include="ProjectTypes.cs" />

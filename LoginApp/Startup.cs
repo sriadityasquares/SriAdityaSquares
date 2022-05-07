@@ -83,6 +83,12 @@ namespace LoginApp
                     role.Name = "CRM";
                     roleManager.Create(role);
                 }
+                if (!roleManager.RoleExists("Super Admin"))
+                {
+                    var role = new IdentityRole();
+                    role.Name = "Super Admin";
+                    roleManager.Create(role);
+                }
 
 
             }

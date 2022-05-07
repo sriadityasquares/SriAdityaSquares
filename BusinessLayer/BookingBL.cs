@@ -396,9 +396,9 @@ namespace BusinessLayer
             db.SaveCustomerInquiry(ce);
         }
 
-        public List<GetBookingStatistics> BindSchemeBasedBookings(int projectID)
+        public List<GetBookingStatistics> BindSchemeBasedBookings(int towerID)
         {
-            return db.BindSchemeBasedBookings(projectID);
+            return db.BindSchemeBasedBookings(towerID);
         }
 
         public DashboardParameters BindDashboardParameters()

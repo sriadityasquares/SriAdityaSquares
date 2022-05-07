@@ -14,10 +14,10 @@ namespace DataLayer
     public partial class sp_ProjectTransactions_Result
     {
         public int ProjectID { get; set; }
-        public int TotalSalesAmount { get; set; }
-        public int CollectedAmount { get; set; }
-        public int SchemeWiseDue { get; set; }
-        public int BalanceAmount { get; set; }
+        public Nullable<long> TotalSalesAmount { get; set; }
+        public Nullable<long> CollectedAmount { get; set; }
+        public Nullable<long> SchemeWiseDue { get; set; }
+        public Nullable<long> BalanceAmount { get; set; }
         public string ProjectName { get; set; }
     }
 }

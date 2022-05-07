@@ -10,12 +10,17 @@
 namespace DataLayer
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_GetSchemeBasedBookings_Result
+    public partial class tblProjectPic
     {
-        public Nullable<int> TowerID { get; set; }
-        public string category { get; set; }
-        public Nullable<int> value { get; set; }
-        public string color { get; set; }
+        public int Id { get; set; }
+        public string URL { get; set; }
+        public Nullable<bool> Active { get; set; }
+        public string Section { get; set; }
+        public string CreatedBy { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<int> ProjectID { get; set; }
+        public string ProjectName { get; set; }
     }
 }

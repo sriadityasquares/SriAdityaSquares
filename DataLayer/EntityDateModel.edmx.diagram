@@ -73,6 +73,8 @@
         <AssociationConnector Association="salesDBModel.FK_Flats22_bkp" />
         <EntityTypeShape EntityType="salesDBModel.tblSiteVisitInfo" Width="1.5" PointX="11.375" PointY="16.75" />
         <EntityTypeShape EntityType="salesDBModel.tblDriver" Width="1.5" PointX="17.375" PointY="26.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblInvestor" Width="1.5" PointX="27.375" PointY="11.75" />
+        <EntityTypeShape EntityType="salesDBModel.tblProjectPic" Width="1.5" PointX="27.375" PointY="15.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

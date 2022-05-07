@@ -85,6 +85,8 @@ namespace DataLayer
         public virtual DbSet<tblFlat> tblFlats { get; set; }
         public virtual DbSet<tblSiteVisitInfo> tblSiteVisitInfoes { get; set; }
         public virtual DbSet<tblDriver> tblDrivers { get; set; }
+        public virtual DbSet<tblInvestor> tblInvestors { get; set; }
+        public virtual DbSet<tblProjectPic> tblProjectPics { get; set; }
     
         public virtual ObjectResult<sp_GetPeriodWiseBookingDetails_Result> sp_GetPeriodWiseBookingDetails(Nullable<int> option, string project, string year, string month, string fromdate, string todate)
         {
@@ -211,11 +213,6 @@ namespace DataLayer
         public virtual ObjectResult<sp_GetAgentLocations_Result> sp_GetAgentLocations()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAgentLocations_Result>("sp_GetAgentLocations");
-        }
-    
-        public virtual ObjectResult<sp_GetUsersWithRoles_Result> sp_GetUsersWithRoles()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsersWithRoles_Result>("sp_GetUsersWithRoles");
         }
     
         public virtual ObjectResult<Nullable<long>> sp_GetAgentNumbers(string agentID)
@@ -352,11 +349,6 @@ namespace DataLayer
                 new ObjectParameter("Username", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetClientProjects_Result>("sp_GetClientProjects", usernameParameter);
-        }
-    
-        public virtual ObjectResult<sp_GetSchemeBasedBookings_Result> sp_GetSchemeBasedBookings()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetSchemeBasedBookings_Result>("sp_GetSchemeBasedBookings");
         }
     
         public virtual ObjectResult<sp_GetAgentPercentageByProject_Result> sp_GetAgentPercentageByProject(Nullable<int> projectID)
@@ -570,11 +562,6 @@ namespace DataLayer
                 new ObjectParameter("type", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_getPaymentInfoByDates_Result>("sp_getPaymentInfoByDates", fromdateParameter, todateParameter, projectidParameter, typeParameter);
-        }
-    
-        public virtual ObjectResult<sp_ProjectTransactions_Result> sp_ProjectTransactions()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ProjectTransactions_Result>("sp_ProjectTransactions");
         }
     
         public virtual int sp_BookingAuditForUpdate(Nullable<System.Guid> bookingID)
@@ -804,6 +791,21 @@ namespace DataLayer
         public virtual ObjectResult<sp_GetLandlordPayments_Result> sp_GetLandlordPayments()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetLandlordPayments_Result>("sp_GetLandlordPayments");
+        }
+    
+        public virtual ObjectResult<sp_ProjectTransactions_Result> sp_ProjectTransactions()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ProjectTransactions_Result>("sp_ProjectTransactions");
+        }
+    
+        public virtual ObjectResult<sp_GetSchemeBasedBookings_Result> sp_GetSchemeBasedBookings()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetSchemeBasedBookings_Result>("sp_GetSchemeBasedBookings");
+        }
+    
+        public virtual ObjectResult<sp_GetUsersWithRoles_Result> sp_GetUsersWithRoles()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetUsersWithRoles_Result>("sp_GetUsersWithRoles");
         }
     }
 }
